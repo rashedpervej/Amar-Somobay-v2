@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>আমার সমবায় | Amar Somobay</title>
+    
+    <!-- PWA Manifest & App Icons -->
+    <link rel="manifest" href="/manifest.json" id="app-manifest" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
+
+    <!-- Mobile Status Bar Color & Native Web App Meta (Synced with #087F5B) -->
+    <meta name="theme-color" content="#087F5B" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#087F5B" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#087F5B" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="msapplication-navbutton-color" content="#087F5B" />
+    <meta name="msapplication-TileColor" content="#087F5B" />
+
+    <!-- Google Fonts Preconnect & Inter + Noto Sans Bengali + Hind Siliguri Stylesheet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" />
+
+    <!-- Material Symbols Outlined -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <!-- FONT_SERVER_INJECT -->
+    <script>
+      (function() {
+        try {
+          var font = localStorage.getItem('app_bangla_font') || (window.__SERVER_BANGLA_FONT__) || 'solaimanlipi';
+          var root = document.documentElement;
+          root.setAttribute('data-app-font', font);
+          if (font === 'solaimanlipi') {
+            root.style.setProperty('--app-font-bangla', "'SolaimanLipi', sans-serif");
+            root.style.setProperty('--app-font-family', "'Inter', 'SolaimanLipi', sans-serif");
+            var link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'font';
+            link.type = 'font/woff2';
+            link.crossOrigin = 'anonymous';
+            link.href = '/fonts/solaimanlipi-regular.woff2';
+            document.head.appendChild(link);
+          } else if (font === 'noto_sans_bengali') {
+            root.style.setProperty('--app-font-bangla', "'Noto Sans Bengali', sans-serif");
+            root.style.setProperty('--app-font-family', "'Inter', 'Noto Sans Bengali', sans-serif");
+          } else if (font === 'hind_siliguri') {
+            root.style.setProperty('--app-font-bangla', "'Hind Siliguri', sans-serif");
+            root.style.setProperty('--app-font-family', "'Inter', 'Hind Siliguri', sans-serif");
+          } else {
+            root.style.setProperty('--app-font-bangla', "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif");
+            root.style.setProperty('--app-font-family', "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif");
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch((err) => {
+            console.log('SW registration note:', err);
+          });
+        });
+      }
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

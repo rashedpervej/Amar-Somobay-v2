@@ -1,0 +1,171 @@
+[
+  {
+    "title": "জরুরি নোটিশ: অফিস বন্ধ ও কিস্তি পরিশোধ",
+    "subtitle": "ছুটি উপলক্ষে সমিতির প্রধান কার্যালয় বন্ধ থাকার বিষয়ে বিজ্ঞপ্তি।",
+    "category": "নোটিশ",
+    "template_type": "notice",
+    "show_as_card": true,
+    "show_in_notices": true,
+    "show_in_meetings": false,
+    "show_as_popup": true,
+    "image_url": "https://cdn3d.iconscout.com/3d/premium/thumb/megaphone-announcement-3d-icon-png-download-5706037.png",
+    "right_widget_type": "none",
+    "target_text": "",
+    "progress_percent": 0,
+    "button_text": "নোটিশ পড়ুন",
+    "badge_text": "জরুরি নোটিশ",
+    "details_image_url": "",
+    "details_content": "### অফিস বন্ধ সংক্রান্ত জরুরি সার্কুলার\n\nসকল সম্মানিত সদস্যদের অবগতির জন্য জানানো যাচ্ছে যে, আসন্ন ছুটি উপলক্ষে আগামী ১৬ই তারিখ থেকে ১৮ই তারিখ পর্যন্ত প্রধান কার্যালয় বন্ধ থাকবে।\n\nতবে অ্যাপের মাধ্যমে অনলাইন কিস্তি জমা ও হিসাব পর্যালোচনা স্বাভাবিক থাকবে।",
+    "cta_type": "custom",
+    "cta_phone": "",
+    "cta_text": "অনলাইন কিস্তি জমা দিন",
+    "cta_link": "/savings/deposit",
+    "meeting_date": "১৫ নভেম্বর, ২০২৬ (রবিবার)",
+    "meeting_time": "সকাল ১০:০০ টা - দুপুর ০১:০০ টা",
+    "meeting_location": "সমিতি কার্যালয় (সম্মেলন কক্ষ)",
+    "meeting_status": "upcoming",
+    "is_active": true,
+    "id": "promo-1791661483237",
+    "created_at": "2026-10-10T19:44:43.237Z",
+    "views_count": 43,
+    "viewers": [
+      {
+        "user_id": "2c97334f-6cde-4557-a0ce-e2a3a684f8f2",
+        "user_name": "সদস্য",
+        "user_phone": "",
+        "viewed_at": "2026-10-16T20:58:57.079Z"
+      },
+      {
+        "user_id": "8830efbf-b75d-4b57-86fa-7afdcdc7f522",
+        "user_name": "Rayhan001",
+        "user_phone": "",
+        "viewed_at": "2026-10-18T15:26:11.568Z"
+      },
+      {
+        "user_id": "test-user-id",
+        "user_name": "রাশেদ পারভেজ",
+        "user_phone": "",
+        "viewed_at": "2026-10-20T20:12:43.396Z"
+      }
+    ],
+    "attendees": []
+  },
+  {
+    "title": "ছোট সঞ্চয়, বড় স্বপ্ন ✨",
+    "subtitle": "নিয়মিত সঞ্চয় করুন, ভবিষ্যৎ হবে সুরক্ষিত।",
+    "category": "লক্ষ্য",
+    "template_type": "target_promo",
+    "show_as_card": true,
+    "show_in_notices": false,
+    "show_in_meetings": true,
+    "show_as_popup": false,
+    "image_url": "https://cdn3d.iconscout.com/3d/premium/thumb/finance-target-3d-icon-png-download-13750580.png",
+    "right_widget_type": "progress",
+    "target_text": "লক্ষ্য: ৳১৫,০০০",
+    "progress_percent": 75,
+    "button_text": "বিস্তারিত দেখুন",
+    "badge_text": "বিশেষ লক্ষ্য",
+    "details_image_url": "",
+    "details_content": "### সঞ্চয়ের লক্ষ্য পূরণ ও ভবিষ্যৎ সুরক্ষা\n\nপ্রতি মাসে নির্দিষ্ট পরিমাণ সঞ্চয় করার অভ্যাস আপনার আর্থিক অবস্থানকে দৃঢ় করে। আমাদের সমবায়ের নিয়মিত সঞ্চয় স্কিমে অংশ নিয়ে নিজের ও পরিবারের ভবিষ্যৎ সুরক্ষিত করুন।",
+    "cta_type": "somobay",
+    "cta_phone": "",
+    "cta_text": "আমার সঞ্চয় হিসাব দেখুন",
+    "cta_link": "/savings",
+    "meeting_date": "১৫ মে, ২০২৭ (বুধবার)",
+    "meeting_time": "সকাল ১০:০০ টা - দুপুর ০১:০০ টা",
+    "meeting_location": "সমিতি কার্যালয় (সম্মেলন কক্ষ)",
+    "meeting_status": "upcoming",
+    "is_active": true,
+    "id": "promo-1791636723625",
+    "created_at": "2026-10-10T12:52:03.625Z",
+    "views_count": 16,
+    "viewers": [
+      {
+        "user_id": "8830efbf-b75d-4b57-86fa-7afdcdc7f522",
+        "user_name": "Rayhan001",
+        "user_phone": "",
+        "viewed_at": "2026-10-16T17:34:59.243Z"
+      }
+    ],
+    "attendees": [
+      {
+        "user_id": "8830efbf-b75d-4b57-86fa-7afdcdc7f522",
+        "user_name": "Rayhan001",
+        "user_phone": "oioi",
+        "confirmed_at": "2026-10-18T17:50:29.401Z"
+      }
+    ]
+  },
+  {
+    "title": "নতুন পালাক্রমিক (ROSCA) লটারি স্কিম চালু!",
+    "subtitle": "১২ জন সদস্য • প্রতি মাসে ১২,০০০ টাকা ড্র!",
+    "category": "অফার",
+    "template_type": "offer",
+    "show_as_card": true,
+    "show_in_notices": false,
+    "show_in_meetings": false,
+    "image_url": "https://cdn3d.iconscout.com/3d/premium/thumb/finance-target-3d-icon-png-download-13750580.png",
+    "right_widget_type": "none",
+    "target_text": "",
+    "progress_percent": 0,
+    "button_text": "অংশ নিন",
+    "badge_text": "সীমিত আসন",
+    "details_image_url": "",
+    "details_content": "### রোটেশনাল সঞ্চয় ও লটারি সমিতি স্কিম\n\nস্বল্পমেয়াদে এককালীন নগদ টাকার প্রয়োজন মেটাতে আজই নতুন ১২ মাসের চক্রাকার স্কিমে অংশ নিন। প্রতিটি সদস্য প্রতি মাসে একবার ড্র পাবেন।",
+    "cta_type": "whatsapp",
+    "cta_phone": "01700000000",
+    "cta_text": "WhatsApp-এ যোগাযোগ করুন",
+    "cta_link": "https://wa.me/8801700000000",
+    "meeting_date": "১৫ মে, ২০২৪ (বুধবার)",
+    "meeting_time": "সকাল ১০:০০ টা - দুপুর ০১:০০ টা",
+    "meeting_location": "সমিতি কার্যালয় (সম্মেলন কক্ষ)",
+    "is_active": true,
+    "id": "promo-1791575683003",
+    "created_at": "2026-10-09T19:54:43.003Z",
+    "views_count": 54,
+    "viewers": [
+      {
+        "user_id": "8830efbf-b75d-4b57-86fa-7afdcdc7f522",
+        "user_name": "Rayhan001",
+        "user_phone": "",
+        "viewed_at": "2026-10-18T08:33:33.295Z"
+      }
+    ],
+    "attendees": []
+  },
+  {
+    "id": "promo-2",
+    "title": "নতুন পালাক্রমিক স্কিম",
+    "subtitle": "১২ জন • মাসে ১২,০০০ টাকা ড্র!",
+    "category": "অফার",
+    "right_widget_type": "button",
+    "button_text": "অংশ নিন",
+    "image_url": "https://cdn3d.iconscout.com/3d/premium/thumb/megaphone-announcement-3d-icon-png-download-5706037.png",
+    "details_image_url": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80",
+    "details_content": "### পালাক্রমিক সঞ্চয় ও লটারি সমিতি (ROSCA)\n\nআপনি কি স্বল্পমেয়াদে বড় অংকের এককালীন নগদ টাকা প্রয়োজন মনে করছেন? তাহলে আমাদের নতুন ১২ মাসের রোটেশনাল সঞ্চয় স্কিমে অংশ নিন।\n\n#### স্কিমের নিয়মাবলি:\n১. মোট সদস্য সংখ্যা: ১২ জন।\n২. মাসিক কিস্তি: ১,০০০ টাকা।\n৩. প্রতি মাসের নির্ধারিত তারিখে একটি উন্মুক্ত ও নিরপেক্ষ ডিজিটাল লটারি বা সিরিয়াল অনুযায়ী ১ জন সদস্য পাবেন মোট **১২,০০০ টাকা**।\n৪. যিনি একবার পুরো টাকা পেয়ে যাবেন, তিনি পরবর্তী ড্র থেকে বাদ থাকবেন কিন্তু বাকি মাসগুলোতে নিয়মিত ১,০০০ টাকা কিস্তি চালিয়ে যাবেন।\n৫. ১২তম মাসে সবাই একবার করে মোট ১২,০০০ টাকা পেয়ে যাওয়ার পর সাইকেল সমাপ্ত হবে।\n\n**অংশ নিতে অবিলম্বে অ্যাডমিনের সাথে যোগাযোগ করুন।**",
+    "cta_text": "কল করে নিশ্চিত হন",
+    "cta_link": "tel:01700000000",
+    "cta_type": "call",
+    "cta_phone": "01700000000",
+    "is_active": true,
+    "created_at": "2026-10-08T20:03:16.009Z",
+    "target_text": "লক্ষ্য: ৳১২,০০০",
+    "progress_percent": 80,
+    "badge_text": "বিশেষ অফার",
+    "views_count": 651,
+    "viewers": [
+      {
+        "user_id": "8830efbf-b75d-4b57-86fa-7afdcdc7f522",
+        "user_name": "Rayhan001",
+        "user_phone": "",
+        "viewed_at": "2026-10-16T17:35:15.815Z"
+      },
+      {
+        "user_id": "2c97334f-6cde-4557-a0ce-e2a3a684f8f2",
+        "user_name": "Rashed Pervej",
+        "user_phone": "",
+        "viewed_at": "2026-10-10T12:45:02.723Z"
+      }
+    ]
+  }
+]

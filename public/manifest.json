@@ -1,0 +1,28 @@
+{
+  "name": "আমার সমবায় | Amar Somobay",
+  "short_name": "আমার সমবায়",
+  "description": "আধুনিক সমবায় সমিতি ও সঞ্চয় ব্যবস্থাপনা অ্যাপ",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "window-controls-overlay"],
+  "orientation": "portrait",
+  "theme_color": "#087F5B",
+  "background_color": "#087F5B",
+  "categories": ["finance", "business"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
