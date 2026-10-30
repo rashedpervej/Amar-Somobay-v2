@@ -1,0 +1,100 @@
+<Route path="/" element={<Splash />} />
+<Route path="/login" element={<Login />} />
+<Route path="/signup" element={<Signup />} />
+<Route element={<ProtectedRoute />}>
+<Route path="/pending" element={<PendingApproval />} />
+<Route path="/dashboard" element={<Dashboard />} />
+<Route path="/settings" element={<Settings />} />
+<Route path="/admin/app-settings" element={<AppSettings />} />
+<Route path="/members" element={<MemberList />} />
+<Route path="/members/:id" element={<MemberDetail />} />
+<Route path="/settings/profile" element={<EditProfile />} />
+<Route path="/settings/security" element={<Security />} />
+<Route path="/savings" element={<SavingsHistory />} />
+<Route path="/savings/insights" element={<SavingsInsights />} />
+<Route path="/savings/deposit" element={<SingleDeposit />} />
+<Route path="/savings/bulk" element={<BulkDeposit />} />
+<Route path="/savings/withdraw" element={<MemberWithdrawalRequest />} />
+<Route path="/somobay" element={<SomobayList />} />
+<Route path="/somobay/create" element={<CooperativeTypeSelect />} />
+<Route path="/somobay/create/general" element={<CreateGeneralCooperative />} />
+<Route path="/somobay/create/general-savings" element={<Navigate to="/somobay/create/general" replace />} />
+<Route path="/somobay/create/rosca" element={<Navigate to="/rosca" replace />} />
+<Route path="/somobay/create/joint-goal" element={<Navigate to="/joint-goals/create" replace />} />
+<Route path="/somobay/:cooperativeSlug" element={<CooperativeTenantGuard />}>
+<Route index element={<CooperativeDashboard />} />
+<Route path="general-savings" element={<PlanManagement />} />
+<Route path="general-savings/plans" element={<PlanManagement />} />
+<Route path="general-savings/plans/:planId" element={<PlanManagement />} />
+<Route path="members" element={<MemberList />} />
+<Route path="reports" element={<AdminReports />} />
+<Route path="settings" element={<GeneralSavingsSettings />} />
+<Route path="more" element={<AdminMore />} />
+<Route path="/somobay/menu" element={<Navigate to="/somobay" replace />} />
+<Route path="/somobay/manage" element={<PlanManagement />} />
+<Route path="/somobay/manage/:id" element={<PlanManagement />} />
+<Route path="/somobay/my" element={<MySomobay />} />
+<Route path="/notifications" element={<Notifications />} />
+<Route path="/updates" element={<Updates />} />
+<Route path="/updates/:id" element={<PromotionDetail />} />
+<Route path="/notices" element={<Navigate to="/updates" replace />} />
+<Route path="/promotions/manage" element={<AdminUpdates />} />
+<Route path="/promotions/:id" element={<PromotionDetail />} />
+<Route path="/admin/updates" element={<AdminUpdates />} />
+<Route path="/admin/notices" element={<Navigate to="/admin/updates" replace />} />
+<Route path="/cooperative/apply" element={<ApplyCooperative />} />
+<Route path="/cooperative/join" element={<JoinCooperative />} />
+<Route path="/join/:slug" element={<JoinCooperative />} />
+<Route path="/admin/cooperatives" element={<SuperAdminCooperatives />} />
+<Route path="/admin/cooperatives/create" element={<Navigate to="/admin/cooperatives" replace />} />
+<Route path="/admin/cooperatives/create/savings" element={<Navigate to="/admin/cooperatives" replace />} />
+<Route path="/admin/savings/settings" element={<GeneralSavingsSettings />} />
+<Route path="/admin/savings" element={<AdminSavings />} />
+<Route path="/admin/loans" element={<AdminQardHasanah />} />
+<Route path="/admin/installments" element={<AdminInstallments />} />
+<Route path="/admin/reports" element={<AdminReports />} />
+<Route path="/admin/payments/pending" element={<AdminPendingPayments />} />
+<Route path="/rosca" element={<RoscaList />} />
+<Route path="/rosca/:id" element={<RoscaDetail />} />
+<Route path="/rosca/:id/members/:memberId" element={<RoscaMemberDetail />} />
+<Route path="/rosca/:id/draw-result/:periodId" element={<RoscaDrawResult />} />
+<Route path="/rosca/:id/progress" element={<RoscaProgress />} />
+<Route path="/rosca/:id/settings" element={<RoscaSettings />} />
+<Route path="/rosca/:id/reports" element={<RoscaReports />} />
+<Route path="/rosca/:id/completed" element={<RoscaCompleted />} />
+<Route path="/joint-goals" element={<GoalList />} />
+<Route path="/joint-goals/create" element={<CreateGoal />} />
+<Route path="/joint-goals/:id" element={<GoalDetail />} />
+<Route path="/joint-goals/:id/members/:memberId" element={<GoalMemberDetail />} />
+<Route path="/joint-goals/:id/contribute" element={<AddContribution />} />
+<Route path="/joint-goals/:id/progress" element={<GoalProgress />} />
+<Route path="/joint-goals/:id/transactions" element={<GoalTransactions />} />
+<Route path="/joint-goals/:id/reports" element={<GoalReports />} />
+<Route path="/joint-goals/:id/settings" element={<GoalSettings />} />
+<Route path="/joint-goals/:id/completed" element={<GoalCompleted />} />
+<Route path="/goals" element={<Navigate to="/somobay/my" replace />} />
+<Route path="/goals/list" element={<Navigate to="/somobay/my" replace />} />
+<Route path="/goals/:goalId" element={<UserGoalDetails />} />
+<Route path="/goals/:goalId/my-contribution" element={<UserMyContribution />} />
+<Route path="/goals/:goalId/contributions" element={<UserContributionHistory />} />
+<Route path="/goals/:goalId/contribute" element={<UserAddContribution />} />
+<Route path="/goals/:goalId/members" element={<UserGoalMembers />} />
+<Route path="/goals/:goalId/members/me" element={<UserMyMemberDetails />} />
+<Route path="/goals/:goalId/progress" element={<UserGoalProgress />} />
+<Route path="/goals/:goalId/information" element={<UserGoalInformation />} />
+<Route path="/goals/:goalId/notices" element={<UserGoalNotices />} />
+<Route path="/goals/:goalId/completed" element={<UserGoalCompleted />} />
+<Route path="/qard" element={<QardMenu />} />
+<Route path="/qard/member" element={<MemberQardHasanah />} />
+<Route path="/admin/qard" element={<AdminQardHasanah />} />
+<Route path="/qard/dashboard" element={<AdminQardHasanah />} />
+<Route path="/qard/schemes" element={<AdminQardHasanah />} />
+<Route path="/qard/schemes/:id" element={<MemberQardHasanah />} />
+<Route path="/qard/members" element={<AdminQardHasanah />} />
+<Route path="/qard/members/:memberId/history" element={<AdminQardHasanah />} />
+<Route path="/qard/repayments" element={<AdminQardHasanah />} />
+<Route path="/qard/loans" element={<AdminQardHasanah />} />
+<Route path="/qard/overdue" element={<AdminQardHasanah />} />
+<Route path="/qard/reports" element={<AdminQardHasanah />} />
+<Route path="/qard/settings" element={<AdminQardHasanah />} />
+<Route path="*" element={<Navigate to="/" replace />} />

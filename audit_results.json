@@ -1,0 +1,200 @@
+[
+  {
+    "file": "src/App.tsx",
+    "line": 86,
+    "type": "Potential hardcoded business name",
+    "text": "// Qard Hasanah (কর্জে হাসানা) Module"
+  },
+  {
+    "file": "src/components/layout/MobileLayout.tsx",
+    "line": 72,
+    "type": "Potential hardcoded business name",
+    "text": "'/qard': { title: 'কর্জে হাসানা মেনু', isRoot: false, backTo: isAdmin ? '/somobay/manage' : '/somobay/my' },"
+  },
+  {
+    "file": "src/components/layout/MobileLayout.tsx",
+    "line": 73,
+    "type": "Potential hardcoded business name",
+    "text": "'/qard/dashboard': { title: 'কর্জে হাসানা ড্যাশবোর্ড', isRoot: false, backTo: '/qard' },"
+  },
+  {
+    "file": "src/components/layout/MobileLayout.tsx",
+    "line": 74,
+    "type": "Potential hardcoded business name",
+    "text": "'/qard/schemes': { title: 'কর্জে হাসানা স্কিম', isRoot: false, backTo: '/qard' },"
+  },
+  {
+    "file": "src/components/layout/MobileLayout.tsx",
+    "line": 79,
+    "type": "Potential hardcoded business name",
+    "text": "'/qard/reports': { title: 'কর্জে হাসানা রিপোর্ট', isRoot: false, backTo: '/qard' },"
+  },
+  {
+    "file": "src/components/layout/MobileLayout.tsx",
+    "line": 80,
+    "type": "Potential hardcoded business name",
+    "text": "'/qard/settings': { title: 'কর্জে হাসানা সেটিংস', isRoot: false, backTo: '/qard' }"
+  },
+  {
+    "file": "src/components/layout/MobileLayout.tsx",
+    "line": 139,
+    "type": "Potential hardcoded business name",
+    "text": "return { title: 'কর্জে হাসানা', isRoot: false, backTo: '/qard' };"
+  },
+  {
+    "file": "src/components/ReceiptModal.tsx",
+    "line": 51,
+    "type": "Potential hardcoded business name",
+    "text": "qard: 'সুদমুক্ত ঋণ (কর্জে হাসানা)'"
+  },
+  {
+    "file": "src/constants/savingsCategoryTokens.ts",
+    "line": 206,
+    "type": "Potential hardcoded business name",
+    "text": "title: 'কর্জে হাসানা (সুদমুক্ত ঋণ)',"
+  },
+  {
+    "file": "src/constants/savingsCategoryTokens.ts",
+    "line": 208,
+    "type": "Potential hardcoded business name",
+    "text": "badgeLabel: 'কর্জে হাসানা',"
+  },
+  {
+    "file": "src/lib/qardHasanahService.ts",
+    "line": 135,
+    "type": "Potential hardcoded business name",
+    "text": "fund_name: 'সাধারণ কর্জে হাসানা তহবিল',"
+  },
+  {
+    "file": "src/lib/qardHasanahService.ts",
+    "line": 270,
+    "type": "Potential hardcoded business name",
+    "text": "title: 'নতুন কর্জে হাসানা আবেদন',"
+  },
+  {
+    "file": "src/lib/qardHasanahService.ts",
+    "line": 322,
+    "type": "Potential hardcoded business name",
+    "text": "title: params.status === 'approved' ? 'কর্জে হাসানা অনুমোদিত হয়েছে' : 'কর্জে হাসানা আবেদন সংক্রান্ত',"
+  },
+  {
+    "file": "src/lib/qardHasanahService.ts",
+    "line": 324,
+    "type": "Potential hardcoded business name",
+    "text": "? `আপনার ৳${toBn(params.approvedAmount || app.requested_amount)} কর্জে হাসানা আবেদন অনুমোদিত হয়েছে। অর্থ বিতরণের জন্য অপেক্ষা করুন।`"
+  },
+  {
+    "file": "src/lib/qardHasanahService.ts",
+    "line": 325,
+    "type": "Potential hardcoded business name",
+    "text": ": `আপনার কর্জে হাসানা আবেদনটি অনুমোদিত হয়নি। কারণ: ${params.rejectionReason || 'যথাযথ শর্ত পূরণ না হওয়ায়'}`,"
+  },
+  {
+    "file": "src/lib/qardHasanahService.ts",
+    "line": 427,
+    "type": "Potential hardcoded business name",
+    "text": "title: 'কর্জে হাসানা অর্থ বিতরণ সম্পন্ন',"
+  },
+  {
+    "file": "src/lib/qardHasanahService.ts",
+    "line": 488,
+    "type": "Potential hardcoded business name",
+    "text": "note: params.note || 'সুদমুক্ত কর্জে হাসানা কিস্তি/মূল টাকা পরিশোধ',"
+  },
+  {
+    "file": "src/lib/qardHasanahService.ts",
+    "line": 549,
+    "type": "Potential hardcoded business name",
+    "text": "title: 'কর্জে হাসানা জমা গ্রহণ',"
+  },
+  {
+    "file": "src/lib/slugUtils.ts",
+    "line": 106,
+    "type": "Hardcoded specific plan/slug hack",
+    "text": "// 5. Match by base name token or reg_number (e.g. 'yjhyn' from 'yjhyn-hww6rpi9')"
+  },
+  {
+    "file": "src/pages/AdminMore.tsx",
+    "line": 136,
+    "type": "Potential hardcoded business name",
+    "text": "title: 'কর্জে হাসানা (সুদমুক্ত ঋণ)',"
+  },
+  {
+    "file": "src/pages/CooperativeTypeSelect.tsx",
+    "line": 200,
+    "type": "Potential hardcoded business name",
+    "text": "কর্জে হাসানা (সুদমুক্ত ধার ও সহায়তা) সম্পর্কে তথ্য:"
+  },
+  {
+    "file": "src/pages/CooperativeTypeSelect.tsx",
+    "line": 203,
+    "type": "Potential hardcoded business name",
+    "text": "কর্জে হাসানা কোনো বিনিয়োগ বা লাভ-লোকসানভিত্তিক সঞ্চয় স্কিম নয়। এটি বিপদগ্রস্ত সদস্যদের পাশে দাঁড়ানোর জন্য একটি সম্পূর্ণ সুদমুক্ত কল্যাণমূলক মডিউল। সমবায় গঠনের পর আপনি সমবায়ের প্রয়োজনে মডিউল সেটিংস থেকে এটি সক্রিয় করতে পারবেন।"
+  },
+  {
+    "file": "src/pages/Dashboard.tsx",
+    "line": 1040,
+    "type": "Potential hardcoded business name",
+    "text": "<span className=\"text-slate-600 font-medium truncate\">কর্জে হাসানা</span>"
+  },
+  {
+    "file": "src/pages/Dashboard.tsx",
+    "line": 1058,
+    "type": "Potential hardcoded business name",
+    "text": "{ id: 'qard', title: 'কর্জে হাসানা', icon: <Coins size={20} />, onClick: () => navigate('/qard'), color: 'text-primary', bg: 'bg-primary-light' },"
+  },
+  {
+    "file": "src/pages/Dashboard.tsx",
+    "line": 1419,
+    "type": "Potential hardcoded business name",
+    "text": "{ id: 'qard', title: 'কর্জে হাসানা', icon: <HeartHandshake size={22} />, path: '/qard', color: 'text-emerald-700', bg: 'bg-emerald-50' },"
+  },
+  {
+    "file": "src/pages/qard/AdminQardHasanah.tsx",
+    "line": 205,
+    "type": "Potential hardcoded business name",
+    "text": "setSuccessMessage('কর্জে হাসানা অনুমোদিত তহবিল সফলভাবে হালনাগাদ করা হয়েছে।');"
+  },
+  {
+    "file": "src/pages/qard/AdminQardHasanah.tsx",
+    "line": 228,
+    "type": "Potential hardcoded business name",
+    "text": "headerTitle=\"কর্জে হাসানা ব্যবস্থাপনা\""
+  },
+  {
+    "file": "src/pages/qard/MemberQardHasanah.tsx",
+    "line": 120,
+    "type": "Potential hardcoded business name",
+    "text": "headerTitle=\"কর্জে হাসানা\""
+  },
+  {
+    "file": "src/pages/qard/MemberQardHasanah.tsx",
+    "line": 203,
+    "type": "Potential hardcoded business name",
+    "text": "{/* 3. Action Button: \"কর্জে হাসানা চাই\" (Request Qard Hasanah) */}"
+  },
+  {
+    "file": "src/pages/qard/MemberQardHasanah.tsx",
+    "line": 211,
+    "type": "Potential hardcoded business name",
+    "text": "কর্জে হাসানা চাই (নতুন আবেদন)"
+  },
+  {
+    "file": "src/pages/qard/MemberQardHasanah.tsx",
+    "line": 228,
+    "type": "Potential hardcoded business name",
+    "text": "আপনার কোনো পূর্ববর্তী কর্জে হাসানা আবেদন নেই।"
+  },
+  {
+    "file": "src/pages/qard/MemberQardHasanah.tsx",
+    "line": 354,
+    "type": "Potential hardcoded business name",
+    "text": "<h3 className=\"text-[18px] font-bold text-slate-800 bangla\">কর্জে হাসানা আবেদন</h3>"
+  },
+  {
+    "file": "src/pages/qard/MemberQardHasanah.tsx",
+    "line": 368,
+    "type": "Potential hardcoded business name",
+    "text": "আপনার সঞ্চয়ে <strong>{formatBnCurrency(savingsSnapshot)}</strong> রয়েছে। কর্জে হাসানার কারণে সঞ্চয় থেকে কোনো টাকা কাটা যাবে না। এটি সম্পূর্ণ সুদমুক্ত সহায়তা।"
+  }
+]
