@@ -3,8 +3,8 @@
    প্রোটোটাইপের .kv / .stp3 / গ্রেডিয়েন্ট হিরো-কার্ড / স্টিকি বার।
    ============================================================ */
 
-import type { ReactNode } from 'react';
-import { Check } from 'lucide-react';
+import { useState, type ReactNode } from 'react';
+import { Check, ChevronDown, ChevronUp } from 'lucide-react';
 
 export function KV({ k, v, strong }: { k: ReactNode; v: ReactNode; strong?: boolean }) {
   return (
@@ -86,4 +86,35 @@ export function Note({ tone = 'info', children }: { tone?: 'info' | 'warn' | 'da
     ok: 'bg-ok-bg border-ok-bd text-ok-ink',
   }[tone];
   return <div className={`rounded-r-sm border px-3 py-2.5 text-sm leading-relaxed ${cls}`}>{children}</div>;
+}
+
+/** প্যাটার্ন ৪ — অ্যাকর্ডিয়ন (প্রোটোটাইপের `acc2` / `foldgrp`) */
+export function Accordion({ title, sub, right, children, defaultOpen = false }: {
+  title: ReactNode; sub?: ReactNode; right?: ReactNode; children: ReactNode; defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  return (
+    <div className="rounded-r-sm border border-line bg-card shadow-sh-1 overflow-hidden">
+      <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open}
+        className="w-full min-h-tap flex items-center gap-2 text-left px-3.5 py-3">
+        <span className="grow">
+          <span className="block text-sm font-extrabold text-txt">{title}</span>
+          {sub ? <span className="block text-xs text-mut mt-0.5">{sub}</span> : null}
+        </span>
+        {right}
+        {open ? <ChevronUp size={17} className="text-mut shrink-0" /> : <ChevronDown size={17} className="text-mut shrink-0" />}
+      </button>
+      {open ? <div className="px-3.5 pb-3 border-t border-line-2 pt-2">{children}</div> : null}
+    </div>
+  );
+}
+
+/** অগ্রগতি-দণ্ড (প্রোটোটাইপের `.prog`) */
+export function Progress({ pct, tone = 'ok' }: { pct: number; tone?: 'ok' | 'warn' | 'danger' }) {
+  const bar = tone === 'danger' ? 'bg-danger' : tone === 'warn' ? 'bg-warn' : 'bg-green-700';
+  return (
+    <div className="h-2 rounded-r-pill bg-line-2 overflow-hidden" role="progressbar" aria-valuenow={Math.round(pct)} aria-valuemin={0} aria-valuemax={100}>
+      <div className={`h-full rounded-r-pill ${bar}`} style={{ width: `${Math.max(0, Math.min(100, pct))}%` }} />
+    </div>
+  );
 }

@@ -104,21 +104,21 @@ am17,AM-17,লেনদেন ব্যবস্থাপনা / সাধা�
 am18,AM-18,সদস্য অবস্থা পরিবর্তন (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,done,4,/a/members/:memberId/status, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
 am19,AM-19,মৃত্যু দাবি নিষ্পত্তি (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,done,4,/a/claims, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
 am20,AM-20,তহবিল স্থানান্তর (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · ORG_ADMIN,done,4,/a/transfer, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
-am21,AM-21,রিকনসিলিয়েশন ও ব্যতিক্রম নিষ্পত্তি (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · AUDITOR (R),todo,5,,
-am22,AM-22,বাল্ক জমা / কিস্তি এন্ট্রি (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · COLLECTOR · MANAGER,todo,5,,
-am23,AM-23,বাল্ক ইমপোর্ট ও ম্যাপিং (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · ORG_ADMIN,todo,5,,
-am24,AM-24,আর্থিক বিবরণ ও রেগুলেটরি রিটার্ন (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN · AUDITOR (R),todo,5,,
-am25,AM-25,রিপোর্ট কেন্দ্র (মোবাইল),Admin App,GeneralSavings,AUDITOR · ACCOUNTANT · MANAGER · ORG_ADMIN,todo,5,,
-am26,AM-26,স্কিম বিবরণ ও পরিসংখ্যান (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN · ACCOUNTANT,todo,5,,
-am27,AM-27,স্কিম তালিকা (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN · ACCOUNTANT (R),todo,5,,
-am28,AM-28,স্কিম তৈরি (মোবাইল উইজার্ড),Admin App,GeneralSavings,ORG_ADMIN · MANAGER (প্রস্তাব),todo,5,,
-am29,AM-29,স্কিম সম্পাদনা ও সংস্করণ (মোবাইল),Admin App,GeneralSavings,ORG_ADMIN · MANAGER,todo,5,,
-am30,AM-30,সদস্য স্থানান্তর (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN · COLLECTOR (প্রস্তাব),todo,5,,
-am31,AM-31,সংগ্রহ পরিকল্পনা ও রুট (মোবাইল),Admin App,GeneralSavings,MANAGER · COLLECTOR (R) · ORG_ADMIN,todo,5,,
-am32,AM-32,রিমাইন্ডার ও যোগাযোগ (মোবাইল),Admin App,GeneralSavings,MANAGER · ACCOUNTANT · ORG_ADMIN,todo,5,,
-am33,AM-33,সেটিংস হাব (মোবাইল),Admin App,GeneralSavings,ORG_ADMIN · MANAGER (R) · AUDITOR (R),todo,5,,
-am34,AM-34,"স্টাফ, রোল ও পারমিশন (মোবাইল)",Admin App,GeneralSavings,ORG_ADMIN,todo,5,,
-am35,AM-35,অডিট লগ (মোবাইল),Admin App,GeneralSavings,AUDITOR · EXTERNAL_AUDITOR · ORG_ADMIN (R),todo,5,,
+am21,AM-21,রিকনসিলিয়েশন ও ব্যতিক্রম নিষ্পত্তি (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · AUDITOR (R),done,5,/a/recon, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am22,AM-22,বাল্ক জমা / কিস্তি এন্ট্রি (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · COLLECTOR · MANAGER,done,5,/a/batch, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am23,AM-23,বাল্ক ইমপোর্ট ও ম্যাপিং (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · ORG_ADMIN,done,5,/a/import, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am24,AM-24,আর্থিক বিবরণ ও রেগুলেটরি রিটার্ন (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN · AUDITOR (R),done,5,/a/finance, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am25,AM-25,রিপোর্ট কেন্দ্র (মোবাইল),Admin App,GeneralSavings,AUDITOR · ACCOUNTANT · MANAGER · ORG_ADMIN,done,5,/a/reports, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am26,AM-26,স্কিম বিবরণ ও পরিসংখ্যান (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN · ACCOUNTANT,done,5,/a/schemes/:schemeId, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am27,AM-27,স্কিম তালিকা (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN · ACCOUNTANT (R),done,5,/a/schemes, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am28,AM-28,স্কিম তৈরি (মোবাইল উইজার্ড),Admin App,GeneralSavings,ORG_ADMIN · MANAGER (প্রস্তাব),done,5,/a/schemes/new, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am29,AM-29,স্কিম সম্পাদনা ও সংস্করণ (মোবাইল),Admin App,GeneralSavings,ORG_ADMIN · MANAGER,done,5,/a/schemes/:schemeId/edit, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am30,AM-30,সদস্য স্থানান্তর (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN · COLLECTOR (প্রস্তাব),done,5,/a/moves, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am31,AM-31,সংগ্রহ পরিকল্পনা ও রুট (মোবাইল),Admin App,GeneralSavings,MANAGER · COLLECTOR (R) · ORG_ADMIN,done,5,/a/routes, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am32,AM-32,রিমাইন্ডার ও যোগাযোগ (মোবাইল),Admin App,GeneralSavings,MANAGER · ACCOUNTANT · ORG_ADMIN,done,5,/a/reminders, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am33,AM-33,সেটিংস হাব (মোবাইল),Admin App,GeneralSavings,ORG_ADMIN · MANAGER (R) · AUDITOR (R),done,5,/a/settings, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am34,AM-34,"স্টাফ, রোল ও পারমিশন (মোবাইল)",Admin App,GeneralSavings,ORG_ADMIN,done,5,/a/staff, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am35,AM-35,অডিট লগ (মোবাইল),Admin App,GeneralSavings,AUDITOR · EXTERNAL_AUDITOR · ORG_ADMIN (R),done,5,/a/audit, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
 am36,RAM-01,ROSCA ড্যাশবোর্ড (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),todo,6,,
 am37,RAM-02,চক্র স্কিম তালিকা (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · ACCOUNTANT (R) · AUDITOR (R),todo,6,,
 am38,RAM-03,স্কিম তৈরি / সম্পাদনা (মোবাইল),Admin App,ROSCA,ORG_ADMIN · MANAGER (প্রস্তাব),todo,6,,

@@ -1,8 +1,9 @@
 /* ============================================================
    src/apps/admin/AdminMobileApp.tsx — অ্যাডমিন মোবাইল শেল + ২০টি রুট
    ভূমিকা: ?role=MANAGER (ডিফল্ট) — শেল ও নেভ ভূমিকা অনুযায়ী বদলায় (D-35)।
-   ব্যাচ ৪: AM-01…AM-20 সম্পূর্ণ (হোম · অনুমোদন · সদস্য · এন্ট্রি · লেজার ·
-   ক্যাশ · পেমেন্ট · সংশোধন · দাবি · তহবিল)।
+   ব্যাচ ৪: AM-01…AM-20 (হোম · অনুমোদন · সদস্য · এন্ট্রি · লেজার · ক্যাশ · পেমেন্ট · সংশোধন · দাবি · তহবিল)।
+   ব্যাচ ৫: AM-21…AM-35 (রিকনসিলিয়েশন · ব্যাচ · ইমপোর্ট · আর্থিক · রিপোর্ট ·
+   স্কিম · স্থানান্তর · রুট · রিমাইন্ডার · সেটিংস · স্টাফ · অডিট)।
    ============================================================ */
 
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
@@ -29,6 +30,22 @@ import Payouts from './screens/Payouts';
 import LedgerAdmin from './screens/LedgerAdmin';
 import DeathClaim from './screens/DeathClaim';
 import FundTransfer from './screens/FundTransfer';
+import Reconciliation from './screens/Reconciliation';
+import BulkBatches from './screens/BulkBatches';
+import ImportCsv from './screens/ImportCsv';
+import Finance from './screens/Finance';
+import ReportCenter from './screens/ReportCenter';
+import Schemes from './screens/Schemes';
+import SchemeDetail from './screens/SchemeDetail';
+import SchemeNew from './screens/SchemeNew';
+import SchemeEdit from './screens/SchemeEdit';
+import MemberMove from './screens/MemberMove';
+import RoutePlan from './screens/RoutePlan';
+import Reminders from './screens/Reminders';
+import Settings from './screens/Settings';
+import StaffScreen from './screens/Staff';
+import AuditLog from './screens/AuditLog';
+import AdminMore from './screens/AdminMore';
 
 /* শেলের নেভ-কী → রুট */
 const ROUTE_BY_KEY: Record<string, string> = {
@@ -43,7 +60,7 @@ const ROUTE_BY_KEY: Record<string, string> = {
   dayclose: '/a/cashbook',
   entry: '/a/entry',
   alert: '/m/notifications',
-  control: '/a/ledger',
+  control: '/a/recon',
   ledger: '/a/ledger',
   wdappr: '/a/payouts',
   corr: '/a/reversal',
@@ -51,9 +68,18 @@ const ROUTE_BY_KEY: Record<string, string> = {
   claim: '/a/claims',
   transfer: '/a/transfer',
   txn: '/a/ledger',
-  staff: '/a/soon/staff',
-  audit: '/a/soon/audit',
-  reports: '/a/soon/reports',
+  staff: '/a/staff',
+  audit: '/a/audit',
+  reports: '/a/reports',
+  recon: '/a/recon',
+  batch: '/a/batch',
+  scheme: '/a/schemes',
+  plan: '/a/routes',
+  remind: '/a/reminders',
+  settings: '/a/settings',
+  fin: '/a/finance',
+  mv: '/a/moves',
+  more: '/a/more',
 };
 
 /** পথ → পর্দা-শিরোনাম (প্রোটোটাইপের হেডার কপি) */
@@ -61,6 +87,7 @@ function metaFor(path: string, fallback: { title: string; sub: string }) {
   if (path.startsWith('/a/approvals/')) return { title: 'অনুমোদনের সিদ্ধান্ত', sub: 'যাচাই ও সিদ্ধান্ত', model: 'flow' as const };
   if (path === '/a/approvals') return { title: 'অনুমোদন কিউ', sub: 'কিউ ও সিদ্ধান্ত', model: 'deep' as const };
   if (path === '/a/members/new') return { title: 'নতুন সদস্য', sub: 'নিবন্ধন', model: 'flow' as const };
+  if (path.startsWith('/a/schemes/') && path.endsWith('/edit')) return { title: 'স্কিম সম্পাদনা', sub: 'নতুন সংস্করণ', model: 'flow' as const };
   if (path.endsWith('/edit')) return { title: 'সদস্য সম্পাদনা', sub: 'কারণ ও প্রমাণসহ', model: 'flow' as const };
   if (path.endsWith('/status')) return { title: 'অবস্থা পরিবর্তন', sub: 'কারণ ও OTP', model: 'flow' as const };
   if (path.endsWith('/close')) return { title: 'প্রস্থান ও নিষ্পত্তি', sub: 'ক্লিয়ারেন্স', model: 'flow' as const };
@@ -77,6 +104,22 @@ function metaFor(path: string, fallback: { title: string; sub: string }) {
   if (path === '/a/transfer') return { title: 'তহবিল স্থানান্তর', sub: 'সমিতির হিসাবের মধ্যে', model: 'flow' as const };
   if (path === '/a/dues') return { title: 'বকেয়া রেজিস্টার', sub: 'বয়স অনুযায়ী ঝুঁকি', model: 'deep' as const };
   if (path === '/a/home') return { title: 'সমিতির অবস্থা', sub: 'আজকের কাজ', model: 'landing' as const };
+  if (path === '/a/recon') return { title: 'রিকনসিলিয়েশন', sub: 'ব্যতিক্রম নিষ্পত্তি ও সাইন-অফ', model: 'deep' as const };
+  if (path === '/a/batch') return { title: 'বাল্ক জমা এন্ট্রি', sub: 'ব্যাচ যাচাই ও পোস্ট', model: 'flow' as const };
+  if (path === '/a/import') return { title: 'CSV / Excel ইমপোর্ট', sub: 'ম্যাপিং ও ড্রাই-রান', model: 'flow' as const };
+  if (path === '/a/finance') return { title: 'আর্থিক বিবরণ', sub: 'বিবরণী ও রিটার্ন', model: 'deep' as const };
+  if (path === '/a/reports') return { title: 'রিপোর্ট কেন্দ্র', sub: 'তৈরি ও ডাউনলোড', model: 'deep' as const };
+  if (path === '/a/schemes/new') return { title: 'নতুন স্কিম তৈরি', sub: 'উইজার্ড · খসড়া', model: 'flow' as const };
+  if (path.endsWith('/edit') && path.startsWith('/a/schemes/')) return { title: 'স্কিম সম্পাদনা', sub: 'নতুন সংস্করণ', model: 'flow' as const };
+  if (path.startsWith('/a/schemes/')) return { title: 'স্কিম বিবরণ', sub: 'নিয়ম ও পরিসংখ্যান', model: 'deep' as const };
+  if (path === '/a/schemes') return { title: 'স্কিম তালিকা', sub: 'নিয়ম ও সংস্করণ', model: 'deep' as const };
+  if (path === '/a/moves') return { title: 'সদস্য স্থানান্তর', sub: 'রুট / শাখা', model: 'deep' as const };
+  if (path === '/a/routes') return { title: 'সংগ্রহ পরিকল্পনা', sub: 'রুট ও সংগ্রহক', model: 'deep' as const };
+  if (path === '/a/reminders') return { title: 'রিমাইন্ডার শিডিউল', sub: 'SMS ও যোগাযোগ', model: 'deep' as const };
+  if (path === '/a/settings') return { title: 'সেটিংস হাব', sub: 'নীতি ও চালু/বন্ধ', model: 'deep' as const };
+  if (path === '/a/staff') return { title: 'স্টাফ ও পারমিশন', sub: 'ভূমিকা ও সীমা', model: 'deep' as const };
+  if (path === '/a/audit') return { title: 'অডিট লগ', sub: 'অপরিবর্তনীয় · শুধু পঠন', model: 'deep' as const };
+  if (path === '/a/more') return { title: 'সব বিভাগ', sub: 'অ্যাডমিন মোবাইল', model: 'deep' as const };
   return { title: fallback.title, sub: fallback.sub, model: 'deep' as const };
 }
 
@@ -85,7 +128,7 @@ function SoonRoute() {
   const [params] = useSearchParams();
   const shell = resolveAdminShell(params.get('role'));
   const slot = [...shell.nav, ...(shell.fab ? [shell.fab] : [])].find((s) => s.key === key);
-  return <SoonCard label={slot?.label ?? 'পর্দা'} phase="ব্যাচ ৫" note="AM-21…AM-35 পরবর্তী ব্যাচে আসছে — এই শেলের বাকি বিভাগ ড্রয়ারে।" />;
+  return <SoonCard label={slot?.label ?? 'পর্দা'} phase="পরবর্তী" note="এই শেলের সব AM পর্দা এখন তৈরি — নিচের নেভিগেশন বা ড্রয়ার থেকে বেছে নিন।" />;
 }
 
 export default function AdminMobileApp() {
@@ -103,6 +146,17 @@ export default function AdminMobileApp() {
     if (p.startsWith('/a/cashbook')) return 'cash';
     if (p.startsWith('/a/ledger') || p.startsWith('/a/txn') || p.startsWith('/a/accounts')) return 'ledger';
     if (p.startsWith('/a/payouts')) return 'wdappr';
+    if (p === '/a/recon' || p === '/a/batch' || p === '/a/import') return 'control';
+    if (p === '/a/schemes' || p.startsWith('/a/schemes/')) return 'scheme';
+    if (p === '/a/routes') return 'plan';
+    if (p === '/a/reminders') return 'remind';
+    if (p === '/a/settings') return 'settings';
+    if (p === '/a/staff') return 'staff';
+    if (p === '/a/audit') return 'audit';
+    if (p === '/a/reports') return 'reports';
+    if (p === '/a/finance') return 'summary';
+    if (p === '/a/moves') return 'mv';
+    if (p === '/a/more') return 'more';
     return slots.find((s) => ROUTE_BY_KEY[s.key] === p)?.key ?? 'home';
   })();
   const roleQS = params.get('role') ? `?role=${params.get('role')}` : '';
@@ -142,6 +196,22 @@ export default function AdminMobileApp() {
         <Route path="claims" element={<DeathClaim />} />
         <Route path="transfer" element={<FundTransfer />} />
         <Route path="dues" element={<Dues />} />
+        <Route path="recon" element={<Reconciliation />} />
+        <Route path="batch" element={<BulkBatches />} />
+        <Route path="import" element={<ImportCsv />} />
+        <Route path="finance" element={<Finance />} />
+        <Route path="reports" element={<ReportCenter />} />
+        <Route path="schemes" element={<Schemes />} />
+        <Route path="schemes/new" element={<SchemeNew />} />
+        <Route path="schemes/:schemeId" element={<SchemeDetail />} />
+        <Route path="schemes/:schemeId/edit" element={<SchemeEdit />} />
+        <Route path="moves" element={<MemberMove />} />
+        <Route path="routes" element={<RoutePlan />} />
+        <Route path="reminders" element={<Reminders />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="staff" element={<StaffScreen />} />
+        <Route path="audit" element={<AuditLog />} />
+        <Route path="more" element={<AdminMore />} />
         <Route path="soon/:key" element={<SoonRoute />} />
         <Route path="*" element={<Navigate to={`/a/home${roleQS}`} replace />} />
       </Routes>

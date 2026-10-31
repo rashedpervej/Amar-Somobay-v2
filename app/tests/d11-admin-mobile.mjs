@@ -46,17 +46,33 @@ const SCREENS = {
   'LedgerAdmin.tsx': ['ledger', 'সাধারণ লেজার'],
   'DeathClaim.tsx': ['claims', 'মৃত্যু দাবি নিষ্পত্তি'],
   'FundTransfer.tsx': ['transfer', 'তহবিল স্থানান্তর'],
+  'Reconciliation.tsx': ['recon', 'রিকনসিলিয়েশন'],
+  'BulkBatches.tsx': ['batch', 'বাল্ক জমা এন্ট্রি'],
+  'ImportCsv.tsx': ['import', 'CSV / Excel ইমপোর্ট'],
+  'Finance.tsx': ['finance', 'আর্থিক বিবরণ'],
+  'ReportCenter.tsx': ['reports', 'রিপোর্ট কেন্দ্র'],
+  'Schemes.tsx': ['schemes', 'স্কিম তালিকা'],
+  'SchemeDetail.tsx': ['schemes/:schemeId', 'স্কিম বিবরণ'],
+  'SchemeNew.tsx': ['schemes/new', 'নতুন স্কিম তৈরি'],
+  'SchemeEdit.tsx': ['schemes/:schemeId/edit', 'স্কিম সম্পাদনা'],
+  'MemberMove.tsx': ['moves', 'সদস্য স্থানান্তর'],
+  'RoutePlan.tsx': ['routes', 'সংগ্রহ পরিকল্পনা'],
+  'Reminders.tsx': ['reminders', 'রিমাইন্ডার শিডিউল'],
+  'Settings.tsx': ['settings', 'সেটিংস হাব'],
+  'Staff.tsx': ['staff', 'স্টাফ ও পারমিশন'],
+  'AuditLog.tsx': ['audit', 'অডিট লগ'],
+  'AdminMore.tsx': ['more', 'সব বিভাগ'],
 };
 
-S.sec('১ · ফাইল, রুট ও প্রোভাইডার');
+S.sec('১ · ফাইল, রুট ও প্রোভাইডার (AM-01…AM-35)');
 {
-  S.eq('অ্যাডমিন পর্দার সংখ্যা ২০ (AM-01…AM-20, + parts)', FILES.length, 20);
+  S.eq('অ্যাডমিন পর্দার সংখ্যা ৩৬ (AM-01…AM-35 + আরও, + parts)', FILES.length, 36);
   S.check('প্রতিটি ফাইলের রুট আছে', Object.keys(SCREENS).every((f) => existsSync(join(ROOT, `${DIR}/${f}`))), Object.keys(SCREENS).filter((f) => !existsSync(join(ROOT, `${DIR}/${f}`))).join(', '));
   const noRoute = Object.entries(SCREENS).filter(([, [p]]) => !APP.includes(`path="${p}"`));
   S.check('AdminMobileApp-এ প্রতিটি রুট মাউন্টেড', noRoute.length === 0, noRoute.map(([f]) => f).join(', '));
   S.check('/a/* → AdminProvider + AdminMobileApp', /<AdminProvider>\s*<AdminMobileApp \/>\s*<\/AdminProvider>/.test(MAIN));
   S.check('ভূমিকা ?role= থেকে (ডিফল্ট MANAGER)', /resolveAdminShell\(params\.get\('role'\)\)/.test(APP));
-  S.check('AM-01…AM-20 পর্দায় কোনো "ফেজ ৩" প্লেসহোল্ডার নেই', FILES.every((f) => !/ফেজ ৩|শীঘ্রই আসছে|Coming soon/.test(txt(f.replace('.tsx', '')))));
+  S.check('কোনো AM পর্দায় "ফেজ ৩" প্লেসহোল্ডার নেই', FILES.every((f) => !/ফেজ ৩|শীঘ্রই আসছে|Coming soon/.test(txt(f.replace('.tsx', '')))));
   S.check('প্রতিটি পর্দায় ব্যবহারকারীর জন্য শিরোনাম আছে', FILES.every((f) => /text-h2|text-h3|text-h1|<Card[^>]*title=|<SectionHead[^>]*title=|<Hero[^>]*label=/.test(txt(f.replace('.tsx', '')))));
 }
 
@@ -145,6 +161,63 @@ S.sec('৫ · ডিজাইন শৃঙ্খলা');
   S.check('৳-এর পরে কাঁচা ল্যাটিন অঙ্ক নেই', files.every((f) => !/৳\s*\d/.test(txt(f))));
   S.check('raw বোতামে ৪৮px ট্যাপ টার্গেট', files.every((f) => !/<button/.test(txt(f)) || /min-h-tap/.test(txt(f))));
   S.check('কোনো window.location নেই', files.every((f) => !/window\.location/.test(txt(f))));
+}
+
+
+S.sec('৬ · ব্যাচ ৫ — নীতি, গণিত ও স্টোর-অ্যাকশন');
+{
+  const B5 = ['Reconciliation', 'BulkBatches', 'ImportCsv', 'Finance', 'ReportCenter', 'Schemes', 'SchemeDetail',
+    'SchemeNew', 'SchemeEdit', 'MemberMove', 'RoutePlan', 'Reminders', 'Settings', 'Staff', 'AuditLog'];
+  S.check('ব্যাচ ৫-এর ১৫টি ফাইলই আছে', B5.every((f) => existsSync(join(ROOT, `${DIR}/${f}.tsx`))), B5.filter((f) => !existsSync(join(ROOT, `${DIR}/${f}.tsx`))).join(', '));
+
+  const B5ACTIONS = ['resolveException', 'signOffRecon', 'postBatch', 'commitImport', 'signOffFinance', 'createScheme',
+    'proposeVersion', 'requestMove', 'approveMove', 'createRoute', 'assignAll', 'toggleTemplate', 'toggleSetting',
+    'addStaff', 'suspendStaff', 'runReport'];
+  S.check('১৫টি নতুন অ্যাকশনই ডিফাইনড', B5ACTIONS.every((a) => new RegExp(`const ${a}: Ctx\\['${a}'\\]`).test(STORE)), B5ACTIONS.filter((a) => !new RegExp(`const ${a}: Ctx\\['${a}'\\]`).test(STORE)).join(', '));
+  S.check('শুধু ড্রাই-রান কমিট হয়', /শুধু ড্রাই-রান ফাইল কমিট করা যায়/.test(STORE));
+  S.check('সাইন-অফে অমিল বাকি থাকলে আটকায়', /অমিল নিষ্পত্তি বাকি — সাইন-অফ আটকে আছে/.test(STORE));
+  S.check('স্কিম কোড সংঘর্ষ আটকায়', /কোড আগেই ব্যবহৃত/.test(STORE));
+  S.check('শাখা স্থানান্তরে ORG_ADMIN গেট', /শাখা স্থানান্তর শুধু ORG_ADMIN/.test(STORE));
+  S.check('শেষ ORG_ADMIN নিষ্ক্রিয় করা যায় না', /কমপক্ষে ১ জন সক্রিয় ORG_ADMIN/.test(STORE));
+  S.check('কমিটির সিদ্ধান্ত ছাড়া সংস্করণ নয়', /কমিটির সিদ্ধান্ত নম্বর ছাড়া নতুন সংস্করণ/.test(STORE));
+
+  const OPS = read('src/domain/adminOps.ts');
+  S.check('কোনো সুদ/মুনাফার ফিল্ড নেই (D-01)', !/profit_percentage|interest_rate|dividend_rate/.test(OPS));
+
+  const outDir = join(ROOT, 'node_modules/.cache/dt');
+  const b = spawnSync(join(ROOT, 'node_modules/.bin/esbuild'), ['src/domain/adminOps.ts', '--format=esm', '--outdir=node_modules/.cache/dt', '--log-level=warning'], { cwd: ROOT, encoding: 'utf8' });
+  S.check('adminOps বান্ডল হয়েছে', b.status === 0, (b.stderr || '').slice(0, 200));
+  const O = await import(`${outDir}/adminOps.js`);
+
+  S.check('আয়ের খাতে সুদ/মুনাফা লাইন নেই', O.FIN_INCOME.every((x) => !/সুদ|মুনাফা/.test(x.h) || /সুদ নয়/.test(x.h)));
+  S.check('উদ্বৃত্তপত্রের দুই পাশ সমান (BR-12)', O.financeTotals().balanced);
+
+  S.eq('batchTotals সারি যোগফল', O.batchTotals(O.SEED_BATCHES).rows, O.SEED_BATCHES.reduce((s, x) => s + x.rows, 0));
+  S.eq('batchTotals অঙ্ক যোগফল', O.batchTotals(O.SEED_BATCHES).amount, O.SEED_BATCHES.reduce((s, x) => s + x.amount, 0));
+  S.eq('routeTotals লক্ষ্য যোগফল', O.routeTotals(O.SEED_ROUTES).target, O.SEED_ROUTES.reduce((s, r) => s + r.target, 0));
+  S.eq('বরাদ্দহীন সদস্য সংখ্যা', O.routeTotals(O.SEED_ROUTES).unassigned, O.SEED_UNASSIGNED.length);
+  S.eq('templateTotals পাঠানো', O.templateTotals(O.SEED_TEMPLATES).sent, O.SEED_TEMPLATES.reduce((s, t) => s + t.sent, 0));
+  S.eq('settingsTotals লকড', O.settingsTotals(O.SEED_SETTINGS).locked, O.SEED_SETTINGS.reduce((n, g) => n + g.items.filter((i) => i.locked).length, 0));
+  S.eq('auditStats ব্যর্থ', O.auditStats(O.SEED_AUDIT).failed, O.SEED_AUDIT.filter((l) => l.result !== 'success').length);
+  S.eq('reconPct = matched/(matched+unmatched)', O.reconPct(O.SEED_RECON), Math.round((O.SEED_RECON.matched / (O.SEED_RECON.matched + O.SEED_RECON.unmatched)) * 100));
+  S.eq('আয়ের যোগফল ঠিক', O.incomeTotal(O.FIN_INCOME), O.FIN_INCOME.reduce((s, r) => s + r.cur, 0));
+  S.check('প্রতিটি স্কিমের কোড অনন্য', new Set(O.SEED_SCHEMES.map((s) => s.code)).size === O.SEED_SCHEMES.length);
+  S.check('প্রতিটি স্টাফের ভূমিকা বৈধ', O.SEED_STAFF.every((u) => Boolean(O.ROLE_BY_NAME[u.role])));
+  S.check('সব টেমপ্লেটে “সুদ নয়” শব্দচয়ন (বিলম্ব ফি)', O.SEED_TEMPLATES.filter((t) => /বিলম্ব|ফি/.test(t.name + t.body)).every((t) => /সুদ নয়/.test(t.body)));
+  S.check('রিপোর্ট গ্রুপিং ঠিক', O.reportGroups(O.SEED_REPORTS).reduce((n, g) => n + g.items.length, 0) === O.SEED_REPORTS.length);
+
+  /* পর্দা-স্তরের বৈধতা */
+  const B5FILES = B5.map((f) => txt(f)).join('\n');
+  S.check('রিকনসিলিয়েশনে কারণ ≥৫ বাধ্যতামূলক', /note\.trim\(\)\.length < 5/.test(STORE) && /resolveException\(ex\.id/.test(txt('Reconciliation')));
+  S.check('ইমপোর্টে এক্সটেনশন যাচাই', /\\\.\(csv\|xlsx\|xls\)/i.test(txt('ImportCsv')) || /csv\|xlsx\|xls/.test(txt('ImportCsv')));
+  S.check('স্কিম কোডের ছাঁচ যাচাই', /\[A-Z\]\{2\}-\\d\{2\}/.test(txt('SchemeNew')) || /\[A-Z\]\{2\}-\\d\{2\}/.test(STORE));
+  S.check('স্থানান্তরে অতীত তারিখ আটকায়', /effAt <= '2026-10-31'/.test(STORE) && /effAt/.test(txt('MemberMove')));
+  S.check('স্টাফ ফর্মে ০১ ফোন যাচাই', /\^01\\d\{9\}\$/.test(STORE));
+  S.check('সেটিংসে type-to-confirm রিসেট', /খুলনা-২৩৪\/২০১৯/.test(txt('Settings')));
+  S.check('অডিট লগ CSV এক্সপোর্ট আসল ব্লব', /Blob\(/.test(txt('AuditLog')) && /text\/csv/.test(txt('AuditLog')));
+  S.check('ব্যাচ ৫-এর সব পর্দা স্টোর ব্যবহার করে', B5.every((f) => /useAdmin\(\)/.test(txt(f))), B5.filter((f) => !/useAdmin\(\)/.test(txt(f))).join(', '));
+  S.check('ব্যাচ ৫-এ কোনো raw hex নেই', B5.every((f) => !/#[0-9a-fA-F]{3,8}\b/.test(txt(f))));
+  S.check('ব্যাচ ৫-এ “ফেজ ৩/শীঘ্রই আসছে” নেই', !/ফেজ ৩|শীঘ্রই আসছে/.test(B5FILES));
 }
 
 S.report();
