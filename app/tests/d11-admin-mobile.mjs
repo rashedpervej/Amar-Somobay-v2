@@ -1,6 +1,6 @@
 /* ============================================================
    tests/d11-admin-mobile.mjs — ব্যাচ ৪ · অ্যাডমিন মোবাইল (AM-01…AM-20)
-   ১) ২০টি ফাইল, ১৯+ রুট, AdminProvider সংযোগ
+   ১) ৬০টি ফাইল, ৬৪ রুট, AdminProvider + মডিউল প্রোভাইডার সংযোগ
    ২) ডোমেইন-গণিত: availOf / dueTotal / cashDiff / claimMissing / transferTotal
    ৩) নীতি: সুদমুক্ত কপি, maker≠checker, D-22 সীমা, অনিশ্চিত পেমেন্ট
    ৪) ফর্ম-বৈধতা ও মৃত বোতাম নেই
@@ -15,14 +15,14 @@ import { spawnSync } from 'node:child_process';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
-const S = createSuite('D-11 · অ্যাডমিন মোবাইল পর্দা (AM-01…AM-20)');
+const S = createSuite('D-11 · অ্যাডমিন মোবাইল পর্দা (AM-01…AM-35 · RAM/JAM)');
 const read = (p) => (existsSync(join(ROOT, p)) ? readFileSync(join(ROOT, p), 'utf8') : '');
 
 const APP = read('src/apps/admin/AdminMobileApp.tsx');
 const MAIN = read('src/main.tsx');
 const STORE = read('src/store/adminStore.tsx');
 const DIR = 'src/apps/admin/screens';
-const FILES = readdirSync(join(ROOT, DIR)).filter((f) => f.endsWith('.tsx') && f !== 'parts.tsx');
+const FILES = readdirSync(join(ROOT, DIR)).filter((f) => f.endsWith('.tsx') && f !== 'parts.tsx' && f !== 'rcParts.tsx');
 const txt = (f) => read(`${DIR}/${f}.tsx`);
 
 const SCREENS = {
@@ -62,15 +62,41 @@ const SCREENS = {
   'Staff.tsx': ['staff', 'স্টাফ ও পারমিশন'],
   'AuditLog.tsx': ['audit', 'অডিট লগ'],
   'AdminMore.tsx': ['more', 'সব বিভাগ'],
+  /* ব্যাচ ৬ — ROSCA (RAM-01…RAM-12) */
+  'RcDashboard.tsx': ['rc', 'ROSCA'],
+  'RcCircles.tsx': ['rc/circles', 'চক্র তালিকা'],
+  'RcNew.tsx': ['rc/new', 'নতুন চক্র'],
+  'RcCircle.tsx': ['rc/circles/:circleId', 'চক্রের হাব'],
+  'RcSeats.tsx': ['rc/circles/:circleId/seats', 'সিট বরাদ্দ'],
+  'RcDrawRun.tsx': ['rc/circles/:circleId/draw', 'ড্র পরিচালনা'],
+  'RcPool.tsx': ['rc/circles/:circleId/pool', 'পুল ও ঘাটতি'],
+  'RcDrawDetail.tsx': ['rc/draws/:drawId', 'ড্রের রসিদ'],
+  'RcRegister.tsx': ['rc/register', 'ড্র রেজিস্টার'],
+  'RcCollect.tsx': ['rc/collect', 'কিস্তি সংগ্রহ'],
+  'RcDefaults.tsx': ['rc/defaults', 'ডিফল্ট ও প্রতিস্থাপন'],
+  'RcReports.tsx': ['rc/reports', 'ROSCA রিপোর্ট'],
+  'RcSchemes.tsx': ['rc/schemes', 'চক্র স্কিম'],
+  'RcCalendar.tsx': ['rc/calendar', 'ড্র ক্যালেন্ডার'],
+  /* ব্যাচ ৬ — যৌথ লক্ষ্য (JAM-01…JAM-10) */
+  'JgDashboard.tsx': ['jg', 'যৌথ লক্ষ্য'],
+  'JgGoals.tsx': ['jg/goals', 'লক্ষ্য তালিকা'],
+  'JgNew.tsx': ['jg/new', 'নতুন লক্ষ্য'],
+  'JgGoal.tsx': ['jg/goals/:goalId', 'লক্ষ্যের হাব'],
+  'JgParts.tsx': ['jg/goals/:goalId/parts', 'অংশগ্রহণকারী'],
+  'JgMilestones.tsx': ['jg/goals/:goalId/milestones', 'মাইলস্টোন'],
+  'JgDisb.tsx': ['jg/goals/:goalId/disbursements', 'বিতরণ ভাউচার'],
+  'JgSettle.tsx': ['jg/goals/:goalId/settle', 'নিষ্পত্তি'],
+  'JgArrears.tsx': ['jg/arrears', 'বকেয়া সংগ্রহ'],
+  'JgReports.tsx': ['jg/reports', 'যৌথ লক্ষ্য রিপোর্ট'],
 };
 
 S.sec('১ · ফাইল, রুট ও প্রোভাইডার (AM-01…AM-35)');
 {
-  S.eq('অ্যাডমিন পর্দার সংখ্যা ৩৬ (AM-01…AM-35 + আরও, + parts)', FILES.length, 36);
+  S.eq('অ্যাডমিন পর্দার সংখ্যা ৬০ (AM-01…AM-35 + RAM-01…RAM-12 + JAM-01…JAM-10)', FILES.length, 60);
   S.check('প্রতিটি ফাইলের রুট আছে', Object.keys(SCREENS).every((f) => existsSync(join(ROOT, `${DIR}/${f}`))), Object.keys(SCREENS).filter((f) => !existsSync(join(ROOT, `${DIR}/${f}`))).join(', '));
   const noRoute = Object.entries(SCREENS).filter(([, [p]]) => !APP.includes(`path="${p}"`));
   S.check('AdminMobileApp-এ প্রতিটি রুট মাউন্টেড', noRoute.length === 0, noRoute.map(([f]) => f).join(', '));
-  S.check('/a/* → AdminProvider + AdminMobileApp', /<AdminProvider>\s*<AdminMobileApp \/>\s*<\/AdminProvider>/.test(MAIN));
+  S.check('/a/* → AdminProvider + AdminMobileApp', /<AdminProvider>\s*(<AdminRoscaProvider>)?\s*(<AdminJointProvider>)?\s*<AdminMobileApp \/>/.test(MAIN));
   S.check('ভূমিকা ?role= থেকে (ডিফল্ট MANAGER)', /resolveAdminShell\(params\.get\('role'\)\)/.test(APP));
   S.check('কোনো AM পর্দায় "ফেজ ৩" প্লেসহোল্ডার নেই', FILES.every((f) => !/ফেজ ৩|শীঘ্রই আসছে|Coming soon/.test(txt(f.replace('.tsx', '')))));
   S.check('প্রতিটি পর্দায় ব্যবহারকারীর জন্য শিরোনাম আছে', FILES.every((f) => /text-h2|text-h3|text-h1|<Card[^>]*title=|<SectionHead[^>]*title=|<Hero[^>]*label=/.test(txt(f.replace('.tsx', '')))));
@@ -218,6 +244,58 @@ S.sec('৬ · ব্যাচ ৫ — নীতি, গণিত ও স্ট�
   S.check('ব্যাচ ৫-এর সব পর্দা স্টোর ব্যবহার করে', B5.every((f) => /useAdmin\(\)/.test(txt(f))), B5.filter((f) => !/useAdmin\(\)/.test(txt(f))).join(', '));
   S.check('ব্যাচ ৫-এ কোনো raw hex নেই', B5.every((f) => !/#[0-9a-fA-F]{3,8}\b/.test(txt(f))));
   S.check('ব্যাচ ৫-এ “ফেজ ৩/শীঘ্রই আসছে” নেই', !/ফেজ ৩|শীঘ্রই আসছে/.test(B5FILES));
+}
+
+
+S.sec('৬ · ব্যাচ ৬ — ROSCA ও যৌথ লক্ষ্য ডোমেইন');
+{
+  const RO = read('src/store/adminRoscaStore.tsx');
+  const JG = read('src/store/adminJointStore.tsx');
+  S.check('ROSCA স্টোরে maker ≠ checker বাধ্যবাধকতা', /নিজে প্রস্তুত করে নিজে অনুমোদন করা যাবে না/.test(RO));
+  S.check('ROSCA স্টোরে সম্পন্ন ড্র অপরিবর্তনীয়', /অপরিবর্তনীয়/.test(RO) && /status: 'executed'/.test(RO));
+  S.check('ROSCA স্টোরে রসিদ স্বয়ংক্রিয় ও অনন্য', /RP-2610-/.test(RO) && /receipt/.test(RO));
+  S.check('ROSCA স্টোরে ঘাটতি সিদ্ধান্ত নথিভুক্ত', /ঘাটতি/.test(RO) && /D-38/.test(RO));
+  S.check('যৌথ লক্ষ্যে যোগদান অনুমোদন বাধ্যতামূলক', /যোগদান অনুমোদিত/.test(JG) && /pending/.test(JG));
+  S.check('যৌথ লক্ষ্যে প্রমাণ ছাড়া ভাউচার নয় (D-50)', /প্রমাণের রেফারেন্স ছাড়া ভাউচার তৈরি হবে না/.test(JG));
+  S.check('যৌথ লক্ষ্যে maker ≠ checker', /নিজে প্রস্তুত করে নিজে অনুমোদন করা যাবে না/.test(JG));
+  S.check('যৌথ লক্ষ্যের সীমা ৫ (D-43)', /সক্রিয় লক্ষ্যের সীমা \(৫\) পূর্ণ/.test(JG));
+
+  const b2 = spawnSync(join(ROOT, 'node_modules/.bin/esbuild'), ['src/domain/adminRosca.ts', 'src/domain/adminJoint.ts', '--bundle', '--format=esm', '--outdir=node_modules/.cache/dt6', '--log-level=warning'], { cwd: ROOT, encoding: 'utf8' });
+  S.check('মডিউল ডোমেইন বান্ডল হয়েছে', b2.status === 0, (b2.stderr || '').slice(0, 200));
+  const R = await import(`${join(ROOT, 'node_modules/.cache/dt6')}/adminRosca.js`);
+  const J = await import(`${join(ROOT, 'node_modules/.cache/dt6')}/adminJoint.js`);
+  S.check('ROSCA ৩ স্কিম · ৪ চক্র · ১৮ ড্র', R.SEED_RC_SCHEMES.length === 3 && R.SEED_RC_CIRCLES.length === 4 && R.SEED_RC_DRAWS.length === 18);
+  const sc1 = R.SEED_RC_SCHEMES[0];
+  S.check('rcPerDraw = সিট × কিস্তি', R.rcPerDraw(sc1) === sc1.seats * sc1.contrib);
+  S.check('rcTotalPool = প্রতি ড্র × সিট', R.rcTotalPool(sc1) === R.rcPerDraw(sc1) * sc1.seats);
+  const rc1 = R.SEED_RC_CIRCLES[0];
+  const seats1 = R.rcSeats(rc1, sc1, R.SEED_RC_SEATS, R.SEED_RC_DRAWS, R.SEED_RC_MISSED, R.DEMO_EXTRA);
+  S.check('rcSeats সবসময় স্কিমের সিট সংখ্যা ফেরে', seats1.length === sc1.seats);
+  S.check('প্রাপক সিট "won", বকেয়া সিট "due"', seats1.some((s) => s.status === 'won') && seats1.some((s) => s.status === 'due'));
+  const rc02 = R.SEED_RC_CIRCLES[1];
+  const seats2 = R.rcSeats(rc02, R.rcSchemeById(R.SEED_RC_SCHEMES, rc02.scheme), R.SEED_RC_SEATS, R.SEED_RC_DRAWS, R.SEED_RC_MISSED, R.DEMO_EXTRA);
+  S.check('খালি সিট vacant হিসেবে আসে', seats2.some((s) => s.status === 'vacant'));
+  S.check('ঘাটতি = সম্পন্ন ড্র-পুল − সংগৃহীত', R.rcShortfall(rc1, sc1, R.SEED_RC_SEATS, R.SEED_RC_DRAWS, R.SEED_RC_MISSED, R.DEMO_EXTRA) >= 0);
+  S.check('মোট ডিফল্ট ৪ · খোলা ৩', R.SEED_RC_DEFAULTS.length === 4 && R.rcDefaultTotal(R.SEED_RC_DEFAULTS) > 0);
+  S.check('rcHash নির্ধারিত ও স্থিতিশীল', R.rcHash('abc') === R.rcHash('abc') && /^0x[0-9a-f]{8}$/.test(R.rcHash('abc')));
+  S.check('rcCandidates পেয়ে যাওয়া সিট বাদ দেয়', R.rcCandidates(seats1).every((s) => s.status !== 'won'));
+
+  S.check('যৌথ লক্ষ্য ৫টি · সীমা ৫ (D-43)', J.SEED_JGOALS.length === 5 && J.JG_LIMIT === 5);
+  const g1 = J.SEED_JGOALS[0];
+  S.check('jgCollected = অবদান যোগফল', J.jgCollected(J.SEED_JCONTRIBS, g1.id) === J.jgContribsOf(J.SEED_JCONTRIBS, g1.id).reduce((s, c) => s + c.amount, 0));
+  S.check('jgPctOf ০–১০০+ পরিসরে', J.jgPctOf(J.SEED_JCONTRIBS, g1) > 0);
+  S.check('jgActive সমাপ্ত লক্ষ্য বাদ দেয়', J.jgActive(J.SEED_JGOALS).every((g) => g.status !== 'closed'));
+  S.check('jgLimitLeft = ৫ − সক্রিয়', J.jgLimitLeft(J.SEED_JGOALS) === J.JG_LIMIT - J.jgActive(J.SEED_JGOALS).length);
+  const ms = J.jgMilestonesOf(g1, J.SEED_JCONTRIBS);
+  S.check('মাইলস্টোন ২৫/৫০/৭৫/১০০ · তারিখসহ', ms.length === 4 && ms[0].reachedAt !== null);
+  S.check('বকেয়া তালিকায় gap ধনাত্মক', J.jgAllArrears(J.SEED_JGOALS, J.SEED_JPARTS, J.SEED_JCONTRIBS).every((x) => x.gap > 0));
+  S.check('যৌথ লক্ষ্যে কোনো সুদ/মুনাফা নেই', !/profit|interest|dividend|মুনাফা/.test(JSON.stringify(J.SEED_JDISB)));
+  S.check('অংশগ্রহণকারীর প্রতিশ্রুতি > ০ (সক্রিয়)', J.SEED_JPARTS.filter((p) => p.status === 'active').every((p) => p.pledged > 0));
+
+  const usesRo = FILES.filter((f) => /useAdminRo\(\)/.test(txt(f.replace('.tsx', ''))));
+  const usesJg = FILES.filter((f) => /useAdminJg\(\)/.test(txt(f.replace('.tsx', ''))));
+  S.check('ROSCA পর্দাগুলো useAdminRo ব্যবহার করে', usesRo.length >= 12, `${usesRo.length}`);
+  S.check('যৌথ লক্ষ্য পর্দাগুলো useAdminJg ব্যবহার করে', usesJg.length >= 10, `${usesJg.length}`);
 }
 
 S.report();

@@ -119,18 +119,18 @@ am32,AM-32,রিমাইন্ডার ও যোগাযোগ (মোব�
 am33,AM-33,সেটিংস হাব (মোবাইল),Admin App,GeneralSavings,ORG_ADMIN · MANAGER (R) · AUDITOR (R),done,5,/a/settings, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
 am34,AM-34,"স্টাফ, রোল ও পারমিশন (মোবাইল)",Admin App,GeneralSavings,ORG_ADMIN,done,5,/a/staff, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
 am35,AM-35,অডিট লগ (মোবাইল),Admin App,GeneralSavings,AUDITOR · EXTERNAL_AUDITOR · ORG_ADMIN (R),done,5,/a/audit, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
-am36,RAM-01,ROSCA ড্যাশবোর্ড (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),todo,6,,
-am37,RAM-02,চক্র স্কিম তালিকা (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · ACCOUNTANT (R) · AUDITOR (R),todo,6,,
-am38,RAM-03,স্কিম তৈরি / সম্পাদনা (মোবাইল),Admin App,ROSCA,ORG_ADMIN · MANAGER (প্রস্তাব),todo,6,,
-am39,RAM-04,সক্রিয় চক্র তালিকা (মোবাইল),Admin App,ROSCA,সব অ্যাডমিন রোল · COLLECTOR নিজের রুট,todo,6,,
-am40,RAM-05,চক্র বিস্তারিত হাব (মোবাইল),Admin App,ROSCA,সব অ্যাডমিন রোল · COLLECTOR নিজের রুট,todo,6,,
-am41,RAM-06,সিট বরাদ্দ / সদস্য নির্বাচন (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · COLLECTOR (প্রস্তাব),todo,6,,
-am42,RAM-07,ড্র ক্যালেন্ডার ও ক্রম (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · AUDITOR (R),todo,6,,
-am43,RAM-08,ড্র সম্পাদন (মোবাইল · ফ্লো),Admin App,ROSCA,MANAGER (প্রস্তুত) · APPROVER/ORG_ADMIN (অনুমোদন),todo,6,,
-am44,RAM-09,ড্র রেজিস্টার (মোবাইল),Admin App,ROSCA,AUDITOR · MANAGER · ACCOUNTANT (R),todo,6,,
-am45,RAM-10,কিস্তি সংগ্রহ ও বকেয়া (মোবাইল),Admin App,ROSCA,COLLECTOR · ACCOUNTANT · MANAGER,todo,6,,
-am46,RAM-11,ডিফল্ট ও প্রতিস্থাপন (মোবাইল),Admin App,ROSCA,MANAGER · APPROVER · ORG_ADMIN,todo,6,,
-am47,RAM-12,ROSCA রিপোর্ট (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · AUDITOR (R),todo,6,,
+am36,RAM-01,ROSCA ড্যাশবোর্ড (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),done,6,/a/rc,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am37,RAM-02,চক্র স্কিম তালিকা (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · ACCOUNTANT (R) · AUDITOR (R),done,6,/a/rc/schemes,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am38,RAM-03,স্কিম তৈরি / সম্পাদনা (মোবাইল),Admin App,ROSCA,ORG_ADMIN · MANAGER (প্রস্তাব),done,6,/a/rc/schemes/new,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am39,RAM-04,সক্রিয় চক্র তালিকা (মোবাইল),Admin App,ROSCA,সব অ্যাডমিন রোল · COLLECTOR নিজের রুট,done,6,/a/rc/circles,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am40,RAM-05,চক্র বিস্তারিত হাব (মোবাইল),Admin App,ROSCA,সব অ্যাডমিন রোল · COLLECTOR নিজের রুট,done,6,/a/rc/circles/:circleId,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am41,RAM-06,সিট বরাদ্দ / সদস্য নির্বাচন (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · COLLECTOR (প্রস্তাব),done,6,/a/rc/circles/:circleId/seats,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am42,RAM-07,ড্র ক্যালেন্ডার ও ক্রম (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · AUDITOR (R),done,6,/a/rc/calendar,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am43,RAM-08,ড্র সম্পাদন (মোবাইল · ফ্লো),Admin App,ROSCA,MANAGER (প্রস্তুত) · APPROVER/ORG_ADMIN (অনুমোদন),done,6,/a/rc/circles/:circleId/draw,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am44,RAM-09,ড্র রেজিস্টার (মোবাইল),Admin App,ROSCA,AUDITOR · MANAGER · ACCOUNTANT (R),done,6,/a/rc/register,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am45,RAM-10,কিস্তি সংগ্রহ ও বকেয়া (মোবাইল),Admin App,ROSCA,COLLECTOR · ACCOUNTANT · MANAGER,done,6,/a/rc/collect,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am46,RAM-11,ডিফল্ট ও প্রতিস্থাপন (মোবাইল),Admin App,ROSCA,MANAGER · APPROVER · ORG_ADMIN,done,6,/a/rc/defaults,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am47,RAM-12,ROSCA রিপোর্ট (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · AUDITOR (R),done,6,/a/rc/reports,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
 a51,JA-01,যৌথ লক্ষ্য ড্যাশবোর্ড,Admin Web,JointGoal,,todo,8,,
 a52,JA-02,লক্ষ্য তালিকা ও পরিকল্পনা সীমা,Admin Web,JointGoal,,todo,8,,
 a53,JA-03,লক্ষ্য তৈরি / সম্পাদনা (নিয়ম ও সংস্করণ),Admin Web,JointGoal,,todo,8,,
@@ -141,16 +141,16 @@ a57,JA-07,মাইলস্টোন ও অগ্রগতি ট্র্য�
 a58,JA-08,অর্থ ব্যবহার ও বিতরণ,Admin Web,JointGoal,,todo,8,,
 a59,JA-09,মেয়াদোত্তীর্ণ ও নিষ্পত্তি,Admin Web,JointGoal,,todo,8,,
 a60,JA-10,Joint Goal রিপোর্ট ও নিরীক্ষা,Admin Web,JointGoal,,todo,8,,
-am48,JAM-01,যৌথ লক্ষ্য ড্যাশবোর্ড (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),todo,6,,
-am49,JAM-02,লক্ষ্য তালিকা (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · APPROVER,todo,6,,
-am50,JAM-03,লক্ষ্য তৈরি / সম্পাদনা (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN (প্রস্তাব),todo,6,,
-am51,JAM-04,লক্ষ্য বিস্তারিত হাব (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),todo,6,,
-am52,JAM-05,যোগদান অনুমোদন (মোবাইল),Admin App,JointGoal,APPROVER · ORG_ADMIN · MANAGER (প্রস্তাব),todo,6,,
-am53,JAM-06,অবদান সংগ্রহ কিউ (মোবাইল),Admin App,JointGoal,COLLECTOR (এন্ট্রি) · ACCOUNTANT · MANAGER,todo,6,,
-am54,JAM-07,মাইলস্টোন ও অগ্রগতি (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),todo,6,,
-am55,JAM-08,বিতরণ অনুমোদন (মোবাইল),Admin App,JointGoal,APPROVER · ORG_ADMIN · MANAGER (সীমা অনুযায়ী) · ACCOUNTANT (প্রস্তাব),todo,6,,
-am56,JAM-09,মেয়াদোত্তীর্ণ ও নিষ্পত্তি (মোবাইল),Admin App,JointGoal,MANAGER · APPROVER · ORG_ADMIN · ACCOUNTANT (ছক),todo,6,,
-am57,JAM-10,Joint Goal রিপোর্ট (মোবাইল),Admin App,JointGoal,AUDITOR · MANAGER · ORG_ADMIN (R),todo,6,,
+am48,JAM-01,যৌথ লক্ষ্য ড্যাশবোর্ড (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),done,6,/a/jg,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am49,JAM-02,লক্ষ্য তালিকা (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · APPROVER,done,6,/a/jg/goals,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am50,JAM-03,লক্ষ্য তৈরি / সম্পাদনা (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN (প্রস্তাব),done,6,/a/jg/new,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am51,JAM-04,লক্ষ্য বিস্তারিত হাব (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),done,6,/a/jg/goals/:goalId,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am52,JAM-05,যোগদান অনুমোদন (মোবাইল),Admin App,JointGoal,APPROVER · ORG_ADMIN · MANAGER (প্রস্তাব),done,6,/a/jg/goals/:goalId/parts,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am53,JAM-06,অবদান সংগ্রহ কিউ (মোবাইল),Admin App,JointGoal,COLLECTOR (এন্ট্রি) · ACCOUNTANT · MANAGER,done,6,/a/jg/arrears,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am54,JAM-07,মাইলস্টোন ও অগ্রগতি (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),done,6,/a/jg/goals/:goalId/milestones,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am55,JAM-08,বিতরণ অনুমোদন (মোবাইল),Admin App,JointGoal,APPROVER · ORG_ADMIN · MANAGER (সীমা অনুযায়ী) · ACCOUNTANT (প্রস্তাব),done,6,/a/jg/goals/:goalId/disbursements,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am56,JAM-09,মেয়াদোত্তীর্ণ ও নিষ্পত্তি (মোবাইল),Admin App,JointGoal,MANAGER · APPROVER · ORG_ADMIN · ACCOUNTANT (ছক),done,6,/a/jg/goals/:goalId/settle,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am57,JAM-10,Joint Goal রিপোর্ট (মোবাইল),Admin App,JointGoal,AUDITOR · MANAGER · ORG_ADMIN (R),done,6,/a/jg/reports,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
 m28,JM-01,আমাদের লক্ষ্য,Member App,JointGoal,MEMBER,done,3,/m/goals,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"
 m29,JM-02,লক্ষ্য বিস্তারিত,Member App,JointGoal,MEMBER,done,3,/m/goals/:goalId,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"
 m30,JM-03,যোগদান ও প্রতিশ্রুতি,Member App,JointGoal,MEMBER,done,3,/m/goals/:goalId/join,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"

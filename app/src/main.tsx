@@ -7,6 +7,8 @@ import { MemberProvider } from './store/memberStore';
 import { ModuleProvider } from './store/moduleStore';
 import { SessionProvider } from './store/sessionStore';
 import { AdminProvider } from './store/adminStore';
+import { AdminRoscaProvider } from './store/adminRoscaStore';
+import { AdminJointProvider } from './store/adminJointStore';
 import Login from './apps/shared/screens/Login';
 import OrgSwitcher from './apps/shared/screens/OrgSwitcher';
 import AccountSettings from './apps/shared/screens/AccountSettings';
@@ -34,7 +36,7 @@ createRoot(el).render(
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/m/*" element={<MemberProvider><ModuleProvider><MemberApp /></ModuleProvider></MemberProvider>} />
-          <Route path="/a/*" element={<AdminProvider><AdminMobileApp /></AdminProvider>} />
+          <Route path="/a/*" element={<AdminProvider><AdminRoscaProvider><AdminJointProvider><AdminMobileApp /></AdminJointProvider></AdminRoscaProvider></AdminProvider>} />
           <Route path="/w/*" element={<AdminWebApp />} />
           {/* শেয়ার্ড পর্দা S-01…S-08 — সব প্যানেলেই ব্যবহৃত */}
           <Route path="/login" element={<Login />} />

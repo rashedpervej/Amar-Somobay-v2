@@ -4,6 +4,7 @@
    ব্যাচ ৪: AM-01…AM-20 (হোম · অনুমোদন · সদস্য · এন্ট্রি · লেজার · ক্যাশ · পেমেন্ট · সংশোধন · দাবি · তহবিল)।
    ব্যাচ ৫: AM-21…AM-35 (রিকনসিলিয়েশন · ব্যাচ · ইমপোর্ট · আর্থিক · রিপোর্ট ·
    স্কিম · স্থানান্তর · রুট · রিমাইন্ডার · সেটিংস · স্টাফ · অডিট)।
+   ব্যাচ ৬: RAM-01…RAM-12 (ROSCA) + JAM-01…JAM-10 (যৌথ লক্ষ্য) — /a/rc/* ও /a/jg/*।
    ============================================================ */
 
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
@@ -46,6 +47,30 @@ import Settings from './screens/Settings';
 import StaffScreen from './screens/Staff';
 import AuditLog from './screens/AuditLog';
 import AdminMore from './screens/AdminMore';
+import RcDashboard from './screens/RcDashboard';
+import RcCircles from './screens/RcCircles';
+import RcNew from './screens/RcNew';
+import RcCircle from './screens/RcCircle';
+import RcSeats from './screens/RcSeats';
+import RcDrawRun from './screens/RcDrawRun';
+import RcDrawDetail from './screens/RcDrawDetail';
+import RcPool from './screens/RcPool';
+import RcRegister from './screens/RcRegister';
+import RcCollect from './screens/RcCollect';
+import RcDefaults from './screens/RcDefaults';
+import RcReports from './screens/RcReports';
+import RcSchemes from './screens/RcSchemes';
+import RcCalendar from './screens/RcCalendar';
+import JgDashboard from './screens/JgDashboard';
+import JgGoals from './screens/JgGoals';
+import JgNew from './screens/JgNew';
+import JgGoal from './screens/JgGoal';
+import JgParts from './screens/JgParts';
+import JgArrears from './screens/JgArrears';
+import JgMilestones from './screens/JgMilestones';
+import JgDisb from './screens/JgDisb';
+import JgSettle from './screens/JgSettle';
+import JgReports from './screens/JgReports';
 
 /* শেলের নেভ-কী → রুট */
 const ROUTE_BY_KEY: Record<string, string> = {
@@ -80,6 +105,26 @@ const ROUTE_BY_KEY: Record<string, string> = {
   fin: '/a/finance',
   mv: '/a/moves',
   more: '/a/more',
+  /* ব্যাচ ৬ — ROSCA */
+  rcdash: '/a/rc',
+  rcscheme: '/a/rc/schemes',
+  rccalendar: '/a/rc/calendar',
+  rccircle: '/a/rc/circles',
+  rcnew: '/a/rc/new',
+  rcdraw: '/a/rc/register',
+  rcseat: '/a/rc/circles/rc01/seats',
+  rccollect: '/a/rc/collect',
+  rcdefault: '/a/rc/defaults',
+  rcreport: '/a/rc/reports',
+  /* ব্যাচ ৬ — যৌথ লক্ষ্য */
+  jgdash: '/a/jg',
+  jggoal: '/a/jg/goals',
+  jgnew: '/a/jg/new',
+  jgpart: '/a/jg/goals/jg01/parts',
+  jgarrear: '/a/jg/arrears',
+  jgdisb: '/a/jg/goals/jg02/disbursements',
+  jgsettle: '/a/jg/goals/jg03/settle',
+  jgreport: '/a/jg/reports',
 };
 
 /** পথ → পর্দা-শিরোনাম (প্রোটোটাইপের হেডার কপি) */
@@ -120,6 +165,33 @@ function metaFor(path: string, fallback: { title: string; sub: string }) {
   if (path === '/a/staff') return { title: 'স্টাফ ও পারমিশন', sub: 'ভূমিকা ও সীমা', model: 'deep' as const };
   if (path === '/a/audit') return { title: 'অডিট লগ', sub: 'অপরিবর্তনীয় · শুধু পঠন', model: 'deep' as const };
   if (path === '/a/more') return { title: 'সব বিভাগ', sub: 'অ্যাডমিন মোবাইল', model: 'deep' as const };
+  /* ---- ব্যাচ ৬ · ROSCA (RAM) ---- */
+  if (path === '/a/rc') return { title: 'ROSCA', sub: 'চক্র ও ড্র নিয়ন্ত্রণ', model: 'landing' as const };
+  if (path === '/a/rc/circles') return { title: 'চক্র তালিকা', sub: 'সিট ও পুল অবস্থা', model: 'deep' as const };
+  if (path === '/a/rc/new') return { title: 'নতুন চক্র', sub: 'স্কিম ও নিয়ম সংস্করণ', model: 'flow' as const };
+  if (path === '/a/rc/schemes/new') return { title: 'স্কিম তৈরি', sub: 'নতুন সংস্করণ · ৩ ধাপ', model: 'flow' as const };
+  if (path === '/a/rc/schemes') return { title: 'চক্র স্কিম', sub: 'নিয়ম ও সংস্করণ', model: 'deep' as const };
+  if (path === '/a/rc/calendar') return { title: 'ড্র ক্যালেন্ডার', sub: 'আসন্ন ও সম্পন্ন ড্র', model: 'deep' as const };
+  if (/^\/a\/rc\/circles\/[^/]+\/seats$/.test(path)) return { title: 'সিট বরাদ্দ', sub: 'খালি সিট ও ওয়েটলিস্ট', model: 'flow' as const };
+  if (/^\/a\/rc\/circles\/[^/]+\/draw$/.test(path)) return { title: 'ড্র পরিচালনা', sub: '৫ ধাপ · maker ≠ checker', model: 'flow' as const };
+  if (/^\/a\/rc\/circles\/[^/]+\/pool$/.test(path)) return { title: 'পুল ও ঘাটতি', sub: 'সিদ্ধান্ত ও নথি', model: 'deep' as const };
+  if (path.startsWith('/a/rc/circles/')) return { title: 'চক্রের হাব', sub: 'সারাংশ · সিট · ড্র', model: 'deep' as const };
+  if (path.startsWith('/a/rc/draws/')) return { title: 'ড্রের রসিদ', sub: 'যাচাই ও প্রমাণ', model: 'deep' as const };
+  if (path === '/a/rc/register') return { title: 'ড্র রেজিস্টার', sub: 'অপরিবর্তনীয় রেকর্ড', model: 'deep' as const };
+  if (path === '/a/rc/collect') return { title: 'কিস্তি সংগ্রহ', sub: 'বকেয়া ও আদায়', model: 'deep' as const };
+  if (path === '/a/rc/defaults') return { title: 'ডিফল্ট ও প্রতিস্থাপন', sub: 'D-41 · D-46', model: 'deep' as const };
+  if (path === '/a/rc/reports') return { title: 'ROSCA রিপোর্ট', sub: 'তহবিল ও সংগ্রহ', model: 'deep' as const };
+  /* ---- ব্যাচ ৬ · যৌথ লক্ষ্য (JAM) ---- */
+  if (path === '/a/jg') return { title: 'যৌথ লক্ষ্য', sub: 'মডিউল ৩ · তহবিল দায়', model: 'landing' as const };
+  if (path === '/a/jg/goals') return { title: 'লক্ষ্য তালিকা', sub: 'সীমা ও অগ্রগতি', model: 'deep' as const };
+  if (path === '/a/jg/new') return { title: 'নতুন লক্ষ্য', sub: '৩ ধাপ · অনুমোদন', model: 'flow' as const };
+  if (/^\/a\/jg\/goals\/[^/]+\/parts$/.test(path)) return { title: 'অংশগ্রহণকারী', sub: 'যোগদান অনুমোদন', model: 'deep' as const };
+  if (/^\/a\/jg\/goals\/[^/]+\/milestones$/.test(path)) return { title: 'মাইলস্টোন', sub: 'অবদানের ধারা', model: 'deep' as const };
+  if (/^\/a\/jg\/goals\/[^/]+\/disbursements$/.test(path)) return { title: 'বিতরণ ভাউচার', sub: 'প্রমাণ ছাড়া নয়', model: 'flow' as const };
+  if (/^\/a\/jg\/goals\/[^/]+\/settle$/.test(path)) return { title: 'নিষ্পত্তি', sub: 'ফেরত ও অনুমোদন', model: 'flow' as const };
+  if (path.startsWith('/a/jg/goals/')) return { title: 'লক্ষ্যের হাব', sub: 'অগ্রগতি ও হিসাব', model: 'deep' as const };
+  if (path === '/a/jg/arrears') return { title: 'বকেয়া সংগ্রহ', sub: 'অবদান ও রিমাইন্ডার', model: 'deep' as const };
+  if (path === '/a/jg/reports') return { title: 'যৌথ লক্ষ্য রিপোর্ট', sub: 'তহবিল ও ব্যয়', model: 'deep' as const };
   return { title: fallback.title, sub: fallback.sub, model: 'deep' as const };
 }
 
@@ -157,6 +229,8 @@ export default function AdminMobileApp() {
     if (p === '/a/finance') return 'summary';
     if (p === '/a/moves') return 'mv';
     if (p === '/a/more') return 'more';
+    if (p === '/a/rc' || p.startsWith('/a/rc/')) return 'rcdash';
+    if (p === '/a/jg' || p.startsWith('/a/jg/')) return 'jgdash';
     return slots.find((s) => ROUTE_BY_KEY[s.key] === p)?.key ?? 'home';
   })();
   const roleQS = params.get('role') ? `?role=${params.get('role')}` : '';
@@ -212,6 +286,31 @@ export default function AdminMobileApp() {
         <Route path="staff" element={<StaffScreen />} />
         <Route path="audit" element={<AuditLog />} />
         <Route path="more" element={<AdminMore />} />
+        <Route path="rc" element={<RcDashboard />} />
+        <Route path="rc/circles" element={<RcCircles />} />
+        <Route path="rc/new" element={<RcNew />} />
+        <Route path="rc/schemes" element={<RcSchemes />} />
+        <Route path="rc/schemes/new" element={<RcNew />} />
+        <Route path="rc/calendar" element={<RcCalendar />} />
+        <Route path="rc/circles/:circleId" element={<RcCircle />} />
+        <Route path="rc/circles/:circleId/seats" element={<RcSeats />} />
+        <Route path="rc/circles/:circleId/draw" element={<RcDrawRun />} />
+        <Route path="rc/circles/:circleId/pool" element={<RcPool />} />
+        <Route path="rc/draws/:drawId" element={<RcDrawDetail />} />
+        <Route path="rc/register" element={<RcRegister />} />
+        <Route path="rc/collect" element={<RcCollect />} />
+        <Route path="rc/defaults" element={<RcDefaults />} />
+        <Route path="rc/reports" element={<RcReports />} />
+        <Route path="jg" element={<JgDashboard />} />
+        <Route path="jg/goals" element={<JgGoals />} />
+        <Route path="jg/new" element={<JgNew />} />
+        <Route path="jg/goals/:goalId" element={<JgGoal />} />
+        <Route path="jg/goals/:goalId/parts" element={<JgParts />} />
+        <Route path="jg/goals/:goalId/milestones" element={<JgMilestones />} />
+        <Route path="jg/goals/:goalId/disbursements" element={<JgDisb />} />
+        <Route path="jg/goals/:goalId/settle" element={<JgSettle />} />
+        <Route path="jg/arrears" element={<JgArrears />} />
+        <Route path="jg/reports" element={<JgReports />} />
         <Route path="soon/:key" element={<SoonRoute />} />
         <Route path="*" element={<Navigate to={`/a/home${roleQS}`} replace />} />
       </Routes>

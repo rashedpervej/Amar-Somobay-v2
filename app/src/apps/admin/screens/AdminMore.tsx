@@ -7,8 +7,8 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import {
   AlertTriangle, BarChart3, Banknote, BookOpen, CheckCheck, ClipboardList, Coins, Download,
-  FileSpreadsheet, FileText, GitCompareArrows, ListChecks, Route, Settings, ShieldCheck,
-  UserPlus, Users, Wallet,
+  FileSpreadsheet, FileText, GitCompareArrows, ListChecks, RefreshCw, Route, Settings, ShieldCheck,
+  Target, UserPlus, Users, Wallet,
 } from 'lucide-react';
 import { Card, SectionHead } from '../../../components/ui';
 import { useAdmin } from '../../../store/adminStore';
@@ -52,6 +52,19 @@ export default function AdminMore() {
         { to: '/a/reminders', icon: BarChart3, label: 'রিমাইন্ডার', sub: `SMS ৳${bn(state.sms.balance)}` },
         { to: '/a/settings', icon: Settings, label: 'সেটিংস', sub: 'নীতি ও টগল' },
         { to: '/a/staff', icon: ShieldCheck, label: 'স্টাফ ও পারমিশন', sub: `${bn(state.staff.length)} জন` },
+      ],
+    },
+    {
+      t: 'মডিউল · ROSCA ও যৌথ লক্ষ্য',
+      items: [
+        { to: '/a/rc', icon: RefreshCw, label: 'ROSCA ড্যাশবোর্ড', sub: 'চক্র ও ড্র' },
+        { to: '/a/rc/circles', icon: Users, label: 'চক্র তালিকা', sub: 'সিট ও পুল' },
+        { to: '/a/rc/collect', icon: Wallet, label: 'কিস্তি সংগ্রহ', sub: 'বকেয়া ও রিমাইন্ডার' },
+        { to: '/a/rc/defaults', icon: AlertTriangle, label: 'ডিফল্ট ও প্রতিস্থাপন', sub: 'D-41 · D-46' },
+        { to: '/a/jg', icon: Target, label: 'যৌথ লক্ষ্য', sub: 'মডিউল ৩ · তহবিল' },
+        { to: '/a/jg/goals', icon: ListChecks, label: 'লক্ষ্য তালিকা', sub: 'সীমা ৫ (D-43)' },
+        { to: '/a/rc/reports', icon: BarChart3, label: 'ROSCA রিপোর্ট', sub: 'তহবিল ও সংগ্রহ' },
+        { to: '/a/jg/reports', icon: FileText, label: 'যৌথ লক্ষ্য রিপোর্ট', sub: 'ব্যয় ও প্রমাণ' },
       ],
     },
     {

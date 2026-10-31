@@ -6,6 +6,8 @@ import { MemberProvider } from '../src/store/memberStore';
 import { ModuleProvider } from '../src/store/moduleStore';
 import { SessionProvider } from '../src/store/sessionStore';
 import { AdminProvider } from '../src/store/adminStore';
+import { AdminRoscaProvider } from '../src/store/adminRoscaStore';
+import { AdminJointProvider } from '../src/store/adminJointStore';
 import AdminMobileApp from '../src/apps/admin/AdminMobileApp';
 import Login from '../src/apps/shared/screens/Login';
 import OrgSwitcher from '../src/apps/shared/screens/OrgSwitcher';
@@ -49,6 +51,16 @@ const ADMIN_ROUTES = [
   ['/a/schemes/sc1', 'স্কিম বিবরণ'], ['/a/schemes/new', 'নতুন স্কিম তৈরি'], ['/a/schemes/sc1/edit', 'স্কিম সম্পাদনা'],
   ['/a/moves', 'সদস্য স্থানান্তর'], ['/a/routes', 'সংগ্রহ পরিকল্পনা'], ['/a/reminders', 'রিমাইন্ডার শিডিউল'],
   ['/a/settings', 'সেটিংস হাব'], ['/a/staff', 'স্টাফ ও পারমিশন'], ['/a/audit', 'অডিট লগ'], ['/a/more', 'সব বিভাগ'],
+  // ব্যাচ ৬ — ROSCA (RAM-01…RAM-12)
+  ['/a/rc', 'ROSCA তহবিলের দায় ব্যালেন্স'], ['/a/rc/circles', 'চক্র খুঁজুন'], ['/a/rc/new', 'নতুন চক্র'], ['/a/rc/schemes', 'চক্র স্কিম'], ['/a/rc/calendar', 'ড্র ক্যালেন্ডার'],
+  ['/a/rc/circles/rc01', 'চক্রের তথ্য'], ['/a/rc/circles/rc01/seats', 'সিট বরাদ্দ'], ['/a/rc/circles/rc01/draw', 'পুল গণনা'],
+  ['/a/rc/circles/rc01/pool', 'ঘাটতির সিদ্ধান্ত'], ['/a/rc/draws/rc01-d1', 'যাচাই'], ['/a/rc/register', 'ড্র রেজিস্টার'],
+  ['/a/rc/collect', 'বকেয়া তালিকা'], ['/a/rc/defaults', 'প্রতিকারের ল্যাডার'], ['/a/rc/reports', 'চক্রভিত্তিক সারাংশ'],
+  // ব্যাচ ৬ — যৌথ লক্ষ্য (JAM-01…JAM-10)
+  ['/a/jg', 'মোট নির্দিষ্ট লক্ষ্য তহবিল'], ['/a/jg/goals', 'লক্ষ্য খুঁজুন'], ['/a/jg/new', 'মৌলিক তথ্য'],
+  ['/a/jg/goals/jg01', 'মাইলস্টোন'], ['/a/jg/goals/jg01/parts', 'প্রতিশ্রুতি'],
+  ['/a/jg/goals/jg01/milestones', 'অবদানের ধারা'], ['/a/jg/goals/jg02/disbursements', 'বিতরণ ভাউচার'],
+  ['/a/jg/goals/jg03/settle', 'নিষ্পত্তির ধাপ'], ['/a/jg/arrears', 'অবদান রেকর্ড'], ['/a/jg/reports', 'মাধ্যমভিত্তিক সংগ্রহ'],
 ];
 
 const SHARED_ROUTES = [
@@ -89,8 +101,10 @@ for (const [route, title] of ADMIN_ROUTES) {
     const html = renderToStaticMarkup(
       React.createElement(MemoryRouter, { initialEntries: [route] },
         React.createElement(AdminProvider, null,
-          React.createElement(Routes, null,
-            React.createElement(Route, { path: '/a/*', element: React.createElement(AdminMobileApp) })))),
+          React.createElement(AdminRoscaProvider, null,
+            React.createElement(AdminJointProvider, null,
+              React.createElement(Routes, null,
+                React.createElement(Route, { path: '/a/*', element: React.createElement(AdminMobileApp) })))))),
     );
     const ok = html.length > 1200 && html.includes(title);
     console.log(`${ok ? 'PASS' : 'FAIL'} ${route} — ${html.length} bytes`);
