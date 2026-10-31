@@ -29,7 +29,7 @@ export function SoonCard({
         </p>
         {note ? <p className="text-xs text-mut mt-2">{note}</p> : null}
         <p className="text-xs text-mut mt-3">
-          মোট পরিকল্পিত পর্দা {bn(207)} — এখন তৈরি {bn(7)}টি (শেল ডেমো + সদস্য ৫ + অ্যাডমিন ২)।
+          মোট পরিকল্পিত পর্দা {bn(205)} — প্রোটোটাইপের {bn(199)} + নতুন {bn(6)}।
         </p>
       </Card>
     </div>

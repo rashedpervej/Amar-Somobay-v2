@@ -15,6 +15,7 @@ const SUITES = [
   ['D-04 · Source A স্ক্যান + SQL শৃঙ্খলা', 'd04-source-a-scan.mjs'],
   ['D-05 · শেল ও নেভিগেশন চুক্তি', 'd05-shell-contract.mjs'],
   ['D-06 · পর্দা ও রাউট চুক্তি', 'd06-screens-contract.mjs'],
+  ['D-07 · স্ক্রিন ইনভেন্টরি ও অগ্রগতি', 'd07-inventory.mjs'],
 ];
 
 const BN = '০১২৩৪৫৬৭৮৯';
