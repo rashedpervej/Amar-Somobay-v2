@@ -48,11 +48,11 @@ export function Card({
 
 /* ---------------- Button ---------------- */
 export function Button({
-  children, variant = 'primary', size = 'md', block, disabled, onClick, type = 'button', icon, title,
+  children, variant = 'primary', size = 'md', block, disabled, onClick, type = 'button', icon, title, className = '',
 }: {
   children: ReactNode; variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'gold';
   size?: 'sm' | 'md' | 'lg'; block?: boolean; disabled?: boolean; onClick?: () => void;
-  type?: 'button' | 'submit'; icon?: ReactNode; title?: string;
+  type?: 'button' | 'submit'; icon?: ReactNode; title?: string; className?: string;
 }) {
   const base = 'inline-flex items-center justify-center gap-2 font-bold rounded-r-sm border transition active:scale-[.98] disabled:opacity-50 disabled:pointer-events-none';
   const sizes = { sm: 'min-h-9 px-3 text-sm', md: 'min-h-tap px-4 text-body', lg: 'min-h-tap-lg px-5 text-body-l' }[size];
@@ -65,7 +65,7 @@ export function Button({
   }[variant];
   return (
     <button type={type} title={title} aria-label={typeof children === 'string' ? children : title}
-      className={`${base} ${sizes} ${variants} ${block ? 'w-full' : ''}`} disabled={disabled} onClick={onClick}>
+      className={`${base} ${sizes} ${variants} ${block ? 'w-full' : ''} ${className}`} disabled={disabled} onClick={onClick}>
       {icon}{children}
     </button>
   );

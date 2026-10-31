@@ -16,6 +16,7 @@ const SUITES = [
   ['D-05 · শেল ও নেভিগেশন চুক্তি', 'd05-shell-contract.mjs'],
   ['D-06 · পর্দা ও রাউট চুক্তি', 'd06-screens-contract.mjs'],
   ['D-07 · স্ক্রিন ইনভেন্টরি ও অগ্রগতি', 'd07-inventory.mjs'],
+  ['D-08 · সদস্য অ্যাপ পর্দা ও কার্যকারিতা', 'd08-member-screens.mjs'],
 ];
 
 const BN = '০১২৩৪৫৬৭৮৯';

@@ -1,83 +1,84 @@
 /* ============================================================
-   src/apps/member/screens/Deposit.tsx — M-06 জমা প্রদান (ও M-07 রসিদ)
-   তিন ধাপের ফ্লো এক পর্দায়: অঙ্ক → মাধ্যম → নিশ্চিতকরণ → রসিদ।
-   এখানে কোনো অর্থ গৃহীত হয় না (ডেমো) — ফেজ ৬-এ API।
+   src/apps/member/screens/Deposit.tsx — M-06 জমা প্রদান (নির্দিষ্ট ফর্ম)
+   অঙ্ক → মাধ্যম → নিশ্চিতকরণ (আসল স্টোর-আপডেট) → M-07 স্বতন্ত্র রসিদ পর্দা।
    ============================================================ */
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CheckCircle2, Receipt } from 'lucide-react';
-import { Badge, Button, Card, Chipset, Chip } from '../../../components/ui';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Receipt, ShieldCheck } from 'lucide-react';
+import { Badge, Button, Card, Chip, Chipset } from '../../../components/ui';
+import { ErrorBanner, Field, inputClass } from '../../../components/form';
 import { bn } from '../../../lib/bn';
-import { savingsAccount } from '../../../demo/data';
+import type { DepositMode } from '../../../domain/member';
+import { useMember } from '../../../store/memberStore';
 
 const QUICK = [500, 1000, 2000, 5000];
-const MODES = ['নগদ', 'বিকাশ', 'ব্যাংক'] as const;
+const MODES: DepositMode[] = ['নগদ', 'বিকাশ', 'ব্যাংক'];
 
 export default function Deposit() {
   const navigate = useNavigate();
-  const [amount, setAmount] = useState<number | ''>(1000);
-  const [mode, setMode] = useState<(typeof MODES)[number]>('নগদ');
-  const [done, setDone] = useState(false);
+  const { balance, payable, addDeposit } = useMember();
+  const [params] = useSearchParams();
+  const preAmount = Number(params.get('amount') ?? '') || 1000;
+  const [amount, setAmount] = useState<number | ''>(preAmount);
+  const [mode, setMode] = useState<DepositMode>('নগদ');
+  const [note, setNote] = useState(params.get('note') ?? '');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [busy, setBusy] = useState(false);
 
   const value = typeof amount === 'number' ? amount : 0;
-  const valid = value >= 100;
 
-  if (done) {
-    return (
-      <div className="p-4 space-y-4">
-        <div className="rounded-r-lg bg-ok-bg border border-ok-bd p-5 text-center">
-          <CheckCircle2 className="mx-auto text-ok" size={40} />
-          <h2 className="text-h2 text-ok-ink mt-2">জমা নিশ্চিত হয়েছে</h2>
-          <p className="text-sm text-ok-ink/80 mt-1">ডেমো রসিদ — বাস্তবে কোনো টাকা নেওয়া হয়নি</p>
-        </div>
-        <Card title="রসিদ">
-          <dl className="text-sm divide-y divide-line-2">
-            {[
-              ['অঙ্ক', `৳${bn(value)}`],
-              ['মাধ্যম', mode],
-              ['হিসাব', savingsAccount.planName],
-              ['রসিদ নম্বর', 'RCP-১০৩১'],
-              ['তারিখ', '৩১ অক্টো ২০২৬'],
-            ].map(([k, v]) => (
-              <div key={k} className="flex justify-between py-2">
-                <dt className="text-mut">{k}</dt>
-                <dd className="font-bold text-txt num">{v}</dd>
-              </div>
-            ))}
-          </dl>
-        </Card>
-        <div className="grid grid-cols-2 gap-2">
-          <Button variant="secondary" onClick={() => { setDone(false); setAmount(1000); }}>
-            আরেকটি জমা
-          </Button>
-          <Button onClick={() => navigate('/m/home')}>হোমে ফিরুন</Button>
-        </div>
-      </div>
-    );
+  function validate() {
+    const e: Record<string, string> = {};
+    if (!value) e.amount = 'জমার অঙ্ক লিখুন';
+    else if (value < 100) e.amount = 'সর্বনিম্ন ৳১০০';
+    else if (value > 100000) e.amount = 'একবারে সর্বোচ্চ ৳১,০০,০০০ — বেশি হলে শাখায় যোগাযোগ করুন';
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  }
+
+  async function submit() {
+    if (!validate()) return;
+    setBusy(true);
+    try {
+      const dep = await addDeposit({ amount: value, mode, note: note.trim() || undefined });
+      navigate(`/m/deposit/receipt/${dep.id}`, { replace: true });
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
     <div className="p-4 space-y-4">
       <Card title="কত টাকা জমা দিচ্ছেন?" sub="সর্বনিম্ন ৳১০০">
-        <div className="rounded-r-sm border border-line-3 bg-card-2 px-3 py-3 flex items-center gap-2">
-          <span className="text-h2 text-mut">৳</span>
-          <input
-            type="number"
-            inputMode="numeric"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value === '' ? '' : Number(e.target.value))}
-            aria-label="জমার অঙ্ক"
-            className="num grow bg-transparent outline-none text-h1 font-extrabold text-txt min-h-tap"
-          />
-        </div>
-        <div className="mt-3">
+        <Field label="জমার অঙ্ক (৳)" required error={errors.amount} hint={`ব্যালান্স ৳${bn(balance)} · বকেয়া ৳${bn(payable)}`}>
+          {(id) => (
+            <div className={`flex items-center gap-2 rounded-r-sm border px-3 ${errors.amount ? 'border-danger' : 'border-line-3'} bg-card-2`}>
+              <span className="text-h2 text-mut">৳</span>
+              <input
+                id={id}
+                type="number"
+                inputMode="numeric"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value === '' ? '' : Number(e.target.value))}
+                className="num grow bg-transparent outline-none text-h1 font-extrabold text-txt min-h-tap"
+              />
+            </div>
+          )}
+        </Field>
+
+        <div className="mt-2">
           <Chipset>
             {QUICK.map((q) => (
               <Chip key={q} active={amount === q} onClick={() => setAmount(q)}>
                 ৳{bn(q)}
               </Chip>
             ))}
+            {payable > 0 ? (
+              <Chip active={amount === payable} onClick={() => setAmount(payable)}>
+                বকেয়া ৳{bn(payable)}
+              </Chip>
+            ) : null}
           </Chipset>
         </div>
       </Card>
@@ -90,27 +91,40 @@ export default function Deposit() {
             </Chip>
           ))}
         </Chipset>
+        <p className="text-xs text-mut mt-2">
+          {mode === 'নগদ'
+            ? 'সংগ্রহক বা শাখায় নগদ জমা দিন — রসিদ সাথে সাথে তৈরি হবে।'
+            : mode === 'বিকাশ'
+              ? 'বিকাশে পাঠানোর পর এই রসিদটি প্রমাণ হিসেবে রাখুন।'
+              : 'ব্যাংক জমার রেফারেন্স নম্বর সংরক্ষণ করুন।'}
+        </p>
       </Card>
 
-      <Card title="হিসাব">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="font-bold text-txt">{savingsAccount.planName}</div>
-            <div className="text-sm text-mut">
-              কিস্তি ৳{bn(savingsAccount.installment)} · পরবর্তী {savingsAccount.nextDue}
-            </div>
-          </div>
-          <Badge tone="brand">সক্রিয়</Badge>
-        </div>
+      <Card title="নোট (ঐচ্ছিক)">
+        <Field label="নোট">
+          {(id) => (
+            <input
+              id={id}
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="যেমন: অক্টোবরের কিস্তি"
+              className={inputClass()}
+            />
+          )}
+        </Field>
       </Card>
 
-      <Button block size="lg" disabled={!valid} onClick={() => setDone(true)} icon={<Receipt size={18} />}>
-        জমা নিশ্চিত করুন {valid ? `· ৳${bn(value)}` : ''}
+      {Object.keys(errors).length > 0 ? <ErrorBanner>জমার অঙ্ক ঠিক করুন</ErrorBanner> : null}
+
+      <Button block size="lg" disabled={busy} onClick={submit} icon={<Receipt size={18} />}>
+        {busy ? 'প্রক্রিয়া চলছে…' : `জমা নিশ্চিত করুন${value ? ` · ৳${bn(value)}` : ''}`}
       </Button>
-      {!valid ? <p className="text-xs text-danger text-center">সর্বনিম্ন ৳১০০ দিন</p> : null}
-      <p className="text-xs text-mut text-center">
-        কোনো সুদ বা মুনাফা যোগ হবে না — জমার অঙ্কই আপনার ব্যালান্স।
-      </p>
+
+      <div className="flex items-start gap-2 text-xs text-mut px-2">
+        <ShieldCheck size={14} className="mt-0.5 shrink-0 text-ok" />
+        <span>ডেমো — কোনো বাস্তব টাকা নেওয়া হয় না। জমার সাথে কোনো সুদ বা শতাংশভিত্তিক চার্জ যোগ হবে না।</span>
+      </div>
+      <Badge tone="neutral">নীতি D-01 · সুদমুক্ত</Badge>
     </div>
   );
 }

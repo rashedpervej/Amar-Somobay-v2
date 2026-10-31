@@ -37,7 +37,10 @@ const MEMBER_SCREENS = ['Home', 'Savings', 'Deposit', 'Transactions', 'More'];
 S.sec('১ · রুট নিবন্ধন');
 {
   S.check('/ → শোকেস পৃষ্ঠা', /path="\/"\s+element=\{<App \/>\}/.test(MAIN));
-  S.check('/m/* → MemberApp', /path="\/m\/\*"\s+element=\{<MemberApp \/>\}/.test(MAIN));
+  S.check(
+    '/m/* → MemberProvider + MemberApp',
+    /path="\/m\/\*"\s+element=\{<MemberProvider>\s*<MemberApp \/>\s*<\/MemberProvider>\}/.test(MAIN),
+  );
   S.check('/a/* → AdminMobileApp', /path="\/a\/\*"\s+element=\{<AdminMobileApp \/>\}/.test(MAIN));
   S.check('/w/* → AdminWebApp', /path="\/w\/\*"\s+element=\{<AdminWebApp \/>\}/.test(MAIN));
   S.check('অজানা পথ → /', /path="\*"\s+element=\{<Navigate to="\/" replace \/>\}/.test(MAIN));
@@ -52,15 +55,32 @@ S.sec('২ · সদস্য অ্যাপের পর্দা');
   }
   const routes = [
     ['home', 'MemberHome'],
+    ['schemes', 'Schemes'],
+    ['schemes/:schemeId', 'SchemeDetail'],
     ['savings', 'Savings'],
+    ['savings/:accountId', 'AccountDetail'],
     ['deposit', 'Deposit'],
+    ['deposit/receipt/:depositId', 'ReceiptScreen'],
     ['txn', 'Transactions'],
+    ['txn/:txnId', 'TxnDetail'],
+    ['dues', 'Dues'],
+    ['withdrawals', 'Withdrawals'],
+    ['withdrawals/new', 'WithdrawNew'],
+    ['withdrawals/:id', 'WithdrawalDetail'],
+    ['statement', 'Statement'],
+    ['nominees', 'Nominees'],
+    ['notifications', 'Notifications'],
+    ['notices', 'Notices'],
+    ['profile', 'Profile'],
+    ['settings', 'Settings'],
+    ['help', 'Support'],
+    ['close-request', 'CloseRequest'],
     ['more', 'More'],
   ];
   const missing = routes.filter(([path, comp]) => !new RegExp(`path="${path}"\\s+element=\\{<${comp} />\\}`).test(MEMBER_APP));
-  S.check('পাঁচটি রুটই MemberApp-এ যুক্ত', missing.length === 0, missing.map(([p]) => p).join(', '));
+  S.check(`সব ${routes.length}টি রুট MemberApp-এ যুক্ত`, missing.length === 0, missing.map(([p]) => p).join(', '));
   S.check('MNAV-এর ৫ কী → ৫ রুট ম্যাপড', (MEMBER_APP.match(/'\/m\/[a-z]+'/g) || []).length >= 5);
-  S.check('জমা পর্দা ফ্লো মডেলে (নেভ বন্ধ)', /'\/m\/deposit': \{[^}]*model: 'flow'/.test(MEMBER_APP));
+  S.check('জমা পর্দা ফ্লো মডেলে (নেভ বন্ধ)', /match: \/\^\\\/m\\\/deposit\$\/[^}]*model: 'flow'/.test(MEMBER_APP));
   S.check('শেল নেভিগেশন MNAV থেকে আসে', /import \{ MEMBER_NAV \}/.test(MEMBER_APP));
 }
 
@@ -114,8 +134,10 @@ S.sec('৫ · ডিজাইন ও ভাষা শৃঙ্খলা');
   S.check('টাকার অঙ্ক সবসময় bn() দিয়ে (বাংলা অঙ্ক)', bad.length === 0, bad.join(', '));
 
   const screens = walk('src/apps/member/screens').map((f) => [f, read(f)]);
-  const noSection = screens.filter(([, t]) => !/text-h2|text-h3|text-h1/.test(t));
-  S.check('প্রতিটি পর্দায় শিরোনাম-শ্রেণি আছে', noSection.length === 0, noSection.map(([f]) => f).join(', '));
+  /* পর্দার শিরোনাম হয় নিজস্ব heading ক্লাসে, নয়তো শেয়ার্ড <Card title> থেকে আসে
+     (Card নিজেই text-h3 রেন্ডার করে) — দুটোর যেকোনো একটি থাকতে হবে। */
+  const noSection = screens.filter(([, t]) => !/text-h2|text-h3|text-h1|<Card[^>]*title=/.test(t));
+  S.check('প্রতিটি পর্দায় শিরোনাম আছে (heading বা Card title)', noSection.length === 0, noSection.map(([f]) => f).join(', '));
 
   const tap = walk('src/apps').filter((f) => /<button/.test(read(f)));
   const smallTap = tap.filter((f) => !/min-h-tap|min-h-\[88px\]|min-h-10/.test(read(f)));

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import App from './App';
 import MemberApp from './apps/member/MemberApp';
+import { MemberProvider } from './store/memberStore';
 import AdminMobileApp from './apps/admin/AdminMobileApp';
 import AdminWebApp from './apps/admin/AdminWebApp';
 import './index.css';
@@ -20,7 +21,7 @@ createRoot(el).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/m/*" element={<MemberApp />} />
+        <Route path="/m/*" element={<MemberProvider><MemberApp /></MemberProvider>} />
         <Route path="/a/*" element={<AdminMobileApp />} />
         <Route path="/w/*" element={<AdminWebApp />} />
         <Route path="*" element={<Navigate to="/" replace />} />

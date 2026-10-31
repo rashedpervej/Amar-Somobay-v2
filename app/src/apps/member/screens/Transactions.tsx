@@ -1,32 +1,67 @@
 /* ============================================================
-   src/apps/member/screens/Transactions.tsx — M-08 লেনদেনের ইতিহাস (+ M-09 বিবরণ)
-   ফিল্টার → তালিকা → নির্বাচিত লেনদেনের বিবরণ/রসিদ।
+   src/apps/member/screens/Transactions.tsx — M-08 লেনদেনের ইতিহাস
+   জমা (ক্রেডিট) ও উত্তোলন (ডেবিট) এক তালিকায়; ফিল্টার + সারাংশ;
+   প্রতিটি সারি → M-09 স্বতন্ত্র বিবরণ/ডিজিটাল রসিদ।
    ============================================================ */
 
 import { useMemo, useState } from 'react';
-import { ArrowDownToLine, ArrowUpFromLine, Receipt, SlidersHorizontal } from 'lucide-react';
-import { Badge, Button, Card, Chip, Chipset } from '../../../components/ui';
+import { useNavigate } from 'react-router-dom';
+import { ArrowDownToLine, ArrowUpFromLine, SlidersHorizontal } from 'lucide-react';
+import { Badge, Card, Chip, Chipset } from '../../../components/ui';
+import { StatusChip } from '../../../components/form';
 import { bn } from '../../../lib/bn';
-import { transactions, type DemoTxn } from '../../../demo/data';
+import { useMember } from '../../../store/memberStore';
+
+type Row = {
+  id: string;
+  kind: 'deposit' | 'withdraw';
+  title: string;
+  date: string;
+  amount: number;
+  status: 'paid' | 'pending' | 'rejected';
+  meta: string;
+};
 
 const FILTERS = [
   { id: 'all', label: 'সব' },
   { id: 'deposit', label: 'জমা' },
   { id: 'withdraw', label: 'উত্তোলন' },
-  { id: 'fine', label: 'ফি' },
+  { id: 'pending', label: 'অপেক্ষমাণ' },
 ] as const;
 
 export default function Transactions() {
+  const { state } = useMember();
+  const navigate = useNavigate();
   const [filter, setFilter] = useState<(typeof FILTERS)[number]['id']>('all');
-  const [selected, setSelected] = useState<DemoTxn | null>(null);
 
-  const rows = useMemo(
-    () => (filter === 'all' ? transactions : transactions.filter((t) => t.kind === filter)),
-    [filter],
-  );
+  const rows = useMemo<Row[]>(() => {
+    const deps: Row[] = state.deposits.map((d) => ({
+      id: d.id,
+      kind: 'deposit',
+      title: `${d.mode} জমা`,
+      date: d.date,
+      amount: d.amount,
+      status: 'paid',
+      meta: d.receipt,
+    }));
+    const wds: Row[] = state.withdrawals.map((w) => ({
+      id: w.id,
+      kind: 'withdraw',
+      title: w.reason,
+      date: w.date,
+      amount: w.amount,
+      status: w.status === 'rejected' ? 'rejected' : w.status === 'pending' ? 'pending' : 'paid',
+      meta: w.reference,
+    }));
+    const all = [...deps, ...wds];
+    if (filter === 'deposit') return all.filter((r) => r.kind === 'deposit');
+    if (filter === 'withdraw') return all.filter((r) => r.kind === 'withdraw');
+    if (filter === 'pending') return all.filter((r) => r.status === 'pending');
+    return all;
+  }, [state.deposits, state.withdrawals, filter]);
 
-  const totalIn = transactions.filter((t) => t.kind === 'deposit').reduce((s, t) => s + t.amount, 0);
-  const totalOut = transactions.filter((t) => t.kind === 'withdraw').reduce((s, t) => s + t.amount, 0);
+  const totalIn = state.deposits.reduce((s, d) => s + d.amount, 0);
+  const totalOut = state.withdrawals.filter((w) => w.status === 'paid').reduce((s, w) => s + w.amount, 0);
 
   return (
     <div className="p-4 space-y-4">
@@ -55,71 +90,52 @@ export default function Transactions() {
       </div>
 
       <div className="rounded-r-md border border-line bg-card overflow-hidden shadow-sh-1 divide-y divide-line-2">
-        {rows.map((t) => {
-          const out = t.kind === 'withdraw';
+        {rows.map((r) => {
+          const out = r.kind === 'withdraw';
           const Icon = out ? ArrowUpFromLine : ArrowDownToLine;
-          const on = selected?.id === t.id;
           return (
             <button
-              key={t.id}
+              key={r.id}
               type="button"
-              onClick={() => setSelected(on ? null : t)}
-              aria-expanded={on}
-              className={`w-full min-h-tap flex items-center gap-3 px-4 py-3 text-left transition ${
-                on ? 'bg-green-050' : 'hover:bg-green-050/60'
-              }`}
+              onClick={() => navigate(`/m/txn/${r.id}`)}
+              className="w-full min-h-tap flex items-center gap-3 px-4 py-3 text-left hover:bg-green-050/60 transition"
             >
               <span
                 className={`w-9 h-9 shrink-0 grid place-items-center rounded-r-pill ${
-                  out ? 'bg-danger-bg text-danger-ink' : t.kind === 'fine' ? 'bg-warn-bg text-warn-ink' : 'bg-ok-bg text-ok-ink'
+                  out ? 'bg-danger-bg text-danger-ink' : 'bg-ok-bg text-ok-ink'
                 }`}
               >
                 <Icon size={17} />
               </span>
               <span className="grow min-w-0">
-                <span className="block font-bold text-sm text-txt truncate">{t.title}</span>
+                <span className="block font-bold text-sm text-txt truncate">{r.title}</span>
                 <span className="block text-xs text-mut">
-                  {t.date} · {t.mode}
+                  {r.date} · {r.meta}
                 </span>
               </span>
-              <span className={`num font-bold text-sm ${out || t.kind === 'fine' ? 'text-danger' : 'text-ok'}`}>
-                {out || t.kind === 'fine' ? '−' : '+'}৳{bn(t.amount)}
+              <span className="text-right shrink-0">
+                <span className={`num block font-bold text-sm ${out ? 'text-danger' : 'text-ok'}`}>
+                  {out ? '−' : '+'}৳{bn(r.amount)}
+                </span>
+                {r.status !== 'paid' ? <StatusChip status={r.status} /> : null}
               </span>
             </button>
           );
         })}
-        {rows.length === 0 ? <div className="px-4 py-8 text-center text-mut text-sm">এই ফিল্টারে কিছু নেই</div> : null}
+        {rows.length === 0 ? (
+          <div className="px-4 py-10 text-center text-sm text-mut">এই ফিল্টারে কোনো লেনদেন নেই</div>
+        ) : null}
       </div>
 
-      {selected ? (
-        <Card
-          title="লেনদেনের বিবরণ"
-          sub={`রসিদ ${selected.receipt}`}
-          right={<Badge tone={selected.kind === 'withdraw' ? 'danger' : 'ok'}>{selected.kind === 'withdraw' ? 'উত্তোলন' : 'জমা'}</Badge>}
+      <Card title="স্টেটমেন্ট ও রসিদ কেন্দ্র" sub="মাস অনুযায়ী ডাউনলোড ও রসিদ যাচাই" right={<Badge tone="brand">M-14</Badge>}>
+        <button
+          type="button"
+          onClick={() => navigate('/m/statement')}
+          className="w-full min-h-tap rounded-r-sm bg-green-050 border border-line-2 font-bold text-sm text-green-800"
         >
-          <dl className="text-sm divide-y divide-line-2">
-            {[
-              ['তারিখ', selected.date],
-              ['বিবরণ', selected.title],
-              ['অঙ্ক', `৳${bn(selected.amount)}`],
-              ['মাধ্যম', selected.mode],
-              ['রসিদ নম্বর', selected.receipt],
-            ].map(([k, v]) => (
-              <div key={k} className="flex justify-between py-2">
-                <dt className="text-mut">{k}</dt>
-                <dd className="font-bold text-txt">{v}</dd>
-              </div>
-            ))}
-          </dl>
-          <div className="mt-3">
-            <Button variant="secondary" icon={<Receipt size={16} />} onClick={() => window.print()}>
-              রসিদ দেখুন / প্রিন্ট
-            </Button>
-          </div>
-        </Card>
-      ) : (
-        <p className="text-xs text-mut text-center">যেকোনো লেনদেনে চাপ দিলে রসিদ ও বিবরণ দেখাবে</p>
-      )}
+          স্টেটমেন্ট খুলুন
+        </button>
+      </Card>
     </div>
   );
 }

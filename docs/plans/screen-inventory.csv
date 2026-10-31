@@ -1,20 +1,20 @@
 id,code,name,platform,module,roles,status,batch,react_route,note
-m01,M-01,সঞ্চয় হোম / সদস্য ড্যাশবোর্ড,Member App,GeneralSavings,MEMBER,done,0,/m/home,"M-01 হোম — ব্যালান্স, কিস্তি, দ্রুত কাজ, সাম্প্রতিক লেনদেন"
-m02,M-02,উপলব্ধ স্কিম ব্রাউজ,Member App,GeneralSavings,MEMBER,todo,1,,
-m03,M-03,স্কিম বিবরণ ও নামভর্তি,Member App,GeneralSavings,MEMBER,todo,1,,
-m04,M-04,আমার সঞ্চয় অ্যাকাউন্ট তালিকা,Member App,GeneralSavings,MEMBER,done,0,/m/savings,M-04 আমার সঞ্চয় — অ্যাকাউন্ট ও অগ্রগতি
-m05,M-05,সঞ্চয় অ্যাকাউন্ট বিবরণ,Member App,GeneralSavings,MEMBER,todo,1,,
-m06,M-06,জমা প্রদান,Member App,GeneralSavings,MEMBER,done,0,/m/deposit,"M-06 জমা — অঙ্ক, মাধ্যম, নিশ্চিতকরণ (রসিদ আলাদা নয়, নিচে দেখুন)"
-m07,M-07,জমা নিশ্চিতকরণ ও রসিদ,Member App,GeneralSavings,MEMBER,partial,1,/m/deposit,রসিদ একই পর্দায় দেখায় — স্বতন্ত্র M-07 পর্দা এখনো নয়
-m08,M-08,লেনদেনের ইতিহাস,Member App,GeneralSavings,MEMBER,done,0,/m/txn,M-08 লেনদেনের ইতিহাস — ফিল্টার ও তালিকা
-m09,M-09,লেনদেন বিবরণ ও ডিজিটাল রসিদ,Member App,GeneralSavings,MEMBER,partial,1,/m/txn,বিবরণ ইনলাইনে — স্বতন্ত্র M-09 পর্দা ও প্রিন্ট-লেআউট বাকি
-m10,M-10,উত্তোলনের আবেদন,Member App,GeneralSavings,MEMBER,todo,1,,
-m11,M-11,আমার উত্তোলন আবেদন তালিকা,Member App,GeneralSavings,MEMBER,todo,1,,
-m12,M-12,উত্তোলন আবেদন বিবরণ,Member App,GeneralSavings,MEMBER,todo,1,,
-m13,M-13,বকেয়া ও নির্ধারিত কিস্তি,Member App,GeneralSavings,MEMBER,todo,1,,
-m14,M-14,স্টেটমেন্ট ও রসিদ কেন্দ্র,Member App,GeneralSavings,MEMBER,todo,1,,
-m16,M-16,নোটিফিকেশন,Member App,GeneralSavings,MEMBER,todo,1,,
-m18,M-18,আমার প্রোফাইল ও KYC,Member App,GeneralSavings,MEMBER,partial,1,/m/more,"""আরও"" হাব আছে; M-18-এর নিজস্ব প্রোফাইল/KYC ফর্ম বাকি"
+m01,M-01,সঞ্চয় হোম / সদস্য ড্যাশবোর্ড,Member App,GeneralSavings,MEMBER,done,1,/m/home,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m02,M-02,উপলব্ধ স্কিম ব্রাউজ,Member App,GeneralSavings,MEMBER,done,1,/m/schemes,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m03,M-03,স্কিম বিবরণ ও নামভর্তি,Member App,GeneralSavings,MEMBER,done,1,/m/schemes/:schemeId,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m04,M-04,আমার সঞ্চয় অ্যাকাউন্ট তালিকা,Member App,GeneralSavings,MEMBER,done,1,/m/savings,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m05,M-05,সঞ্চয় অ্যাকাউন্ট বিবরণ,Member App,GeneralSavings,MEMBER,done,1,/m/savings/:accountId,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m06,M-06,জমা প্রদান,Member App,GeneralSavings,MEMBER,done,1,/m/deposit,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m07,M-07,জমা নিশ্চিতকরণ ও রসিদ,Member App,GeneralSavings,MEMBER,done,1,/m/deposit/receipt/:depositId,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m08,M-08,লেনদেনের ইতিহাস,Member App,GeneralSavings,MEMBER,done,1,/m/txn,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m09,M-09,লেনদেন বিবরণ ও ডিজিটাল রসিদ,Member App,GeneralSavings,MEMBER,done,1,/m/txn/:txnId,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m10,M-10,উত্তোলনের আবেদন,Member App,GeneralSavings,MEMBER,done,1,/m/withdrawals/new,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m11,M-11,আমার উত্তোলন আবেদন তালিকা,Member App,GeneralSavings,MEMBER,done,1,/m/withdrawals,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m12,M-12,উত্তোলন আবেদন বিবরণ,Member App,GeneralSavings,MEMBER,done,1,/m/withdrawals/:id,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m13,M-13,বকেয়া ও নির্ধারিত কিস্তি,Member App,GeneralSavings,MEMBER,done,1,/m/dues,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m14,M-14,স্টেটমেন্ট ও রসিদ কেন্দ্র,Member App,GeneralSavings,MEMBER,done,1,/m/statement,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m16,M-16,নোটিফিকেশন,Member App,GeneralSavings,MEMBER,done,1,/m/notifications,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m18,M-18,আমার প্রোফাইল ও KYC,Member App,GeneralSavings,MEMBER,done,1,/m/profile,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 a01,A-01,অ্যাডমিন ওভারভিউ ড্যাশবোর্ড,Admin Web,GeneralSavings,,partial,10,/w/dashboard,"A-01 ড্যাশবোর্ড — KPI, টেবিল, অনুমোদন; চার্ট/ফিল্টার বাকি"
 a03,A-03,স্কিম তালিকা,Admin Web,GeneralSavings,,todo,10,,
 a04,A-04,স্কিম তৈরি (উইজার্ড),Admin Web,GeneralSavings,,todo,10,,
@@ -24,11 +24,11 @@ a07,A-07,সদস্য তালিকা,Admin Web,GeneralSavings,,todo,10,,
 a08,A-08,সদস্য নিবন্ধন (উইজার্ড),Admin Web,GeneralSavings,,todo,10,,
 a09,A-09,সদস্য সম্পাদনা,Admin Web,GeneralSavings,,todo,10,,
 a10,A-10,সদস্য প্রোফাইল ৩৬০°,Admin Web,GeneralSavings,,todo,10,,
-m15,M-15,অ্যাকাউন্ট বন্ধের আবেদন ও নিষ্পত্তি প্রিভিউ,Member App,GeneralSavings,MEMBER,todo,1,,
-m17,M-17,নোটিশ বোর্ড,Member App,GeneralSavings,MEMBER,todo,1,,
-m19,M-19,নমিনি ব্যবস্থাপনা,Member App,GeneralSavings,MEMBER,todo,1,,
-m20,M-20,অ্যাকাউন্ট ও নিরাপত্তা সেটিংস,Member App,GeneralSavings,MEMBER,todo,1,,
-m21,M-21,"সহায়তা, রসিদ যাচাই ও অভিযোগ",Member App,GeneralSavings,MEMBER (+ সাধারণ জনগণ S-07 দিয়ে),todo,1,,
+m15,M-15,অ্যাকাউন্ট বন্ধের আবেদন ও নিষ্পত্তি প্রিভিউ,Member App,GeneralSavings,MEMBER,done,1,/m/close-request,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m17,M-17,নোটিশ বোর্ড,Member App,GeneralSavings,MEMBER,done,1,/m/notices,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m19,M-19,নমিনি ব্যবস্থাপনা,Member App,GeneralSavings,MEMBER,done,1,/m/nominees,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m20,M-20,অ্যাকাউন্ট ও নিরাপত্তা সেটিংস,Member App,GeneralSavings,MEMBER,done,1,/m/settings,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m21,M-21,"সহায়তা, রসিদ যাচাই ও অভিযোগ",Member App,GeneralSavings,MEMBER (+ সাধারণ জনগণ S-07 দিয়ে),done,1,/m/help,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 m22,RM-01,আমার চক্র,Member App,ROSCA,MEMBER,todo,3,,
 m23,RM-02,চক্র বিস্তারিত,Member App,ROSCA,MEMBER,todo,3,,
 m24,RM-03,ড্র ক্রম ও পরবর্তী ড্র,Member App,ROSCA,MEMBER,todo,3,,
