@@ -75,7 +75,7 @@ export default function App() {
           <div className="mt-4 flex flex-wrap gap-2 text-xs">
             <span className="inline-flex items-center gap-1.5 rounded-r-pill bg-white/10 border border-white/20 px-3 py-1.5"><ShieldCheck size={13} /> সুদ শূন্য নীতি</span>
             <span className="inline-flex items-center gap-1.5 rounded-r-pill bg-white/10 border border-white/20 px-3 py-1.5"><WifiOff size={13} /> ইন-মেমরি · রিফ্রেশে সিড</span>
-            <span className="inline-flex items-center gap-1.5 rounded-r-pill bg-white/10 border border-white/20 px-3 py-1.5"><BookOpen size={13} /> ১৯৯ পর্দার ১৬১টি সম্পন্ন</span>
+            <span className="inline-flex items-center gap-1.5 rounded-r-pill bg-white/10 border border-white/20 px-3 py-1.5"><BookOpen size={13} /> ২০৫টি পর্দা · সব সম্পন্ন</span>
           </div>
         </div>
       </header>
@@ -115,7 +115,7 @@ export default function App() {
               <div className="rounded-r-sm border border-line-2 bg-card-2 p-3">
                 <b className="text-sm block">১ · এটাই অ্যাপ, আলাদা ওয়েবসাইট নয়</b>
                 <p className="text-xs text-mut mt-1 leading-relaxed">
-                  Arena-র প্রিভিউ প্যানেলের ভেতরেই React অ্যাপ চলছে। প্যানেলের উপরের ডান দিকের <b>⤢ / Open</b> চাপলে বড় করে দেখা যায়।
+                  এটি সরাসরি চলমান React অ্যাপ — কোনো স্ক্রিনশট নয়। লিংকটি নতুন ট্যাবে বা ফোনের ব্রাউজারে খুললেই সব বোতাম, ট্যাব ও ফর্ম কাজ করবে।
                 </p>
               </div>
               <div className="rounded-r-sm border border-line-2 bg-card-2 p-3">
@@ -145,7 +145,7 @@ export default function App() {
               <li>• এটি <b>ডেমো প্রিভিউ</b> — প্রোডাকশন অ্যাপ নয়।</li>
               <li>• OTP ডেমো: <b className="num">123456</b>; প্রকৃত SMS যায় না।</li>
               <li>• CSV/PDF বোতাম শুধু “ডেমো” বার্তা দেখায়।</li>
-              <li>• কোনো DB মাইগ্রেশন, ডিপ্লয় বা <span className="num">main</span> মার্জ হয়নি।</li>
+              <li>• কোনো DB মাইগ্রেশন বা <span className="num">main</span> মার্জ হয়নি; এটি আলাদা ডেমো ডিপ্লয়।</li>
             </ul>
             <div className="mt-4 pt-3 border-t border-warn-bd/50 flex flex-wrap gap-2">
               <Link to="/login" className="min-h-10 inline-flex items-center rounded-r-sm border border-warn-bd bg-white/60 px-3 text-xs font-bold">লগইন পর্দা</Link>
