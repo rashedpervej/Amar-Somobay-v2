@@ -29,6 +29,25 @@ import Profile from './screens/Profile';
 import Settings from './screens/Settings';
 import Support from './screens/Support';
 import CloseRequest from './screens/CloseRequest';
+import Circles from './screens/Circles';
+import CircleDetail from './screens/CircleDetail';
+import CircleDraws from './screens/CircleDraws';
+import CirclePay from './screens/CirclePay';
+import CircleHistory from './screens/CircleHistory';
+import CircleReceipt from './screens/CircleReceipt';
+import Goals from './screens/Goals';
+import GoalDetail from './screens/GoalDetail';
+import GoalJoin from './screens/GoalJoin';
+import GoalContribute from './screens/GoalContribute';
+import GoalUses from './screens/GoalUses';
+import QardHome from './screens/QardHome';
+import QardEligibility from './screens/QardEligibility';
+import QardProducts from './screens/QardProducts';
+import QardApply from './screens/QardApply';
+import QardApplications from './screens/QardApplications';
+import QardLoans from './screens/QardLoans';
+import QardPay from './screens/QardPay';
+import QardCertificate from './screens/QardCertificate';
 import More from './screens/More';
 
 /* MNAV কী → রুট */
@@ -66,6 +85,25 @@ const TITLES: { match: RegExp; meta: Meta }[] = [
   { match: /^\/m\/settings$/, meta: { title: 'সেটিংস', sub: 'নিরাপত্তা ও পছন্দ' } },
   { match: /^\/m\/help$/, meta: { title: 'সহায়তা কেন্দ্র', sub: 'টিকিট ও প্রশ্ন' } },
   { match: /^\/m\/close-request$/, meta: { title: 'সদস্যপদ বন্ধ', sub: 'সতর্কতার সাথে', model: 'flow' } },
+  { match: /^\/m\/circles$/, meta: { title: 'আমার চক্র', sub: 'ROSCA · চক্রভিত্তিক সঞ্চয়' } },
+  { match: /^\/m\/circles\/[^/]+\/draws$/, meta: { title: 'ড্র ক্রম ও পরবর্তী ড্র', sub: 'অপরিবর্তনীয় ফল' } },
+  { match: /^\/m\/circles\/[^/]+\/pay$/, meta: { title: 'কিস্তি পরিশোধ', sub: 'অঙ্ক · মাধ্যম · রসিদ', model: 'flow' } },
+  { match: /^\/m\/circles\/[^/]+\/history$/, meta: { title: 'ড্র ইতিহাস ও প্রাপ্তি', sub: 'ভাউচারসহ' } },
+  { match: /^\/m\/circles\/[^/]+\/receipt\/[^/]+$/, meta: { title: 'প্রাপ্তি ভাউচার', sub: 'ড্র পেআউট রসিদ' } },
+  { match: /^\/m\/circles\/[^/]+$/, meta: { title: 'চক্র বিস্তারিত', sub: 'সিট, ড্র ও পুল হিসাব' } },
+  { match: /^\/m\/goals$/, meta: { title: 'আমাদের লক্ষ্য', sub: 'যৌথ লক্ষ্য সঞ্চয়' } },
+  { match: /^\/m\/goals\/uses$/, meta: { title: 'অর্জন ও ব্যবহার', sub: 'ভাউচার ও প্রমাণ' } },
+  { match: /^\/m\/goals\/[^/]+\/join$/, meta: { title: 'যোগদান ও প্রতিশ্রুতি', sub: 'শর্ত যাচাই', model: 'flow' } },
+  { match: /^\/m\/goals\/[^/]+\/contribute$/, meta: { title: 'অবদান দিন', sub: 'লক্ষ্য · অঙ্ক · রসিদ', model: 'flow' } },
+  { match: /^\/m\/goals\/[^/]+$/, meta: { title: 'লক্ষ্য বিস্তারিত', sub: 'অগ্রগতি ও অংশগ্রহণকারী' } },
+  { match: /^\/m\/qard$/, meta: { title: 'কর্জে হাসানা', sub: 'সুদমুক্ত সহায়তা' } },
+  { match: /^\/m\/qard\/eligibility$/, meta: { title: 'যোগ্যতা ও আমার অবস্থা', sub: 'কারণ ও করণীয়' } },
+  { match: /^\/m\/qard\/products$/, meta: { title: 'পণ্য ও শর্তাবলি', sub: 'সুদ শূন্য · শুধু মূলধন' } },
+  { match: /^\/m\/qard\/apply$/, meta: { title: 'সহায়তার আবেদন', sub: 'অঙ্ক · উদ্দেশ্য · কাগজ', model: 'flow' } },
+  { match: /^\/m\/qard\/applications$/, meta: { title: 'আবেদনের অবস্থা', sub: 'ইতিহাস ও সিদ্ধান্ত' } },
+  { match: /^\/m\/qard\/loans$/, meta: { title: 'আমার সহায়তা', sub: 'ঋণ ও কিস্তি ছক' } },
+  { match: /^\/m\/qard\/pay$/, meta: { title: 'কিস্তি পরিশোধ', sub: 'শুধু মূলধন · চার্জ নেই', model: 'flow' } },
+  { match: /^\/m\/qard\/certificate(\/[^/]+)?$/, meta: { title: 'সমাপ্তি সনদ', sub: 'সুদ শূন্য প্রমাণপত্র' } },
   { match: /^\/m\/more$/, meta: { title: 'আরও', sub: 'প্রোফাইল ও সহায়তা' } },
 ];
 
@@ -73,7 +111,15 @@ export default function MemberApp() {
   const location = useLocation();
   const navigate = useNavigate();
   const meta = TITLES.find((t) => t.match.test(location.pathname))?.meta ?? { title: 'সঞ্চয় হোম', sub: ORG, model: 'landing' };
-  const activeKey = Object.keys(ROUTE_BY_KEY).find((k) => location.pathname === ROUTE_BY_KEY[k]) ?? (location.pathname.startsWith('/m/txn') || location.pathname.startsWith('/m/deposit') ? (location.pathname.startsWith('/m/deposit') ? 'deposit' : 'txn') : location.pathname.startsWith('/m/savings') || location.pathname.startsWith('/m/schemes') ? 'savings' : 'home');
+  const p = location.pathname;
+  const activeKey =
+    Object.keys(ROUTE_BY_KEY).find((k) => p === ROUTE_BY_KEY[k]) ??
+    (p.startsWith('/m/deposit') ? 'deposit'
+      : p.startsWith('/m/txn') ? 'txn'
+      : p.startsWith('/m/savings') || p.startsWith('/m/schemes') ? 'savings'
+      : p.startsWith('/m/circles') || p.startsWith('/m/goals') || p.startsWith('/m/qard') || p.startsWith('/m/more')
+        || p.startsWith('/m/profile') || p.startsWith('/m/settings') || p.startsWith('/m/help') ? 'more'
+      : 'home');
 
   return (
     <MobileShell
@@ -107,6 +153,26 @@ export default function MemberApp() {
         <Route path="settings" element={<Settings />} />
         <Route path="help" element={<Support />} />
         <Route path="close-request" element={<CloseRequest />} />
+        <Route path="circles" element={<Circles />} />
+        <Route path="circles/:circleId" element={<CircleDetail />} />
+        <Route path="circles/:circleId/draws" element={<CircleDraws />} />
+        <Route path="circles/:circleId/pay" element={<CirclePay />} />
+        <Route path="circles/:circleId/history" element={<CircleHistory />} />
+        <Route path="circles/:circleId/receipt/:drawId" element={<CircleReceipt />} />
+        <Route path="goals" element={<Goals />} />
+        <Route path="goals/uses" element={<GoalUses />} />
+        <Route path="goals/:goalId" element={<GoalDetail />} />
+        <Route path="goals/:goalId/join" element={<GoalJoin />} />
+        <Route path="goals/:goalId/contribute" element={<GoalContribute />} />
+        <Route path="qard" element={<QardHome />} />
+        <Route path="qard/eligibility" element={<QardEligibility />} />
+        <Route path="qard/products" element={<QardProducts />} />
+        <Route path="qard/apply" element={<QardApply />} />
+        <Route path="qard/applications" element={<QardApplications />} />
+        <Route path="qard/loans" element={<QardLoans />} />
+        <Route path="qard/pay" element={<QardPay />} />
+        <Route path="qard/certificate" element={<QardCertificate />} />
+        <Route path="qard/certificate/:loanId" element={<QardCertificate />} />
         <Route path="more" element={<More />} />
         <Route path="*" element={<Navigate to="/m/home" replace />} />
       </Routes>

@@ -6,6 +6,9 @@
 import { useNavigate } from 'react-router-dom';
 import {
   Bell,
+  Heart,
+  RefreshCw,
+  Target,
   ChevronRight,
   FileText,
   HelpCircle,
@@ -109,6 +112,54 @@ export default function More() {
         />
       </div>
 
+      <Card title="আমার মডিউল" sub="চারটি মডিউল — আলাদা হিসাব, আলাদা নিয়ম" right={<Badge tone="brand">৩</Badge>}>
+        <Row
+          icon={<RefreshCw size={18} />}
+          title="আমার চক্র (ROSCA)"
+          sub="কিস্তি, ড্র ক্রম ও প্রাপ্তি ভাউচার"
+          right={<ChevronRight size={18} className="text-mut" />}
+          onClick={() => navigate('/m/circles')}
+        />
+        <Row
+          icon={<Target size={18} />}
+          title="আমাদের লক্ষ্য"
+          sub="যৌথ লক্ষ্য, অবদান ও ব্যবহারের প্রমাণ"
+          right={<ChevronRight size={18} className="text-mut" />}
+          onClick={() => navigate('/m/goals')}
+        />
+        <Row
+          icon={<Heart size={18} />}
+          title="কর্জে হাসানা"
+          sub="সুদমুক্ত সহায়তা · শুধু মূলধন ফেরত"
+          right={<Badge tone="ok">সুদ ৳০</Badge>}
+          onClick={() => navigate('/m/qard')}
+        />
+      </Card>
+
+      <Card title="শেয়ার্ড সেবা" sub="সব প্যানেলে একই">
+        <Row
+          icon={<ShieldCheck size={18} />}
+          title="রসিদ যাচাই (লগইন ছাড়া)"
+          sub="S-07 · প্রকাশ্য যাচাই পেজ"
+          right={<ChevronRight size={18} className="text-mut" />}
+          onClick={() => navigate('/verify')}
+        />
+        <Row
+          icon={<RefreshCw size={18} />}
+          title="অফলাইন Sync ও কিউ"
+          sub="S-08 · সংযোগ ছাড়া জমা হওয়া এন্ট্রি"
+          right={<ChevronRight size={18} className="text-mut" />}
+          onClick={() => navigate('/sync')}
+        />
+        <Row
+          icon={<UserRound size={18} />}
+          title="সমিতি ও অ্যাকাউন্ট সেটিংস"
+          sub="S-02 / S-03 · সমিতি বদল, ভাষা, পছন্দ"
+          right={<ChevronRight size={18} className="text-mut" />}
+          onClick={() => navigate('/account')}
+        />
+      </Card>
+
       <Card title="আমার সমিতি" sub="সমিতি বদলাতে চাইলে S-02 ব্যবহার করুন">
         <div className="flex items-center gap-2 text-sm text-txt-2">
           <span className="text-ok">✓</span>
@@ -125,7 +176,7 @@ export default function More() {
         title="লগআউট"
         sub="ডেমো — সেশন নেই"
         right={<ChevronRight size={18} className="text-mut" />}
-        onClick={() => navigate('/m/home')}
+        onClick={() => navigate('/login')}
       />
     </div>
   );

@@ -33,7 +33,16 @@ S.sec('১ · রুট ও ফাইল');
     ['dues', 'Dues'], ['withdrawals', 'Withdrawals'], ['withdrawals/new', 'WithdrawNew'],
     ['withdrawals/:id', 'WithdrawalDetail'], ['statement', 'Statement'], ['nominees', 'Nominees'],
     ['notifications', 'Notifications'], ['notices', 'Notices'], ['profile', 'Profile'],
-    ['settings', 'Settings'], ['help', 'Support'], ['close-request', 'CloseRequest'], ['more', 'More'],
+    ['settings', 'Settings'], ['help', 'Support'], ['close-request', 'CloseRequest'],
+    ['circles', 'Circles'], ['circles/:circleId', 'CircleDetail'], ['circles/:circleId/draws', 'CircleDraws'],
+    ['circles/:circleId/pay', 'CirclePay'], ['circles/:circleId/history', 'CircleHistory'],
+    ['circles/:circleId/receipt/:drawId', 'CircleReceipt'],
+    ['goals', 'Goals'], ['goals/uses', 'GoalUses'], ['goals/:goalId', 'GoalDetail'],
+    ['goals/:goalId/join', 'GoalJoin'], ['goals/:goalId/contribute', 'GoalContribute'],
+    ['qard', 'QardHome'], ['qard/eligibility', 'QardEligibility'], ['qard/products', 'QardProducts'],
+    ['qard/apply', 'QardApply'], ['qard/applications', 'QardApplications'], ['qard/loans', 'QardLoans'],
+    ['qard/pay', 'QardPay'], ['qard/certificate', 'QardCertificate'],
+    ['more', 'More'],
   ];
   const fileOf = (comp) => (comp === 'MemberHome' ? 'Home' : comp);
   const missingFile = EXPECTED.filter(([, comp]) => !existsSync(join(ROOT, `src/apps/member/screens/${fileOf(comp)}.tsx`)));
@@ -42,7 +51,7 @@ S.sec('১ · রুট ও ফাইল');
   const missingRoute = EXPECTED.filter(([path, comp]) => !new RegExp(`path="${path}"\\s+element=\\{<${comp} />\\}`).test(MEMBER_APP));
   S.check(`সব ${EXPECTED.length}টি রুট MemberApp-এ আছে`, missingRoute.length === 0, missingRoute.map(([p]) => p).join(', '));
 
-  S.check('MemberProvider দিয়ে সদস্য গাছ মোড়া', /<MemberProvider>\s*<MemberApp \/>\s*<\/MemberProvider>/.test(MAIN));
+  S.check('MemberProvider + ModuleProvider দিয়ে সদস্য গাছ মোড়া', /<MemberProvider>\s*<ModuleProvider>\s*<MemberApp \/>\s*<\/ModuleProvider>\s*<\/MemberProvider>/.test(MAIN));
   S.check('অজানা পথ → /m/home', /path="\*"\s+element=\{<Navigate to="\/m\/home" replace \/>\}/.test(MEMBER_APP));
   S.check('MNAV ৫ কী-ই ম্যাপড', ['home', 'savings', 'deposit', 'txn', 'more'].every((k) => new RegExp(`${k}: '/m/${k === 'txn' ? 'txn' : k}'`).test(MEMBER_APP)));
 }
@@ -55,7 +64,7 @@ S.sec('২ · কোনো মৃত বোতাম/প্লেসহোল্
   const placeholder = SCREENS.filter((f) => /SoonCard|শীঘ্রই আসছে|ফেজ ৩-এ আসবে|placeholder page/i.test(screenText(f)));
   S.check('প্লেসহোল্ডার কার্ড/বার্তা নেই', placeholder.length === 0, placeholder.join(', '));
 
-  const usesStore = SCREENS.filter((f) => /useMember\(\)/.test(screenText(f)));
+  const usesStore = SCREENS.filter((f) => /useMember\(\)|useModules\(\)/.test(screenText(f)));
   S.check(
     'প্রতিটি পর্দা স্টোর ব্যবহার করে',
     usesStore.length === SCREENS.length,
@@ -113,7 +122,7 @@ S.sec('৫ · রেন্ডার স্মোক (২৩ রুট)');
   const out = (r.stdout || '') + (r.stderr || '');
   const pass = (out.match(/^PASS /gm) || []).length;
   const fail = (out.match(/^FAIL /gm) || []).length;
-  S.check('রেন্ডার স্ক্রিপ্ট সব রুটে সফল', r.status === 0 && fail === 0 && pass >= 23, `${pass} পাস · ${fail} ফেল${fail ? `\n${out.split('\n').filter((l) => l.startsWith('FAIL')).slice(0, 8).join('\n')}` : ''}`);
+  S.check('রেন্ডার স্ক্রিপ্ট সব রুটে সফল', r.status === 0 && fail === 0 && pass >= 50, `${pass} পাস · ${fail} ফেল${fail ? `\n${out.split('\n').filter((l) => l.startsWith('FAIL')).slice(0, 8).join('\n')}` : ''}`);
 }
 
 S.report();

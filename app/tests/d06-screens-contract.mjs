@@ -38,9 +38,10 @@ S.sec('১ · রুট নিবন্ধন');
 {
   S.check('/ → শোকেস পৃষ্ঠা', /path="\/"\s+element=\{<App \/>\}/.test(MAIN));
   S.check(
-    '/m/* → MemberProvider + MemberApp',
-    /path="\/m\/\*"\s+element=\{<MemberProvider>\s*<MemberApp \/>\s*<\/MemberProvider>\}/.test(MAIN),
+    '/m/* → MemberProvider + ModuleProvider + MemberApp',
+    /path="\/m\/\*"\s+element=\{<MemberProvider>\s*<ModuleProvider>\s*<MemberApp \/>\s*<\/ModuleProvider>\s*<\/MemberProvider>\}/.test(MAIN),
   );
+  S.check('শেয়ার্ড ৮ রুট main.tsx-এ নিবন্ধিত', ['/login', '/organizations', '/account', '/account/notifications', '/403', '/error', '/verify', '/sync'].every((r) => MAIN.includes(`path="${r}"`)));
   S.check('/a/* → AdminMobileApp', /path="\/a\/\*"\s+element=\{<AdminMobileApp \/>\}/.test(MAIN));
   S.check('/w/* → AdminWebApp', /path="\/w\/\*"\s+element=\{<AdminWebApp \/>\}/.test(MAIN));
   S.check('অজানা পথ → /', /path="\*"\s+element=\{<Navigate to="\/" replace \/>\}/.test(MAIN));
@@ -75,6 +76,26 @@ S.sec('২ · সদস্য অ্যাপের পর্দা');
     ['settings', 'Settings'],
     ['help', 'Support'],
     ['close-request', 'CloseRequest'],
+    ['circles', 'Circles'],
+    ['circles/:circleId', 'CircleDetail'],
+    ['circles/:circleId/draws', 'CircleDraws'],
+    ['circles/:circleId/pay', 'CirclePay'],
+    ['circles/:circleId/history', 'CircleHistory'],
+    ['circles/:circleId/receipt/:drawId', 'CircleReceipt'],
+    ['goals', 'Goals'],
+    ['goals/uses', 'GoalUses'],
+    ['goals/:goalId', 'GoalDetail'],
+    ['goals/:goalId/join', 'GoalJoin'],
+    ['goals/:goalId/contribute', 'GoalContribute'],
+    ['qard', 'QardHome'],
+    ['qard/eligibility', 'QardEligibility'],
+    ['qard/products', 'QardProducts'],
+    ['qard/apply', 'QardApply'],
+    ['qard/applications', 'QardApplications'],
+    ['qard/loans', 'QardLoans'],
+    ['qard/pay', 'QardPay'],
+    ['qard/certificate', 'QardCertificate'],
+    ['qard/certificate/:loanId', 'QardCertificate'],
     ['more', 'More'],
   ];
   const missing = routes.filter(([path, comp]) => !new RegExp(`path="${path}"\\s+element=\\{<${comp} />\\}`).test(MEMBER_APP));

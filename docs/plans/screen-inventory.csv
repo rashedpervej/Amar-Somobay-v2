@@ -29,12 +29,12 @@ m17,M-17,নোটিশ বোর্ড,Member App,GeneralSavings,MEMBER,done,1
 m19,M-19,নমিনি ব্যবস্থাপনা,Member App,GeneralSavings,MEMBER,done,1,/m/nominees,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 m20,M-20,অ্যাকাউন্ট ও নিরাপত্তা সেটিংস,Member App,GeneralSavings,MEMBER,done,1,/m/settings,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 m21,M-21,"সহায়তা, রসিদ যাচাই ও অভিযোগ",Member App,GeneralSavings,MEMBER (+ সাধারণ জনগণ S-07 দিয়ে),done,1,/m/help,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
-m22,RM-01,আমার চক্র,Member App,ROSCA,MEMBER,todo,3,,
-m23,RM-02,চক্র বিস্তারিত,Member App,ROSCA,MEMBER,todo,3,,
-m24,RM-03,ড্র ক্রম ও পরবর্তী ড্র,Member App,ROSCA,MEMBER,todo,3,,
-m25,RM-04,কিস্তি পরিশোধ,Member App,ROSCA,MEMBER,todo,3,,
-m26,RM-05,ড্র ইতিহাস ও আমার প্রাপ্তি,Member App,ROSCA,MEMBER,todo,3,,
-m27,RM-06,পেআউট রসিদ (প্রাপ্তি ভাউচার),Member App,ROSCA,MEMBER,todo,3,,
+m22,RM-01,আমার চক্র,Member App,ROSCA,MEMBER,done,3,/m/circles,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
+m23,RM-02,চক্র বিস্তারিত,Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
+m24,RM-03,ড্র ক্রম ও পরবর্তী ড্র,Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId/draws,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
+m25,RM-04,কিস্তি পরিশোধ,Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId/pay,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
+m26,RM-05,ড্র ইতিহাস ও আমার প্রাপ্তি,Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId/history,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
+m27,RM-06,পেআউট রসিদ (প্রাপ্তি ভাউচার),Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId/receipt/:drawId,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
 a11,A-11,সদস্য আবেদন বিবরণ ও যাচাই,Admin Web,GeneralSavings,,todo,10,,
 a13,A-13,অ্যাকাউন্ট বিবরণ (অ্যাডমিন),Admin Web,GeneralSavings,,todo,10,,
 a15,A-15,সদস্য প্রস্থান ও চূড়ান্ত নিষ্পত্তি,Admin Web,GeneralSavings,,todo,10,,
@@ -76,14 +76,14 @@ a47,RA-09,ড্র ইতিহাস ও রেজিস্টার,Admin Web
 a48,RA-10,কিস্তি সংগ্রহ ও বকেয়া,Admin Web,ROSCA,,todo,8,,
 a49,RA-11,ডিফল্ট ও প্রতিস্থাপন,Admin Web,ROSCA,,todo,8,,
 a50,RA-12,ROSCA রিপোর্ট,Admin Web,ROSCA,,todo,8,,
-s01,S-01,লগইন / OTP প্রমাণীকরণ,Shared,Shared,সবাই,todo,2,,
-s02,S-02,সমিতি নির্বাচন (Organization Switcher),Shared,Shared,একাধিক সমিতির সদস্য/স্টাফ,todo,2,,
-s07,S-07,ডকুমেন্ট ভিউয়ার ও রসিদ যাচাই (প্রকাশ্য),Shared,Shared,সদস্য + স্টাফ + সাধারণ জনগণ (লগইন ছাড়া),todo,2,,
-s05,S-05,অনুমতি প্রত্যাখ্যান (403),Shared,Shared,সব ভূমিকা,todo,2,,
-s06,S-06,"সাধারণ ত্রুটি, অফলাইন ও 404",Shared,Shared,সব ভূমিকা,todo,2,,
-s03,S-03,প্রোফাইল ও অ্যাকাউন্ট সেটিংস (প্ল্যাটফর্ম স্তর),Shared,Shared,সবাই,todo,2,,
-s08,S-08,অফলাইন Sync ও কিউ অবস্থা,Shared,Shared,COLLECTOR · ACCOUNTANT,todo,2,,
-s04,S-04,নোটিফিকেশন সেটিংস ও পছন্দ,Shared,Shared,সবাই,todo,2,,
+s01,S-01,লগইন / OTP প্রমাণীকরণ,Shared,Shared,সবাই,done,2,/login,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s02,S-02,সমিতি নির্বাচন (Organization Switcher),Shared,Shared,একাধিক সমিতির সদস্য/স্টাফ,done,2,/organizations,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s07,S-07,ডকুমেন্ট ভিউয়ার ও রসিদ যাচাই (প্রকাশ্য),Shared,Shared,সদস্য + স্টাফ + সাধারণ জনগণ (লগইন ছাড়া),done,2,/verify,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s05,S-05,অনুমতি প্রত্যাখ্যান (403),Shared,Shared,সব ভূমিকা,done,2,/403,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s06,S-06,"সাধারণ ত্রুটি, অফলাইন ও 404",Shared,Shared,সব ভূমিকা,done,2,/error,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s03,S-03,প্রোফাইল ও অ্যাকাউন্ট সেটিংস (প্ল্যাটফর্ম স্তর),Shared,Shared,সবাই,done,2,/account,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s08,S-08,অফলাইন Sync ও কিউ অবস্থা,Shared,Shared,COLLECTOR · ACCOUNTANT,done,2,/sync,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s04,S-04,নোটিফিকেশন সেটিংস ও পছন্দ,Shared,Shared,সবাই,done,2,/account/notifications,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
 am01,AM-01,অ্যাডমিন মোবাইল হোম,Admin App,GeneralSavings,MANAGER · APPROVER · ORG_ADMIN · ACCOUNTANT,partial,4,/a/home,"AM-01 হোম — KPI ও তালিকা; সব কুইক-অ্যাকশন এখনো ""ফেজ ৩"" কার্ডে"
 am02,AM-02,অনুমোদন কিউ (মোবাইল),Admin App,GeneralSavings,MANAGER · APPROVER · ORG_ADMIN,partial,4,/a/approvals,AM-02 কিউ — তালিকা ও ফিল্টার আংশিক
 am03,AM-03,অনুমোদনের সিদ্ধান্ত (মোবাইল),Admin App,GeneralSavings,MANAGER · APPROVER · ORG_ADMIN,partial,4,/a/approvals,AM-03 সিদ্ধান্ত — যাচাই-তালিকা ও অনুমোদন/প্রত্যাখ্যান আছে
@@ -151,19 +151,19 @@ am54,JAM-07,মাইলস্টোন ও অগ্রগতি (মোবা�
 am55,JAM-08,বিতরণ অনুমোদন (মোবাইল),Admin App,JointGoal,APPROVER · ORG_ADMIN · MANAGER (সীমা অনুযায়ী) · ACCOUNTANT (প্রস্তাব),todo,6,,
 am56,JAM-09,মেয়াদোত্তীর্ণ ও নিষ্পত্তি (মোবাইল),Admin App,JointGoal,MANAGER · APPROVER · ORG_ADMIN · ACCOUNTANT (ছক),todo,6,,
 am57,JAM-10,Joint Goal রিপোর্ট (মোবাইল),Admin App,JointGoal,AUDITOR · MANAGER · ORG_ADMIN (R),todo,6,,
-m28,JM-01,আমাদের লক্ষ্য,Member App,JointGoal,MEMBER,todo,3,,
-m29,JM-02,লক্ষ্য বিস্তারিত,Member App,JointGoal,MEMBER,todo,3,,
-m30,JM-03,যোগদান ও প্রতিশ্রুতি,Member App,JointGoal,MEMBER,todo,3,,
-m31,JM-04,আমার অবদান ও ইতিহাস,Member App,JointGoal,MEMBER,todo,3,,
-m32,JM-05,অর্জন ও ব্যবহারের বিবরণ,Member App,JointGoal,MEMBER,todo,3,,
-m33,QM-01,কর্জে হাসানা হোম,Member App,QardHasanah,MEMBER,todo,3,,
-m34,QM-02,যোগ্যতা ও আমার অবস্থা,Member App,QardHasanah,MEMBER,todo,3,,
-m35,QM-03,পণ্য ও শর্তাবলি,Member App,QardHasanah,MEMBER,todo,3,,
-m36,QM-04,সহায়তার আবেদনপত্র,Member App,QardHasanah,MEMBER,todo,3,,
-m37,QM-05,আবেদন অবস্থা ও ইতিহাস,Member App,QardHasanah,MEMBER,todo,3,,
-m38,QM-06,আমার সহায়তা,Member App,QardHasanah,MEMBER,todo,3,,
-m39,QM-07,কিস্তি পরিশোধ,Member App,QardHasanah,MEMBER,todo,3,,
-m40,QM-08,সমাপ্তি সনদ,Member App,QardHasanah,MEMBER,todo,3,,
+m28,JM-01,আমাদের লক্ষ্য,Member App,JointGoal,MEMBER,done,3,/m/goals,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"
+m29,JM-02,লক্ষ্য বিস্তারিত,Member App,JointGoal,MEMBER,done,3,/m/goals/:goalId,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"
+m30,JM-03,যোগদান ও প্রতিশ্রুতি,Member App,JointGoal,MEMBER,done,3,/m/goals/:goalId/join,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"
+m31,JM-04,আমার অবদান ও ইতিহাস,Member App,JointGoal,MEMBER,done,3,/m/goals/:goalId/contribute,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"
+m32,JM-05,অর্জন ও ব্যবহারের বিবরণ,Member App,JointGoal,MEMBER,done,3,/m/goals/uses,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"
+m33,QM-01,কর্জে হাসানা হোম,Member App,QardHasanah,MEMBER,done,3,/m/qard,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m34,QM-02,যোগ্যতা ও আমার অবস্থা,Member App,QardHasanah,MEMBER,done,3,/m/qard/eligibility,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m35,QM-03,পণ্য ও শর্তাবলি,Member App,QardHasanah,MEMBER,done,3,/m/qard/products,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m36,QM-04,সহায়তার আবেদনপত্র,Member App,QardHasanah,MEMBER,done,3,/m/qard/apply,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m37,QM-05,আবেদন অবস্থা ও ইতিহাস,Member App,QardHasanah,MEMBER,done,3,/m/qard/applications,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m38,QM-06,আমার সহায়তা,Member App,QardHasanah,MEMBER,done,3,/m/qard/loans,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m39,QM-07,কিস্তি পরিশোধ,Member App,QardHasanah,MEMBER,done,3,/m/qard/pay,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m40,QM-08,সমাপ্তি সনদ,Member App,QardHasanah,MEMBER,done,3,/m/qard/certificate/:loanId,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
 a61,QA-01,QH ড্যাশবোর্ড,Admin Web,QardHasanah,,todo,9,,
 a62,QA-02,সহায়তা পণ্য কনফিগারেশন,Admin Web,QardHasanah,,todo,9,,
 a63,QA-03,যোগ্যতা নিয়ম ব্যবস্থাপনা,Admin Web,QardHasanah,,todo,9,,
