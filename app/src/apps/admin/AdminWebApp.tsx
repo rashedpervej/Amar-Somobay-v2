@@ -36,6 +36,23 @@ import JgMilestones from './web/JgMilestones';
 import JgSpend from './web/JgSpend';
 import JgClose from './web/JgClose';
 import JgReports from './web/JgReports';
+import QhWebDashboard from './web/QhWebDashboard';
+import QhWebProducts from './web/QhWebProducts';
+import QhWebRules from './web/QhWebRules';
+import QhWebSimulation from './web/QhWebSimulation';
+import QhWebEligible from './web/QhWebEligible';
+import QhWebWindow from './web/QhWebWindow';
+import QhWebQueue from './web/QhWebQueue';
+import QhWebAppDetail from './web/QhWebAppDetail';
+import QhWebDecision from './web/QhWebDecision';
+import QhWebDisburse from './web/QhWebDisburse';
+import QhWebLoans from './web/QhWebLoans';
+import QhWebLoanDetail from './web/QhWebLoanDetail';
+import QhWebRepay from './web/QhWebRepay';
+import QhWebArrears from './web/QhWebArrears';
+import QhWebClose from './web/QhWebClose';
+import QhWebWriteOff from './web/QhWebWriteOff';
+import QhWebReports from './web/QhWebReports';
 
 function Dashboard() {
   const nav = useNavigate();
@@ -109,7 +126,7 @@ function Dashboard() {
 function WebSoon() {
   const { key } = useParams();
   const item = ADMIN_WEB_NAV.flatMap((g) => g.items).find((i) => i.key === key);
-  return <SoonCard label={item?.label ?? 'পর্দা'} phase="ব্যাচ ৯–১২" note="এই পর্দাটি ডেস্কটপ-শুধু (Admin Web)।" />;
+  return <SoonCard label={item?.label ?? 'পর্দা'} phase="ব্যাচ ১০–১২" note="এই পর্দাটি ডেস্কটপ-শুধু (Admin Web)।" />;
 }
 
 const ROUTE_MAP: Record<string, string> = {
@@ -117,6 +134,9 @@ const ROUTE_MAP: Record<string, string> = {
   rccollect: '/w/rc/collect', rcdefault: '/w/rc/defaults', rcreport: '/w/rc/reports',
   jgdash: '/w/jg', jggoal: '/w/jg/goals', jgjoin: '/w/jg/join', jgcollect: '/w/jg/collect',
   jgmile: '/w/jg/milestones', jgspend: '/w/jg/spend', jgreport: '/w/jg/reports',
+  qhdash: '/w/qh', qhproduct: '/w/qh/products', qhsim: '/w/qh/simulation', qhelig: '/w/qh/eligible',
+  qhwindow: '/w/qh/window', qhqueue: '/w/qh/queue', qhdisb: '/w/qh/disburse', qhloan: '/w/qh/loans',
+  qharrears: '/w/qh/arrears', qhreport: '/w/qh/reports',
 };
 
 const TITLES: [RegExp, string, string][] = [
@@ -143,6 +163,24 @@ const TITLES: [RegExp, string, string][] = [
   [/^\/w\/jg\/close/, 'মেয়াদ ও নিষ্পত্তি', 'Joint Goal › নিষ্পত্তি'],
   [/^\/w\/jg\/reports/, 'Joint Goal রিপোর্ট', 'Joint Goal › রিপোর্ট'],
   [/^\/w\/jg$/, 'Joint Goal ড্যাশবোর্ড', 'Joint Goal › ড্যাশবোর্ড'],
+  [/^\/w\/qh\/products/, 'QH পণ্য ও নিয়ম', 'কর্জে হাসানা › পণ্য'],
+  [/^\/w\/qh\/rules/, 'QH নিয়ম ও ব্যতিক্রম', 'কর্জে হাসানা › নিয়ম'],
+  [/^\/w\/qh\/simulation/, 'QH নিয়ম Simulation', 'কর্জে হাসানা › সিমুলেশন'],
+  [/^\/w\/qh\/eligible/, 'যোগ্য সদস্য তালিকা', 'কর্জে হাসানা › যোগ্যতা'],
+  [/^\/w\/qh\/window/, 'জানালা ও কোটা', 'কর্জে হাসানা › জানালা'],
+  [/^\/w\/qh\/queue/, 'আবেদন কিউ', 'কর্জে হাসানা › কিউ'],
+  [/^\/w\/qh\/applications\/[^/]+\/decision/, 'QH সিদ্ধান্ত', 'কর্জে হাসানা › আবেদন › সিদ্ধান্ত'],
+  [/^\/w\/qh\/applications\/[^/]+/, 'QH আবেদন বিস্তারিত', 'কর্জে হাসানা › আবেদন'],
+  [/^\/w\/qh\/disburse\/[^/]+/, 'QH বিতরণ', 'কর্জে হাসানা › বিতরণ › সম্পাদন'],
+  [/^\/w\/qh\/disburse/, 'বিতরণ ব্যবস্থাপনা', 'কর্জে হাসানা › বিতরণ'],
+  [/^\/w\/qh\/loans\/[^/]+\/repay/, 'QH পরিশোধ ও রসিদ', 'কর্জে হাসানা › ঋণ › পরিশোধ'],
+  [/^\/w\/qh\/loans\/[^/]+\/close/, 'QH সমাপ্তি ও সনদ', 'কর্জে হাসানা › ঋণ › সমাপ্তি'],
+  [/^\/w\/qh\/loans\/[^/]+/, 'QH ঋণ হাব', 'কর্জে হাসানা › ঋণ › বিস্তারিত'],
+  [/^\/w\/qh\/loans/, 'ঋণ, ছক ও পরিশোধ', 'কর্জে হাসানা › ঋণ'],
+  [/^\/w\/qh\/arrears/, 'বকেয়া ও write-off', 'কর্জে হাসানা › বকেয়া'],
+  [/^\/w\/qh\/writeoff/, 'write-off ব্যবস্থাপনা', 'কর্জে হাসানা › write-off'],
+  [/^\/w\/qh\/reports/, 'QH রিপোর্ট', 'কর্জে হাসানা › রিপোর্ট'],
+  [/^\/w\/qh$/, 'কর্জে হাসানা ড্যাশবোর্ড', 'কর্জে হাসানা › ড্যাশবোর্ড'],
 ];
 
 function activeKey(path: string): string {
@@ -160,6 +198,16 @@ function activeKey(path: string): string {
   if (path.startsWith('/w/jg/milestones')) return 'jgmile';
   if (path.startsWith('/w/jg/spend') || path.startsWith('/w/jg/close')) return 'jgspend';
   if (path.startsWith('/w/jg/reports')) return 'jgreport';
+  if (path === '/w/qh' || path === '/w/qh/') return 'qhdash';
+  if (path.startsWith('/w/qh/products') || path.startsWith('/w/qh/rules')) return 'qhproduct';
+  if (path.startsWith('/w/qh/simulation')) return 'qhsim';
+  if (path.startsWith('/w/qh/eligible')) return 'qhelig';
+  if (path.startsWith('/w/qh/window')) return 'qhwindow';
+  if (path.startsWith('/w/qh/queue') || path.startsWith('/w/qh/applications')) return 'qhqueue';
+  if (path.startsWith('/w/qh/disburse')) return 'qhdisb';
+  if (path.startsWith('/w/qh/loans') || path.startsWith('/w/qh/close')) return 'qhloan';
+  if (path.startsWith('/w/qh/arrears') || path.startsWith('/w/qh/writeoff')) return 'qharrears';
+  if (path.startsWith('/w/qh/reports')) return 'qhreport';
   return path.includes('/w/dashboard') ? 'dash' : path.split('/w/')[1]?.split('/')[0] ?? 'dash';
 }
 
@@ -183,6 +231,8 @@ export default function AdminWebApp() {
             <Button size="sm" variant="secondary" icon={<Plus size={15} />} onClick={() => navigate('/w/rc/schemes/new')}>নতুন স্কিম</Button>
           ) : path.startsWith('/w/jg') ? (
             <Button size="sm" variant="secondary" icon={<Plus size={15} />} onClick={() => navigate('/w/jg/goals/new')}>নতুন লক্ষ্য</Button>
+          ) : path.startsWith('/w/qh') ? (
+            <Button size="sm" variant="secondary" icon={<Plus size={15} />} onClick={() => navigate('/w/qh/queue')}>QH আবেদন কিউ</Button>
           ) : (
             <Button size="sm" variant="secondary" icon={<Banknote size={15} />}>ক্যাশ বুক</Button>
           )}
@@ -217,6 +267,27 @@ export default function AdminWebApp() {
         <Route path="jg/spend" element={<JgSpend />} />
         <Route path="jg/close" element={<JgClose />} />
         <Route path="jg/reports" element={<JgReports />} />
+
+        <Route path="qh" element={<QhWebDashboard />} />
+        <Route path="qh/products" element={<QhWebProducts />} />
+        <Route path="qh/rules" element={<QhWebRules />} />
+        <Route path="qh/simulation" element={<QhWebSimulation />} />
+        <Route path="qh/eligible" element={<QhWebEligible />} />
+        <Route path="qh/window" element={<QhWebWindow />} />
+        <Route path="qh/queue" element={<QhWebQueue />} />
+        <Route path="qh/applications" element={<QhWebQueue />} />
+        <Route path="qh/applications/:appId" element={<QhWebAppDetail />} />
+        <Route path="qh/applications/:appId/decision" element={<QhWebDecision />} />
+        <Route path="qh/disburse" element={<QhWebDisburse />} />
+        <Route path="qh/disburse/:loanId" element={<QhWebDisburse />} />
+        <Route path="qh/loans" element={<QhWebLoans />} />
+        <Route path="qh/loans/:loanId" element={<QhWebLoanDetail />} />
+        <Route path="qh/loans/:loanId/repay" element={<QhWebRepay />} />
+        <Route path="qh/loans/:loanId/close" element={<QhWebClose />} />
+        <Route path="qh/close" element={<QhWebClose />} />
+        <Route path="qh/arrears" element={<QhWebArrears />} />
+        <Route path="qh/writeoff" element={<QhWebWriteOff />} />
+        <Route path="qh/reports" element={<QhWebReports />} />
 
         <Route path=":key" element={<WebSoon />} />
         <Route path="*" element={<Navigate to="/w/dashboard" replace />} />

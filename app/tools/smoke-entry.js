@@ -53,6 +53,15 @@ const WEB_ROUTES = [
   ['/w/jg/join', 'অংশগ্রহণ ব্যবস্থাপনা ও যোগদান অনুমোদন'], ['/w/jg/collect', 'অবদান সংগ্রহ ও বকেয়া'],
   ['/w/jg/milestones', 'মাইলস্টোন ও অগ্রগতি'], ['/w/jg/spend', 'অর্থ ব্যবহার ও বিতরণ'],
   ['/w/jg/close', 'মেয়াদোত্তীর্ণ ও নিষ্পত্তি'], ['/w/jg/reports', 'Joint Goal রিপোর্ট ও নিরীক্ষা'],
+  ['/w/qh', 'QH ড্যাশবোর্ড'], ['/w/qh/products', 'সহায়তা পণ্য কনফিগারেশন'],
+  ['/w/qh/rules', 'যোগ্যতা নিয়ম ব্যবস্থাপনা'], ['/w/qh/simulation', 'নিয়ম Simulation'],
+  ['/w/qh/eligible', 'যোগ্য সদস্য তালিকা ব্যবস্থাপনা'], ['/w/qh/window', 'আবেদন জানালা ও কোটা নিয়ন্ত্রণ'],
+  ['/w/qh/queue', 'আবেদন কিউ'], ['/w/qh/applications/qa04', 'আবেদনের সারসংক্ষেপ'],
+  ['/w/qh/applications/qa04/decision', 'সিদ্ধান্ত · অনুমোদন'], ['/w/qh/disburse', 'বিতরণ ব্যবস্থাপনা'],
+  ['/w/qh/disburse/qh05', 'OTP যাচাই'], ['/w/qh/loans', 'ঋণ, ছক ও পরিশোধ'],
+  ['/w/qh/loans/qh03', 'ঋণ হাব'], ['/w/qh/loans/qh03/repay', 'পরিশোধ এন্ট্রি ও রসিদ'],
+  ['/w/qh/loans/qh03/close', 'সমাপ্তি ও সনদ'], ['/w/qh/arrears', 'বকেয়া ও ডিফল্ট ব্যবস্থাপনা'],
+  ['/w/qh/writeoff', 'Write-off ব্যবস্থাপনা'], ['/w/qh/reports', 'কর্জে হাসানা রিপোর্ট'],
 ];
 
 const ADMIN_ROUTES = [
@@ -150,8 +159,9 @@ for (const [route, title] of WEB_ROUTES) {
         React.createElement(AdminProvider, null,
           React.createElement(AdminRoscaProvider, null,
             React.createElement(AdminJointProvider, null,
-              React.createElement(Routes, null,
-                React.createElement(Route, { path: '/w/*', element: React.createElement(AdminWebApp) })))))),
+              React.createElement(AdminQardProvider, null,
+                React.createElement(Routes, null,
+                  React.createElement(Route, { path: '/w/*', element: React.createElement(AdminWebApp) }))))))),
     );
     const ok = html.length > 1200 && html.includes(title);
     console.log(`${ok ? 'PASS' : 'FAIL'} ${route} — ${html.length} bytes`);

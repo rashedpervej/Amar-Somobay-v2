@@ -43,7 +43,7 @@ S.sec('১ · রুট নিবন্ধন');
   );
   S.check('শেয়ার্ড ৮ রুট main.tsx-এ নিবন্ধিত', ['/login', '/organizations', '/account', '/account/notifications', '/403', '/error', '/verify', '/sync'].every((r) => MAIN.includes(`path="${r}"`)));
   S.check('/a/* → AdminProvider + AdminMobileApp', /path="\/a\/\*"\s+element=\{<AdminProvider>\s*(<AdminRoscaProvider>)?\s*(<AdminJointProvider>)?\s*(<AdminQardProvider>)?\s*<AdminMobileApp \/>/.test(MAIN));
-  S.check('/w/* → AdminWebApp', /path="\/w\/\*"\s+element=\{<AdminProvider>\s*(<AdminRoscaProvider>)?\s*(<AdminJointProvider>)?\s*<AdminWebApp \/>/.test(MAIN));
+  S.check('/w/* → AdminWebApp', /path="\/w\/\*"\s+element=\{<AdminProvider>\s*(<AdminRoscaProvider>)?\s*(<AdminJointProvider>)?\s*(<AdminQardProvider>)?\s*<AdminWebApp \/>/.test(MAIN));
   S.check('অজানা পথ → /', /path="\*"\s+element=\{<Navigate to="\/" replace \/>\}/.test(MAIN));
   S.check('BrowserRouter ব্যবহৃত', /<BrowserRouter>/.test(MAIN));
 }

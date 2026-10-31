@@ -38,7 +38,7 @@ createRoot(el).render(
           <Route path="/" element={<App />} />
           <Route path="/m/*" element={<MemberProvider><ModuleProvider><MemberApp /></ModuleProvider></MemberProvider>} />
           <Route path="/a/*" element={<AdminProvider><AdminRoscaProvider><AdminJointProvider><AdminQardProvider><AdminMobileApp /></AdminQardProvider></AdminJointProvider></AdminRoscaProvider></AdminProvider>} />
-          <Route path="/w/*" element={<AdminProvider><AdminRoscaProvider><AdminJointProvider><AdminWebApp /></AdminJointProvider></AdminRoscaProvider></AdminProvider>} />
+          <Route path="/w/*" element={<AdminProvider><AdminRoscaProvider><AdminJointProvider><AdminQardProvider><AdminWebApp /></AdminQardProvider></AdminJointProvider></AdminRoscaProvider></AdminProvider>} />
           {/* শেয়ার্ড পর্দা S-01…S-08 — সব প্যানেলেই ব্যবহৃত */}
           <Route path="/login" element={<Login />} />
           <Route path="/organizations" element={<OrgSwitcher />} />

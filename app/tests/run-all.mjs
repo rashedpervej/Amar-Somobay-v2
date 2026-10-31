@@ -20,7 +20,7 @@ const SUITES = [
   ['D-09 · শেয়ার্ড ও ক্রস-কাটিং পর্দা', 'd09-shared-screens.mjs'],
   ['D-10 · সদস্য মডিউল (ROSCA · JM · QH)', 'd10-member-modules.mjs'],
   ['D-11 · অ্যাডমিন মোবাইল পর্দা (AM-01…AM-20)', 'd11-admin-mobile.mjs'],
-  ['D-12 · অ্যাডমিন ওয়েব পর্দা (ROSCA · Joint Goal)', 'd12-admin-web.mjs'],
+  ['D-12 · অ্যাডমিন ওয়েব পর্দা (ROSCA · Joint Goal · কর্জে হাসানা)', 'd12-admin-web.mjs'],
 ];
 
 const BN = '০১২৩৪৫৬৭৮৯';

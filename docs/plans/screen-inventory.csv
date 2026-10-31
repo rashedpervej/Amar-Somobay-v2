@@ -164,23 +164,23 @@ m37,QM-05,আবেদন অবস্থা ও ইতিহাস,Member App,Q
 m38,QM-06,আমার সহায়তা,Member App,QardHasanah,MEMBER,done,3,/m/qard/loans,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
 m39,QM-07,কিস্তি পরিশোধ,Member App,QardHasanah,MEMBER,done,3,/m/qard/pay,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
 m40,QM-08,সমাপ্তি সনদ,Member App,QardHasanah,MEMBER,done,3,/m/qard/certificate/:loanId,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
-a61,QA-01,QH ড্যাশবোর্ড,Admin Web,QardHasanah,,todo,9,,
-a62,QA-02,সহায়তা পণ্য কনফিগারেশন,Admin Web,QardHasanah,,todo,9,,
-a63,QA-03,যোগ্যতা নিয়ম ব্যবস্থাপনা,Admin Web,QardHasanah,,todo,9,,
-a64,QA-04,নিয়ম Simulation,Admin Web,QardHasanah,,todo,9,,
-a65,QA-05,যোগ্য সদস্য তালিকা ব্যবস্থাপনা,Admin Web,QardHasanah,,todo,9,,
-a66,QA-06,আবেদন জানালা ও কোটা নিয়ন্ত্রণ,Admin Web,QardHasanah,,todo,9,,
-a67,QA-07,আবেদন কিউ (তালিকা),Admin Web,QardHasanah,,todo,9,,
-a68,QA-08,আবেদন বিস্তারিত,Admin Web,QardHasanah,,todo,9,,
-a69,QA-09,অনুমোদন / প্রত্যাখ্যান / তথ্য চেয়ে ফেরত,Admin Web,QardHasanah,,todo,9,,
-a70,QA-10,বিতরণ ব্যবস্থাপনা,Admin Web,QardHasanah,,todo,9,,
-a71,QA-11,পরিশোধ ছক ও কিস্তি তালিকা,Admin Web,QardHasanah,,todo,9,,
-a72,QA-12,ঋণ বিস্তারিত (হাব),Admin Web,QardHasanah,,todo,9,,
-a73,QA-13,পরিশোধ এন্ট্রি ও রসিদ,Admin Web,QardHasanah,,todo,9,,
-a74,QA-14,বকেয়া ও ডিফল্ট ব্যবস্থাপনা,Admin Web,QardHasanah,,todo,9,,
-a75,QA-15,সমাপ্তি ও সনদ,Admin Web,QardHasanah,,todo,9,,
-a76,QA-16,Write-off ব্যবস্থাপনা,Admin Web,QardHasanah,,todo,9,,
-a77,QA-17,QH রিপোর্ট,Admin Web,QardHasanah,,todo,9,,
+a61,QA-01,QH ড্যাশবোর্ড,Admin Web,QardHasanah,,done,9,/w/qh,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a62,QA-02,সহায়তা পণ্য কনফিগারেশন,Admin Web,QardHasanah,,done,9,/w/qh/products,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a63,QA-03,যোগ্যতা নিয়ম ব্যবস্থাপনা,Admin Web,QardHasanah,,done,9,/w/qh/rules,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a64,QA-04,নিয়ম Simulation,Admin Web,QardHasanah,,done,9,/w/qh/simulation,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a65,QA-05,যোগ্য সদস্য তালিকা ব্যবস্থাপনা,Admin Web,QardHasanah,,done,9,/w/qh/eligible,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a66,QA-06,আবেদন জানালা ও কোটা নিয়ন্ত্রণ,Admin Web,QardHasanah,,done,9,/w/qh/window,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a67,QA-07,আবেদন কিউ (তালিকা),Admin Web,QardHasanah,,done,9,/w/qh/queue,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a68,QA-08,আবেদন বিস্তারিত,Admin Web,QardHasanah,,done,9,/w/qh/applications/:appId,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a69,QA-09,অনুমোদন / প্রত্যাখ্যান / তথ্য চেয়ে ফেরত,Admin Web,QardHasanah,,done,9,/w/qh/applications/:appId/decision,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a70,QA-10,বিতরণ ব্যবস্থাপনা,Admin Web,QardHasanah,,done,9,/w/qh/disburse,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a71,QA-11,পরিশোধ ছক ও কিস্তি তালিকা,Admin Web,QardHasanah,,done,9,/w/qh/loans,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a72,QA-12,ঋণ বিস্তারিত (হাব),Admin Web,QardHasanah,,done,9,/w/qh/loans/:loanId,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a73,QA-13,পরিশোধ এন্ট্রি ও রসিদ,Admin Web,QardHasanah,,done,9,/w/qh/loans/:loanId/repay,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a74,QA-14,বকেয়া ও ডিফল্ট ব্যবস্থাপনা,Admin Web,QardHasanah,,done,9,/w/qh/arrears,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a75,QA-15,সমাপ্তি ও সনদ,Admin Web,QardHasanah,,done,9,/w/qh/loans/:loanId/close,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a76,QA-16,Write-off ব্যবস্থাপনা,Admin Web,QardHasanah,,done,9,/w/qh/writeoff,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a77,QA-17,QH রিপোর্ট,Admin Web,QardHasanah,,done,9,/w/qh/reports,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
 am58,QAM-01,QH ড্যাশবোর্ড (মোবাইল),Admin App,QardHasanah,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),done,7,/a/qh,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
 am59,QAM-02,পণ্য কনফিগারেশন (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · MANAGER (প্রস্তাব),done,7,/a/qh/products,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
 am60,QAM-03,যোগ্যতা নিয়ম (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · APPROVER,done,7,/a/qh/rules,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত

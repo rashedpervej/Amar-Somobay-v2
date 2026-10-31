@@ -114,7 +114,7 @@ export default function QuickEntry() {
         <SectionHead title="অঙ্ক" sub="কিস্তির কম নয় — বেশি হলে পরের কিস্তিতে যোগ হবে" />
         <Card>
           {error ? <ErrorBanner>{error}</ErrorBanner> : null}
-          <Field label="জমার অঙ্ক" required hint="বাংলা বা ইংরেজি 숫자 — দুটোই গ্রহণযোগ্য">
+          <Field label="জমার অঙ্ক" required hint="বাংলা বা ইংরেজি সংখ্যা — দুটোই গ্রহণযোগ্য">
             {(fid) => (
               <input id={fid} inputMode="numeric" value={amount}
                 onChange={(e) => setAmount(e.target.value ? Number(e.target.value.replace(/\D/g, '')) : '')}

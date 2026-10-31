@@ -14,7 +14,7 @@ import { spawnSync } from 'node:child_process';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
-const S = createSuite('D-12 · অ্যাডমিন ওয়েব পর্দা (ROSCA · Joint Goal)');
+const S = createSuite('D-12 · অ্যাডমিন ওয়েব পর্দা (ROSCA · Joint Goal · কর্জে হাসানা)');
 const read = (p) => (existsSync(join(ROOT, p)) ? readFileSync(join(ROOT, p), 'utf8') : '');
 const txt = (f) => read(`src/apps/admin/web/${f}.tsx`);
 
@@ -26,6 +26,9 @@ const DIR = join(ROOT, 'src/apps/admin/web');
 const FILES = readdirSync(DIR).filter((f) => f.endsWith('.tsx') && f !== 'webParts.tsx');
 const RC_FILES = FILES.filter((f) => f.startsWith('Rc'));
 const JG_FILES = FILES.filter((f) => f.startsWith('Jg'));
+const QH_FILES = FILES.filter((f) => f.startsWith('Qh'));
+const BASE_FILES = [...RC_FILES, ...JG_FILES];
+const QH = read('src/store/adminQardStore.tsx');
 
 const ROUTES = [
   'rc', 'rc/schemes', 'rc/schemes/new', 'rc/schemes/:schemeId', 'rc/circles', 'rc/circles/:circleId',
@@ -33,17 +36,24 @@ const ROUTES = [
   'rc/defaults', 'rc/reports',
   'jg', 'jg/goals', 'jg/goals/new', 'jg/goals/:goalId', 'jg/join', 'jg/collect', 'jg/milestones',
   'jg/spend', 'jg/close', 'jg/reports',
+  'qh', 'qh/products', 'qh/rules', 'qh/simulation', 'qh/eligible', 'qh/window', 'qh/queue',
+  'qh/applications/:appId', 'qh/applications/:appId/decision', 'qh/disburse', 'qh/disburse/:loanId',
+  'qh/loans', 'qh/loans/:loanId', 'qh/loans/:loanId/repay', 'qh/loans/:loanId/close', 'qh/close',
+  'qh/arrears', 'qh/writeoff', 'qh/reports',
 ];
 
 S.sec('১ · ফাইল, রুট ও প্রোভাইডার');
 S.eq('ROSCA ডেস্কটপ পর্দা ১২টি', RC_FILES.length, 12);
 S.eq('Joint Goal ডেস্কটপ পর্দা ১০টি', JG_FILES.length, 10);
-S.check('প্রতিটি পর্দা Page শেল ব্যবহার করে', FILES.every((f) => /<Page\b/.test(txt(f.replace('.tsx', '')))), FILES.filter((f) => !/<Page\b/.test(txt(f.replace('.tsx', '')))).join(', '));
-S.check('প্রতিটি পর্দা আসল স্টোর ব্যবহার করে', FILES.every((f) => /useAdmin(Ro|Jg)\(\)/.test(txt(f.replace('.tsx', '')))), FILES.filter((f) => !/useAdmin(Ro|Jg)\(\)/.test(txt(f.replace('.tsx', '')))).join(', '));
-S.check('২৩টি রুট AdminWebApp-এ নিবন্ধিত', ROUTES.every((r) => APP.includes(`path="${r}"`)), ROUTES.filter((r) => !APP.includes(`path="${r}"`)).join(', '));
-S.check('/w/* প্রোভাইডার-চেইনে (Admin ↔ Rosca ↔ Joint)', /path="\/w\/\*"\s+element=\{<AdminProvider>\s*<AdminRoscaProvider>\s*<AdminJointProvider>\s*<AdminWebApp \/>/.test(MAIN));
-S.check('sidebar-এর ১৪ কী → আসল রুট', ['rcdash', 'rcscheme', 'rccircle', 'rcdraw', 'rccollect', 'rcdefault', 'rcreport', 'jgdash', 'jggoal', 'jgjoin', 'jgcollect', 'jgmile', 'jgspend', 'jgreport'].every((k) => APP.includes(`${k}: '/w/`)));
-S.check('অজানা কী-তে সৎ ব্যাচ কার্ড (placeholder নয়)', /WebSoon/.test(APP) && /ব্যাচ ৯–১২/.test(APP));
+S.eq('কর্জে হাসানা ডেস্কটপ পর্দা ১৭টি', QH_FILES.length, 17);
+S.check('ROSCA/JG পর্দা Page শেল ব্যবহার করে', BASE_FILES.every((f) => /<Page\b/.test(txt(f.replace('.tsx', '')))), BASE_FILES.filter((f) => !/<Page\b/.test(txt(f.replace('.tsx', '')))).join(', '));
+S.check('QH পর্দা Page শেল ব্যবহার করে', QH_FILES.every((f) => /<Page\b/.test(txt(f.replace('.tsx', '')))), QH_FILES.filter((f) => !/<Page\b/.test(txt(f.replace('.tsx', '')))).join(', '));
+S.check('ROSCA/JG পর্দা নিজস্ব স্টোর ব্যবহার করে', BASE_FILES.every((f) => /useAdmin(Ro|Jg)\(\)/.test(txt(f.replace('.tsx', '')))), BASE_FILES.filter((f) => !/useAdmin(Ro|Jg)\(\)/.test(txt(f.replace('.tsx', '')))).join(', '));
+S.check('QH পর্দা adminQardStore ব্যবহার করে', QH_FILES.every((f) => /useAdminQh\(\)/.test(txt(f.replace('.tsx', '')))), QH_FILES.filter((f) => !/useAdminQh\(\)/.test(txt(f.replace('.tsx', '')))).join(', '));
+S.check('৪২টি রুট AdminWebApp-এ নিবন্ধিত', ROUTES.every((r) => APP.includes(`path="${r}"`)), ROUTES.filter((r) => !APP.includes(`path="${r}"`)).join(', '));
+S.check('/w/* প্রোভাইডার-চেইনে (Admin ↔ Rosca ↔ Joint ↔ Qard)', /path="\/w\/\*"\s+element=\{<AdminProvider>\s*<AdminRoscaProvider>\s*<AdminJointProvider>\s*<AdminQardProvider>\s*<AdminWebApp \/>/.test(MAIN));
+S.check('sidebar-এর ২৪ কী → আসল রুট', ['rcdash', 'rcscheme', 'rccircle', 'rcdraw', 'rccollect', 'rcdefault', 'rcreport', 'jgdash', 'jggoal', 'jgjoin', 'jgcollect', 'jgmile', 'jgspend', 'jgreport', 'qhdash', 'qhproduct', 'qhsim', 'qhelig', 'qhwindow', 'qhqueue', 'qhdisb', 'qhloan', 'qharrears', 'qhreport'].every((k) => APP.includes(`${k}: '/w/`)));
+S.check('অজানা কী-তে সৎ ব্যাচ কার্ড (placeholder নয়)', /WebSoon/.test(APP) && /ব্যাচ ১০–১২/.test(APP));
 
 S.sec('২ · স্কিম ও সার্কেল নিয়ম');
 S.check('স্কিম কোডের ধারা RCS-XX', /কোডের ধারা RCS-01/.test(RO));
@@ -78,6 +88,8 @@ S.check('পরিশোধিত ভাউচার ফেরানো যা�
 S.sec('৫ · ডিজাইন ও ভাষা');
 const all = FILES.map((f) => [f, txt(f.replace('.tsx', ''))]);
 S.check('কোনো কাঁচা hex নেই', !all.some(([, t]) => /#[0-9a-fA-F]{3,8}\b/.test(t)), all.filter(([, t]) => /#[0-9a-fA-F]{3,8}\b/.test(t)).map(([f]) => f).join(', '));
+S.check('QH ৪-স্তর নিয়ম, OTP, maker≠checker, write-off ও সনদ', /QhLayerRow/.test(txt('QhWebRules')) && /disburse\(loan.id, \{ otp/.test(txt('QhWebDisburse')) && /maker ≠ checker/.test(txt('QhWebDecision')) && /proposeWriteOff/.test(txt('QhWebWriteOff')) && /closeLoan/.test(txt('QhWebClose')));
+S.check('QH সংরক্ষণ/সিদ্ধান্ত অ্যাকশন সংযুক্ত', /saveProduct\(/.test(txt('QhWebProducts')) && /saveRuleVersion\(/.test(txt('QhWebRules')) && /runSim\(/.test(txt('QhWebSimulation')) && /saveWindow\(/.test(txt('QhWebWindow')) && /decideApp\(/.test(txt('QhWebDecision')) && /recordRepay\(/.test(txt('QhWebRepay')));
 S.check('“শীঘ্রই আসছে / ফেজ ৪” প্লেসহোল্ডার নেই', !all.some(([, t]) => /শীঘ্রই আসছে|ফেজ ৪|Coming soon/.test(t)));
 S.check('সুদ সর্বত্র শূন্য-ঘোষণা', !all.some(([, t]) => (t.match(/সুদ/g) || []).length && !/সুদ শূন্য|সুদমুক্ত|সুদ \/|সুদ নেই/.test(t)));
 S.check('profit_percentage / interest_rate নেই', !all.some(([, t]) => /profit_percentage|interest_rate/.test(t)));
@@ -98,10 +110,26 @@ S.sec('৬ · ডোমেইন-গণিত (বান্ডল)');
   S.check('বকেয়া কেবল ধনাত্মক ঘাটতি', J.jgArrearsOf(J.SEED_JGOALS, J.SEED_JPARTS, J.SEED_JCONTRIBS, 'jg01').every((x) => x.gap > 0));
   S.check('পরিশোধিত ব্যয় ≤ সংগৃহীত', J.jgSpend(J.SEED_JDISB) <= J.SEED_JGOALS.reduce((n, g) => n + J.jgCollected(J.SEED_JCONTRIBS, g.id), 0) + 1);
 }
+
+S.sec('৬খ · কর্জে হাসানা ডোমেইন-গণিত (বান্ডল)');
+{
+  const b = spawnSync(join(ROOT, 'node_modules/.bin/esbuild'), ['src/domain/adminQard.ts', '--bundle', '--format=esm', '--outdir=node_modules/.cache/dt12', '--log-level=warning'], { cwd: ROOT, encoding: 'utf8' });
+  S.check('QH ডোমেইন বান্ডল', b.status === 0, (b.stderr || '').slice(0, 200));
+  const Q = await import(`${join(ROOT, 'node_modules/.cache/dt12')}/adminQard.js`);
+  const p = Q.qhPoolState(Q.SEED_QH_WINDOW, Q.SEED_QH_LOANS, Q.SEED_QH_APPS);
+  S.check('পুল: বরাদ্দ = মুক্ত + হল্ড + প্রতিশ্রুত (D-40)', p.allocated >= p.available + p.held && p.available === Math.max(0, p.allocated - p.held - p.committed));
+  S.check('কিস্তি অঙ্ক = মূলধন ÷ মেয়াদ (রাউন্ডিং ≤ ১ টাকা/কিস্তি)', Q.SEED_QH_LOANS.every((l) => Math.abs(Q.qhPerInst(l) * l.tenure - l.principal) < l.tenure));
+  const out = Q.SEED_QH_LOANS.reduce((n, l) => n + Q.qhOutstanding(l, Q.SEED_QH_REPAYMENTS, Q.SEED_QH_WRITEOFFS), 0);
+  S.check('বাকি মূলধন কখনো ঋণাত্মক নয়', out >= 0);
+  S.check('লেট ফি / সুদ ধারণকারী ফিল্ড নেই', !/(profit_percentage|interest_rate|late_fee)\s*[:=?]/.test(read('src/domain/adminQard.ts')));
+  S.check('সনদ নম্বরের ধারা QHC-YYMM-####', /QHC-2610-0001/.test(Q.qhCertNo(1)));
+  S.check('কিস্তি ছক প্রথম কিস্তি থেকে শুরু', Q.qhInsts(Q.SEED_QH_LOANS[1], Q.SEED_QH_REPAYMENTS)[0].no === 1);
+}
 S.sec('৭ · রেন্ডার-স্মোক কভারেজ');
 {
   const smoke = read('tools/smoke-entry.js');
-  S.check('স্মোকে ২৪টি ওয়েব রুট আছে', (smoke.match(/'\/w\//g) || []).length >= 24, `${(smoke.match(/'\/w\//g) || []).length}`);
-  S.check('স্মোকে AdminWebApp প্রোভাইডারসহ', /AdminWebApp/.test(smoke) && /path: '\/w\/\*'/.test(smoke));
+  S.check('স্মোকে ৪৩+ ওয়েব রুট আছে', (smoke.match(/'\/w\//g) || []).length >= 43, `${(smoke.match(/'\/w\//g) || []).length}`);
+  S.check('স্মোকে AdminWebApp প্রোভাইডারসহ (QH সহ)', /AdminWebApp/.test(smoke) && /AdminQardProvider/.test(smoke) && /path: '\/w\/\*'/.test(smoke));
+  S.check('স্মোকে ১৮টি QH ওয়েব রুট', (smoke.match(/'\/w\/qh/g) || []).length >= 18, `${(smoke.match(/'\/w\/qh/g) || []).length}`);
 }
 S.report();
