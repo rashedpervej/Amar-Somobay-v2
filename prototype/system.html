@@ -81,8 +81,8 @@
   </div>
 </div>
 
-<script src="assets/app.js" type="9bdbc80fb549c8a938256dbf-text/javascript"></script>
-<script type="9bdbc80fb549c8a938256dbf-text/javascript">
+<script src="assets/app.js" type="text/javascript"></script>
+<script type="text/javascript">
 const B = [];
 const block = (id, num, title, code, desc, stageHtml, note) => B.push({ id, num, title, code, desc, stageHtml, note });
 
@@ -606,5 +606,5 @@ document.getElementById('blocks').innerHTML = B.map(b => `
   </div>`).join('');
 document.getElementById('toc').innerHTML = B.map(b => `<button onclick="go('#${b.id}')">${b.num} · ${b.title.split('—')[0]}</button>`).join('');
 </script>
-<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="9bdbc80fb549c8a938256dbf-|49" defer></script></body>
+</body>
 </html>

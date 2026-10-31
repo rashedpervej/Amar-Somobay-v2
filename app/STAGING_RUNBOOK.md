@@ -1,4 +1,13 @@
-# Somobay — Staging Runbook (reconstructed)
+# Somobay — Staging Runbook
+
+> ## 🏷️ নথির শ্রেণি: **RECONSTRUCTED DOCUMENTATION** (পুনর্গঠিত নথি — মূল নয়)
+> | | |
+> |---|---|
+> | **অবস্থা** | 🔶 পুনর্গঠিত (মূল ফাইল পাওয়া যায়নি) |
+> | **মূল নথি** | `STAGING_RUNBOOK.md` (~১৫.৮ KB) — Drive ID `1R_jRYdluAO_QhAwKPF7jih5EuN2ogWm` → **404** |
+> | **ভিত্তি** | `app/db/*_AUDIT_ONLY.sql` ও `*_DRAFT.sql`-এর হেডার, `app/.env.example`, `app/tests/*`, `specs/06 §E.7/§E.9`, `reports/phase1-d01-d02-report.md`, `HANDOFF.md` |
+> | **অনুমান** | শূন্য — যেখানে প্রমাণ নেই সেখানে `❓ অজানা` (§১০, ৬টি) |
+> | **মর্যাদা** | মূল ফাইল পেলে **এর সাথে মিলিয়ে সংশোধন করতে হবে**; ততদিন এটি কার্যকর খসড়া |
 
 > **⚠️ পুনর্নির্মাণ-নোট (D1, ৩১ অক্টোবর ২০২৬)**
 > মূল `STAGING_RUNBOOK.md` (১৫.৮ KB) Google Drive থেকে আর খোলা যাচ্ছিল না (ড্রাইভ 404)।

@@ -5,6 +5,7 @@ const BN = (v) => String(v ?? '').replace(/[0-9]/g, (d) => '০১২৩৪৫�
 export function createSuite(title) {
   let pass = 0;
   const failures = [];
+  const skips = [];
   let section = '';
 
   const out = [];
@@ -66,12 +67,25 @@ export function createSuite(title) {
     return check(label, !error, error ? `${note} → ${error.message}` : undefined);
   }
 
+  /* ⏭ SKIP — বাহ্যিক/ঐচ্ছিক নির্ভরতা না থাকলে ফেল নয়, কারণসহ বাদ দেওয়া হয়।
+     (ব্যবহারকারীর সিদ্ধান্ত, ৩১ অক্টোবর ২০২৬: reference/ ডুপ্লিকেট কপি বানানো হবে না) */
+  function skip(label, reason) {
+    skips.push({ section, label, reason });
+    log(`  ⏭ ${label} — SKIP${reason ? ` (${reason})` : ''}`);
+    return false;
+  }
+
   function note(text) { log(`  ⓘ ${text}`); }
 
   function report({ exitOnFail = true } = {}) {
     const fail = failures.length;
     log('');
-    log(`  মোট: ${BN(pass + fail)} · পাস ${BN(pass)} · ফেল ${BN(fail)}`);
+    log(`  মোট: ${BN(pass + fail)} · পাস ${BN(pass)} · ফেল ${BN(fail)}`
+        + (skips.length ? ` · স্কিপ ${BN(skips.length)}` : ''));
+    if (skips.length) {
+      log('\n  স্কিপ করা চেক (কারণসহ):');
+      for (const s of skips) log(`   • [${s.section}] ${s.label} — ${s.reason}`);
+    }
     if (fail) {
       log('\n  ব্যর্থ চেক:');
       for (const f of failures) log(`   • [${f.section}] ${f.label}${f.info ? ` — ${typeof f.info === 'string' ? f.info : JSON.stringify(f.info)}` : ''}`);
@@ -79,10 +93,10 @@ export function createSuite(title) {
     const text = out.join('\n');
     console.log(text);
     if (exitOnFail && fail) process.exitCode = 1;
-    return { pass, fail, failures, text };
+    return { pass, fail, failures, skips, text };
   }
 
-  return { sec, check, eq, throwsWith, throwsAsync, deniedAsync, allowedAsync, note, report, get failures() { return failures; } };
+  return { sec, check, eq, throwsWith, throwsAsync, deniedAsync, allowedAsync, note, skip, report, get failures() { return failures; }, get skips() { return skips; } };
 }
 
 export { BN };

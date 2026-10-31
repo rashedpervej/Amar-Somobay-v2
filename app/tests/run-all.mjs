@@ -18,7 +18,7 @@ const SUITES = [
 const BN = '০১২৩৪৫৬৭৮৯';
 const toLatin = (s) => s.replace(/[০-৯]/g, (d) => BN.indexOf(d));
 
-let totalPass = 0, totalFail = 0, totalAll = 0;
+let totalPass = 0, totalFail = 0, totalAll = 0, totalSkip = 0;
 const rows = [];
 
 for (const [label, file] of SUITES) {
@@ -29,9 +29,12 @@ for (const [label, file] of SUITES) {
   const all = m ? Number(toLatin(m[1])) : 0;
   const pass = m ? Number(toLatin(m[2])) : 0;
   const fail = m ? Number(toLatin(m[3])) : 0;
+  const sm = out.match(/·\s*স্কিপ\s*([\d০-৯]+)/);
+  const skip = sm ? Number(toLatin(sm[1])) : 0;
+  totalSkip += skip;
   const crashed = r.status !== 0 && !m;
   totalAll += all; totalPass += pass; totalFail += fail;
-  rows.push({ label, file, all, pass, fail, crashed, ms: Date.now() - t0 });
+  rows.push({ label, file, all, pass, fail, skip, crashed, ms: Date.now() - t0 });
 
   if (fail || crashed) {
     // ব্যর্থ চেকগুলো সরাসরি দেখানো হয় যাতে আলাদা করে না চালানো লাগে
@@ -39,15 +42,18 @@ for (const [label, file] of SUITES) {
     console.log(`\n❌ ${label} — ${fail} ফেল`);
     tail.forEach((l) => console.log('   ' + l.trim()));
   } else {
-    console.log(`✅ ${label} — ${pass}/${all} (${rows.at(-1).ms} ms)`);
+    console.log(`✅ ${label} — ${pass}/${all}` + (skip ? ` · স্কিপ ${skip}` : '') + ` (${rows.at(-1).ms} ms)`);
   }
 }
 
 console.log('\n════════ সারসংক্ষেপ ════════');
 for (const r of rows) {
   const mark = (r.fail || r.crashed) ? '❌' : '✅';
-  console.log(`${mark} ${r.file.padEnd(28)} ${String(r.pass).padStart(4)}/${String(r.all).padEnd(4)} ${r.crashed ? '(ক্র্যাশ)' : ''}`);
+  console.log(`${mark} ${r.file.padEnd(28)} ${String(r.pass).padStart(4)}/${String(r.all).padEnd(4)}`
+    + (r.skip ? `${String(r.skip).padStart(2)} স্কিপ` : '        ')
+    + ` ${r.crashed ? '(ক্র্যাশ)' : ''}`);
 }
-console.log(`\nমোট চেক: ${totalAll} · পাস: ${totalPass} · ফেল: ${totalFail}`);
+console.log(`\nমোট চেক: ${totalAll} · পাস: ${totalPass} · ফেল: ${totalFail}`
+  + (totalSkip ? ` · স্কিপ: ${totalSkip} (কারণসহ, ওপরের তালিকায়)` : ''));
 if (totalFail === 0 && totalAll > 0) console.log('সব হার্নেস সবুজ ✅');
 process.exit(totalFail === 0 && totalAll > 0 ? 0 : 1);

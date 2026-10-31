@@ -56,8 +56,14 @@ function scanPatterns(root) {
 
 S.sec('১ · Source A baseline (পরিবর্তনের আগে)');
 if (!existsSync(REF)) {
-  S.note('reference/amar-somobay-v2 পাওয়া যায়নি — Source A স্ক্যান স্কিপ');
-  S.check('reference ট্রি উপস্থিত', false);
+  /* SKIP — ব্যবহারকারীর সিদ্ধান্ত (৩১ অক্টোবর ২০২৬):
+     পুরনো রেপোর দ্বিতীয় কপি (reference/amar-somobay-v2) তৈরি করার প্রয়োজন নেই।
+     কারণ: source tree ইতিমধ্যে এই রেপোতেই (git history-সহ) আছে; কপি রাখলে ~৪০ হাজার
+     লাইন ডুপ্লিকেট হয় এবং দুটি "সত্যের উৎস" তৈরি হওয়ার ঝুঁকি থাকে।
+     ফলে baseline-প্রমাণ হিসেবে §১-এর স্ক্যান চেকগুলো এখানে চালানো হয় না —
+     D-01 basline-প্রমাণ অডিট রিপোর্টে (reports/d01-profit-percentage-analysis.md)
+     ও git history-তে সংরক্ষিত। */
+  S.skip('reference ট্রি উপস্থিত', 'ব্যবহারকারীর সিদ্ধান্ত — ডুপ্লিকেট রেপো কপি নয়; baseline প্রমাণ reports/ ও git-এ');
 } else {
   const base = scanSourceTree(join(REF, 'src'), { exts: ['.ts', '.tsx'] });
   const baseErr = base.filter((f) => f.severity === 'error');
@@ -74,8 +80,12 @@ if (!existsSync(REF)) {
 
 S.sec('২ · প্যাচ প্রয়োগের পর (Source A + patches/)');
 if (!patchedRoot) {
-  S.note('প্যাচড ট্রি পাওয়া যায়নি। তৈরি করুন: python3 app/tools/make-patches.py  (অথবা tools/verify-patch.sh)');
-  S.check('প্যাচড ট্রি উপস্থিত', false);
+  /* SKIP — প্যাচড ট্রি তৈরি হয় `tools/make-patches.py` দিয়ে, যার ইনপুট হলো reference/ কপি।
+     সেই কপি ইতিমধ্যে বাতিল (উপরের §১) — তাই এখানেও প্যাচড-ট্রি যাচাই চালানো হয় না।
+     D-01 ও D-02-এর প্রকৃত যাচাই এখন সরাসরি এই রেপোর নিজের `src/`-এ হয়:
+     `d01-no-interest.mjs` (৬৪ চেক) ও `d02-tenant-isolation.mjs` (৮৭ চেক)।
+     প্যাচের কাঠামো নিচে §৩-এ আলাদাভাবে যাচাই করা হয় (ফাইল-তালিকা, পাথ, নিষিদ্ধ statement)। */
+  S.skip('প্যাচড ট্রি উপস্থিত', 'make-patches.py-এর ইনপুট reference/ বাতিল; প্রকৃত যাচাই d01/d02-এ হয়');
 } else {
   S.note(`প্যাচড ট্রি: ${patchedRoot}`);
   const after = scanSourceTree(join(patchedRoot, 'src'), { exts: ['.ts', '.tsx'] });
