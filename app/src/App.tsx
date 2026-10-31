@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { LayoutDashboard, Monitor, Smartphone } from 'lucide-react';
 import DesignSystemPage from './pages/DesignSystemPage';
 import PolicyPage from './pages/PolicyPage';
 import FoundationPage from './pages/FoundationPage';
@@ -28,7 +30,20 @@ export default function App() {
               <p className="text-sm text-green-100 opacity-90">তিনটি শেল · প্রোটোটাইপ-যাচাই করা নেভিগেশন · সুদমুক্ত নীতি · tenant গার্ড</p>
             </div>
           </div>
-          <nav className="mt-4 flex gap-2 overflow-x-auto">
+          {/* লাইভ অ্যাপ — তিনটি শেলের আসল রুট */}
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <Link to="/m/home" className="min-h-tap rounded-r-sm bg-white/10 hover:bg-white/15 border border-white/25 px-3 flex items-center gap-2 text-sm font-bold">
+              <Smartphone size={17} /> সদস্য অ্যাপ
+            </Link>
+            <Link to="/a/home?role=MANAGER" className="min-h-tap rounded-r-sm bg-white/10 hover:bg-white/15 border border-white/25 px-3 flex items-center gap-2 text-sm font-bold">
+              <LayoutDashboard size={17} /> অ্যাডমিন অ্যাপ
+            </Link>
+            <Link to="/w/dashboard" className="min-h-tap rounded-r-sm bg-white/10 hover:bg-white/15 border border-white/25 px-3 flex items-center gap-2 text-sm font-bold">
+              <Monitor size={17} /> অ্যাডমিন ওয়েব
+            </Link>
+          </div>
+
+          <nav className="mt-3 flex gap-2 overflow-x-auto">
             {TABS.map((t) => (
               <button key={t.id} type="button" onClick={() => setTab(t.id)}
                 title={t.sub}
