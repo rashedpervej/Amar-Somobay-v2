@@ -63,13 +63,14 @@ const invIds = new Set(rows.map((r) => r.id));
 const APP_SRC = [...walk('src')].map((f) => read(f)).join('\n');
 
 S.sec('১ · ইনভেন্টরি প্রোটোটাইপের সাথে মেলে');
-S.eq('ইনভেন্টরি সারি = ১৯৯', rows.length, 199);
+S.eq('ইনভেন্টরি সারি = ২০৫ (১৯৯ প্রোটোটাইপ + ৬ ব্যাচ-১২)', rows.length, 205);
 S.eq('প্রোটোটাইপ META-তেও ১৯৯টি আইডি', protoIds.length, 199);
 {
   const missing = [...protoSet].filter((id) => !invIds.has(id));
-  const extra = [...invIds].filter((id) => !protoSet.has(id));
+  const BATCH12 = new Set(['s09', 's10', 's11', 'm22a', 'a39a', 'a40a']);
+  const extra = [...invIds].filter((id) => !protoSet.has(id) && !BATCH12.has(id));
   S.check('প্রোটোটাইপের প্রতিটি স্ক্রিন ইনভেন্টরিতে আছে', missing.length === 0, missing.join(', '));
-  S.check('ইনভেন্টরিতে প্রোটোটাইপের বাইরের স্ক্রিন নেই', extra.length === 0, extra.join(', '));
+  S.check('প্রোটোটাইপের বাইরে কেবল অনুমোদিত ব্যাচ-১২ পর্দা', extra.length === 0, extra.join(', '));
   const dup = rows.length - invIds.size;
   S.eq('ডুপ্লিকেট আইডি নেই', dup, 0);
   S.check('প্রতিটি সারিতে নাম আছে', rows.every((r) => r.name && r.name.length > 1));
@@ -78,15 +79,15 @@ S.eq('প্রোটোটাইপ META-তেও ১৯৯টি আইডি
 S.sec('২ · প্ল্যাটফর্ম ও মডিউল গণনা');
 {
   const count = (fn) => rows.filter(fn).length;
-  S.eq('সদস্য অ্যাপ ৪০', count((r) => r.platform === 'Member App'), 40);
+  S.eq('সদস্য অ্যাপ ৪৪', count((r) => r.platform === 'Member App'), 44);
   S.eq('অ্যাডমিন অ্যাপ ৭৪', count((r) => r.platform === 'Admin App'), 74);
   S.eq('অ্যাডমিন ওয়েব ৭৭', count((r) => r.platform === 'Admin Web'), 77);
-  S.eq('শেয়ার্ড ৮', count((r) => r.platform === 'Shared'), 8);
-  S.eq('GeneralSavings ৯৪', count((r) => r.module === 'GeneralSavings'), 94);
+  S.eq('শেয়ার্ড ১০', count((r) => r.platform === 'Shared'), 10);
+  S.eq('GeneralSavings ৯৭', count((r) => r.module === 'GeneralSavings'), 97);
   S.eq('ROSCA ৩০', count((r) => r.module === 'ROSCA'), 30);
   S.eq('JointGoal ২৫', count((r) => r.module === 'JointGoal'), 25);
   S.eq('QardHasanah ৪২', count((r) => r.module === 'QardHasanah'), 42);
-  S.eq('Shared ৮', count((r) => r.module === 'Shared'), 8);
+  S.eq('Shared ১১', count((r) => r.module === 'Shared'), 11);
 }
 
 S.sec('৩ · স্ট্যাটাস ও ব্যাচ');
@@ -105,9 +106,9 @@ S.sec('৩ · স্ট্যাটাস ও ব্যাচ');
   const done = rows.filter((r) => r.status === 'done');
   const partial = rows.filter((r) => r.status === 'partial');
   const todo = rows.filter((r) => r.status === 'todo');
-  S.eq('done + partial + todo = ১৯৯', done.length + partial.length + todo.length, 199);
+  S.eq('done + partial + todo = ২০৫', done.length + partial.length + todo.length, 205);
   S.note(`done=${done.length} · partial=${partial.length} · todo=${todo.length}`);
-  S.check('কোনো অসম্পূর্ণ পর্দার সাথে "সম্পূর্ণ" দাবি নেই', done.length < 199);
+  S.check('কোনো অসম্পূর্ণ পর্দার সাথে "সম্পূর্ণ" দাবি নেই', done.length < rows.length);
 }
 
 S.sec('৪ · "done/partial" দাবির প্রমাণ কোডে আছে');

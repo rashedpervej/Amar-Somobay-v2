@@ -70,6 +70,24 @@ import GsApprovalDetail from './web/GsApprovalDetail';
 import GsPayouts from './web/GsPayouts';
 import GsLedger from './web/GsLedger';
 import GsDues from './web/GsDues';
+import GsCollector from './web/GsCollector';
+import GsStatus from './web/GsStatus';
+import GsClaims from './web/GsClaims';
+import GsMoves from './web/GsMoves';
+import GsBulk from './web/GsBulk';
+import GsImport from './web/GsImport';
+import GsTxn from './web/GsTxn';
+import GsReversal from './web/GsReversal';
+import GsCashbook from './web/GsCashbook';
+import GsTransfer from './web/GsTransfer';
+import GsRecon from './web/GsRecon';
+import GsRoutes from './web/GsRoutes';
+import GsReminders from './web/GsReminders';
+import GsReports from './web/GsReports';
+import GsFinance from './web/GsFinance';
+import GsSettings from './web/GsSettings';
+import GsStaff from './web/GsStaff';
+import GsAudit from './web/GsAudit';
 
 function Dashboard() {
   const nav = useNavigate();
@@ -163,6 +181,26 @@ const ROUTE_MAP: Record<string, string> = {
 };
 
 const TITLES: [RegExp, string, string][] = [
+  [/^\/w\/bulk\/import/, 'CSV ইমপোর্ট ও ম্যাপিং', 'সঞ্চয় › বাল্ক › ইমপোর্ট'],
+  [/^\/w\/bulk/, 'বাল্ক জমা ও ইমপোর্ট', 'সঞ্চয় › বাল্ক'],
+  [/^\/w\/txn\/[^/]+/, 'লেনদেন ও অডিট', 'সঞ্চয় › লেনদেন › বিস্তারিত'],
+  [/^\/w\/txn/, 'লেনদেন ও অডিট', 'সঞ্চয় › লেনদেন'],
+  [/^\/w\/reversal/, 'সংশোধন ও রিভার্সাল', 'সঞ্চয় › সংশোধন'],
+  [/^\/w\/cashbook/, 'ক্যাশ বুক ও দিন সমাপ্তি', 'ক্যাশ › ক্যাশ বুক'],
+  [/^\/w\/transfer/, 'তহবিল স্থানান্তর', 'ক্যাশ › স্থানান্তর'],
+  [/^\/w\/recon/, 'রিকনসিলিয়েশন', 'ক্যাশ › রিকনসিলিয়েশন'],
+  [/^\/w\/collector/, 'আজকের রুট (সংগ্রহক)', 'সংগ্রহ › আজকের রুট'],
+  [/^\/w\/routes/, 'সংগ্রহ পরিকল্পনা ও রুট', 'সংগ্রহ › পরিকল্পনা'],
+  [/^\/w\/reminders/, 'রিমাইন্ডার শিডিউল', 'যোগাযোগ › রিমাইন্ডার'],
+  [/^\/w\/status/, 'সদস্য অবস্থা পরিবর্তন', 'সদস্য › অবস্থা'],
+  [/^\/w\/claims\/[^/]+/, 'নমিনি ও মৃত্যু দাবি', 'সদস্য › দাবি › বিস্তারিত'],
+  [/^\/w\/claims/, 'নমিনি ও মৃত্যু দাবি', 'সদস্য › দাবি'],
+  [/^\/w\/moves/, 'সদস্য স্থানান্তর', 'সদস্য › স্থানান্তর'],
+  [/^\/w\/reports/, 'রিপোর্ট কেন্দ্র', 'রিপোর্ট › কেন্দ্র'],
+  [/^\/w\/finance/, 'আর্থিক বিবরণ ও রিটার্ন', 'রিপোর্ট › আর্থিক'],
+  [/^\/w\/staff/, 'স্টাফ ও পারমিশন', 'প্রশাসন › স্টাফ'],
+  [/^\/w\/settings/, 'সেটিংস', 'প্রশাসন › সেটিংস'],
+  [/^\/w\/audit/, 'অডিট লগ', 'প্রশাসন › অডিট'],
   [/^\/w\/rc\/schemes\/new/, 'ROSCA স্কিম তৈরি', 'ROSCA › স্কিম › নতুন'],
   [/^\/w\/rc\/schemes\/[^/]+/, 'ROSCA স্কিম সম্পাদনা', 'ROSCA › স্কিম › সম্পাদনা'],
   [/^\/w\/rc\/schemes/, 'ROSCA স্কিম', 'ROSCA › স্কিম'],
@@ -252,6 +290,23 @@ function activeKey(path: string): string {
   if (path.startsWith('/w/qh/loans') || path.startsWith('/w/qh/close')) return 'qhloan';
   if (path.startsWith('/w/qh/arrears') || path.startsWith('/w/qh/writeoff')) return 'qharrears';
   if (path.startsWith('/w/qh/reports')) return 'qhreport';
+  if (path.startsWith('/w/collector')) return 'route';
+  if (path.startsWith('/w/routes')) return 'plan';
+  if (path.startsWith('/w/bulk')) return 'batch';
+  if (path.startsWith('/w/cashbook')) return 'cash';
+  if (path.startsWith('/w/transfer')) return 'transfer';
+  if (path.startsWith('/w/recon')) return 'recon';
+  if (path.startsWith('/w/txn')) return 'txn';
+  if (path.startsWith('/w/reversal')) return 'corr';
+  if (path.startsWith('/w/status')) return 'status';
+  if (path.startsWith('/w/claims')) return 'claim';
+  if (path.startsWith('/w/moves')) return 'mv';
+  if (path.startsWith('/w/reminders')) return 'remind';
+  if (path.startsWith('/w/reports')) return 'reports';
+  if (path.startsWith('/w/finance')) return 'fin';
+  if (path.startsWith('/w/settings')) return 'settings';
+  if (path.startsWith('/w/staff')) return 'staff';
+  if (path.startsWith('/w/audit')) return 'audit';
   if (path.startsWith('/w/schemes')) return 'scheme';
   if (path.startsWith('/w/members')) return 'member';
   if (path.startsWith('/w/accounts') || path.startsWith('/w/applications')) return 'member';
@@ -314,6 +369,27 @@ export default function AdminWebApp() {
         <Route path="payouts" element={<GsPayouts />} />
         <Route path="ledger" element={<GsLedger />} />
         <Route path="dues" element={<GsDues />} />
+
+        <Route path="collector" element={<GsCollector />} />
+        <Route path="status" element={<GsStatus />} />
+        <Route path="claims" element={<GsClaims />} />
+        <Route path="claims/:id" element={<GsClaims />} />
+        <Route path="moves" element={<GsMoves />} />
+        <Route path="bulk" element={<GsBulk />} />
+        <Route path="bulk/import" element={<GsImport />} />
+        <Route path="txn" element={<GsTxn />} />
+        <Route path="txn/:txnId" element={<GsTxn />} />
+        <Route path="reversal" element={<GsReversal />} />
+        <Route path="cashbook" element={<GsCashbook />} />
+        <Route path="transfer" element={<GsTransfer />} />
+        <Route path="recon" element={<GsRecon />} />
+        <Route path="routes" element={<GsRoutes />} />
+        <Route path="reminders" element={<GsReminders />} />
+        <Route path="reports" element={<GsReports />} />
+        <Route path="finance" element={<GsFinance />} />
+        <Route path="settings" element={<GsSettings />} />
+        <Route path="staff" element={<GsStaff />} />
+        <Route path="audit" element={<GsAudit />} />
 
         <Route path="rc" element={<RcDashboard />} />
         <Route path="rc/schemes" element={<RcSchemes />} />

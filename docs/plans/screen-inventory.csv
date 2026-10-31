@@ -46,24 +46,24 @@ a23,A-23,উত্তোলন আবেদন বিবরণ ও সিদ্�
 a24,A-24,নিষ্পত্তি ও পেমেন্ট,Admin Web,GeneralSavings,,done,10,/w/payouts,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 a25,A-25,লেনদেন ব্যবস্থাপনা / সাধারণ লেজার,Admin Web,GeneralSavings,,done,10,/w/ledger,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 a31,A-31,বকেয়া রেজিস্টার,Admin Web,GeneralSavings,,done,10,/w/dues,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
-a02,A-02,মাঠ সংগ্রহক ড্যাশবোর্ড,Admin Web,GeneralSavings,COLLECTOR (মাঠ),todo,11,,
-a12,A-12,সদস্য অবস্থা পরিবর্তন (Suspend / Freeze / Dormant),Admin Web,GeneralSavings,,todo,11,,
-a14,A-14,মৃত্যু দাবি নিষ্পত্তি,Admin Web,GeneralSavings,,todo,11,,
-a18,A-18,বাল্ক জমা / কিস্তি এন্ট্রি,Admin Web,GeneralSavings,,todo,11,,
-a19,A-19,বাল্ক ইমপোর্ট ও ম্যাপিং (CSV),Admin Web,GeneralSavings,,todo,11,,
-a26,A-26,লেনদেন বিবরণ (ফরেনসিক) ও অডিট ট্রেইল,Admin Web,GeneralSavings,,todo,11,,
-a27,A-27,লেনদেন সংশোধন / রিভার্সাল (Reversal JE),Admin Web,GeneralSavings,,todo,11,,
-a28,A-28,দিনশেষ জমা ও ক্যাশ বুক,Admin Web,GeneralSavings,,todo,11,,
-a29,A-29,তহবিল স্থানান্তর (Cash ↔ Bank ↔ Wallet),Admin Web,GeneralSavings,,todo,11,,
-a30,A-30,রিকনসিলিয়েশন ও ব্যতিক্রম নিষ্পত্তি,Admin Web,GeneralSavings,,todo,11,,
-a32,A-32,সংগ্রহ পরিকল্পনা ও রুট,Admin Web,GeneralSavings,,todo,11,,
-a33,A-33,রিমাইন্ডার ও যোগাযোগ শিডিউল,Admin Web,GeneralSavings,,todo,11,,
-a34,A-34,রিপোর্ট কেন্দ্র,Admin Web,GeneralSavings,,todo,11,,
-a16,A-16,সদস্য স্থানান্তর (রুট / শাখা),Admin Web,GeneralSavings,,todo,11,,
-a35,A-35,আর্থিক বিবরণ ও রেগুলেটরি রিটার্ন,Admin Web,GeneralSavings,,todo,11,,
-a36,A-36,সেটিংস হাব,Admin Web,GeneralSavings,,todo,11,,
-a37,A-37,"স্টাফ, রোল ও পারমিশন",Admin Web,GeneralSavings,,todo,11,,
-a38,A-38,অডিট লগ,Admin Web,GeneralSavings,,todo,11,,
+a02,A-02,মাঠ সংগ্রহক ড্যাশবোর্ড,Admin Web,GeneralSavings,COLLECTOR (মাঠ),done,11,/w/collector,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a12,A-12,সদস্য অবস্থা পরিবর্তন (Suspend / Freeze / Dormant),Admin Web,GeneralSavings,,done,11,/w/status,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a14,A-14,মৃত্যু দাবি নিষ্পত্তি,Admin Web,GeneralSavings,,done,11,/w/claims/:id,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a18,A-18,বাল্ক জমা / কিস্তি এন্ট্রি,Admin Web,GeneralSavings,,done,11,/w/bulk,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a19,A-19,বাল্ক ইমপোর্ট ও ম্যাপিং (CSV),Admin Web,GeneralSavings,,done,11,/w/bulk/import,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a26,A-26,লেনদেন বিবরণ (ফরেনসিক) ও অডিট ট্রেইল,Admin Web,GeneralSavings,,done,11,/w/txn/:txnId,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a27,A-27,লেনদেন সংশোধন / রিভার্সাল (Reversal JE),Admin Web,GeneralSavings,,done,11,/w/reversal,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a28,A-28,দিনশেষ জমা ও ক্যাশ বুক,Admin Web,GeneralSavings,,done,11,/w/cashbook,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a29,A-29,তহবিল স্থানান্তর (Cash ↔ Bank ↔ Wallet),Admin Web,GeneralSavings,,done,11,/w/transfer,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a30,A-30,রিকনসিলিয়েশন ও ব্যতিক্রম নিষ্পত্তি,Admin Web,GeneralSavings,,done,11,/w/recon,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a32,A-32,সংগ্রহ পরিকল্পনা ও রুট,Admin Web,GeneralSavings,,done,11,/w/routes,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a33,A-33,রিমাইন্ডার ও যোগাযোগ শিডিউল,Admin Web,GeneralSavings,,done,11,/w/reminders,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a34,A-34,রিপোর্ট কেন্দ্র,Admin Web,GeneralSavings,,done,11,/w/reports,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a16,A-16,সদস্য স্থানান্তর (রুট / শাখা),Admin Web,GeneralSavings,,done,11,/w/moves,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a35,A-35,আর্থিক বিবরণ ও রেগুলেটরি রিটার্ন,Admin Web,GeneralSavings,,done,11,/w/finance,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a36,A-36,সেটিংস হাব,Admin Web,GeneralSavings,,done,11,/w/settings,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a37,A-37,"স্টাফ, রোল ও পারমিশন",Admin Web,GeneralSavings,,done,11,/w/staff,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a38,A-38,অডিট লগ,Admin Web,GeneralSavings,,done,11,/w/audit,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 a39,RA-01,ROSCA ড্যাশবোর্ড,Admin Web,ROSCA,,done,8,/w/rc,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
 a40,RA-02,ROSCA স্কিম তালিকা,Admin Web,ROSCA,,done,8,/w/rc/schemes,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
 a41,RA-03,ROSCA স্কিম তৈরি / সম্পাদনা,Admin Web,ROSCA,,done,8,/w/rc/schemes/new,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
@@ -198,3 +198,9 @@ am71,QAM-14,বকেয়া ও ডিফল্ট ব্যবস্থা�
 am72,QAM-15,সমাপ্তি ও সনদ (মোবাইল),Admin App,QardHasanah,ACCOUNTANT · MANAGER · APPROVER,done,7,/a/qh/loans/:loanId/close,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
 am73,QAM-16,Write-off অনুমোদন (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · MANAGER (প্রস্তাব) · AUDITOR (অ্যালার্ট),done,7,/a/qh/writeoff,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
 am74,QAM-17,QH রিপোর্ট (মোবাইল),Admin App,QardHasanah,AUDITOR · ORG_ADMIN · MANAGER (R),done,7,/a/qh/reports,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+s09,S-09,সাইনআপ (স্ব-নিবন্ধন),Member App,GeneralSavings,MEMBER,todo,12,/m/signup,ব্যাচ ১২ — নতুন পর্দা (G2); প্রোটোটাইপে নেই
+s10,S-10,অনুমোদনের অপেক্ষা,Member App,GeneralSavings,MEMBER,todo,12,/m/pending,ব্যাচ ১২ — নতুন পর্দা (G2); প্রোটোটাইপে নেই
+s11,S-11,সমিতিতে যোগদান (কোড/স্লাগ),Member App,GeneralSavings,MEMBER,todo,12,/m/join,ব্যাচ ১২ — নতুন পর্দা (G3); প্রোটোটাইপে নেই
+m22a,M-22,সভা ও নোটিশ,Member App,Shared,MEMBER,todo,12,/m/meetings,ব্যাচ ১২ — নতুন পর্দা (G5); প্রোটোটাইপে নেই
+a39a,A-39,নোটিশ/প্রমোশন ব্যবস্থাপনা,Shared,Shared,ORG_ADMIN · MANAGER,todo,12,/w/notices,ব্যাচ ১২ — নতুন পর্দা (G5); প্রোটোটাইপে নেই
+a40a,A-40,সভা ও হাজিরা,Shared,Shared,ORG_ADMIN · MANAGER,todo,12,/w/meetings,ব্যাচ ১২ — নতুন পর্দা (G5); প্রোটোটাইপে নেই
