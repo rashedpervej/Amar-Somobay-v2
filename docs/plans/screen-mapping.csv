@@ -1,0 +1,200 @@
+code,screen_id,name,module,platform,roles,nav,presentation,variant,status
+M-01,m01,সঞ্চয় হোম / সদস্য ড্যাশবোর্ড,GeneralSavings,Member App,MEMBER,home,,,existing-prototype
+A-01,a01,অ্যাডমিন ওভারভিউ ড্যাশবোর্ড,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-01,am01,অ্যাডমিন মোবাইল হোম,GeneralSavings,Admin App,MANAGER · APPROVER · ORG_ADMIN · ACCOUNTANT,,app,mobile,existing-prototype
+M-02,m02,উপলব্ধ স্কিম ব্রাউজ,GeneralSavings,Member App,MEMBER,savings,,,existing-prototype
+A-02,a02,মাঠ সংগ্রহক ড্যাশবোর্ড,GeneralSavings,Admin Web,COLLECTOR (মাঠ),—,,mobile,existing-prototype
+AM-02,am02,অনুমোদন কিউ (মোবাইল),GeneralSavings,Admin App,MANAGER · APPROVER · ORG_ADMIN,,app,mobile,existing-prototype
+M-03,m03,স্কিম বিবরণ ও নামভর্তি,GeneralSavings,Member App,MEMBER,savings,,,existing-prototype
+A-03,a03,স্কিম তালিকা,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-03,am03,অনুমোদনের সিদ্ধান্ত (মোবাইল),GeneralSavings,Admin App,MANAGER · APPROVER · ORG_ADMIN,,app,mobile,existing-prototype
+M-04,m04,আমার সঞ্চয় অ্যাকাউন্ট তালিকা,GeneralSavings,Member App,MEMBER,savings,,,existing-prototype
+A-04,a04,স্কিম তৈরি (উইজার্ড),GeneralSavings,Admin Web,,,,,existing-prototype
+AM-04,am04,সদস্য খোঁজা ও তালিকা (মোবাইল),GeneralSavings,Admin App,COLLECTOR · MANAGER · ACCOUNTANT,,app,mobile,existing-prototype
+M-05,m05,সঞ্চয় অ্যাকাউন্ট বিবরণ,GeneralSavings,Member App,MEMBER,savings,,,existing-prototype
+A-05,a05,স্কিম সম্পাদনা (নতুন সংস্করণ),GeneralSavings,Admin Web,,,,,existing-prototype
+AM-05,am05,সদস্য ৩৬০° সারাংশ (মোবাইল),GeneralSavings,Admin App,MANAGER · ACCOUNTANT · COLLECTOR (স্কোপড),,app,mobile,existing-prototype
+M-06,m06,জমা প্রদান,GeneralSavings,Member App,MEMBER,deposit,,,existing-prototype
+A-06,a06,স্কিম বিবরণ ও পরিসংখ্যান,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-06,am06,দ্রুত জমা এন্ট্রি (মোবাইল),GeneralSavings,Admin App,COLLECTOR · ACCOUNTANT,,app,mobile,existing-prototype
+M-07,m07,জমা নিশ্চিতকরণ ও রসিদ,GeneralSavings,Member App,MEMBER,deposit,,,existing-prototype
+A-07,a07,সদস্য তালিকা,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-07,am07,নতুন সদস্য নিবন্ধন (মোবাইল),GeneralSavings,Admin App,COLLECTOR · MANAGER · ORG_ADMIN,,app,mobile,existing-prototype
+M-08,m08,লেনদেনের ইতিহাস,GeneralSavings,Member App,MEMBER,txn,,,existing-prototype
+A-08,a08,সদস্য নিবন্ধন (উইজার্ড),GeneralSavings,Admin Web,,,,,existing-prototype
+AM-08,am08,আবেদন বিবরণ ও যাচাই (মোবাইল),GeneralSavings,Admin App,MANAGER · ORG_ADMIN,,app,mobile,existing-prototype
+M-09,m09,লেনদেন বিবরণ ও ডিজিটাল রসিদ,GeneralSavings,Member App,MEMBER,txn,,,existing-prototype
+A-09,a09,সদস্য সম্পাদনা,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-09,am09,সদস্য সম্পাদনা (মোবাইল),GeneralSavings,Admin App,MANAGER · ACCOUNTANT · ORG_ADMIN,,app,mobile,existing-prototype
+M-10,m10,উত্তোলনের আবেদন,GeneralSavings,Member App,MEMBER,savings,,,existing-prototype
+A-10,a10,সদস্য প্রোফাইল ৩৬০°,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-10,am10,অ্যাকাউন্ট বিবরণ ও লেজার (মোবাইল),GeneralSavings,Admin App,ACCOUNTANT · MANAGER · AUDITOR (R),,app,mobile,existing-prototype
+M-11,m11,আমার উত্তোলন আবেদন তালিকা,GeneralSavings,Member App,MEMBER,savings,,,existing-prototype
+A-11,a11,সদস্য আবেদন বিবরণ ও যাচাই,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-11,am11,প্রস্থান ও চূড়ান্ত নিষ্পত্তি (মোবাইল),GeneralSavings,Admin App,MANAGER · ORG_ADMIN,,app,mobile,existing-prototype
+M-12,m12,উত্তোলন আবেদন বিবরণ,GeneralSavings,Member App,MEMBER,savings,,,existing-prototype
+A-12,a12,সদস্য অবস্থা পরিবর্তন (Suspend / Freeze / Dormant),GeneralSavings,Admin Web,,member,,,existing-prototype
+AM-12,am12,বকেয়া রেজিস্টার (মোবাইল),GeneralSavings,Admin App,COLLECTOR · MANAGER · ACCOUNTANT,,app,mobile,existing-prototype
+M-13,m13,বকেয়া ও নির্ধারিত কিস্তি,GeneralSavings,Member App,MEMBER,savings,,,existing-prototype
+A-13,a13,অ্যাকাউন্ট বিবরণ (অ্যাডমিন),GeneralSavings,Admin Web,,,,,existing-prototype
+AM-13,am13,লেনদেন বিবরণ (ফরেনসিক) ও অডিট ট্রেইল (মোবাইল),GeneralSavings,Admin App,AUDITOR · MANAGER · ACCOUNTANT,,app,mobile,existing-prototype
+M-14,m14,স্টেটমেন্ট ও রসিদ কেন্দ্র,GeneralSavings,Member App,MEMBER,txn,,,existing-prototype
+A-14,a14,মৃত্যু দাবি নিষ্পত্তি,GeneralSavings,Admin Web,,member,,,existing-prototype
+AM-14,am14,সংশোধন ও রিভার্সাল (মোবাইল),GeneralSavings,Admin App,MANAGER · ORG_ADMIN,,app,mobile,existing-prototype
+M-15,m15,অ্যাকাউন্ট বন্ধের আবেদন ও নিষ্পত্তি প্রিভিউ,GeneralSavings,Member App,MEMBER,savings,,,existing-prototype
+A-15,a15,সদস্য প্রস্থান ও চূড়ান্ত নিষ্পত্তি,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-15,am15,দিনশেষ ক্যাশ বুক ও দিন সমাপ্তি (মোবাইল),GeneralSavings,Admin App,ACCOUNTANT · MANAGER,,app,mobile,existing-prototype
+M-16,m16,নোটিফিকেশন,GeneralSavings,Member App,MEMBER,home,,,existing-prototype
+A-16,a16,সদস্য স্থানান্তর (রুট / শাখা),GeneralSavings,Admin Web,,mv,,,existing-prototype
+AM-16,am16,নিষ্পত্তি ও পেমেন্ট (মোবাইল),GeneralSavings,Admin App,ACCOUNTANT · MANAGER,,app,mobile,existing-prototype
+M-17,m17,নোটিশ বোর্ড,GeneralSavings,Member App,MEMBER,more,,,existing-prototype
+A-17,a17,জমা রেকর্ড,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-17,am17,লেনদেন ব্যবস্থাপনা / সাধারণ লেজার (মোবাইল),GeneralSavings,Admin App,ACCOUNTANT · MANAGER · AUDITOR (R),,app,mobile,existing-prototype
+M-18,m18,আমার প্রোফাইল ও KYC,GeneralSavings,Member App,MEMBER,more,,,existing-prototype
+A-18,a18,বাল্ক জমা / কিস্তি এন্ট্রি,GeneralSavings,Admin Web,,batch,,,existing-prototype
+AM-18,am18,সদস্য অবস্থা পরিবর্তন (মোবাইল),GeneralSavings,Admin App,MANAGER · ORG_ADMIN,,app,mobile,existing-prototype
+M-19,m19,নমিনি ব্যবস্থাপনা,GeneralSavings,Member App,MEMBER,more,,,existing-prototype
+A-19,a19,বাল্ক ইমপোর্ট ও ম্যাপিং (CSV),GeneralSavings,Admin Web,,batch,,,existing-prototype
+AM-19,am19,মৃত্যু দাবি নিষ্পত্তি (মোবাইল),GeneralSavings,Admin App,MANAGER · ORG_ADMIN,,app,mobile,existing-prototype
+M-20,m20,অ্যাকাউন্ট ও নিরাপত্তা সেটিংস,GeneralSavings,Member App,MEMBER,more,,,existing-prototype
+A-20,a20,জমা অনুমোদন কিউ,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-20,am20,তহবিল স্থানান্তর (মোবাইল),GeneralSavings,Admin App,ACCOUNTANT · MANAGER · ORG_ADMIN,,app,mobile,existing-prototype
+M-21,m21,"সহায়তা, রসিদ যাচাই ও অভিযোগ",GeneralSavings,Member App,MEMBER (+ সাধারণ জনগণ S-07 দিয়ে),more,,,existing-prototype
+A-21,a21,জমা বিবরণ ও প্রমাণ যাচাই,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-21,am21,রিকনসিলিয়েশন ও ব্যতিক্রম নিষ্পত্তি (মোবাইল),GeneralSavings,Admin App,ACCOUNTANT · MANAGER · AUDITOR (R),,app,mobile,existing-prototype
+A-22,a22,উত্তোলন অনুমোদন কিউ,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-22,am22,বাল্ক জমা / কিস্তি এন্ট্রি (মোবাইল),GeneralSavings,Admin App,ACCOUNTANT · COLLECTOR · MANAGER,,app,mobile,existing-prototype
+A-23,a23,উত্তোলন আবেদন বিবরণ ও সিদ্ধান্ত,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-23,am23,বাল্ক ইমপোর্ট ও ম্যাপিং (মোবাইল),GeneralSavings,Admin App,ACCOUNTANT · MANAGER · ORG_ADMIN,,app,mobile,existing-prototype
+A-24,a24,নিষ্পত্তি ও পেমেন্ট,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-24,am24,আর্থিক বিবরণ ও রেগুলেটরি রিটার্ন (মোবাইল),GeneralSavings,Admin App,MANAGER · ORG_ADMIN · AUDITOR (R),,app,mobile,existing-prototype
+A-25,a25,লেনদেন ব্যবস্থাপনা / সাধারণ লেজার,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-25,am25,রিপোর্ট কেন্দ্র (মোবাইল),GeneralSavings,Admin App,AUDITOR · ACCOUNTANT · MANAGER · ORG_ADMIN,,app,mobile,existing-prototype
+A-26,a26,লেনদেন বিবরণ (ফরেনসিক) ও অডিট ট্রেইল,GeneralSavings,Admin Web,,txn,,,existing-prototype
+AM-26,am26,স্কিম বিবরণ ও পরিসংখ্যান (মোবাইল),GeneralSavings,Admin App,MANAGER · ORG_ADMIN · ACCOUNTANT,,app,mobile,existing-prototype
+A-27,a27,লেনদেন সংশোধন / রিভার্সাল (Reversal JE),GeneralSavings,Admin Web,,corr,,,existing-prototype
+AM-27,am27,স্কিম তালিকা (মোবাইল),GeneralSavings,Admin App,MANAGER · ORG_ADMIN · ACCOUNTANT (R),,app,mobile,existing-prototype
+A-28,a28,দিনশেষ জমা ও ক্যাশ বুক,GeneralSavings,Admin Web,,cash,,,existing-prototype
+AM-28,am28,স্কিম তৈরি (মোবাইল উইজার্ড),GeneralSavings,Admin App,ORG_ADMIN · MANAGER (প্রস্তাব),,app,mobile,existing-prototype
+A-29,a29,তহবিল স্থানান্তর (Cash ↔ Bank ↔ Wallet),GeneralSavings,Admin Web,,transfer,,,existing-prototype
+AM-29,am29,স্কিম সম্পাদনা ও সংস্করণ (মোবাইল),GeneralSavings,Admin App,ORG_ADMIN · MANAGER,,app,mobile,existing-prototype
+A-30,a30,রিকনসিলিয়েশন ও ব্যতিক্রম নিষ্পত্তি,GeneralSavings,Admin Web,,recon,,,existing-prototype
+AM-30,am30,সদস্য স্থানান্তর (মোবাইল),GeneralSavings,Admin App,MANAGER · ORG_ADMIN · COLLECTOR (প্রস্তাব),,app,mobile,existing-prototype
+A-31,a31,বকেয়া রেজিস্টার,GeneralSavings,Admin Web,,,,,existing-prototype
+AM-31,am31,সংগ্রহ পরিকল্পনা ও রুট (মোবাইল),GeneralSavings,Admin App,MANAGER · COLLECTOR (R) · ORG_ADMIN,,app,mobile,existing-prototype
+A-32,a32,সংগ্রহ পরিকল্পনা ও রুট,GeneralSavings,Admin Web,,plan,,,existing-prototype
+AM-32,am32,রিমাইন্ডার ও যোগাযোগ (মোবাইল),GeneralSavings,Admin App,MANAGER · ACCOUNTANT · ORG_ADMIN,,app,mobile,existing-prototype
+A-33,a33,রিমাইন্ডার ও যোগাযোগ শিডিউল,GeneralSavings,Admin Web,,remind,,,existing-prototype
+AM-33,am33,সেটিংস হাব (মোবাইল),GeneralSavings,Admin App,ORG_ADMIN · MANAGER (R) · AUDITOR (R),,app,mobile,existing-prototype
+A-34,a34,রিপোর্ট কেন্দ্র,GeneralSavings,Admin Web,,reports,,,existing-prototype
+AM-34,am34,"স্টাফ, রোল ও পারমিশন (মোবাইল)",GeneralSavings,Admin App,ORG_ADMIN,,app,mobile,existing-prototype
+A-35,a35,আর্থিক বিবরণ ও রেগুলেটরি রিটার্ন,GeneralSavings,Admin Web,,fin,,,existing-prototype
+AM-35,am35,অডিট লগ (মোবাইল),GeneralSavings,Admin App,AUDITOR · EXTERNAL_AUDITOR · ORG_ADMIN (R),,app,mobile,existing-prototype
+A-36,a36,সেটিংস হাব,GeneralSavings,Admin Web,,settings,,,existing-prototype
+A-37,a37,"স্টাফ, রোল ও পারমিশন",GeneralSavings,Admin Web,,staff,,,existing-prototype
+A-38,a38,অডিট লগ,GeneralSavings,Admin Web,,audit,,,existing-prototype
+RM-01,m22,আমার চক্র,ROSCA,Member App,MEMBER,more,,,existing-prototype
+RA-01,a39,ROSCA ড্যাশবোর্ড,ROSCA,Admin Web,,rcdash,,,existing-prototype
+RAM-01,am36,ROSCA ড্যাশবোর্ড (মোবাইল),ROSCA,Admin App,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),,app,mobile,existing-prototype
+RM-02,m23,চক্র বিস্তারিত,ROSCA,Member App,MEMBER,more,,,existing-prototype
+RA-02,a40,ROSCA স্কিম তালিকা,ROSCA,Admin Web,,rcscheme,,,existing-prototype
+RAM-02,am37,চক্র স্কিম তালিকা (মোবাইল),ROSCA,Admin App,MANAGER · ORG_ADMIN · ACCOUNTANT (R) · AUDITOR (R),,app,mobile,existing-prototype
+RM-03,m24,ড্র ক্রম ও পরবর্তী ড্র,ROSCA,Member App,MEMBER,more,,,existing-prototype
+RA-03,a41,ROSCA স্কিম তৈরি / সম্পাদনা,ROSCA,Admin Web,,rcscheme,,,existing-prototype
+RAM-03,am38,স্কিম তৈরি / সম্পাদনা (মোবাইল),ROSCA,Admin App,ORG_ADMIN · MANAGER (প্রস্তাব),,app,mobile,existing-prototype
+RM-04,m25,কিস্তি পরিশোধ,ROSCA,Member App,MEMBER,more,,,existing-prototype
+RA-04,a42,সক্রিয় সার্কেল তালিকা,ROSCA,Admin Web,,rccircle,,,existing-prototype
+RAM-04,am39,সক্রিয় চক্র তালিকা (মোবাইল),ROSCA,Admin App,সব অ্যাডমিন রোল · COLLECTOR নিজের রুট,,app,mobile,existing-prototype
+RM-05,m26,ড্র ইতিহাস ও আমার প্রাপ্তি,ROSCA,Member App,MEMBER,more,,,existing-prototype
+RA-05,a43,সার্কেল বিস্তারিত হাব,ROSCA,Admin Web,,rccircle,,,existing-prototype
+RAM-05,am40,চক্র বিস্তারিত হাব (মোবাইল),ROSCA,Admin App,সব অ্যাডমিন রোল · COLLECTOR নিজের রুট,,app,mobile,existing-prototype
+RM-06,m27,পেআউট রসিদ (প্রাপ্তি ভাউচার),ROSCA,Member App,MEMBER,more,,,existing-prototype
+RA-06,a44,সিট বরাদ্দ / সদস্য নির্বাচন,ROSCA,Admin Web,,rccircle,,,existing-prototype
+RAM-06,am41,সিট বরাদ্দ / সদস্য নির্বাচন (মোবাইল),ROSCA,Admin App,MANAGER · ORG_ADMIN · COLLECTOR (প্রস্তাব),,app,mobile,existing-prototype
+RA-07,a45,ড্র ক্যালেন্ডার ও ক্রম,ROSCA,Admin Web,,rcdraw,,,existing-prototype
+RAM-07,am42,ড্র ক্যালেন্ডার ও ক্রম (মোবাইল),ROSCA,Admin App,MANAGER · ORG_ADMIN · AUDITOR (R),,app,mobile,existing-prototype
+RA-08,a46,ড্র সম্পাদন (ধাপভিত্তিক),ROSCA,Admin Web,,rcdraw,,,existing-prototype
+RAM-08,am43,ড্র সম্পাদন (মোবাইল · ফ্লো),ROSCA,Admin App,MANAGER (প্রস্তুত) · APPROVER/ORG_ADMIN (অনুমোদন),,app,mobile,existing-prototype
+RA-09,a47,ড্র ইতিহাস ও রেজিস্টার,ROSCA,Admin Web,,rcdraw,,,existing-prototype
+RAM-09,am44,ড্র রেজিস্টার (মোবাইল),ROSCA,Admin App,AUDITOR · MANAGER · ACCOUNTANT (R),,app,mobile,existing-prototype
+RA-10,a48,কিস্তি সংগ্রহ ও বকেয়া,ROSCA,Admin Web,,rccollect,,,existing-prototype
+RAM-10,am45,কিস্তি সংগ্রহ ও বকেয়া (মোবাইল),ROSCA,Admin App,COLLECTOR · ACCOUNTANT · MANAGER,,app,mobile,existing-prototype
+RA-11,a49,ডিফল্ট ও প্রতিস্থাপন,ROSCA,Admin Web,,rcdefault,,,existing-prototype
+RAM-11,am46,ডিফল্ট ও প্রতিস্থাপন (মোবাইল),ROSCA,Admin App,MANAGER · APPROVER · ORG_ADMIN,,app,mobile,existing-prototype
+RA-12,a50,ROSCA রিপোর্ট,ROSCA,Admin Web,,rcreport,,,existing-prototype
+RAM-12,am47,ROSCA রিপোর্ট (মোবাইল),ROSCA,Admin App,MANAGER · ORG_ADMIN · AUDITOR (R),,app,mobile,existing-prototype
+JA-01,a51,যৌথ লক্ষ্য ড্যাশবোর্ড,JointGoal,Admin Web,,jgdash,,,existing-prototype
+JAM-01,am48,যৌথ লক্ষ্য ড্যাশবোর্ড (মোবাইল),JointGoal,Admin App,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),,app,mobile,existing-prototype
+JM-01,m28,আমাদের লক্ষ্য,JointGoal,Member App,MEMBER,more,,,existing-prototype
+JA-02,a52,লক্ষ্য তালিকা ও পরিকল্পনা সীমা,JointGoal,Admin Web,,jggoal,,,existing-prototype
+JAM-02,am49,লক্ষ্য তালিকা (মোবাইল),JointGoal,Admin App,MANAGER · ORG_ADMIN · APPROVER,,app,mobile,existing-prototype
+JM-02,m29,লক্ষ্য বিস্তারিত,JointGoal,Member App,MEMBER,more,,,existing-prototype
+JA-03,a53,লক্ষ্য তৈরি / সম্পাদনা (নিয়ম ও সংস্করণ),JointGoal,Admin Web,,jggoal,,,existing-prototype
+JAM-03,am50,লক্ষ্য তৈরি / সম্পাদনা (মোবাইল),JointGoal,Admin App,MANAGER · ORG_ADMIN (প্রস্তাব),,app,mobile,existing-prototype
+JM-03,m30,যোগদান ও প্রতিশ্রুতি,JointGoal,Member App,MEMBER,more,,,existing-prototype
+JA-04,a54,লক্ষ্য বিস্তারিত হাব,JointGoal,Admin Web,,jggoal,,,existing-prototype
+JAM-04,am51,লক্ষ্য বিস্তারিত হাব (মোবাইল),JointGoal,Admin App,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),,app,mobile,existing-prototype
+JM-04,m31,আমার অবদান ও ইতিহাস,JointGoal,Member App,MEMBER,more,,,existing-prototype
+JA-05,a55,অংশগ্রহণ ব্যবস্থাপনা ও যোগদান অনুমোদন,JointGoal,Admin Web,,jgjoin,,,existing-prototype
+JAM-05,am52,যোগদান অনুমোদন (মোবাইল),JointGoal,Admin App,APPROVER · ORG_ADMIN · MANAGER (প্রস্তাব),,app,mobile,existing-prototype
+JM-05,m32,অর্জন ও ব্যবহারের বিবরণ,JointGoal,Member App,MEMBER,more,,,existing-prototype
+JA-06,a56,অবদান সংগ্রহ কিউ ও বকেয়া,JointGoal,Admin Web,,jgcollect,,,existing-prototype
+JAM-06,am53,অবদান সংগ্রহ কিউ (মোবাইল),JointGoal,Admin App,COLLECTOR (এন্ট্রি) · ACCOUNTANT · MANAGER,,app,mobile,existing-prototype
+JA-07,a57,মাইলস্টোন ও অগ্রগতি ট্র্যাকিং,JointGoal,Admin Web,,jgmile,,,existing-prototype
+JAM-07,am54,মাইলস্টোন ও অগ্রগতি (মোবাইল),JointGoal,Admin App,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),,app,mobile,existing-prototype
+JA-08,a58,অর্থ ব্যবহার ও বিতরণ,JointGoal,Admin Web,,jgspend,,,existing-prototype
+JAM-08,am55,বিতরণ অনুমোদন (মোবাইল),JointGoal,Admin App,APPROVER · ORG_ADMIN · MANAGER (সীমা অনুযায়ী) · ACCOUNTANT (প্রস্তাব),,app,mobile,existing-prototype
+JA-09,a59,মেয়াদোত্তীর্ণ ও নিষ্পত্তি,JointGoal,Admin Web,,jgspend,,,existing-prototype
+JAM-09,am56,মেয়াদোত্তীর্ণ ও নিষ্পত্তি (মোবাইল),JointGoal,Admin App,MANAGER · APPROVER · ORG_ADMIN · ACCOUNTANT (ছক),,app,mobile,existing-prototype
+JA-10,a60,Joint Goal রিপোর্ট ও নিরীক্ষা,JointGoal,Admin Web,,jgreport,,,existing-prototype
+JAM-10,am57,Joint Goal রিপোর্ট (মোবাইল),JointGoal,Admin App,AUDITOR · MANAGER · ORG_ADMIN (R),,app,mobile,existing-prototype
+QM-01,m33,কর্জে হাসানা হোম,QardHasanah,Member App,MEMBER,more,,,existing-prototype
+QA-01,a61,QH ড্যাশবোর্ড,QardHasanah,Admin Web,,qhdash,,,existing-prototype
+QAM-01,am58,QH ড্যাশবোর্ড (মোবাইল),QardHasanah,Admin App,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),,app,mobile,existing-prototype
+QM-02,m34,যোগ্যতা ও আমার অবস্থা,QardHasanah,Member App,MEMBER,more,,,existing-prototype
+QA-02,a62,সহায়তা পণ্য কনফিগারেশন,QardHasanah,Admin Web,,qhproduct,,,existing-prototype
+QAM-02,am59,পণ্য কনফিগারেশন (মোবাইল),QardHasanah,Admin App,ORG_ADMIN · MANAGER (প্রস্তাব),,app,mobile,existing-prototype
+QM-03,m35,পণ্য ও শর্তাবলি,QardHasanah,Member App,MEMBER,more,,,existing-prototype
+QA-03,a63,যোগ্যতা নিয়ম ব্যবস্থাপনা,QardHasanah,Admin Web,,qhproduct,,,existing-prototype
+QAM-03,am60,যোগ্যতা নিয়ম (মোবাইল),QardHasanah,Admin App,ORG_ADMIN · APPROVER,,app,mobile,existing-prototype
+QM-04,m36,সহায়তার আবেদনপত্র,QardHasanah,Member App,MEMBER,more,,,existing-prototype
+QA-04,a64,নিয়ম Simulation,QardHasanah,Admin Web,,qhsim,,,existing-prototype
+QAM-04,am61,নিয়ম Simulation (মোবাইল),QardHasanah,Admin App,ORG_ADMIN · MANAGER,,app,mobile,existing-prototype
+QM-05,m37,আবেদন অবস্থা ও ইতিহাস,QardHasanah,Member App,MEMBER,more,,,existing-prototype
+QA-05,a65,যোগ্য সদস্য তালিকা ব্যবস্থাপনা,QardHasanah,Admin Web,,qhelig,,,existing-prototype
+QAM-05,am62,যোগ্য সদস্য তালিকা (মোবাইল),QardHasanah,Admin App,MANAGER · APPROVER · ORG_ADMIN · AUDITOR (R),,app,mobile,existing-prototype
+QM-06,m38,আমার সহায়তা,QardHasanah,Member App,MEMBER,more,,,existing-prototype
+QA-06,a66,আবেদন জানালা ও কোটা নিয়ন্ত্রণ,QardHasanah,Admin Web,,qhwindow,,,existing-prototype
+QAM-06,am63,"জানালা, কোটা ও পুল (মোবাইল)",QardHasanah,Admin App,ORG_ADMIN · MANAGER · APPROVER,,app,mobile,existing-prototype
+QM-07,m39,কিস্তি পরিশোধ,QardHasanah,Member App,MEMBER,more,,,existing-prototype
+QA-07,a67,আবেদন কিউ (তালিকা),QardHasanah,Admin Web,,qhqueue,,,existing-prototype
+QAM-07,am64,আবেদন কিউ (মোবাইল),QardHasanah,Admin App,MANAGER · APPROVER · ORG_ADMIN · AUDITOR (R),,app,mobile,existing-prototype
+QM-08,m40,সমাপ্তি সনদ,QardHasanah,Member App,MEMBER,more,,,existing-prototype
+QA-08,a68,আবেদন বিস্তারিত,QardHasanah,Admin Web,,qhqueue,,,existing-prototype
+QAM-08,am65,আবেদন বিস্তারিত (মোবাইল),QardHasanah,Admin App,MANAGER · APPROVER · ORG_ADMIN,,app,mobile,existing-prototype
+QA-09,a69,অনুমোদন / প্রত্যাখ্যান / তথ্য চেয়ে ফেরত,QardHasanah,Admin Web,,qhqueue,,,existing-prototype
+QAM-09,am66,সিদ্ধান্ত — অনুমোদন / ফেরত / প্রত্যাখ্যান (মোবাইল),QardHasanah,Admin App,APPROVER · ORG_ADMIN (maker ≠ checker),,app,mobile,existing-prototype
+QA-10,a70,বিতরণ ব্যবস্থাপনা,QardHasanah,Admin Web,,qhdisb,,,existing-prototype
+QAM-10,am67,বিতরণ — OTP ও ভাউচার (মোবাইল),QardHasanah,Admin App,APPROVER (checker) · ACCOUNTANT (maker),,app,mobile,existing-prototype
+QA-11,a71,পরিশোধ ছক ও কিস্তি তালিকা,QardHasanah,Admin Web,,qhloan,,,existing-prototype
+QAM-11,am68,ঋণ হাব (মোবাইল),QardHasanah,Admin App,MANAGER · ACCOUNTANT · APPROVER · AUDITOR (R),,app,mobile,existing-prototype
+QA-12,a72,ঋণ বিস্তারিত (হাব),QardHasanah,Admin Web,,qhloan,,,existing-prototype
+QAM-12,am69,পরিশোধ ছক ও কিস্তি তালিকা (মোবাইল),QardHasanah,Admin App,ACCOUNTANT · MANAGER · COLLECTOR · APPROVER,,app,mobile,existing-prototype
+QA-13,a73,পরিশোধ এন্ট্রি ও রসিদ,QardHasanah,Admin Web,,qhloan,,,existing-prototype
+QAM-13,am70,পরিশোধ এন্ট্রি ও রসিদ (মোবাইল),QardHasanah,Admin App,COLLECTOR · ACCOUNTANT · MANAGER,,app,mobile,existing-prototype
+QA-14,a74,বকেয়া ও ডিফল্ট ব্যবস্থাপনা,QardHasanah,Admin Web,,qharrears,,,existing-prototype
+QAM-14,am71,বকেয়া ও ডিফল্ট ব্যবস্থাপনা (মোবাইল),QardHasanah,Admin App,MANAGER · ACCOUNTANT · COLLECTOR · ORG_ADMIN,,app,mobile,existing-prototype
+QA-15,a75,সমাপ্তি ও সনদ,QardHasanah,Admin Web,,qhreport,,,existing-prototype
+QAM-15,am72,সমাপ্তি ও সনদ (মোবাইল),QardHasanah,Admin App,ACCOUNTANT · MANAGER · APPROVER,,app,mobile,existing-prototype
+QA-16,a76,Write-off ব্যবস্থাপনা,QardHasanah,Admin Web,,qharrears,,,existing-prototype
+QAM-16,am73,Write-off অনুমোদন (মোবাইল),QardHasanah,Admin App,ORG_ADMIN · MANAGER (প্রস্তাব) · AUDITOR (অ্যালার্ট),,app,mobile,existing-prototype
+QA-17,a77,QH রিপোর্ট,QardHasanah,Admin Web,,qhreport,,,existing-prototype
+QAM-17,am74,QH রিপোর্ট (মোবাইল),QardHasanah,Admin App,AUDITOR · ORG_ADMIN · MANAGER (R),,app,mobile,existing-prototype
+S-01,s01,লগইন / OTP প্রমাণীকরণ,Shared,Shared,সবাই,—,,mobile,existing-prototype
+S-02,s02,সমিতি নির্বাচন (Organization Switcher),Shared,Shared,একাধিক সমিতির সদস্য/স্টাফ,—,,mobile,existing-prototype
+S-03,s03,প্রোফাইল ও অ্যাকাউন্ট সেটিংস (প্ল্যাটফর্ম স্তর),Shared,Shared,সবাই,—,,mobile,existing-prototype
+S-04,s04,নোটিফিকেশন সেটিংস ও পছন্দ,Shared,Shared,সবাই,—,,mobile,existing-prototype
+S-05,s05,অনুমতি প্রত্যাখ্যান (403),Shared,Shared,সব ভূমিকা,,,desktop,existing-prototype
+S-06,s06,"সাধারণ ত্রুটি, অফলাইন ও 404",Shared,Shared,সব ভূমিকা,,,desktop,existing-prototype
+S-07,s07,ডকুমেন্ট ভিউয়ার ও রসিদ যাচাই (প্রকাশ্য),Shared,Shared,সদস্য + স্টাফ + সাধারণ জনগণ (লগইন ছাড়া),—,,mobile,existing-prototype
+S-08,s08,অফলাইন Sync ও কিউ অবস্থা,Shared,Shared,COLLECTOR · ACCOUNTANT,,,desktop,existing-prototype
