@@ -64,7 +64,7 @@ S.sec('২ · কোনো মৃত বোতাম/প্লেসহোল্
   const placeholder = SCREENS.filter((f) => /SoonCard|শীঘ্রই আসছে|ফেজ ৩-এ আসবে|placeholder page/i.test(screenText(f)));
   S.check('প্লেসহোল্ডার কার্ড/বার্তা নেই', placeholder.length === 0, placeholder.join(', '));
 
-  const usesStore = SCREENS.filter((f) => /useMember\(\)|useModules\(\)/.test(screenText(f)));
+  const usesStore = SCREENS.filter((f) => /useMember\(\)|useModules\(\)|useSession\(\)|useNotices\(\)/.test(screenText(f)));
   S.check(
     'প্রতিটি পর্দা স্টোর ব্যবহার করে',
     usesStore.length === SCREENS.length,

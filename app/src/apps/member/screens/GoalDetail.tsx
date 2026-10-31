@@ -93,7 +93,7 @@ export default function GoalDetail() {
       <SectionHead
         title="আমার অবদান ইতিহাস"
         sub={`${bn(myList.length)}টি · ৳${bn(paid)}`}
-        right={<button type="button" onClick={() => navigate(`/m/goals/${g.id}/contribute`)} className="text-sm font-bold text-green-700">অবদান</button>}
+        right={<button type="button" onClick={() => navigate(`/m/goals/${g.id}/contribute`)} className="min-h-10 px-1 inline-flex items-center text-sm font-bold text-green-700">অবদান</button>}
       />
       <div className="rounded-r-md border border-line bg-card overflow-hidden shadow-sh-1 divide-y divide-line-2">
         {myList.slice(0, 5).map((c) => (

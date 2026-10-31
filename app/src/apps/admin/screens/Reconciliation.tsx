@@ -115,7 +115,7 @@ export default function Reconciliation() {
         <div className="divide-y divide-line-2">
           {state.reconEx.map((x) => (
             <button key={x.id} type="button" onClick={() => setPick(x.id)}
-              className={`w-full min-h-tap text-left py-2.5 flex items-start gap-2 ${x.id === ex.id ? 'bg-green-50 -mx-2 px-2 rounded-r-sm' : ''}`}>
+              className={`w-full min-h-tap text-left py-2.5 flex items-start gap-2 ${x.id === ex.id ? 'bg-green-050 -mx-2 px-2 rounded-r-sm' : ''}`}>
               <AlertTriangle size={15} className={`mt-0.5 shrink-0 ${x.status === 'resolved' ? 'text-ok-ink' : x.status === 'suspense' ? 'text-warn-ink' : 'text-danger-ink'}`} />
               <span className="grow min-w-0">
                 <span className="block text-sm font-bold">{x.kindBn} · ৳{bn(x.amount)}</span>

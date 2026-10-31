@@ -130,3 +130,12 @@ Vercel-এ কোনো credential নেই এবং এই স্যান্
 
 সব পরিবর্তন **আলাদা integration ব্রাঞ্চে** (`arena/050e88aa-amar-somobay-v2`) · **PR #1 merge নয়** ·
 **DB migration নয়** · **Vercel production deployment নয়** · **destructive change নয়**।
+
+### ডিজাইন পারিটি অডিট ✅ (৩১ অক্টোবর ২০২৬)
+
+- `app/tools/design-parity.mjs` — টোকেন, কম্পোনেন্ট স্পেক, কাঁচা hex, ফন্ট, প্যালেট, ট্যাপ-টার্গেট যাচাই
+- ফল: **টোকেন ৭১/৭১ · কম্পোনেন্ট ১৪/১৪ · `DESIGN_PARITY_OK`**, ২০৫/২০৫ রুট রেন্ডার
+- নতুন `app/src/styles/ds.css` (`@layer components`) — প্রোটোটাইপের `.card/.btn/.chip/.inp/.kpi/.tbl` মান হুবহু; `tokens.css` অপরিবর্তিত
+- `bg-green-50` → `bg-green-050`, `border-green-200` → `border-green-100`, ৯px → ১০px, ১৬টি ছোট ট্যাপ-টার্গেট সংশোধিত
+- অবশিষ্ট: ফন্টের ভগ্নাংশ সাইজ টোকেনে ম্যাপ; অ্যাডমিন ওয়েবের ডেস্কটপ-লেআউট সিদ্ধান্ত এখনো বাকি
+- বিস্তারিত: `reports/design-parity-audit.md` · ম্যাট্রিক্স `reports/audit/design-parity-matrix.csv`

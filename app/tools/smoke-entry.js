@@ -5,6 +5,7 @@ import MemberApp from '../src/apps/member/MemberApp';
 import { MemberProvider } from '../src/store/memberStore';
 import { ModuleProvider } from '../src/store/moduleStore';
 import { SessionProvider } from '../src/store/sessionStore';
+import { NoticeProvider } from '../src/store/noticeStore';
 import { AdminProvider } from '../src/store/adminStore';
 import { AdminRoscaProvider } from '../src/store/adminRoscaStore';
 import { AdminJointProvider } from '../src/store/adminJointStore';
@@ -28,6 +29,7 @@ const MEMBER_ROUTES = [
   ['/m/dues', 'বকেয়া কিস্তি'], ['/m/withdrawals', 'আমার উত্তোলন'], ['/m/withdrawals/new', 'উত্তোলনের আবেদন'],
   ['/m/withdrawals/wd-1', 'উত্তোলন বিবরণ'], ['/m/statement', 'স্টেটমেন্ট'], ['/m/nominees', 'নমিনি'],
   ['/m/notifications', 'নোটিফিকেশন'], ['/m/notices', 'নোটিশ বোর্ড'], ['/m/profile', 'প্রোফাইল ও KYC'],
+  ['/m/meetings', 'সভা ও নোটিশ'], ['/m/signup', 'সাইনআপ'], ['/m/pending', 'অনুমোদনের অপেক্ষা'], ['/m/join', 'সমিতিতে যোগদান'],
   ['/m/settings', 'সেটিংস'], ['/m/help', 'সহায়তা কেন্দ্র'], ['/m/close-request', 'সদস্যপদ বন্ধ'], ['/m/more', 'আরও'],
   // ব্যাচ ৩ — ROSCA / যৌথ লক্ষ্য / কর্জে হাসানা
   ['/m/circles', 'আমার চক্র'], ['/m/circles/rc01', 'চক্র বিস্তারিত'], ['/m/circles/rc01/draws', 'ড্র ক্রম'],
@@ -56,6 +58,7 @@ const WEB_ROUTES = [
   ['/w/cashbook', 'ক্যাশ বুক ও দিন সমাপ্তি'], ['/w/transfer', 'তহবিল স্থানান্তর'], ['/w/recon', 'রিকনসিলিয়েশন'],
   ['/w/reminders', 'রিমাইন্ডার শিডিউল'], ['/w/reports', 'রিপোর্ট কেন্দ্র'], ['/w/finance', 'আর্থিক বিবরণ ও রিটার্ন'],
   ['/w/settings', 'সেটিংস'], ['/w/staff', 'স্টাফ ও পারমিশন'], ['/w/audit', 'অডিট লগ'],
+  ['/w/notices', 'নোটিশ ও প্রমোশন'], ['/w/meetings', 'সভা ও হাজিরা'],
   ['/w/rc', 'ROSCA ড্যাশবোর্ড'], ['/w/rc/schemes', 'ROSCA স্কিম'], ['/w/rc/schemes/new', 'নতুন ROSCA স্কিম'],
   ['/w/rc/schemes/rc1', 'স্কিম সম্পাদনা'], ['/w/rc/circles', 'সক্রিয় সার্কেল'],
   ['/w/rc/circles/rc01', 'সার্কেল হাব'], ['/w/rc/circles/rc01/seats', 'সিট বরাদ্দ ও সদস্য নির্বাচন'],
@@ -92,6 +95,7 @@ const ADMIN_ROUTES = [
   ['/a/schemes/sc1', 'স্কিম বিবরণ'], ['/a/schemes/new', 'নতুন স্কিম তৈরি'], ['/a/schemes/sc1/edit', 'স্কিম সম্পাদনা'],
   ['/a/moves', 'সদস্য স্থানান্তর'], ['/a/routes', 'সংগ্রহ পরিকল্পনা'], ['/a/reminders', 'রিমাইন্ডার শিডিউল'],
   ['/a/settings', 'সেটিংস হাব'], ['/a/staff', 'স্টাফ ও পারমিশন'], ['/a/audit', 'অডিট লগ'], ['/a/more', 'সব বিভাগ'],
+  ['/a/notices', 'নোটিশ ও প্রমোশন'], ['/a/meetings', 'সভা ও হাজিরা'],
   // ব্যাচ ৬ — ROSCA (RAM-01…RAM-12)
   ['/a/rc', 'ROSCA তহবিলের দায় ব্যালেন্স'], ['/a/rc/circles', 'চক্র খুঁজুন'], ['/a/rc/new', 'নতুন চক্র'], ['/a/rc/schemes', 'চক্র স্কিম'], ['/a/rc/calendar', 'ড্র ক্যালেন্ডার'],
   ['/a/rc/circles/rc01', 'চক্রের তথ্য'], ['/a/rc/circles/rc01/seats', 'সিট বরাদ্দ'], ['/a/rc/circles/rc01/draw', 'পুল গণনা'],
@@ -131,10 +135,12 @@ for (const [route, title] of MEMBER_ROUTES) {
   try {
     const html = renderToStaticMarkup(
       React.createElement(MemoryRouter, { initialEntries: [route] },
-        React.createElement(MemberProvider, null,
-          React.createElement(ModuleProvider, null,
-            React.createElement(Routes, null,
-              React.createElement(Route, { path: '/m/*', element: React.createElement(MemberApp) }))))),
+        React.createElement(SessionProvider, null,
+          React.createElement(MemberProvider, null,
+            React.createElement(ModuleProvider, null,
+              React.createElement(NoticeProvider, null,
+                React.createElement(Routes, null,
+                  React.createElement(Route, { path: '/m/*', element: React.createElement(MemberApp) }))))))),
     );
     const ok = html.length > 1200 && /<h[1-3]/.test(html) && html.includes(title);
     console.log(`${ok ? 'PASS' : 'FAIL'} ${route} — ${html.length} bytes`);
@@ -153,8 +159,9 @@ for (const [route, title] of ADMIN_ROUTES) {
           React.createElement(AdminRoscaProvider, null,
             React.createElement(AdminJointProvider, null,
               React.createElement(AdminQardProvider, null,
-                React.createElement(Routes, null,
-                  React.createElement(Route, { path: '/a/*', element: React.createElement(AdminMobileApp) }))))))),
+                React.createElement(NoticeProvider, null,
+                  React.createElement(Routes, null,
+                    React.createElement(Route, { path: '/a/*', element: React.createElement(AdminMobileApp) })))))))),
     );
     const ok = html.length > 1200 && html.includes(title);
     console.log(`${ok ? 'PASS' : 'FAIL'} ${route} — ${html.length} bytes`);
@@ -174,8 +181,9 @@ for (const [route, title] of WEB_ROUTES) {
           React.createElement(AdminRoscaProvider, null,
             React.createElement(AdminJointProvider, null,
               React.createElement(AdminQardProvider, null,
-                React.createElement(Routes, null,
-                  React.createElement(Route, { path: '/w/*', element: React.createElement(AdminWebApp) }))))))),
+                React.createElement(NoticeProvider, null,
+                  React.createElement(Routes, null,
+                    React.createElement(Route, { path: '/w/*', element: React.createElement(AdminWebApp) })))))))),
     );
     const ok = html.length > 1200 && html.includes(title);
     console.log(`${ok ? 'PASS' : 'FAIL'} ${route} — ${html.length} bytes`);

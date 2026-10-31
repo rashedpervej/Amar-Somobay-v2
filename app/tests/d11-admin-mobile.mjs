@@ -61,6 +61,8 @@ const SCREENS = {
   'Settings.tsx': ['settings', 'সেটিংস হাব'],
   'Staff.tsx': ['staff', 'স্টাফ ও পারমিশন'],
   'AuditLog.tsx': ['audit', 'অডিট লগ'],
+  'NoticesManager.tsx': ['notices', 'নোটিশ ও প্রমোশন'],
+  'MeetingsManager.tsx': ['meetings', 'সভা ও হাজিরা'],
   'AdminMore.tsx': ['more', 'সব বিভাগ'],
   /* ব্যাচ ৬ — ROSCA (RAM-01…RAM-12) */
   'RcDashboard.tsx': ['rc', 'ROSCA'],
@@ -110,7 +112,7 @@ const SCREENS = {
 
 S.sec('১ · ফাইল, রুট ও প্রোভাইডার (AM-01…AM-35)');
 {
-  S.eq('অ্যাডমিন পর্দার সংখ্যা ৭৭ (AM-01…AM-35 + RAM/JAM + QAM-01…QAM-17)', FILES.length, 77);
+  S.eq('অ্যাডমিন পর্দার সংখ্যা ৭৯ (AM-01…AM-35 + RAM/JAM + QAM + A-39/A-40)', FILES.length, 79);
   S.check('প্রতিটি ফাইলের রুট আছে', Object.keys(SCREENS).every((f) => existsSync(join(ROOT, `${DIR}/${f}`))), Object.keys(SCREENS).filter((f) => !existsSync(join(ROOT, `${DIR}/${f}`))).join(', '));
   const noRoute = Object.entries(SCREENS).filter(([, [p]]) => !APP.includes(`path="${p}"`));
   S.check('AdminMobileApp-এ প্রতিটি রুট মাউন্টেড', noRoute.length === 0, noRoute.map(([f]) => f).join(', '));

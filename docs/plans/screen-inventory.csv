@@ -198,9 +198,9 @@ am71,QAM-14,বকেয়া ও ডিফল্ট ব্যবস্থা�
 am72,QAM-15,সমাপ্তি ও সনদ (মোবাইল),Admin App,QardHasanah,ACCOUNTANT · MANAGER · APPROVER,done,7,/a/qh/loans/:loanId/close,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
 am73,QAM-16,Write-off অনুমোদন (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · MANAGER (প্রস্তাব) · AUDITOR (অ্যালার্ট),done,7,/a/qh/writeoff,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
 am74,QAM-17,QH রিপোর্ট (মোবাইল),Admin App,QardHasanah,AUDITOR · ORG_ADMIN · MANAGER (R),done,7,/a/qh/reports,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
-s09,S-09,সাইনআপ (স্ব-নিবন্ধন),Member App,GeneralSavings,MEMBER,todo,12,/m/signup,ব্যাচ ১২ — নতুন পর্দা (G2); প্রোটোটাইপে নেই
-s10,S-10,অনুমোদনের অপেক্ষা,Member App,GeneralSavings,MEMBER,todo,12,/m/pending,ব্যাচ ১২ — নতুন পর্দা (G2); প্রোটোটাইপে নেই
-s11,S-11,সমিতিতে যোগদান (কোড/স্লাগ),Member App,GeneralSavings,MEMBER,todo,12,/m/join,ব্যাচ ১২ — নতুন পর্দা (G3); প্রোটোটাইপে নেই
-m22a,M-22,সভা ও নোটিশ,Member App,Shared,MEMBER,todo,12,/m/meetings,ব্যাচ ১২ — নতুন পর্দা (G5); প্রোটোটাইপে নেই
-a39a,A-39,নোটিশ/প্রমোশন ব্যবস্থাপনা,Shared,Shared,ORG_ADMIN · MANAGER,todo,12,/w/notices,ব্যাচ ১২ — নতুন পর্দা (G5); প্রোটোটাইপে নেই
-a40a,A-40,সভা ও হাজিরা,Shared,Shared,ORG_ADMIN · MANAGER,todo,12,/w/meetings,ব্যাচ ১২ — নতুন পর্দা (G5); প্রোটোটাইপে নেই
+s09,S-09,সাইনআপ (স্ব-নিবন্ধন),Member App,GeneralSavings,MEMBER,done,12,/m/signup,"ব্যাচ ১২ — নতুন পর্দা; স্টোর-সংযুক্ত, রুট-স্মোক ও ইন্টারঅ্যাকশন স্মোক পাস"
+s10,S-10,অনুমোদনের অপেক্ষা,Member App,GeneralSavings,MEMBER,done,12,/m/pending,"ব্যাচ ১২ — নতুন পর্দা; স্টোর-সংযুক্ত, রুট-স্মোক ও ইন্টারঅ্যাকশন স্মোক পাস"
+s11,S-11,সমিতিতে যোগদান (কোড/স্লাগ),Member App,GeneralSavings,MEMBER,done,12,/m/join,"ব্যাচ ১২ — নতুন পর্দা; স্টোর-সংযুক্ত, রুট-স্মোক ও ইন্টারঅ্যাকশন স্মোক পাস"
+m22a,M-22,সভা ও নোটিশ,Member App,Shared,MEMBER,done,12,/m/meetings,"ব্যাচ ১২ — নতুন পর্দা; স্টোর-সংযুক্ত, রুট-স্মোক ও ইন্টারঅ্যাকশন স্মোক পাস"
+a39a,A-39,নোটিশ/প্রমোশন ব্যবস্থাপনা,Shared,Shared,ORG_ADMIN · MANAGER,done,12,/w/notices,"ব্যাচ ১২ — নতুন পর্দা; স্টোর-সংযুক্ত, রুট-স্মোক ও ইন্টারঅ্যাকশন স্মোক পাস"
+a40a,A-40,সভা ও হাজিরা,Shared,Shared,ORG_ADMIN · MANAGER,done,12,/w/meetings,"ব্যাচ ১২ — নতুন পর্দা; স্টোর-সংযুক্ত, রুট-স্মোক ও ইন্টারঅ্যাকশন স্মোক পাস"

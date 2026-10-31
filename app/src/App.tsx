@@ -20,7 +20,7 @@ const APPS = [
       ['কর্জে হাসানা', '/m/qard'],
       ['আমার সঞ্চয়', '/m/savings'],
     ],
-    tone: 'border-green-200 bg-green-050',
+    tone: 'border-green-100 bg-green-050',
     btn: 'bg-green-700 text-white',
   },
   {

@@ -70,16 +70,16 @@ export default function AdminHome({ shell }: { shell: AdminShell }) {
 
       <SectionHead title="আপনার সিদ্ধান্তের অপেক্ষায়" sub={`${bn(pending.length)}টি`} />
       <KpiGrid>
-        <button type="button" onClick={() => navigate(`/a/approvals${roleQS}`)} className="text-left">
+        <button type="button" onClick={() => navigate(`/a/approvals${roleQS}`)} className="text-left min-h-tap">
           <Kpi label="জমা অনুমোদন" value={bn(counts.deposit)} unit="টি" tone="warn" note="যাচাই ও পোস্ট" />
         </button>
-        <button type="button" onClick={() => navigate(`/a/approvals${roleQS}`)} className="text-left">
+        <button type="button" onClick={() => navigate(`/a/approvals${roleQS}`)} className="text-left min-h-tap">
           <Kpi label="উত্তোলন অনুমোদন" value={bn(counts.withdrawal)} unit="টি" tone="danger" note="সীমা যাচাই" />
         </button>
-        <button type="button" onClick={() => navigate(`/a/members/new${roleQS}`)} className="text-left">
+        <button type="button" onClick={() => navigate(`/a/members/new${roleQS}`)} className="text-left min-h-tap">
           <Kpi label="সদস্য আবেদন" value={bn(counts.member)} unit="টি" tone="info" note="নতুন নিবন্ধন" />
         </button>
-        <button type="button" onClick={() => navigate(`/a/approvals${roleQS}`)} className="text-left">
+        <button type="button" onClick={() => navigate(`/a/approvals${roleQS}`)} className="text-left min-h-tap">
           <Kpi label="সংশোধন প্রস্তাব" value={bn(counts.correction)} unit="টি" tone="purple" note="রিভার্সাল" />
         </button>
       </KpiGrid>

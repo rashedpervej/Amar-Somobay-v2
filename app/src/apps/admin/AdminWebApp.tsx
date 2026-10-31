@@ -88,6 +88,8 @@ import GsFinance from './web/GsFinance';
 import GsSettings from './web/GsSettings';
 import GsStaff from './web/GsStaff';
 import GsAudit from './web/GsAudit';
+import GsNotices from './web/GsNotices';
+import GsMeetings from './web/GsMeetings';
 
 function Dashboard() {
   const nav = useNavigate();
@@ -181,6 +183,8 @@ const ROUTE_MAP: Record<string, string> = {
 };
 
 const TITLES: [RegExp, string, string][] = [
+  [/^\/w\/notices/, 'নোটিশ ও প্রমোশন', 'প্রশাসন › নোটিশ'],
+  [/^\/w\/meetings/, 'সভা ও হাজিরা', 'প্রশাসন › সভা'],
   [/^\/w\/bulk\/import/, 'CSV ইমপোর্ট ও ম্যাপিং', 'সঞ্চয় › বাল্ক › ইমপোর্ট'],
   [/^\/w\/bulk/, 'বাল্ক জমা ও ইমপোর্ট', 'সঞ্চয় › বাল্ক'],
   [/^\/w\/txn\/[^/]+/, 'লেনদেন ও অডিট', 'সঞ্চয় › লেনদেন › বিস্তারিত'],
@@ -370,6 +374,8 @@ export default function AdminWebApp() {
         <Route path="ledger" element={<GsLedger />} />
         <Route path="dues" element={<GsDues />} />
 
+        <Route path="notices" element={<GsNotices />} />
+        <Route path="meetings" element={<GsMeetings />} />
         <Route path="collector" element={<GsCollector />} />
         <Route path="status" element={<GsStatus />} />
         <Route path="claims" element={<GsClaims />} />

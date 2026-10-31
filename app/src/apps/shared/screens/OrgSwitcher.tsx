@@ -44,7 +44,7 @@ export default function OrgSwitcher() {
       onBack={() => navigate('/login')}
       plain
       right={
-        <button type="button" onClick={() => { logout(); navigate('/login', { replace: true }); }} aria-label="লগআউট" className="w-11 h-11 grid place-items-center rounded-r-sm hover:bg-card-2">
+        <button type="button" onClick={() => { logout(); navigate('/login', { replace: true }); }} aria-label="লগআউট" className="w-11 h-11 min-h-11 grid place-items-center rounded-r-sm hover:bg-card-2">
           <LogOut size={19} className="text-mut" />
         </button>
       }

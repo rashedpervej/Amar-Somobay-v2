@@ -31,7 +31,7 @@ export default function JgGoalNew() {
     <Page title="নতুন যৌথ লক্ষ্য" sub="নিয়ম ও সংস্করণ · কমিটির সিদ্ধান্ত · যোগদান অনুমোদন" back="/w/jg/goals"
       right={<><Button size="sm" variant="secondary" onClick={() => nav('/w/jg/goals')}>বাতিল</Button><Button size="sm" onClick={submit}>লক্ষ্য তৈরি করুন</Button></>}>
       {err && <Note tone="warn">{err}</Note>}
-      {msg && <Note tone="ok">{msg} — <button type="button" className="underline font-bold" onClick={() => nav('/w/jg/goals')}>তালিকায় দেখুন</button></Note>}
+      {msg && <Note tone="ok">{msg} — <button type="button" className="min-h-10 underline font-bold" onClick={() => nav('/w/jg/goals')}>তালিকায় দেখুন</button></Note>}
       <Note tone="warn">সক্রিয় লক্ষ্যের সীমা {bn(JG_LIMIT)} — এখন বাকি {bn(jgLimitLeft(s.state.goals))}টি (D-43)।</Note>
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">

@@ -49,6 +49,10 @@ import QardLoans from './screens/QardLoans';
 import QardPay from './screens/QardPay';
 import QardCertificate from './screens/QardCertificate';
 import More from './screens/More';
+import Signup from './screens/Signup';
+import Pending from './screens/Pending';
+import JoinOrg from './screens/JoinOrg';
+import Meetings from './screens/Meetings';
 
 /* MNAV কী → রুট */
 const ROUTE_BY_KEY: Record<string, string> = {
@@ -104,6 +108,10 @@ const TITLES: { match: RegExp; meta: Meta }[] = [
   { match: /^\/m\/qard\/loans$/, meta: { title: 'আমার সহায়তা', sub: 'ঋণ ও কিস্তি ছক' } },
   { match: /^\/m\/qard\/pay$/, meta: { title: 'কিস্তি পরিশোধ', sub: 'শুধু মূলধন · চার্জ নেই', model: 'flow' } },
   { match: /^\/m\/qard\/certificate(\/[^/]+)?$/, meta: { title: 'সমাপ্তি সনদ', sub: 'সুদ শূন্য প্রমাণপত্র' } },
+  { match: /^\/m\/meetings$/, meta: { title: 'সভা ও নোটিশ', sub: 'উপস্থিতি ও ঘোষণা' } },
+  { match: /^\/m\/signup$/, meta: { title: 'সাইনআপ', sub: 'স্ব-নিবন্ধন', model: 'flow' } },
+  { match: /^\/m\/pending$/, meta: { title: 'অনুমোদনের অপেক্ষা', sub: 'আবেদনের অবস্থা' } },
+  { match: /^\/m\/join$/, meta: { title: 'সমিতিতে যোগদান', sub: 'কোড বা স্লাগ', model: 'flow' } },
   { match: /^\/m\/more$/, meta: { title: 'আরও', sub: 'প্রোফাইল ও সহায়তা' } },
 ];
 
@@ -118,7 +126,7 @@ export default function MemberApp() {
       : p.startsWith('/m/txn') ? 'txn'
       : p.startsWith('/m/savings') || p.startsWith('/m/schemes') ? 'savings'
       : p.startsWith('/m/circles') || p.startsWith('/m/goals') || p.startsWith('/m/qard') || p.startsWith('/m/more')
-        || p.startsWith('/m/profile') || p.startsWith('/m/settings') || p.startsWith('/m/help') ? 'more'
+        || p.startsWith('/m/profile') || p.startsWith('/m/settings') || p.startsWith('/m/help') || p.startsWith('/m/meetings') ? 'more'
       : 'home');
 
   return (
@@ -149,6 +157,10 @@ export default function MemberApp() {
         <Route path="nominees" element={<Nominees />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="notices" element={<Notices />} />
+        <Route path="meetings" element={<Meetings />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="pending" element={<Pending />} />
+        <Route path="join" element={<JoinOrg />} />
         <Route path="profile" element={<Profile />} />
         <Route path="settings" element={<Settings />} />
         <Route path="help" element={<Support />} />

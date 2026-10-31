@@ -105,7 +105,7 @@ export default function QhLoanDetail() {
           return (
             <div key={i.no} className={`rounded-r-sm border px-1 py-1.5 text-center ${cls}`}>
               <div className="num text-[11px] font-extrabold">{bn(i.no)}</div>
-              <div className="text-[9px]">{i.status === 'paid' ? <Check size={11} className="mx-auto" /> : i.status === 'overdue' ? <X size={11} className="mx-auto" /> : i.status === 'waived' ? '—' : <Clock size={11} className="mx-auto" />}</div>
+              <div className="text-[10px]">{i.status === 'paid' ? <Check size={11} className="mx-auto" /> : i.status === 'overdue' ? <X size={11} className="mx-auto" /> : i.status === 'waived' ? '—' : <Clock size={11} className="mx-auto" />}</div>
             </div>
           );
         })}
@@ -122,7 +122,7 @@ export default function QhLoanDetail() {
               <div className="text-xs text-mut">{i.status === 'paid' ? `পরিশোধিত · রসিদ ${i.receipt}` : i.status === 'overdue' ? `বকেয়া · ${bn(qhDaysBetween(i.due))} দিন আগে` : i.status === 'waived' ? 'ছেড়ে দেওয়া (write-off)' : 'আসন্ন'}</div>
             </div>
             <div className="text-right"><div className="num text-sm font-extrabold">{tk(i.amount)}</div>
-              {i.status !== 'paid' && i.status !== 'waived' ? <button type="button" onClick={() => navigate(`/a/qh/loans/${loan.id}/repay?inst=${i.no}${qs ? `&${qs.slice(1)}` : ''}`)} className="text-[11px] font-bold text-green-800">পরিশোধ</button> : null}
+              {i.status !== 'paid' && i.status !== 'waived' ? <button type="button" onClick={() => navigate(`/a/qh/loans/${loan.id}/repay?inst=${i.no}${qs ? `&${qs.slice(1)}` : ''}`)} className="min-h-10 px-1 text-[11px] font-bold text-green-800">পরিশোধ</button> : null}
             </div>
           </div>
         ))}

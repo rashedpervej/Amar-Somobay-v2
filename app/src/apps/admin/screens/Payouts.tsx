@@ -59,7 +59,7 @@ export default function Payouts() {
         {queue.length === 0 ? <Note tone="ok">কিউ খালি — সব নিষ্পত্তি সম্পন্ন ✓</Note> : null}
         {queue.map((p) => (
           <button key={p.id} type="button" onClick={() => setPicked(p.id)}
-            className={`w-full text-left rounded-r-md border bg-card shadow-sh-1 px-4 py-3 mb-2 ${picked === p.id ? 'border-green-700' : 'border-line'}`}>
+            className={`w-full min-h-tap text-left rounded-r-md border bg-card shadow-sh-1 px-4 py-3 mb-2 ${picked === p.id ? 'border-green-700' : 'border-line'}`}>
             <div className="flex items-start gap-2">
               <span className="w-9 h-9 grid place-items-center rounded-r-pill bg-green-050 text-green-800 shrink-0"><Wallet size={16} /></span>
               <span className="grow min-w-0">

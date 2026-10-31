@@ -21,8 +21,8 @@ export function Field({
 }) {
   const id = `f-${label.replace(/[^ঀ-৿a-zA-Z0-9]/g, '').slice(0, 16)}-${Math.random().toString(36).slice(2, 6)}`;
   return (
-    <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-sm font-bold text-txt-2">
+    <div className="s-field space-y-1.5">
+      <label htmlFor={id} className="block text-txt-2">
         {label} {required ? <span className="text-danger">*</span> : null}
       </label>
       {children(id)}
@@ -36,9 +36,7 @@ export function Field({
   );
 }
 
-export const inputCls =
-  'w-full min-h-tap rounded-r-sm border bg-card px-3 text-body text-txt outline-none transition ' +
-  'focus:border-green-600 focus:ring-2 focus:ring-green-100';
+export const inputCls = 's-inp text-txt';
 
 export function inputClass(error?: string) {
   return `${inputCls} ${error ? 'border-danger' : 'border-line-3'}`;

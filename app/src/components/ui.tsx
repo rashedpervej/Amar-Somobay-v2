@@ -8,6 +8,16 @@ import type { ReactNode, CSSProperties } from 'react';
 
 export type Tone = 'ok' | 'warn' | 'danger' | 'info' | 'neutral' | 'purple' | 'brand';
 
+const TONE_CHIP: Record<Tone, string> = {
+  ok: 's-chip-ok',
+  warn: 's-chip-warn',
+  danger: 's-chip-danger',
+  info: 's-chip-info',
+  neutral: 's-chip-neutral',
+  purple: 's-chip-purple',
+  brand: 's-chip-brand',
+};
+
 const TONE_BG: Record<Tone, string> = {
   ok: 'bg-ok-bg text-ok-ink border-ok-bd',
   warn: 'bg-warn-bg text-warn-ink border-warn-bd',
@@ -26,19 +36,19 @@ export function Card({
   footer?: ReactNode; tone?: Tone; className?: string; pad?: boolean;
 }) {
   return (
-    <section className={`bg-card border border-line rounded-r-md shadow-sh-2 overflow-hidden ${className}`}>
+    <section className={`s-card overflow-hidden ${className}`}>
       {(title || right) && (
-        <header className="flex items-start gap-3 px-4 pt-4 pb-3">
+        <header className="s-card-h">
           <div className="grow min-w-0">
-            {title && <h3 className="text-h3 text-txt truncate">{title}</h3>}
-            {sub && <p className="text-sm text-mut mt-0.5">{sub}</p>}
+            {title && <h3 className="text-txt truncate">{title}</h3>}
+            {sub && <p className="sub">{sub}</p>}
           </div>
           {right && <div className="shrink-0">{right}</div>}
         </header>
       )}
-      <div className={pad ? 'px-4 pb-4' : ''}>{children}</div>
+      <div className={pad ? 's-card-b' : ''}>{children}</div>
       {footer && (
-        <footer className={`px-4 py-3 border-t border-line-2 bg-card-2 text-sm text-mut flex items-center gap-2 ${TONE_BG[tone].split(' ')[0]}`}>
+        <footer className="s-card-f text-mut flex items-center gap-2">
           {footer}
         </footer>
       )}
@@ -54,14 +64,14 @@ export function Button({
   size?: 'sm' | 'md' | 'lg'; block?: boolean; disabled?: boolean; onClick?: () => void;
   type?: 'button' | 'submit'; icon?: ReactNode; title?: string; className?: string;
 }) {
-  const base = 'inline-flex items-center justify-center gap-2 font-bold rounded-r-sm border transition active:scale-[.98] disabled:opacity-50 disabled:pointer-events-none';
-  const sizes = { sm: 'min-h-9 px-3 text-sm', md: 'min-h-tap px-4 text-body', lg: 'min-h-tap-lg px-5 text-body-l' }[size];
+  const base = 's-btn';
+  const sizes = { sm: 's-btn-sm', md: '', lg: 's-btn-lg' }[size];
   const variants = {
-    primary: 'bg-green-700 text-white border-green-800 hover:bg-green-800',
-    secondary: 'bg-card text-green-800 border-line-3 hover:bg-green-050',
+    primary: 's-btn-primary',
+    secondary: 's-btn-ghost',
     ghost: 'bg-transparent text-txt-2 border-transparent hover:bg-line-2',
-    danger: 'bg-danger text-white border-danger-ink hover:opacity-90',
-    gold: 'bg-qh-gold-soft text-qh-gold-ink border-qh-gold-bd hover:brightness-95',
+    danger: 's-btn-danger-solid',
+    gold: 's-btn-soft',
   }[variant];
   return (
     <button type={type} title={title} aria-label={typeof children === 'string' ? children : title}
@@ -74,7 +84,7 @@ export function Button({
 /* ---------------- Badge ---------------- */
 export function Badge({ children, tone = 'neutral', dot }: { children: ReactNode; tone?: Tone; dot?: boolean }) {
   return (
-    <span className={`inline-flex items-center gap-1.5 min-h-7 px-2.5 rounded-r-pill border text-xs font-bold ${TONE_BG[tone]}`}>
+    <span className={`s-chip ${TONE_CHIP[tone]}`}>
       {dot && <span className="w-2 h-2 rounded-r-pill bg-current opacity-70" />}
       {children}
     </span>
@@ -85,8 +95,7 @@ export function Badge({ children, tone = 'neutral', dot }: { children: ReactNode
 export function Chip({ children, active, onClick }: { children: ReactNode; active?: boolean; onClick?: () => void }) {
   return (
     <button type="button" onClick={onClick}
-      className={`min-h-9 px-3 rounded-r-pill border text-sm font-bold transition ${
-        active ? 'bg-green-700 text-white border-green-800' : 'bg-card text-txt-2 border-line-3 hover:bg-green-050'}`}>
+      className={`s-chip min-h-10 ${active ? 's-chip-on' : 'bg-card text-txt-2 border-line-3 hover:bg-green-050'}`}>
       {children}
     </button>
   );
@@ -102,15 +111,15 @@ export function Kpi({ label, value, unit, tone = 'neutral', note, href }: {
 }) {
   const inner = (
     <>
-      <div className="text-xs font-bold text-mut">{label}</div>
+      <div className="s-kpi-l">{label}</div>
       <div className="mt-1 flex items-baseline gap-1">
-        <span className="num text-h1 font-extrabold text-txt">{value}</span>
+        <span className="num s-kpi-v text-txt">{value}</span>
         {unit && <span className="text-sm text-mut">{unit}</span>}
       </div>
-      {note && <div className="text-xs text-mut mt-1">{note}</div>}
+      {note && <div className="s-kpi-a">{note}</div>}
     </>
   );
-  const cls = `block bg-card border border-line rounded-r-md p-3.5 shadow-sh-1 hover:shadow-sh-2 transition`;
+  const cls = `s-kpi block hover:shadow-sh-2 transition`;
   return href ? <a href={href} className={cls}>{inner}</a> : <div className={cls}>{inner}</div>;
 }
 
@@ -139,13 +148,13 @@ export function DataTable<T extends Record<string, any>>({ columns, rows, empty,
   columns: Column<T>[]; rows: T[]; empty?: ReactNode; caption?: ReactNode;
 }) {
   return (
-    <div className="overflow-x-auto rounded-r-sm border border-line bg-card">
-      <table className="w-full border-collapse text-sm">
+    <div className="s-tbl-wrap overflow-x-auto">
+      <table className="s-tbl">
         {caption && <caption className="text-left text-xs text-mut px-3 py-2 bg-card-2 border-b border-line-2">{caption}</caption>}
         <thead>
           <tr className="bg-card-2">
             {columns.map((c) => (
-              <th key={c.key} className={`px-3 py-2.5 text-xs font-bold text-mut border-b border-line whitespace-nowrap ${
+              <th key={c.key} className={`${
                 c.align === 'right' ? 'text-right' : c.align === 'center' ? 'text-center' : 'text-left'}`}>{c.head}</th>
             ))}
           </tr>
@@ -155,9 +164,9 @@ export function DataTable<T extends Record<string, any>>({ columns, rows, empty,
             <tr><td colSpan={columns.length} className="px-3 py-8 text-center text-mut">{empty ?? 'কোনো তথ্য নেই'}</td></tr>
           )}
           {rows.map((r, i) => (
-            <tr key={String(r.id ?? i)} className="odd:bg-card even:bg-card-2">
+            <tr key={String(r.id ?? i)}>
               {columns.map((c) => (
-                <td key={c.key} className={`px-3 py-2.5 border-b border-line-2 align-top ${c.mono ? 'num' : ''} ${
+                <td key={c.key} className={`align-top ${c.mono ? 'num' : ''} ${
                   c.align === 'right' ? 'text-right' : c.align === 'center' ? 'text-center' : 'text-left'}`}>
                   {c.render ? c.render(r) : String(r[c.key] ?? '—')}
                 </td>

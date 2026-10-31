@@ -6,6 +6,7 @@ import MemberApp from './apps/member/MemberApp';
 import { MemberProvider } from './store/memberStore';
 import { ModuleProvider } from './store/moduleStore';
 import { SessionProvider } from './store/sessionStore';
+import { NoticeProvider } from './store/noticeStore';
 import { AdminProvider } from './store/adminStore';
 import { AdminRoscaProvider } from './store/adminRoscaStore';
 import { AdminJointProvider } from './store/adminJointStore';
@@ -34,6 +35,7 @@ createRoot(el).render(
   <StrictMode>
     <BrowserRouter>
       <SessionProvider>
+        <NoticeProvider>
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/m/*" element={<MemberProvider><ModuleProvider><MemberApp /></ModuleProvider></MemberProvider>} />
@@ -50,6 +52,7 @@ createRoot(el).render(
           <Route path="/sync" element={<OfflineSync />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        </NoticeProvider>
       </SessionProvider>
     </BrowserRouter>
   </StrictMode>,

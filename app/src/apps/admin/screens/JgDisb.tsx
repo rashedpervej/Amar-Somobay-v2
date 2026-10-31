@@ -133,7 +133,7 @@ export default function JgDisb() {
         <div className="mt-2"><PoolRow label="প্রমাণ ছাড়া মুক্তি" value="নিষিদ্ধ" tone="bad" /></div>
         <div className="mt-2"><PoolRow label="ব্যক্তিগত উত্তোলন" value="নিষিদ্ধ (BR-19)" tone="ok" /></div>
         <p className="text-xs text-mut mt-2 flex items-start gap-1"><Lock size={13} className="mt-0.5" /> অনুমোদনের পর ভাউচার রিভার্সাল ছাড়া বদলায় না; হ্যাশ ও OTP নথিভুক্ত হয়।</p>
-        <button type="button" className="mt-2 text-sm font-bold text-purple-ink inline-flex items-center gap-1" onClick={() => navigate(`/a/audit${qs}`)}><FileText size={14} /> অডিট লগ দেখুন</button>
+        <button type="button" className="mt-2 min-h-10 text-sm font-bold text-purple-ink inline-flex items-center gap-1" onClick={() => navigate(`/a/audit${qs}`)}><FileText size={14} /> অডিট লগ দেখুন</button>
       </Card>
     </div>
   );

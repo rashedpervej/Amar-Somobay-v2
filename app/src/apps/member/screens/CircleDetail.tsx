@@ -108,7 +108,7 @@ export default function CircleDetail() {
             >
               <div>
                 <div className="num text-xs font-extrabold text-txt">{bn(s.no)}</div>
-                <div className="text-[9px] text-mut truncate px-0.5">{s.name.split(' ')[0]}</div>
+                <div className="text-[10px] text-mut truncate px-0.5">{s.name.split(' ')[0]}</div>
               </div>
             </div>
           ))}

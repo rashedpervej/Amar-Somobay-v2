@@ -108,7 +108,7 @@ S.sec('৩ · স্ট্যাটাস ও ব্যাচ');
   const todo = rows.filter((r) => r.status === 'todo');
   S.eq('done + partial + todo = ২০৫', done.length + partial.length + todo.length, 205);
   S.note(`done=${done.length} · partial=${partial.length} · todo=${todo.length}`);
-  S.check('কোনো অসম্পূর্ণ পর্দার সাথে "সম্পূর্ণ" দাবি নেই', done.length < rows.length);
+  S.check('ব্যাচ ১২ শেষে সব পর্দা done', done.length === rows.length && partial.length === 0);
 }
 
 S.sec('৪ · "done/partial" দাবির প্রমাণ কোডে আছে');

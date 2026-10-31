@@ -60,7 +60,7 @@ export default function RcNew() {
             <div className="space-y-2">
               {state.schemes.map((s) => (
                 <button key={s.id} type="button" onClick={() => setSchemeId(s.id)}
-                  className={`w-full text-left rounded-r-sm border px-3 py-2.5 ${schemeId === s.id ? 'border-green-600 bg-green-050' : 'border-line bg-card'}`}>
+                  className={`w-full min-h-tap text-left rounded-r-sm border px-3 py-2.5 ${schemeId === s.id ? 'border-green-600 bg-green-050' : 'border-line bg-card'}`}>
                   <div className="flex items-center justify-between gap-2">
                     <b className="text-sm">{s.code} · {s.name}</b>
                     <Badge tone={s.status === 'active' ? 'ok' : 'neutral'}>{s.status === 'active' ? 'চালু' : 'আর্কাইভড'}</Badge>

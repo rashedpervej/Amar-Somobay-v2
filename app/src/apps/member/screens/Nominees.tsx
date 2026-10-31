@@ -93,10 +93,10 @@ export default function Nominees() {
                   </div>
                 </div>
                 <div className="flex gap-1 shrink-0">
-                  <button type="button" aria-label="সম্পাদনা" onClick={() => { setDraft(n); setErrors({}); }} className="w-9 h-9 grid place-items-center rounded-r-sm hover:bg-card-2">
+                  <button type="button" aria-label="সম্পাদনা" onClick={() => { setDraft(n); setErrors({}); }} className="w-10 h-10 min-h-10 grid place-items-center rounded-r-sm hover:bg-card-2">
                     <Pencil size={15} className="text-info" />
                   </button>
-                  <button type="button" aria-label="সরান" onClick={() => remove(n.id)} className="w-9 h-9 grid place-items-center rounded-r-sm hover:bg-danger-bg">
+                  <button type="button" aria-label="সরান" onClick={() => remove(n.id)} className="w-10 h-10 min-h-10 grid place-items-center rounded-r-sm hover:bg-danger-bg">
                     <Trash2 size={15} className="text-danger" />
                   </button>
                 </div>

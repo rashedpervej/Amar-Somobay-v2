@@ -70,7 +70,7 @@ export default function QardLoans() {
                     }`}
                   >
                     <div className="num text-[11px] font-bold">{bn(s.no)}</div>
-                    <div className="text-[9px]">{s.status === 'paid' ? 'দেওয়া' : s.status === 'next' ? 'বর্তমান' : 'বাকি'}</div>
+                    <div className="text-[10px]">{s.status === 'paid' ? 'দেওয়া' : s.status === 'next' ? 'বর্তমান' : 'বাকি'}</div>
                   </div>
                 ))}
               </div>

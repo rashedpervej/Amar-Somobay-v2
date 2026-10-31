@@ -79,7 +79,7 @@ export default function QardHome() {
           <SectionHead
             title="আমার চলমান সহায়তা"
             sub={loan.no}
-            right={<button type="button" onClick={() => navigate('/m/qard/loans')} className="text-sm font-bold text-green-700">বিস্তারিত</button>}
+            right={<button type="button" onClick={() => navigate('/m/qard/loans')} className="min-h-10 px-1 inline-flex items-center text-sm font-bold text-green-700">বিস্তারিত</button>}
           />
           <Card title={`৳${bn(loan.principal)} · সুদ ৳০`} sub={`${bn(repaid(loans, repayments, loan.id))} পরিশোধিত · বাকি ৳${bn(outstanding(loans, repayments, loan.id))}`}>
             <div className="h-2 rounded-r-pill bg-line-2 overflow-hidden">
@@ -133,7 +133,7 @@ export default function QardHome() {
       <SectionHead
         title="আমার আবেদন"
         sub={`${bn(applications.length)}টি`}
-        right={<button type="button" onClick={() => navigate('/m/qard/applications')} className="text-sm font-bold text-green-700">সব দেখুন</button>}
+        right={<button type="button" onClick={() => navigate('/m/qard/applications')} className="min-h-10 px-1 inline-flex items-center text-sm font-bold text-green-700">সব দেখুন</button>}
       />
       <div className="rounded-r-md border border-line bg-card overflow-hidden shadow-sh-1 divide-y divide-line-2">
         {applications.slice(0, 4).map((a) => (

@@ -48,6 +48,8 @@ import Settings from './screens/Settings';
 import StaffScreen from './screens/Staff';
 import AuditLog from './screens/AuditLog';
 import AdminMore from './screens/AdminMore';
+import NoticesManager from './screens/NoticesManager';
+import MeetingsManager from './screens/MeetingsManager';
 import RcDashboard from './screens/RcDashboard';
 import RcCircles from './screens/RcCircles';
 import RcNew from './screens/RcNew';
@@ -158,6 +160,8 @@ const ROUTE_BY_KEY: Record<string, string> = {
 
 /** পথ → পর্দা-শিরোনাম (প্রোটোটাইপের হেডার কপি) */
 function metaFor(path: string, fallback: { title: string; sub: string }) {
+  if (path === '/a/notices') return { title: 'নোটিশ ও প্রমোশন', sub: 'খসড়া · প্রকাশ · পিন', model: 'deep' as const };
+  if (path === '/a/meetings') return { title: 'সভা ও হাজিরা', sub: 'কোরাম · উপস্থিতি', model: 'deep' as const };
   if (path.startsWith('/a/approvals/')) return { title: 'অনুমোদনের সিদ্ধান্ত', sub: 'যাচাই ও সিদ্ধান্ত', model: 'flow' as const };
   if (path === '/a/approvals') return { title: 'অনুমোদন কিউ', sub: 'কিউ ও সিদ্ধান্ত', model: 'deep' as const };
   if (path === '/a/members/new') return { title: 'নতুন সদস্য', sub: 'নিবন্ধন', model: 'flow' as const };
@@ -334,6 +338,8 @@ export default function AdminMobileApp() {
         <Route path="settings" element={<Settings />} />
         <Route path="staff" element={<StaffScreen />} />
         <Route path="audit" element={<AuditLog />} />
+        <Route path="notices" element={<NoticesManager />} />
+        <Route path="meetings" element={<MeetingsManager />} />
         <Route path="more" element={<AdminMore />} />
         <Route path="rc" element={<RcDashboard />} />
         <Route path="rc/circles" element={<RcCircles />} />
