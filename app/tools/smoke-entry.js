@@ -10,6 +10,7 @@ import { AdminRoscaProvider } from '../src/store/adminRoscaStore';
 import { AdminJointProvider } from '../src/store/adminJointStore';
 import { AdminQardProvider } from '../src/store/adminQardStore';
 import AdminMobileApp from '../src/apps/admin/AdminMobileApp';
+import AdminWebApp from '../src/apps/admin/AdminWebApp';
 import Login from '../src/apps/shared/screens/Login';
 import OrgSwitcher from '../src/apps/shared/screens/OrgSwitcher';
 import AccountSettings from '../src/apps/shared/screens/AccountSettings';
@@ -36,6 +37,22 @@ const MEMBER_ROUTES = [
   ['/m/qard', 'কর্জে হাসানা'], ['/m/qard/eligibility', 'যোগ্যতা'], ['/m/qard/products', 'পণ্য ও শর্তাবলি'],
   ['/m/qard/apply', 'সহায়তার আবেদন'], ['/m/qard/applications', 'আবেদনের অবস্থা'],
   ['/m/qard/loans', 'আমার সহায়তা'], ['/m/qard/pay', 'কিস্তি পরিশোধ'], ['/m/qard/certificate/ql2', 'সমাপ্তি সনদ'],
+];
+
+
+const WEB_ROUTES = [
+  ['/w/dashboard', 'আজকের আদায়'],
+  ['/w/rc', 'ROSCA ড্যাশবোর্ড'], ['/w/rc/schemes', 'ROSCA স্কিম'], ['/w/rc/schemes/new', 'নতুন ROSCA স্কিম'],
+  ['/w/rc/schemes/rc1', 'স্কিম সম্পাদনা'], ['/w/rc/circles', 'সক্রিয় সার্কেল'],
+  ['/w/rc/circles/rc01', 'সার্কেল হাব'], ['/w/rc/circles/rc01/seats', 'সিট বরাদ্দ ও সদস্য নির্বাচন'],
+  ['/w/rc/draws', 'ড্র ক্যালেন্ডার ও ক্রম'], ['/w/rc/draws/history', 'ড্র ইতিহাস ও রেজিস্টার'],
+  ['/w/rc/draws/rc01-d6/run', 'সম্পাদন'], ['/w/rc/collect', 'কিস্তি সংগ্রহ ও বকেয়া'],
+  ['/w/rc/defaults', 'ডিফল্ট ও প্রতিস্থাপন'], ['/w/rc/reports', 'ROSCA রিপোর্ট'],
+  ['/w/jg', 'Joint Goal ড্যাশবোর্ড'], ['/w/jg/goals', 'লক্ষ্য তালিকা ও পরিকল্পনা সীমা'],
+  ['/w/jg/goals/new', 'নতুন যৌথ লক্ষ্য'], ['/w/jg/goals/jg01', 'মসজিদ সংস্কার'],
+  ['/w/jg/join', 'অংশগ্রহণ ব্যবস্থাপনা ও যোগদান অনুমোদন'], ['/w/jg/collect', 'অবদান সংগ্রহ ও বকেয়া'],
+  ['/w/jg/milestones', 'মাইলস্টোন ও অগ্রগতি'], ['/w/jg/spend', 'অর্থ ব্যবহার ও বিতরণ'],
+  ['/w/jg/close', 'মেয়াদোত্তীর্ণ ও নিষ্পত্তি'], ['/w/jg/reports', 'Joint Goal রিপোর্ট ও নিরীক্ষা'],
 ];
 
 const ADMIN_ROUTES = [
@@ -115,6 +132,26 @@ for (const [route, title] of ADMIN_ROUTES) {
               React.createElement(AdminQardProvider, null,
                 React.createElement(Routes, null,
                   React.createElement(Route, { path: '/a/*', element: React.createElement(AdminMobileApp) }))))))),
+    );
+    const ok = html.length > 1200 && html.includes(title);
+    console.log(`${ok ? 'PASS' : 'FAIL'} ${route} — ${html.length} bytes`);
+    if (!ok) fail++;
+  } catch (e) {
+    console.log(`FAIL ${route} — ${e.message}`);
+    fail++;
+  }
+}
+
+
+for (const [route, title] of WEB_ROUTES) {
+  try {
+    const html = renderToStaticMarkup(
+      React.createElement(MemoryRouter, { initialEntries: [route] },
+        React.createElement(AdminProvider, null,
+          React.createElement(AdminRoscaProvider, null,
+            React.createElement(AdminJointProvider, null,
+              React.createElement(Routes, null,
+                React.createElement(Route, { path: '/w/*', element: React.createElement(AdminWebApp) })))))),
     );
     const ok = html.length > 1200 && html.includes(title);
     console.log(`${ok ? 'PASS' : 'FAIL'} ${route} — ${html.length} bytes`);

@@ -15,7 +15,7 @@ import { SEED_MEMBERS } from '../domain/admin';
 export type RcEvent = { id: string; at: string; what: string; ref: string; tone: string };
 type Res = { ok: boolean; message: string };
 type DrawInput = { winnerSeat: number; approver: string; channel: PayoutKey; note: string; collected: number };
-type SchemeInput = { code: string; name: string; seats: number; contrib: number; freq: string; drawMethod: 'lottery' | 'fixed' };
+type SchemeInput = { id?: string; code: string; name: string; seats: number; contrib: number; freq: string; drawMethod: 'lottery' | 'fixed' };
 
 export type RoCtx = {
   state: {
@@ -188,21 +188,29 @@ export function AdminRoscaProvider({ children }: { children: ReactNode }) {
   }, [state.circles, state.schemes]);
 
   const saveScheme: RoCtx['saveScheme'] = useCallback((input) => {
+    const cur = input.id ? state.schemes.find((x) => x.id === input.id) : undefined;
     if (!/^RCS-\d{2}$/.test(input.code.trim())) return { ok: false, message: 'কোডের ধারা RCS-01' };
-    if (state.schemes.some((x) => x.code === input.code.trim())) return { ok: false, message: 'এই কোড আগেই ব্যবহৃত — কোড অপরিবর্তনীয় (BR-08)' };
+    if (state.schemes.some((x) => x.code === input.code.trim() && x.id !== cur?.id)) return { ok: false, message: 'এই কোড আগেই ব্যবহৃত — কোড অপরিবর্তনীয় (BR-08)' };
     if (input.name.trim().length < 4) return { ok: false, message: 'স্কিমের নাম লিখুন' };
     if (!Number.isInteger(input.seats) || input.seats < 6 || input.seats > 20) return { ok: false, message: 'সিট সংখ্যা ৬–২০ এর মধ্যে হতে হবে' };
     if (!Number.isInteger(input.contrib) || input.contrib < 200 || input.contrib > 20000) return { ok: false, message: 'কিস্তি ৳২০০–৳২০,০০০ এর মধ্যে' };
     if (input.drawMethod === 'lottery' && input.seats < 8) return { ok: false, message: 'লটারি পদ্ধতিতে কমপক্ষে ৮ সিট লাগবে' };
     const sc: RcScheme = {
-      id: `rs9${state.schemes.length + 1}`, code: input.code.trim(), name: input.name.trim(), seats: input.seats,
-      contrib: input.contrib, freq: input.freq, joinFee: 0, drawMethod: input.drawMethod, minMembers: Math.min(input.seats, 6),
-      maxCirclesPerMember: 3, lateFee: Math.round(input.contrib * 0.02), payout: ['cash_office', 'bkash', 'bank'],
-      defaultPolicy: ['warn', 'late_fee', 'replace'], version: 1, status: 'active',
-      note: 'নতুন স্কিম — কিস্তি ও সিট সংখ্যা চক্র শুরুর পর বদলানো যাবে না',
+      id: cur?.id ?? `rs9${state.schemes.length + 1}`, code: input.code.trim(), name: input.name.trim(), seats: input.seats,
+      contrib: input.contrib, freq: input.freq, joinFee: cur?.joinFee ?? 0, drawMethod: input.drawMethod,
+      minMembers: cur?.minMembers ?? Math.min(input.seats, 6),
+      maxCirclesPerMember: cur?.maxCirclesPerMember ?? 3, lateFee: Math.round(input.contrib * 0.02),
+      payout: cur?.payout ?? ['cash_office', 'bkash', 'bank'],
+      defaultPolicy: cur?.defaultPolicy ?? ['warn', 'late_fee', 'replace'],
+      version: (cur?.version ?? 0) + 1, status: 'active',
+      note: cur ? 'নিয়ম সংস্করণ হালනাগাদ — চলমান চক্রের পুরোনো নিয়ম অপরিবর্তিত (BR-21)' : 'নতুন স্কিম — কিস্তি ও সিট সংখ্যা চক্র শুরুর পর বদলানো যাবে না',
     };
-    setState((s) => ({ ...s, schemes: [...s.schemes, sc], events: [{ id: nextId('ev'), at: todayBn(), what: 'নতুন স্কিম সংস্করণ', ref: sc.code, tone: 'info' }, ...s.events].slice(0, 40) }));
-    return { ok: true, message: `${sc.code} তৈরি হয়েছে — নিয়ম সংস্করণ v1 (ডেমো)` };
+    setState((s) => ({
+      ...s,
+      schemes: cur ? s.schemes.map((x) => (x.id === cur.id ? sc : x)) : [...s.schemes, sc],
+      events: [{ id: nextId('ev'), at: todayBn(), what: cur ? 'স্কিম নিয়ম সংস্করণ প্রকাশ' : 'নতুন স্কিম সংস্করণ', ref: sc.code, tone: 'info' }, ...s.events].slice(0, 40),
+    }));
+    return { ok: true, message: `${sc.code} ${cur ? `সংস্করণ v${sc.version} প্রকাশিত` : 'তৈরি হয়েছে'} — পুরোনো আবেদনের স্ন্যাপশট অপরিবর্তিত (ডেমো)` };
   }, [state.schemes]);
 
   const archiveScheme: RoCtx['archiveScheme'] = useCallback((id) => {

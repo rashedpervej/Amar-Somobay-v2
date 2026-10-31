@@ -122,7 +122,7 @@ S.sec('৪ · "done/partial" দাবির প্রমাণ কোডে আ
   const routes = [...new Set(tracked.map((r) => r.react_route))];
   const missing = routes.filter((rt) => {
     const path = rt.split('?')[0];
-    const nested = path.startsWith('/m/') || path.startsWith('/a/') ? path.slice(3) : null;
+    const nested = path.startsWith('/m/') || path.startsWith('/a/') || path.startsWith('/w/') ? path.slice(3) : null;
     const hit = [path, nested].filter(Boolean).some(
       (p) => APP_SRC.includes(`'${p}'`) || APP_SRC.includes(`"${p}"`),
     );

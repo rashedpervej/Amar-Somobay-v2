@@ -64,18 +64,18 @@ a35,A-35,আর্থিক বিবরণ ও রেগুলেটরি র�
 a36,A-36,সেটিংস হাব,Admin Web,GeneralSavings,,todo,11,,
 a37,A-37,"স্টাফ, রোল ও পারমিশন",Admin Web,GeneralSavings,,todo,11,,
 a38,A-38,অডিট লগ,Admin Web,GeneralSavings,,todo,11,,
-a39,RA-01,ROSCA ড্যাশবোর্ড,Admin Web,ROSCA,,todo,8,,
-a40,RA-02,ROSCA স্কিম তালিকা,Admin Web,ROSCA,,todo,8,,
-a41,RA-03,ROSCA স্কিম তৈরি / সম্পাদনা,Admin Web,ROSCA,,todo,8,,
-a42,RA-04,সক্রিয় সার্কেল তালিকা,Admin Web,ROSCA,,todo,8,,
-a43,RA-05,সার্কেল বিস্তারিত হাব,Admin Web,ROSCA,,todo,8,,
-a44,RA-06,সিট বরাদ্দ / সদস্য নির্বাচন,Admin Web,ROSCA,,todo,8,,
-a45,RA-07,ড্র ক্যালেন্ডার ও ক্রম,Admin Web,ROSCA,,todo,8,,
-a46,RA-08,ড্র সম্পাদন (ধাপভিত্তিক),Admin Web,ROSCA,,todo,8,,
-a47,RA-09,ড্র ইতিহাস ও রেজিস্টার,Admin Web,ROSCA,,todo,8,,
-a48,RA-10,কিস্তি সংগ্রহ ও বকেয়া,Admin Web,ROSCA,,todo,8,,
-a49,RA-11,ডিফল্ট ও প্রতিস্থাপন,Admin Web,ROSCA,,todo,8,,
-a50,RA-12,ROSCA রিপোর্ট,Admin Web,ROSCA,,todo,8,,
+a39,RA-01,ROSCA ড্যাশবোর্ড,Admin Web,ROSCA,,done,8,/w/rc,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a40,RA-02,ROSCA স্কিম তালিকা,Admin Web,ROSCA,,done,8,/w/rc/schemes,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a41,RA-03,ROSCA স্কিম তৈরি / সম্পাদনা,Admin Web,ROSCA,,done,8,/w/rc/schemes/new,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a42,RA-04,সক্রিয় সার্কেল তালিকা,Admin Web,ROSCA,,done,8,/w/rc/circles,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a43,RA-05,সার্কেল বিস্তারিত হাব,Admin Web,ROSCA,,done,8,/w/rc/circles/:circleId,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a44,RA-06,সিট বরাদ্দ / সদস্য নির্বাচন,Admin Web,ROSCA,,done,8,/w/rc/circles/:circleId/seats,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a45,RA-07,ড্র ক্যালেন্ডার ও ক্রম,Admin Web,ROSCA,,done,8,/w/rc/draws,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a46,RA-08,ড্র সম্পাদন (ধাপভিত্তিক),Admin Web,ROSCA,,done,8,/w/rc/draws/:drawId/run,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a47,RA-09,ড্র ইতিহাস ও রেজিস্টার,Admin Web,ROSCA,,done,8,/w/rc/draws/history,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a48,RA-10,কিস্তি সংগ্রহ ও বকেয়া,Admin Web,ROSCA,,done,8,/w/rc/collect,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a49,RA-11,ডিফল্ট ও প্রতিস্থাপন,Admin Web,ROSCA,,done,8,/w/rc/defaults,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a50,RA-12,ROSCA রিপোর্ট,Admin Web,ROSCA,,done,8,/w/rc/reports,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
 s01,S-01,লগইন / OTP প্রমাণীকরণ,Shared,Shared,সবাই,done,2,/login,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
 s02,S-02,সমিতি নির্বাচন (Organization Switcher),Shared,Shared,একাধিক সমিতির সদস্য/স্টাফ,done,2,/organizations,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
 s07,S-07,ডকুমেন্ট ভিউয়ার ও রসিদ যাচাই (প্রকাশ্য),Shared,Shared,সদস্য + স্টাফ + সাধারণ জনগণ (লগইন ছাড়া),done,2,/verify,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
@@ -131,16 +131,16 @@ am44,RAM-09,ড্র রেজিস্টার (মোবাইল),Admin App
 am45,RAM-10,কিস্তি সংগ্রহ ও বকেয়া (মোবাইল),Admin App,ROSCA,COLLECTOR · ACCOUNTANT · MANAGER,done,6,/a/rc/collect,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
 am46,RAM-11,ডিফল্ট ও প্রতিস্থাপন (মোবাইল),Admin App,ROSCA,MANAGER · APPROVER · ORG_ADMIN,done,6,/a/rc/defaults,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
 am47,RAM-12,ROSCA রিপোর্ট (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · AUDITOR (R),done,6,/a/rc/reports,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
-a51,JA-01,যৌথ লক্ষ্য ড্যাশবোর্ড,Admin Web,JointGoal,,todo,8,,
-a52,JA-02,লক্ষ্য তালিকা ও পরিকল্পনা সীমা,Admin Web,JointGoal,,todo,8,,
-a53,JA-03,লক্ষ্য তৈরি / সম্পাদনা (নিয়ম ও সংস্করণ),Admin Web,JointGoal,,todo,8,,
-a54,JA-04,লক্ষ্য বিস্তারিত হাব,Admin Web,JointGoal,,todo,8,,
-a55,JA-05,অংশগ্রহণ ব্যবস্থাপনা ও যোগদান অনুমোদন,Admin Web,JointGoal,,todo,8,,
-a56,JA-06,অবদান সংগ্রহ কিউ ও বকেয়া,Admin Web,JointGoal,,todo,8,,
-a57,JA-07,মাইলস্টোন ও অগ্রগতি ট্র্যাকিং,Admin Web,JointGoal,,todo,8,,
-a58,JA-08,অর্থ ব্যবহার ও বিতরণ,Admin Web,JointGoal,,todo,8,,
-a59,JA-09,মেয়াদোত্তীর্ণ ও নিষ্পত্তি,Admin Web,JointGoal,,todo,8,,
-a60,JA-10,Joint Goal রিপোর্ট ও নিরীক্ষা,Admin Web,JointGoal,,todo,8,,
+a51,JA-01,যৌথ লক্ষ্য ড্যাশবোর্ড,Admin Web,JointGoal,,done,8,/w/jg,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a52,JA-02,লক্ষ্য তালিকা ও পরিকল্পনা সীমা,Admin Web,JointGoal,,done,8,/w/jg/goals,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a53,JA-03,লক্ষ্য তৈরি / সম্পাদনা (নিয়ম ও সংস্করণ),Admin Web,JointGoal,,done,8,/w/jg/goals/new,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a54,JA-04,লক্ষ্য বিস্তারিত হাব,Admin Web,JointGoal,,done,8,/w/jg/goals/:goalId,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a55,JA-05,অংশগ্রহণ ব্যবস্থাপনা ও যোগদান অনুমোদন,Admin Web,JointGoal,,done,8,/w/jg/join,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a56,JA-06,অবদান সংগ্রহ কিউ ও বকেয়া,Admin Web,JointGoal,,done,8,/w/jg/collect,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a57,JA-07,মাইলস্টোন ও অগ্রগতি ট্র্যাকিং,Admin Web,JointGoal,,done,8,/w/jg/milestones,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a58,JA-08,অর্থ ব্যবহার ও বিতরণ,Admin Web,JointGoal,,done,8,/w/jg/spend,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a59,JA-09,মেয়াদোত্তীর্ণ ও নিষ্পত্তি,Admin Web,JointGoal,,done,8,/w/jg/close,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a60,JA-10,Joint Goal রিপোর্ট ও নিরীক্ষা,Admin Web,JointGoal,,done,8,/w/jg/reports,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
 am48,JAM-01,যৌথ লক্ষ্য ড্যাশবোর্ড (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),done,6,/a/jg,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
 am49,JAM-02,লক্ষ্য তালিকা (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · APPROVER,done,6,/a/jg/goals,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
 am50,JAM-03,লক্ষ্য তৈরি / সম্পাদনা (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN (প্রস্তাব),done,6,/a/jg/new,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
