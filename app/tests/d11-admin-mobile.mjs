@@ -15,14 +15,14 @@ import { spawnSync } from 'node:child_process';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
-const S = createSuite('D-11 · অ্যাডমিন মোবাইল পর্দা (AM-01…AM-35 · RAM/JAM)');
+const S = createSuite('D-11 · অ্যাডমিন মোবাইল পর্দা (AM-01…AM-35 · RAM/JAM · QAM)');
 const read = (p) => (existsSync(join(ROOT, p)) ? readFileSync(join(ROOT, p), 'utf8') : '');
 
 const APP = read('src/apps/admin/AdminMobileApp.tsx');
 const MAIN = read('src/main.tsx');
 const STORE = read('src/store/adminStore.tsx');
 const DIR = 'src/apps/admin/screens';
-const FILES = readdirSync(join(ROOT, DIR)).filter((f) => f.endsWith('.tsx') && f !== 'parts.tsx' && f !== 'rcParts.tsx');
+const FILES = readdirSync(join(ROOT, DIR)).filter((f) => f.endsWith('.tsx') && !['parts.tsx', 'rcParts.tsx', 'qhParts.tsx'].includes(f));
 const txt = (f) => read(`${DIR}/${f}.tsx`);
 
 const SCREENS = {
@@ -88,15 +88,33 @@ const SCREENS = {
   'JgSettle.tsx': ['jg/goals/:goalId/settle', 'নিষ্পত্তি'],
   'JgArrears.tsx': ['jg/arrears', 'বকেয়া সংগ্রহ'],
   'JgReports.tsx': ['jg/reports', 'যৌথ লক্ষ্য রিপোর্ট'],
+  /* ব্যাচ ৭ — কর্জে হাসানা (QAM-01…QAM-17) */
+  'QhDashboard.tsx': ['qh', 'পুলে মুক্ত অঙ্ক'],
+  'QhProducts.tsx': ['qh/products', 'পণ্যের নাম'],
+  'QhRules.tsx': ['qh/rules', 'নিয়মের ক্রম'],
+  'QhSimulation.tsx': ['qh/simulation', 'খসড়া নিয়মের মান'],
+  'QhEligible.tsx': ['qh/eligible', 'জন মূল্যায়িত'],
+  'QhWindow.tsx': ['qh/window', 'জানালার সময়সূচি'],
+  'QhQueue.tsx': ['qh/applications', 'বিচারাধীন আবেদন'],
+  'QhAppDetail.tsx': ['qh/applications/:appId', 'যোগ্যতা স্ন্যাপশট'],
+  'QhDecision.tsx': ['qh/applications/:appId/decision', 'সিদ্ধান্তের বিকল্প'],
+  'QhDisburse.tsx': ['qh/disburse/:loanId', 'বিতরণ-পূর্ব গেট'],
+  'QhLoans.tsx': ['qh/loans', 'ঋণ তালিকা'],
+  'QhLoanDetail.tsx': ['qh/loans/:loanId', 'কিস্তির গ্রিড'],
+  'QhRepay.tsx': ['qh/loans/:loanId/repay', 'কিস্তি বাছাই'],
+  'QhArrears.tsx': ['qh/arrears', 'ধাপভিত্তিক প্রতিকার'],
+  'QhClose.tsx': ['qh/loans/:loanId/close', 'সনদের নিয়ম'],
+  'QhWriteOff.tsx': ['qh/writeoff', 'বিচারাধীন প্রস্তাব'],
+  'QhReports.tsx': ['qh/reports', 'শ্রেণিকরণ ও বয়স'],
 };
 
 S.sec('১ · ফাইল, রুট ও প্রোভাইডার (AM-01…AM-35)');
 {
-  S.eq('অ্যাডমিন পর্দার সংখ্যা ৬০ (AM-01…AM-35 + RAM-01…RAM-12 + JAM-01…JAM-10)', FILES.length, 60);
+  S.eq('অ্যাডমিন পর্দার সংখ্যা ৭৭ (AM-01…AM-35 + RAM/JAM + QAM-01…QAM-17)', FILES.length, 77);
   S.check('প্রতিটি ফাইলের রুট আছে', Object.keys(SCREENS).every((f) => existsSync(join(ROOT, `${DIR}/${f}`))), Object.keys(SCREENS).filter((f) => !existsSync(join(ROOT, `${DIR}/${f}`))).join(', '));
   const noRoute = Object.entries(SCREENS).filter(([, [p]]) => !APP.includes(`path="${p}"`));
   S.check('AdminMobileApp-এ প্রতিটি রুট মাউন্টেড', noRoute.length === 0, noRoute.map(([f]) => f).join(', '));
-  S.check('/a/* → AdminProvider + AdminMobileApp', /<AdminProvider>\s*(<AdminRoscaProvider>)?\s*(<AdminJointProvider>)?\s*<AdminMobileApp \/>/.test(MAIN));
+  S.check('/a/* → AdminProvider + AdminMobileApp', /<AdminProvider>\s*(<AdminRoscaProvider>)?\s*(<AdminJointProvider>)?\s*(<AdminQardProvider>)?\s*<AdminMobileApp \/>/.test(MAIN));
   S.check('ভূমিকা ?role= থেকে (ডিফল্ট MANAGER)', /resolveAdminShell\(params\.get\('role'\)\)/.test(APP));
   S.check('কোনো AM পর্দায় "ফেজ ৩" প্লেসহোল্ডার নেই', FILES.every((f) => !/ফেজ ৩|শীঘ্রই আসছে|Coming soon/.test(txt(f.replace('.tsx', '')))));
   S.check('প্রতিটি পর্দায় ব্যবহারকারীর জন্য শিরোনাম আছে', FILES.every((f) => /text-h2|text-h3|text-h1|<Card[^>]*title=|<SectionHead[^>]*title=|<Hero[^>]*label=/.test(txt(f.replace('.tsx', '')))));
@@ -296,6 +314,52 @@ S.sec('৬ · ব্যাচ ৬ — ROSCA ও যৌথ লক্ষ্য ড
   const usesJg = FILES.filter((f) => /useAdminJg\(\)/.test(txt(f.replace('.tsx', ''))));
   S.check('ROSCA পর্দাগুলো useAdminRo ব্যবহার করে', usesRo.length >= 12, `${usesRo.length}`);
   S.check('যৌথ লক্ষ্য পর্দাগুলো useAdminJg ব্যবহার করে', usesJg.length >= 10, `${usesJg.length}`);
+}
+
+S.sec('৭ · ব্যাচ ৭ — কর্জে হাসানা (QAM-01…QAM-17)');
+{
+  const QS = read('src/store/adminQardStore.tsx');
+  S.check('QH স্টোরে OTP গেট বাধ্যতামূলক', /OTP মেলেনি/.test(QS) && /otp !== '123456'/.test(QS));
+  S.check('QH স্টোরে maker ≠ checker (সিদ্ধান্ত)', /প্রস্তুতকারী নিজে অনুমোদন করতে পারবেন না/.test(QS));
+  S.check('QH স্টোরে কমিটি রেফারেন্স যাচাই (D-45)', /CM-YYMM-## বাধ্যতামূলক/.test(QS));
+  S.check('QH স্টোরে Simulation ছাড়া প্রকাশ আটকায় (D-57)', /Simulation ছাড়া নতুন সংস্করণ প্রকাশ আটকবে/.test(QS));
+  S.check('QH স্টোরে স্ন্যাপশট আটকালে অনুমোদন নয় (BR-21)', /স্ন্যাপশটে আটকেছে/.test(QS));
+  S.check('QH স্টোরে রসিদ অপরিবর্তনীয় (BR-08)', /রসিদ অপরিবর্তনীয়/.test(QS));
+  S.check('QH write-off এ দাবি ≤ বাকি মূলধন', /অঙ্ক বাকি মূলধনের/.test(QS));
+  S.check('QH write-off এ maker ≠ checker', /প্রস্তাবকারী নিজে অনুমোদন করতে পারবেন না/.test(QS));
+
+  const b3 = spawnSync(join(ROOT, 'node_modules/.bin/esbuild'), ['src/domain/adminQard.ts', '--bundle', '--format=esm', '--outdir=node_modules/.cache/dt7', '--log-level=warning'], { cwd: ROOT, encoding: 'utf8' });
+  S.check('QH ডোমেইন বান্ডল হয়েছে', b3.status === 0, (b3.stderr || '').slice(0, 200));
+  const Q = await import(`${join(ROOT, 'node_modules/.cache/dt7')}/adminQard.js`);
+
+  S.check('৩টি সহায়তা পণ্য · ১৪টি নিয়ম · ৯ জন মূল্যায়িত', Q.SEED_QH_PRODUCTS.length === 3 && Q.SEED_QH_RULES.length === 14 && Q.SEED_QH_ELIGIBLE.length === 9);
+  S.check('১৪টি আবেদন · ৮টি ঋণ · ২টি write-off', Q.SEED_QH_APPS.length === 14 && Q.SEED_QH_LOANS.length === 8 && Q.SEED_QH_WRITEOFFS.length === 2);
+  S.check('পণ্য ও নিয়ম ডেটায় কোনো সুদ/মুনাফা ফিল্ড নেই (BR-20)', !/profit|interest|dividend|মুনাফা হার|সুদের হার/.test(JSON.stringify([Q.SEED_QH_PRODUCTS, Q.SEED_QH_RULES, Q.SEED_QH_LOANS, Q.SEED_QH_APPS])));
+  S.check('প্রতিটি পণ্যের সুদ-শূন্য নোট আছে', Q.SEED_QH_PRODUCTS.every((p) => /সুদ ৳০/.test(p.note)));
+  S.check('সব ঋণের কিস্তি = মূলধন ÷ মেয়াদ (কোনো সুদ নেই)', Q.SEED_QH_LOANS.every((l) => Q.qhPerInst(l) * l.tenure === l.principal || Math.abs(Q.qhPerInst(l) * l.tenure - l.principal) <= l.tenure));
+  const l3 = Q.SEED_QH_LOANS.find((l) => l.id === 'qh03');
+  S.check('qhOutstanding = মূলধন − আদায় − write-off', Q.qhOutstanding(l3, Q.SEED_QH_REPAYMENTS, Q.SEED_QH_WRITEOFFS) === Math.max(0, l3.principal - Q.qhRepaid(l3, Q.SEED_QH_REPAYMENTS) - Q.qhWrittenOff(l3, Q.SEED_QH_WRITEOFFS)));
+  S.check('বকেয়া কিস্তির যোগফল = qhArrearsOf', Q.qhArrearsOf(l3, Q.SEED_QH_REPAYMENTS) === Q.qhInsts(l3, Q.SEED_QH_REPAYMENTS).filter((i) => i.status === 'overdue').reduce((s, i) => s + i.amount, 0));
+  S.check('৯১+ দিন বিলম্ব → সন্দেহজনক শ্রেণি (D-44)', Q.qhClassOf(Q.SEED_QH_LOANS.find((l) => l.id === 'qh06'), Q.SEED_QH_REPAYMENTS) === 'doubt');
+  S.check('সমাপ্ত ঋণের বাকি ৳০', Q.qhOutstanding(Q.SEED_QH_LOANS.find((l) => l.id === 'qh01'), Q.SEED_QH_REPAYMENTS, Q.SEED_QH_WRITEOFFS) === 0);
+  const pool = Q.qhPoolState(Q.SEED_QH_WINDOW, Q.SEED_QH_LOANS, Q.SEED_QH_APPS);
+  S.check('পুল = বরাদ্দ − হল্ড − প্রতিশ্রুতি (D-40)', pool.available === Math.max(0, pool.allocated - pool.held - pool.committed));
+  S.check('জানালা বন্ধ · কোটা ১২/১২ · পরবর্তী ১ নভে (D-51)', Q.SEED_QH_WINDOW.open === false && Q.qhQuotaLeft(Q.SEED_QH_WINDOW) === 0);
+  S.check('কিউ-তে পর্যালোচনা ও ফেরত আছে', Q.qhQueue(Q.SEED_QH_APPS).some((a) => a.status === 'review') && Q.qhQueue(Q.SEED_QH_APPS).some((a) => a.status === 'returned'));
+  S.check('SLA লঙ্ঘন শনাক্ত হয় (৫ কার্যদিবস)', Q.qhSlaBreaches(Q.SEED_QH_APPS).length >= 1);
+  S.check('Simulation-এ কোনো সদস্যের নাম/আইডি নেই (D-57)', !/m[1-9]|রহিমা|করিম|সাবিনা/.test(JSON.stringify(Q.qhSimulate({ minSavings: 10000, maxPct: 30, minMonths: 6 }))));
+  S.check('ম্যানুয়াল এক্সেপশন শর্তসাপেক্ষ · সীমা > ০', Q.SEED_QH_ELIGIBLE.filter((e) => e.source === 'manual_exception').every((e) => e.result === 'conditional' && e.maxAmount > 0));
+  S.check('রসিদ ও সনদ নম্বরের ছাঁচ', /^QR-\d{4}-\d{4}$/.test(Q.qhReceiptNo(7)) && /^QHC-\d{4}-\d{4}$/.test(Q.qhCertNo(7)));
+  S.check('সীমা = min(পণ্য, সঞ্চয়ের ৫০%, পুল, মূল্যায়ন)', Q.qhMaxAmount(Q.SEED_QH_PRODUCTS[0], 50000, 20000, 8750) === 8750);
+
+  const usesQh = FILES.filter((f) => /useAdminQh\(\)/.test(txt(f.replace('.tsx', ''))));
+  S.check('QH পর্দাগুলো useAdminQh ব্যবহার করে', usesQh.length >= 17, `${usesQh.length}`);
+  const QFILES = Object.keys(SCREENS).filter((f) => f.startsWith('Qh')).map((f) => f.replace('.tsx', ''));
+  S.check('QH-এ কোনো raw hex নেই', QFILES.every((f) => !/#[0-9a-fA-F]{3,8}\b/.test(txt(f))));
+  S.check('QH-এ “ফেজ ৩/শীঘ্রই আসছে” নেই', !QFILES.some((f) => /ফেজ ৩|শীঘ্রই আসছে|Coming soon/.test(txt(f))));
+  S.check('QH-এ সুদ সবসময় শূন্য ঘোষণা', !QFILES.some((f) => (f.match(/সুদ/g) || []).length > 0 && !QFILES.some((g) => /সুদ ৳০|সুদ শূন্য|সুদমুক্ত|সুদ যোগ|সুদ আয়|সুদ \/|সুদ নেই|সুদ-সমতুল্য|নেই/.test(txt(g)))));
+  S.check('QH-এ কোনো profit_percentage/interest_rate নেই', !QFILES.some((f) => /profit_percentage|interest_rate/.test(txt(f))));
+  S.check('প্রতিটি QH পর্দায় ডেমো/নিয়ম চিহ্ন', QFILES.every((f) => /D-\d|BR-\d|ডেমো|সুদ/.test(txt(f))));
 }
 
 S.report();

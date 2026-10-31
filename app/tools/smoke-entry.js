@@ -8,6 +8,7 @@ import { SessionProvider } from '../src/store/sessionStore';
 import { AdminProvider } from '../src/store/adminStore';
 import { AdminRoscaProvider } from '../src/store/adminRoscaStore';
 import { AdminJointProvider } from '../src/store/adminJointStore';
+import { AdminQardProvider } from '../src/store/adminQardStore';
 import AdminMobileApp from '../src/apps/admin/AdminMobileApp';
 import Login from '../src/apps/shared/screens/Login';
 import OrgSwitcher from '../src/apps/shared/screens/OrgSwitcher';
@@ -61,6 +62,14 @@ const ADMIN_ROUTES = [
   ['/a/jg/goals/jg01', 'মাইলস্টোন'], ['/a/jg/goals/jg01/parts', 'প্রতিশ্রুতি'],
   ['/a/jg/goals/jg01/milestones', 'অবদানের ধারা'], ['/a/jg/goals/jg02/disbursements', 'বিতরণ ভাউচার'],
   ['/a/jg/goals/jg03/settle', 'নিষ্পত্তির ধাপ'], ['/a/jg/arrears', 'অবদান রেকর্ড'], ['/a/jg/reports', 'মাধ্যমভিত্তিক সংগ্রহ'],
+  // ব্যাচ ৭ — কর্জে হাসানা (QAM-01…QAM-17)
+  ['/a/qh', 'পুলে মুক্ত অঙ্ক'], ['/a/qh/products', 'পণ্যের নাম'], ['/a/qh/rules', 'নিয়মের ক্রম'],
+  ['/a/qh/simulation', 'খসড়া নিয়মের মান'], ['/a/qh/eligible', 'জন মূল্যায়িত'], ['/a/qh/window', 'জানালার সময়সূচি'],
+  ['/a/qh/applications', 'বিচারাধীন আবেদন'], ['/a/qh/applications/qa05', 'যোগ্যতা স্ন্যাপশট'],
+  ['/a/qh/applications/qa05/decision', 'সিদ্ধান্তের বিকল্প'], ['/a/qh/disburse/qh05', 'বিতরণ-পূর্ব গেট'],
+  ['/a/qh/loans', 'ঋণ তালিকা'], ['/a/qh/loans/qh03', 'কিস্তির গ্রিড'], ['/a/qh/loans/qh03/repay', 'কিস্তি বাছাই'],
+  ['/a/qh/arrears', 'ধাপভিত্তিক প্রতিকার'], ['/a/qh/loans/qh01/close', 'সনদের নিয়ম'],
+  ['/a/qh/writeoff', 'বিচারাধীন প্রস্তাব'], ['/a/qh/reports', 'শ্রেণিকরণ ও বয়স'],
 ];
 
 const SHARED_ROUTES = [
@@ -103,8 +112,9 @@ for (const [route, title] of ADMIN_ROUTES) {
         React.createElement(AdminProvider, null,
           React.createElement(AdminRoscaProvider, null,
             React.createElement(AdminJointProvider, null,
-              React.createElement(Routes, null,
-                React.createElement(Route, { path: '/a/*', element: React.createElement(AdminMobileApp) })))))),
+              React.createElement(AdminQardProvider, null,
+                React.createElement(Routes, null,
+                  React.createElement(Route, { path: '/a/*', element: React.createElement(AdminMobileApp) }))))))),
     );
     const ok = html.length > 1200 && html.includes(title);
     console.log(`${ok ? 'PASS' : 'FAIL'} ${route} — ${html.length} bytes`);

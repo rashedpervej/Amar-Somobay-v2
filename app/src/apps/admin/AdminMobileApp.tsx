@@ -5,6 +5,7 @@
    ব্যাচ ৫: AM-21…AM-35 (রিকনসিলিয়েশন · ব্যাচ · ইমপোর্ট · আর্থিক · রিপোর্ট ·
    স্কিম · স্থানান্তর · রুট · রিমাইন্ডার · সেটিংস · স্টাফ · অডিট)।
    ব্যাচ ৬: RAM-01…RAM-12 (ROSCA) + JAM-01…JAM-10 (যৌথ লক্ষ্য) — /a/rc/* ও /a/jg/*।
+   ব্যাচ ৭: QAM-01…QAM-17 (কর্জে হাসানা অ্যাডমিন) — /a/qh/*।
    ============================================================ */
 
 import { Navigate, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
@@ -71,6 +72,23 @@ import JgMilestones from './screens/JgMilestones';
 import JgDisb from './screens/JgDisb';
 import JgSettle from './screens/JgSettle';
 import JgReports from './screens/JgReports';
+import QhDashboard from './screens/QhDashboard';
+import QhProducts from './screens/QhProducts';
+import QhRules from './screens/QhRules';
+import QhSimulation from './screens/QhSimulation';
+import QhEligible from './screens/QhEligible';
+import QhWindow from './screens/QhWindow';
+import QhQueue from './screens/QhQueue';
+import QhAppDetail from './screens/QhAppDetail';
+import QhDecision from './screens/QhDecision';
+import QhDisburse from './screens/QhDisburse';
+import QhLoans from './screens/QhLoans';
+import QhLoanDetail from './screens/QhLoanDetail';
+import QhRepay from './screens/QhRepay';
+import QhArrears from './screens/QhArrears';
+import QhClose from './screens/QhClose';
+import QhWriteOff from './screens/QhWriteOff';
+import QhReports from './screens/QhReports';
 
 /* শেলের নেভ-কী → রুট */
 const ROUTE_BY_KEY: Record<string, string> = {
@@ -125,6 +143,17 @@ const ROUTE_BY_KEY: Record<string, string> = {
   jgdisb: '/a/jg/goals/jg02/disbursements',
   jgsettle: '/a/jg/goals/jg03/settle',
   jgreport: '/a/jg/reports',
+  /* ব্যাচ ৭ — কর্জে হাসানা */
+  qhdash: '/a/qh',
+  qhproduct: '/a/qh/products',
+  qhsim: '/a/qh/simulation',
+  qhelig: '/a/qh/eligible',
+  qhwindow: '/a/qh/window',
+  qhqueue: '/a/qh/applications',
+  qhdisb: '/a/qh/disburse',
+  qhloan: '/a/qh/loans',
+  qharrears: '/a/qh/arrears',
+  qhreport: '/a/qh/reports',
 };
 
 /** পথ → পর্দা-শিরোনাম (প্রোটোটাইপের হেডার কপি) */
@@ -192,6 +221,25 @@ function metaFor(path: string, fallback: { title: string; sub: string }) {
   if (path.startsWith('/a/jg/goals/')) return { title: 'লক্ষ্যের হাব', sub: 'অগ্রগতি ও হিসাব', model: 'deep' as const };
   if (path === '/a/jg/arrears') return { title: 'বকেয়া সংগ্রহ', sub: 'অবদান ও রিমাইন্ডার', model: 'deep' as const };
   if (path === '/a/jg/reports') return { title: 'যৌথ লক্ষ্য রিপোর্ট', sub: 'তহবিল ও ব্যয়', model: 'deep' as const };
+  /* ---- ব্যাচ ৭ · কর্জে হাসানা (QAM) ---- */
+  if (/^\/a\/qh\/applications\/[^/]+\/decision$/.test(path)) return { title: 'সিদ্ধান্ত নিন', sub: 'maker ≠ checker · কমিটি রেফারেন্স', model: 'flow' as const };
+  if (/^\/a\/qh\/loans\/[^/]+\/repay$/.test(path)) return { title: 'পরিশোধ এন্ট্রি', sub: 'রসিদ অপরিবর্তনীয় · সুদ শূন্য', model: 'flow' as const };
+  if (/^\/a\/qh\/loans\/[^/]+\/close$/.test(path)) return { title: 'সমাপ্তি ও সনদ', sub: 'বাকি শূন্য হলেই সনদ', model: 'flow' as const };
+  if (path.startsWith('/a/qh/disburse/')) return { title: 'বিতরণ সম্পন্ন করুন', sub: 'OTP যাচাই বাধ্যতামূলক (BR-22)', model: 'flow' as const };
+  if (path === '/a/qh/disburse') return { title: 'বিতরণ', sub: 'OTP · maker ≠ checker', model: 'deep' as const };
+  if (/^\/a\/qh\/loans\/[^/]+$/.test(path)) return { title: 'ঋণ ও কিস্তি ছক', sub: 'মূলধন · সুদ শূন্য', model: 'deep' as const };
+  if (/^\/a\/qh\/applications\/[^/]+$/.test(path)) return { title: 'আবেদন বিস্তারিত', sub: 'স্ন্যাপশট অপরিবর্তনীয় (BR-21)', model: 'deep' as const };
+  if (path === '/a/qh') return { title: 'কর্জে হাসানা', sub: 'সুদমুক্ত সহায়তা · মডিউল ৪', model: 'landing' as const };
+  if (path === '/a/qh/products') return { title: 'পণ্য কনফিগারেশন', sub: 'নতুন সংস্করণ · স্ন্যাপশট অপরিবর্তিত', model: 'deep' as const };
+  if (path === '/a/qh/rules') return { title: 'যোগ্যতা নিয়ম', sub: '১৪টি নিয়ম · ৪টি স্তর', model: 'deep' as const };
+  if (path === '/a/qh/simulation') return { title: 'নিয়ম Simulation', sub: 'প্রভাব দেখুন — ব্যক্তিগত তালিকা নয় (D-57)', model: 'flow' as const };
+  if (path === '/a/qh/eligible') return { title: 'যোগ্য সদস্য তালিকা', sub: 'নিয়ম · ম্যানুয়াল · এক্সেপশন', model: 'deep' as const };
+  if (path === '/a/qh/window') return { title: 'জানালা, কোটা ও পুল', sub: 'D-40 · D-51 · D-52', model: 'deep' as const };
+  if (path === '/a/qh/applications') return { title: 'আবেদন কিউ', sub: 'SLA ৫ কার্যদিবস · বাল্ক অনুমোদন নেই', model: 'deep' as const };
+  if (path === '/a/qh/loans') return { title: 'ঋণ হাব', sub: 'বাকি মূলধন · সুদ শূন্য', model: 'deep' as const };
+  if (path === '/a/qh/arrears') return { title: 'বকেয়া ও ডিফল্ট', sub: 'শ্রেণিকরণ ও প্রতিকার (D-44)', model: 'deep' as const };
+  if (path === '/a/qh/writeoff') return { title: 'Write-off', sub: 'কমিটি · নিরীক্ষক অ্যালার্ট (BR-23)', model: 'deep' as const };
+  if (path === '/a/qh/reports') return { title: 'QH রিপোর্ট', sub: 'পোর্টফোলিও · উদ্দেশ্য · নিরীক্ষা', model: 'deep' as const };
   return { title: fallback.title, sub: fallback.sub, model: 'deep' as const };
 }
 
@@ -231,6 +279,7 @@ export default function AdminMobileApp() {
     if (p === '/a/more') return 'more';
     if (p === '/a/rc' || p.startsWith('/a/rc/')) return 'rcdash';
     if (p === '/a/jg' || p.startsWith('/a/jg/')) return 'jgdash';
+    if (p === '/a/qh' || p.startsWith('/a/qh/')) return 'qhdash';
     return slots.find((s) => ROUTE_BY_KEY[s.key] === p)?.key ?? 'home';
   })();
   const roleQS = params.get('role') ? `?role=${params.get('role')}` : '';
@@ -311,6 +360,25 @@ export default function AdminMobileApp() {
         <Route path="jg/goals/:goalId/settle" element={<JgSettle />} />
         <Route path="jg/arrears" element={<JgArrears />} />
         <Route path="jg/reports" element={<JgReports />} />
+        {/* ব্যাচ ৭ · কর্জে হাসানা QAM-01…QAM-17 */}
+        <Route path="qh" element={<QhDashboard />} />
+        <Route path="qh/products" element={<QhProducts />} />
+        <Route path="qh/rules" element={<QhRules />} />
+        <Route path="qh/simulation" element={<QhSimulation />} />
+        <Route path="qh/eligible" element={<QhEligible />} />
+        <Route path="qh/window" element={<QhWindow />} />
+        <Route path="qh/applications" element={<QhQueue />} />
+        <Route path="qh/applications/:appId" element={<QhAppDetail />} />
+        <Route path="qh/applications/:appId/decision" element={<QhDecision />} />
+        <Route path="qh/disburse" element={<QhDisburse />} />
+        <Route path="qh/disburse/:loanId" element={<QhDisburse />} />
+        <Route path="qh/loans" element={<QhLoans />} />
+        <Route path="qh/loans/:loanId" element={<QhLoanDetail />} />
+        <Route path="qh/loans/:loanId/repay" element={<QhRepay />} />
+        <Route path="qh/loans/:loanId/close" element={<QhClose />} />
+        <Route path="qh/arrears" element={<QhArrears />} />
+        <Route path="qh/writeoff" element={<QhWriteOff />} />
+        <Route path="qh/reports" element={<QhReports />} />
         <Route path="soon/:key" element={<SoonRoute />} />
         <Route path="*" element={<Navigate to={`/a/home${roleQS}`} replace />} />
       </Routes>

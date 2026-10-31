@@ -6,9 +6,9 @@
 
 import { Link, useSearchParams } from 'react-router-dom';
 import {
-  AlertTriangle, BarChart3, Banknote, BookOpen, CheckCheck, ClipboardList, Coins, Download,
-  FileSpreadsheet, FileText, GitCompareArrows, ListChecks, RefreshCw, Route, Settings, ShieldCheck,
-  Target, UserPlus, Users, Wallet,
+  AlertTriangle, BarChart3, Banknote, BookOpen, CalendarDays, CheckCheck, ClipboardList, Coins, Download,
+  FileSpreadsheet, FileText, GitCompareArrows, HeartHandshake, Landmark, ListChecks, RefreshCw, Route, Scale,
+  Settings, ShieldCheck, Target, Trash2, UserPlus, Users, Wallet,
 } from 'lucide-react';
 import { Card, SectionHead } from '../../../components/ui';
 import { useAdmin } from '../../../store/adminStore';
@@ -65,6 +65,21 @@ export default function AdminMore() {
         { to: '/a/jg/goals', icon: ListChecks, label: 'লক্ষ্য তালিকা', sub: 'সীমা ৫ (D-43)' },
         { to: '/a/rc/reports', icon: BarChart3, label: 'ROSCA রিপোর্ট', sub: 'তহবিল ও সংগ্রহ' },
         { to: '/a/jg/reports', icon: FileText, label: 'যৌথ লক্ষ্য রিপোর্ট', sub: 'ব্যয় ও প্রমাণ' },
+      ],
+    },
+    {
+      t: 'মডিউল · কর্জে হাসানা (সুদমুক্ত)',
+      items: [
+        { to: '/a/qh', icon: HeartHandshake, label: 'QH ড্যাশবোর্ড', sub: 'পুল · বকেয়া · জানালা' },
+        { to: '/a/qh/products', icon: Landmark, label: 'পণ্য কনফিগারেশন', sub: 'সুদ ৳০ · নতুন সংস্করণ' },
+        { to: '/a/qh/rules', icon: Scale, label: 'যোগ্যতা নিয়ম', sub: '১৪টি নিয়ম · ৪ স্তর' },
+        { to: '/a/qh/eligible', icon: Users, label: 'যোগ্য সদস্য তালিকা', sub: 'সীমা ও কারণ-কোড' },
+        { to: '/a/qh/window', icon: CalendarDays, label: 'জানালা, কোটা ও পুল', sub: 'D-40 · D-51' },
+        { to: '/a/qh/applications', icon: FileText, label: 'আবেদন কিউ', sub: 'SLA ৫ কার্যদিবস' },
+        { to: '/a/qh/loans', icon: Wallet, label: 'ঋণ হাব', sub: 'বাকি মূলধন · কিস্তি' },
+        { to: '/a/qh/arrears', icon: AlertTriangle, label: 'বকেয়া ও ডিফল্ট', sub: 'প্রতিকার · বিলম্ব ফি ৳০' },
+        { to: '/a/qh/writeoff', icon: Trash2, label: 'Write-off', sub: 'কমিটি · নিরীক্ষক' },
+        { to: '/a/qh/reports', icon: BarChart3, label: 'QH রিপোর্ট', sub: 'পোর্টফোলিও ও প্রভাব' },
       ],
     },
     {

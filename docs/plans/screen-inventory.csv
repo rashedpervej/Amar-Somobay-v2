@@ -181,20 +181,20 @@ a74,QA-14,বকেয়া ও ডিফল্ট ব্যবস্থাপ�
 a75,QA-15,সমাপ্তি ও সনদ,Admin Web,QardHasanah,,todo,9,,
 a76,QA-16,Write-off ব্যবস্থাপনা,Admin Web,QardHasanah,,todo,9,,
 a77,QA-17,QH রিপোর্ট,Admin Web,QardHasanah,,todo,9,,
-am58,QAM-01,QH ড্যাশবোর্ড (মোবাইল),Admin App,QardHasanah,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),todo,7,,
-am59,QAM-02,পণ্য কনফিগারেশন (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · MANAGER (প্রস্তাব),todo,7,,
-am60,QAM-03,যোগ্যতা নিয়ম (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · APPROVER,todo,7,,
-am61,QAM-04,নিয়ম Simulation (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · MANAGER,todo,7,,
-am62,QAM-05,যোগ্য সদস্য তালিকা (মোবাইল),Admin App,QardHasanah,MANAGER · APPROVER · ORG_ADMIN · AUDITOR (R),todo,7,,
-am63,QAM-06,"জানালা, কোটা ও পুল (মোবাইল)",Admin App,QardHasanah,ORG_ADMIN · MANAGER · APPROVER,todo,7,,
-am64,QAM-07,আবেদন কিউ (মোবাইল),Admin App,QardHasanah,MANAGER · APPROVER · ORG_ADMIN · AUDITOR (R),todo,7,,
-am65,QAM-08,আবেদন বিস্তারিত (মোবাইল),Admin App,QardHasanah,MANAGER · APPROVER · ORG_ADMIN,todo,7,,
-am66,QAM-09,সিদ্ধান্ত — অনুমোদন / ফেরত / প্রত্যাখ্যান (মোবাইল),Admin App,QardHasanah,APPROVER · ORG_ADMIN (maker ≠ checker),todo,7,,
-am67,QAM-10,বিতরণ — OTP ও ভাউচার (মোবাইল),Admin App,QardHasanah,APPROVER (checker) · ACCOUNTANT (maker),todo,7,,
-am68,QAM-11,ঋণ হাব (মোবাইল),Admin App,QardHasanah,MANAGER · ACCOUNTANT · APPROVER · AUDITOR (R),todo,7,,
-am69,QAM-12,পরিশোধ ছক ও কিস্তি তালিকা (মোবাইল),Admin App,QardHasanah,ACCOUNTANT · MANAGER · COLLECTOR · APPROVER,todo,7,,
-am70,QAM-13,পরিশোধ এন্ট্রি ও রসিদ (মোবাইল),Admin App,QardHasanah,COLLECTOR · ACCOUNTANT · MANAGER,todo,7,,
-am71,QAM-14,বকেয়া ও ডিফল্ট ব্যবস্থাপনা (মোবাইল),Admin App,QardHasanah,MANAGER · ACCOUNTANT · COLLECTOR · ORG_ADMIN,todo,7,,
-am72,QAM-15,সমাপ্তি ও সনদ (মোবাইল),Admin App,QardHasanah,ACCOUNTANT · MANAGER · APPROVER,todo,7,,
-am73,QAM-16,Write-off অনুমোদন (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · MANAGER (প্রস্তাব) · AUDITOR (অ্যালার্ট),todo,7,,
-am74,QAM-17,QH রিপোর্ট (মোবাইল),Admin App,QardHasanah,AUDITOR · ORG_ADMIN · MANAGER (R),todo,7,,
+am58,QAM-01,QH ড্যাশবোর্ড (মোবাইল),Admin App,QardHasanah,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),done,7,/a/qh,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am59,QAM-02,পণ্য কনফিগারেশন (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · MANAGER (প্রস্তাব),done,7,/a/qh/products,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am60,QAM-03,যোগ্যতা নিয়ম (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · APPROVER,done,7,/a/qh/rules,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am61,QAM-04,নিয়ম Simulation (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · MANAGER,done,7,/a/qh/simulation,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am62,QAM-05,যোগ্য সদস্য তালিকা (মোবাইল),Admin App,QardHasanah,MANAGER · APPROVER · ORG_ADMIN · AUDITOR (R),done,7,/a/qh/eligible,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am63,QAM-06,"জানালা, কোটা ও পুল (মোবাইল)",Admin App,QardHasanah,ORG_ADMIN · MANAGER · APPROVER,done,7,/a/qh/window,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am64,QAM-07,আবেদন কিউ (মোবাইল),Admin App,QardHasanah,MANAGER · APPROVER · ORG_ADMIN · AUDITOR (R),done,7,/a/qh/applications,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am65,QAM-08,আবেদন বিস্তারিত (মোবাইল),Admin App,QardHasanah,MANAGER · APPROVER · ORG_ADMIN,done,7,/a/qh/applications/:appId,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am66,QAM-09,সিদ্ধান্ত — অনুমোদন / ফেরত / প্রত্যাখ্যান (মোবাইল),Admin App,QardHasanah,APPROVER · ORG_ADMIN (maker ≠ checker),done,7,/a/qh/applications/:appId/decision,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am67,QAM-10,বিতরণ — OTP ও ভাউচার (মোবাইল),Admin App,QardHasanah,APPROVER (checker) · ACCOUNTANT (maker),done,7,/a/qh/disburse/:loanId,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am68,QAM-11,ঋণ হাব (মোবাইল),Admin App,QardHasanah,MANAGER · ACCOUNTANT · APPROVER · AUDITOR (R),done,7,/a/qh/loans,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am69,QAM-12,পরিশোধ ছক ও কিস্তি তালিকা (মোবাইল),Admin App,QardHasanah,ACCOUNTANT · MANAGER · COLLECTOR · APPROVER,done,7,/a/qh/loans/:loanId,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am70,QAM-13,পরিশোধ এন্ট্রি ও রসিদ (মোবাইল),Admin App,QardHasanah,COLLECTOR · ACCOUNTANT · MANAGER,done,7,/a/qh/loans/:loanId/repay,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am71,QAM-14,বকেয়া ও ডিফল্ট ব্যবস্থাপনা (মোবাইল),Admin App,QardHasanah,MANAGER · ACCOUNTANT · COLLECTOR · ORG_ADMIN,done,7,/a/qh/arrears,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am72,QAM-15,সমাপ্তি ও সনদ (মোবাইল),Admin App,QardHasanah,ACCOUNTANT · MANAGER · APPROVER,done,7,/a/qh/loans/:loanId/close,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am73,QAM-16,Write-off অনুমোদন (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · MANAGER (প্রস্তাব) · AUDITOR (অ্যালার্ট),done,7,/a/qh/writeoff,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am74,QAM-17,QH রিপোর্ট (মোবাইল),Admin App,QardHasanah,AUDITOR · ORG_ADMIN · MANAGER (R),done,7,/a/qh/reports,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
