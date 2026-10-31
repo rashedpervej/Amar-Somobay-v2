@@ -174,7 +174,7 @@ export default function PlanManagement() {
     installment_amount: 1000,
     late_fee_amount: 50,
     target_amount: 12000,
-    profit_percentage: 10,
+    profit_percentage: 0,
     duration_months: 12,
     frequency: 'monthly' as any,
     due_date: 1,
@@ -257,7 +257,8 @@ export default function PlanManagement() {
             installment_amount: planData.installment_amount,
             late_fee_amount: planData.late_fee_amount,
             target_amount: planData.target_amount,
-            profit_percentage: planData.profit_percentage,
+            // D-01: শতাংশ সবসময় শূন্য — ডেটাবেসে পুরনো মান থাকলেও ফর্মে আসবে না
+            profit_percentage: 0,
             duration_months: planData.duration_months,
             frequency: planData.frequency,
             due_date: planData.due_date || 1,
@@ -362,7 +363,8 @@ export default function PlanManagement() {
         installment_amount: Number(editPlanForm.installment_amount),
         late_fee_amount: Number(editPlanForm.late_fee_amount),
         target_amount: Number(editPlanForm.target_amount),
-        profit_percentage: Number(editPlanForm.profit_percentage),
+        // D-01: সঞ্চয় স্কিমে কোনো শতাংশ সংরক্ষণ হবে না
+        profit_percentage: 0,
         duration_months: Number(editPlanForm.duration_months),
         frequency: editPlanForm.frequency,
         status: editPlanForm.status
@@ -1048,13 +1050,12 @@ export default function PlanManagement() {
                 />
               </div>
               <div>
-                <label className="text-[12px] font-bold text-slate-700 bangla block mb-1">লভ্যাংশ (%)</label>
-                <input
-                  type="number"
-                  value={editPlanForm.profit_percentage}
-                  onChange={(e) => setEditPlanForm({ ...editPlanForm, profit_percentage: Number(e.target.value) })}
-                  className="w-full h-11 px-3.5 rounded-xl bg-slate-50 border border-slate-200 text-[13px] bangla text-slate-900 outline-none"
-                />
+                <label className="text-[12px] font-bold text-slate-700 bangla block mb-1">শতাংশ (%)</label>
+                {/* D-01: সঞ্চয় আমানতে শতাংশ নিষিদ্ধ — ইনপুট লক করা, কেবল নীতি দেখানো হয় */}
+                <div className="w-full h-11 px-3.5 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-between">
+                  <span className="text-[13px] bangla text-slate-500">০%</span>
+                  <span className="text-[11px] bangla text-emerald-600 font-semibold">সুদমুক্ত নীতি</span>
+                </div>
               </div>
             </div>
 
