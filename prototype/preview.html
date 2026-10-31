@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Somobay · Preview Dashboard — ক্যাটাগরি অনুযায়ী সব পেজ ও স্ক্রিন</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+/* ===== প্রিভিউ ড্যাশবোর্ড (বিদ্যমান টোকেন ব্যবহার করে, নতুন কোনো স্ক্রিন এখানে তৈরি হয় না) ===== */
+.pv-wrap{max-width:1720px;margin:0 auto;padding:0 22px 80px}
+.pv-top{position:sticky;top:0;z-index:60;background:rgba(4,26,20,.93);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.1)}
+.pv-top .in{max-width:1720px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.pv-logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(140deg,var(--lime),#5FD39A);color:#06301F;display:grid;place-items:center;font-weight:700;font-size:18px}
+.pv-title{color:#fff;font-size:15.5px;font-weight:600;line-height:1.35}
+.pv-title small{display:block;font-size:11.6px;color:#8FB9A8;font-weight:400;margin-top:2px}
+.pv-links{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.pv-links a{font-size:12.4px;color:#B9D4C9;text-decoration:none;padding:7px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05)}
+.pv-links a:hover,.pv-links a.on{color:#06301F;background:var(--lime);border-color:var(--lime);font-weight:600}
+
+.pv-hero{padding:34px 0 6px}
+.pv-hero .kicker{font-size:11.4px;letter-spacing:1.4px;color:var(--lime);font-weight:600;text-transform:uppercase}
+.pv-hero h1{color:#fff;font-size:30px;line-height:1.32;margin:9px 0 10px;letter-spacing:-.5px}
+.pv-hero p{color:#A9C8BB;font-size:14px;line-height:1.8;max-width:1060px}
+.pv-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(146px,1fr));gap:1px;background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;margin:22px 0 4px}
+.pv-stat{background:#07271D;padding:14px 16px}
+.pv-stat b{display:block;color:#fff;font-size:23px;font-weight:700;letter-spacing:-.5px}
+.pv-stat i{font-style:normal;font-size:11.4px;color:#8FB9A8;display:block;margin-top:3px;line-height:1.5}
+
+.pv-jump{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 8px}
+.pv-jump button{font-family:inherit;font-size:12.6px;padding:9px 14px;border-radius:99px;cursor:pointer;color:#CFE4DA;
+  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);display:flex;align-items:center;gap:8px}
+.pv-jump button b{color:#fff;font-weight:600}
+.pv-jump button u{text-decoration:none;font-size:10.6px;color:#06301F;background:var(--lime);padding:2px 7px;border-radius:99px;font-weight:700}
+.pv-jump button:hover{border-color:rgba(201,242,110,.45);background:rgba(201,242,110,.12)}
+
+.pv-sec{margin-top:34px;border:1px solid rgba(255,255,255,.11);border-radius:24px;overflow:hidden;background:rgba(255,255,255,.028);scroll-margin-top:78px}
+.pv-sec-h{padding:20px 24px;border-bottom:1px solid rgba(255,255,255,.09);display:flex;gap:15px;align-items:flex-start;
+  background:linear-gradient(120deg,rgba(201,242,110,.09),rgba(255,255,255,.02));cursor:pointer}
+.pv-sec-h .num{font-size:11px;letter-spacing:1.2px;font-weight:700;color:#06301F;background:var(--lime);padding:6px 11px;border-radius:99px;white-space:nowrap}
+.pv-sec-h h2{color:#fff;font-size:19.5px;line-height:1.4;margin-bottom:5px}
+.pv-sec-h p{color:#A0C0B2;font-size:13px;line-height:1.72;max-width:1150px}
+.pv-sec-h .right{margin-left:auto;text-align:right;display:flex;flex-direction:column;gap:7px;align-items:flex-end}
+.pv-badge{font-size:11.4px;padding:5px 10px;border-radius:99px;border:1px solid rgba(201,242,110,.34);color:#D8ECC2;background:rgba(201,242,110,.1);white-space:nowrap}
+.pv-badge.v{border-color:rgba(126,110,220,.42);color:#D6CDFB;background:rgba(126,110,220,.16)}
+.pv-badge.w{border-color:rgba(120,190,255,.34);color:#BBD8F2;background:rgba(60,140,220,.14)}
+.pv-badge.a{border-color:rgba(255,176,32,.34);color:#FFD37A;background:rgba(255,176,32,.12)}
+.pv-chev{transition:.22s;color:#8FB9A8}
+.pv-sec.open .pv-chev{transform:rotate(90deg)}
+.pv-body{display:none;padding:20px 24px 26px}
+.pv-sec.open .pv-body{display:block}
+
+.pv-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.pv-tools .lab{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:#8FB9A8;font-weight:600;margin-right:2px}
+.pv-chip{font-family:inherit;font-size:12px;padding:6px 12px;border-radius:99px;cursor:pointer;color:#C4DCD1;
+  border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.045)}
+.pv-chip:hover{background:rgba(201,242,110,.12);color:#fff}
+.pv-chip.on{background:var(--lime);color:#06301F;border-color:var(--lime);font-weight:700}
+.pv-chip.dis{opacity:.45;cursor:not-allowed}
+.pv-search{margin-left:auto;font-family:inherit;font-size:12.6px;padding:8px 13px;border-radius:99px;color:#EAF6F0;
+  border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.22);min-width:210px}
+.pv-search::placeholder{color:#6E8F82}
+
+.pv-gtitle{font-size:12px;letter-spacing:.9px;text-transform:uppercase;color:#C9BEFA;font-weight:700;margin:22px 0 11px;
+  display:flex;align-items:center;gap:9px}
+.pv-gtitle:first-child{margin-top:4px}
+.pv-gtitle span{font-size:11px;color:#7FA795;letter-spacing:0;text-transform:none;font-weight:400}
+.pv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:15px}
+.pv-card{border:1px solid rgba(255,255,255,.11);border-radius:18px;overflow:hidden;background:rgba(255,255,255,.04);
+  display:flex;flex-direction:column;transition:.16s}
+.pv-card:hover{border-color:rgba(201,242,110,.42);transform:translateY(-2px);background:rgba(201,242,110,.07)}
+.pv-thumb{height:186px;overflow:hidden;background:#0B1A15;position:relative;border-bottom:1px solid rgba(255,255,255,.08);cursor:pointer}
+.pv-thumb .ws-thumb-in{transform-origin:top left;pointer-events:none}
+.pv-thumb.mob .ws-thumb-in{width:390px}
+.pv-thumb.web .ws-thumb-in{width:1400px}
+.pv-thumb .ph{position:absolute;inset:0;display:grid;place-items:center;color:#4E6C60;font-size:11.6px;letter-spacing:.6px}
+.pv-thumb.mob{padding:0}
+.pv-cbody{padding:12px 14px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
+.pv-crow{display:flex;align-items:center;gap:8px}
+.pv-code{font-size:10.6px;font-weight:700;color:#06301F;background:var(--lime);padding:3px 8px;border-radius:7px;letter-spacing:.3px}
+.pv-code.v{background:rgba(126,110,220,.9);color:#fff}
+.pv-code.w{background:rgba(70,150,225,.9);color:#fff}
+.pv-logical{font-size:10.4px;color:#8FB9A8;font-family:ui-monospace,Menlo,monospace;margin-left:auto}
+.pv-name{color:#fff;font-size:13.6px;line-height:1.5;font-weight:600}
+.pv-meta{color:#8FB9A8;font-size:11.4px;line-height:1.6}
+.pv-roles{display:flex;gap:5px;flex-wrap:wrap;margin-top:2px}
+.pv-rchip{font-size:10.2px;color:#BBD8F2;border:1px solid rgba(120,190,255,.28);background:rgba(60,140,220,.12);padding:2px 7px;border-radius:99px}
+.pv-acts{display:flex;gap:7px;margin-top:auto;padding-top:9px}
+.pv-act{flex:1;font-family:inherit;font-size:11.8px;padding:8px 10px;border-radius:11px;cursor:pointer;text-align:center;
+  text-decoration:none;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#DCEDE6}
+.pv-act:hover{background:rgba(201,242,110,.16);color:#fff;border-color:rgba(201,242,110,.42)}
+.pv-act.pri{background:var(--lime);color:#06301F;border-color:var(--lime);font-weight:700}
+.pv-act.pri:hover{filter:brightness(1.08);color:#06301F}
+
+.pv-role-block{border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:16px 18px;margin-bottom:16px;background:rgba(0,0,0,.14)}
+.pv-rb-h{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.pv-rb-h b{color:#fff;font-size:15.4px}
+.pv-rb-h i{font-style:normal;color:#8FB9A8;font-size:11.8px}
+.pv-rb-h .who{margin-left:auto;text-align:right;font-size:11.6px;color:#A9C8BB;line-height:1.6}
+.pv-rb-h .who b{display:block;font-size:12.6px;color:#DCEDE6}
+.pv-rb-note{color:#9FBFB2;font-size:12.4px;line-height:1.72;margin-top:9px}
+.pv-navrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.pv-navpill{font-family:inherit;font-size:11.8px;padding:7px 12px;border-radius:11px;cursor:pointer;color:#CFE4DA;
+  border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.05);display:flex;align-items:center;gap:7px}
+.pv-navpill:hover{background:rgba(201,242,110,.14);color:#fff}
+.pv-navpill code{font-size:10px;color:#7FA795;font-family:ui-monospace,Menlo,monospace}
+.pv-navpill.fab{border-color:rgba(201,242,110,.4);color:#D8ECC2}
+.pv-count{font-size:11.6px;color:#8FB9A8;margin-top:11px}
+.pv-flow{margin-top:10px;padding:10px 14px;border-radius:12px;border:1px dashed rgba(201,242,110,.32);
+  background:rgba(201,242,110,.05);color:#DDECC9;font-size:12.3px;line-height:1.7}
+.pv-flow b{color:#fff}
+.pv-flow span{display:block;color:#9FBFB2;font-size:11.6px;margin-top:3px}
+
+.pv-live{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:16px}
+.pv-live-card{border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:20px;background:linear-gradient(150deg,rgba(201,242,110,.09),rgba(255,255,255,.03))}
+.pv-live-card.web{background:linear-gradient(150deg,rgba(60,140,220,.13),rgba(255,255,255,.03))}
+.pv-live-card h3{color:#fff;font-size:17.5px;margin-bottom:8px}
+.pv-live-card p{color:#A0C0B2;font-size:12.9px;line-height:1.78;margin-bottom:14px}
+.pv-live-roles{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.pv-go{display:inline-flex;align-items:center;gap:9px;font-family:inherit;font-size:13.4px;font-weight:700;padding:12px 18px;
+  border-radius:14px;cursor:pointer;text-decoration:none;background:var(--lime);color:#06301F;border:1px solid var(--lime)}
+.pv-live-card.web .pv-go{background:#4A9AE8;border-color:#4A9AE8;color:#04223C}
+.pv-sa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));gap:11px;margin-top:14px}
+.pv-sa-card{border:1px dashed rgba(255,255,255,.2);border-radius:15px;padding:13px 15px;background:rgba(255,255,255,.028)}
+.pv-sa-card b{display:block;color:#DCEDE6;font-size:13.1px;margin-bottom:4px}
+.pv-sa-card code{font-size:10.6px;color:#C9BEFA;font-family:ui-monospace,Menlo,monospace}
+.pv-sa-card i{font-style:normal;display:block;color:#8FB9A8;font-size:11.7px;line-height:1.6;margin-top:5px}
+.pv-note{margin-top:15px;padding:13px 16px;border-radius:14px;border:1px solid rgba(120,190,255,.28);background:rgba(60,140,220,.1);color:#CFE4F5;font-size:12.7px;line-height:1.75}
+.pv-note.g{border-color:rgba(201,242,110,.3);background:rgba(201,242,110,.08);color:#DDECC9}
+.ws-thumb{position:relative}
+</style>
+</head>
+<body class="proto-body">
+
+<div class="pv-top"><div class="in">
+  <div class="pv-logo">স</div>
+  <div class="pv-title">Somobay · Preview Dashboard
+    <small>ক্যাটাগরি অনুযায়ী সাজানো সব তৈরি পেজ ও স্ক্রিন · ১২৫ লজিক্যাল পেজ · ১৯৯ স্ক্রিন</small></div>
+  <div class="pv-links">
+    <a href="../index.html">হোম</a>
+    <a class="on" href="preview.html">প্রিভিউ ড্যাশবোর্ড</a>
+    <a href="workspace.html">Live Workspace</a>
+    <a href="screens.html">স্ক্রিন গ্যালারি</a>
+    <a href="flows.html">User Flow</a>
+    <a href="system.html">ডিজাইন সিস্টেম</a>
+  </div>
+</div></div>
+
+<div class="pv-wrap">
+  <div class="pv-hero">
+    <span class="kicker">Category-wise Preview · সব স্ক্রিন এক জায়গায়</span>
+    <h1>Admin App · Member App · Collector App · Other Roles · Web Panel · <span style="color:var(--lime)">Live Prototype</span></h1>
+    <p>মোট <b style="color:#fff">১৯৯টি স্ক্রিন</b> (১২৫ লজিক্যাল পেজ = ৬৭ সাধারণ সঞ্চয় + ১৮ ROSCA + ১৫ যৌথ লক্ষ্য + ২৫ কর্জে হাসানা) ক্যাটাগরি অনুযায়ী সম্পূর্ণ আলাদা সেকশনে সাজানো হয়েছে।
+      মোবাইল অ্যাপ ও ডেস্কটপ ওয়েব <b style="color:#fff">দুটি আলাদা প্রিভিউ সেকশন</b> — কোনো ভিউ-টগল নেই।
+      প্রতিটি কার্ডের থাম্বনেইল সেই আসল স্ক্রিনের লাইভ রেন্ডার (কোনো ছবি নয়), আর <b style="color:#fff">"লাইভ চালান"</b> চাপলে
+      ইন্টারঅ্যাকটিভ ওয়ার্কস্পেসে সেই ভূমিকা ও স্ক্রিনে পৌঁছে যাবেন — বাটন, ফর্ম, মেনু ও নেভিগেশন কার্যকর।
+      কোনো নতুন ডিজাইন বা ফিচার যোগ করা হয়নি; বিদ্যমান ডিজাইন ও ফিচার অক্ষুণ্ণ।</p>
+    <div class="pv-stats" id="pvStats"></div>
+    <div class="pv-jump" id="pvJump"></div>
+  </div>
+
+  <div id="pvSections"></div>
+</div>
+
+<script src="assets/app.js" type="b01f28866e8d20bd7a91599b-text/javascript"></script>
+<script src="assets/screens.js" type="b01f28866e8d20bd7a91599b-text/javascript"></script>
+<script src="assets/workspace.js" type="b01f28866e8d20bd7a91599b-text/javascript"></script>
+<script type="b01f28866e8d20bd7a91599b-text/javascript">
+/* ------------------------------------------------------------------ helpers */
+const PV = { thumbs: true, io: null, filled: new Set() };
+
+function pvRolesOf(id) {
+  const m = wsMeta(id);
+  if (!m) return [];
+  return String(m.role || '').split('·').map(x => x.trim()).filter(Boolean).slice(0, 4);
+}
+/* ডিপ লিংক — স্ক্রিনটি আসলে কোন প্ল্যাটফর্মের, সেটি META থেকেই ঠিক হয় (অনুমান নয়) */
+function pvDeepLink(platform, id) {
+  const m = wsMeta(id);
+  const plat = m ? (wsIsMob(id) ? 'mob' : 'web') : platform;
+  const rl = m ? String(m.role || '') : '';
+  let role;
+  if (plat === 'mob') {
+    role = id[0] === 'm' ? 'MEMBER'
+      : (/COLLECTOR/.test(rl) && !/MANAGER|ORG_ADMIN|ACCOUNTANT|APPROVER/.test(rl)) ? 'COLLECTOR'
+      : /AUDITOR/.test(rl) && !/ORG_ADMIN|MANAGER/.test(rl) ? 'AUDITOR'
+      : 'ORG_ADMIN';
+  } else {
+    role = /COLLECTOR/.test(rl) ? 'W_COLLECTOR'
+      : /APPROVER/.test(rl) && !/MANAGER|ORG_ADMIN/.test(rl) ? 'W_APPROVER'
+      : /ACCOUNTANT/.test(rl) && !/MANAGER|ORG_ADMIN/.test(rl) ? 'W_ACCOUNTANT'
+      : /AUDITOR/.test(rl) && !/MANAGER|ORG_ADMIN/.test(rl) ? 'W_AUDITOR'
+      : /ORG_ADMIN/.test(rl) ? 'W_ORG_ADMIN' : 'W_MANAGER';
+  }
+  if (plat === 'web' && platform === 'mob') return `workspace.html#web:${role}:${id}`;
+  return `workspace.html#${plat}:${role}:${id}`;
+}
+function pvCard(id, platform) {
+  const m = wsMeta(id);
+  if (!m) return '';
+  const isWeb = platform === 'web' && !wsIsMob(id);
+  const code = `<span class="pv-code ${isWeb ? 'w' : (m.pres === 'app' ? 'v' : '')}">${m.code}</span>`;
+  const logical = m.pres === 'app' ? `লজিক্যাল ${m.logical}` : (isWeb && WS.m2d[id] ? `মোবাইল ${wsMeta(WS.m2d[id]).code}` : '');
+  return `<div class="pv-card" data-id="${id}" data-name="${(m.name + ' ' + m.code + ' ' + (m.role || '')).replace(/"/g, '')}">
+    <div class="pv-thumb ${isWeb ? 'web' : 'mob'}" data-thumb="${id}" data-plat="${isWeb ? 'web' : 'mob'}" onclick="location.href='${pvDeepLink(isWeb ? 'web' : 'mob', id)}'">
+      <span class="ph">থাম্বনেইল লোড হচ্ছে…</span></div>
+    <div class="pv-cbody">
+      <div class="pv-crow">${code}<span class="pv-logical">${logical}</span></div>
+      <div class="pv-name">${m.name}</div>
+      <div class="pv-roles">${pvRolesOf(id).map(r => `<span class="pv-rchip">${r}</span>`).join('')}</div>
+      <div class="pv-acts">
+        <a class="pv-act pri" href="${pvDeepLink(isWeb ? 'web' : 'mob', id)}">▶ লাইভ চালান</a>
+        <a class="pv-act" href="screens.html#${id}">গ্যালারি</a>
+      </div>
+    </div></div>`;
+}
+function pvGrid(ids, platform) {
+  return `<div class="pv-grid">${ids.map(id => pvCard(id, platform)).join('')}</div>`;
+}
+function pvGrouped(groups, platform, order) {
+  const keys = order ? order.filter(k => groups[k]) : Object.keys(groups);
+  Object.keys(groups).forEach(k => { if (!keys.includes(k)) keys.push(k); });
+  return keys.map(k => `<div class="pv-gtitle">${k} <span>${bn(groups[k].length)}টি স্ক্রিন</span></div>${pvGrid(groups[k], platform)}`).join('');
+}
+
+/* থাম্বনেইল অলসভাবে রেন্ডার — একবারই, ক্যাশ থেকে */
+function pvFill(el) {
+  const id = el.getAttribute('data-thumb');
+  const plat = el.getAttribute('data-plat');
+  if (!id || PV.filled.has(el)) return;
+  PV.filled.add(el);
+  try {
+    const inner = wsThumbHtml(id, plat);
+    const scale = plat === 'web' ? 0.185 : 0.477;
+    el.innerHTML = `<div class="ws-thumb ${plat}"><div class="ws-thumb-in" style="transform:scale(${scale})">${inner}</div></div>`;
+  } catch (e) {
+    el.innerHTML = '<span class="ph">থাম্বনেইল দেখানো যায়নি</span>';
+  }
+}
+function pvObserve(root) {
+  /* IntersectionObserver না থাকলে (পুরনো ব্রাউজার / প্রিভিউ) সব থাম্বনেইল সাথে সাথে ভরা হয় */
+  if (typeof IntersectionObserver !== 'function') { root.querySelectorAll('[data-thumb]').forEach(pvFill); return; }
+  if (!PV.io) PV.io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { pvFill(e.target); PV.io.unobserve(e.target); } });
+  }, { rootMargin: '260px' });
+  root.querySelectorAll('[data-thumb]').forEach(el => PV.io.observe(el));
+}
+
+/* ------------------------------------------------------------------ সেকশন */
+function pvRoleBlock(roleKey, platform) {
+  const r = wsRole(roleKey);
+  const nav = wsRoleNav(platform, roleKey);
+  const lim = r.limit === null ? 'সীমা নেই' : (r.limit === 0 ? '৳০ (এন্ট্রি কর্তৃপক্ষ)' : tk(r.limit));
+  const primary = platform === 'mob'
+    ? nav.primary.map(n => `<button class="pv-navpill ${n.fab ? 'fab' : ''}" onclick="location.href='${pvDeepLink('mob', n.id)}'">${n.fab ? '⊕ ' : ''}${n.label} <code>${wsMeta(n.id) ? wsMeta(n.id).code : n.id}</code></button>`).join('')
+    : `<button class="pv-navpill" onclick="location.href='${pvDeepLink('web', r.landing)}'">ল্যান্ডিং ড্যাশবোর্ড <code>${wsMeta(r.landing) ? wsMeta(r.landing).code : r.landing}</code></button>`;
+  const uniq = [...new Set(nav.all)];
+  return `<div class="pv-role-block">
+    <div class="pv-rb-h"><div><b>${r.bn}</b> <i>${r.en} · ${r.shell || 'MNAV'} · ${lim}${r.ro ? ' · শুধু পঠন' : ''}</i></div>
+      <div class="who"><b>${r.person}</b>${r.personNote}</div></div>
+    <div class="pv-rb-note">${r.note}</div>
+    <div class="pv-navrow">${primary}
+      <button class="pv-navpill" onclick="location.href='workspace.html#${platform}:${roleKey}:${r.landing}'">▶ এই ভূমিকায় ওয়ার্কস্পেস খুলুন</button></div>
+    <div class="pv-count">এই ভূমিকায় পৌঁছানো যায়: <b style="color:#D8ECC2">${bn(uniq.length)}টি স্ক্রিন</b>
+      ${platform === 'mob' && r.key !== 'MEMBER' ? ' · বটম নেভ ৫ স্লট + হ্যামবার্গার ড্রয়ারে সম্পূর্ণ ANAV (D-35 চুক্তি অনুযায়ী প্রতিটি সেকশন পৌঁছানো যায়)' : ''}</div>
+  </div>`;
+}
+
+function pvBuildSections() {
+  const cats = wsCategories();
+  const C = {};
+  cats.forEach(c => C[c.key] = c);
+  const order = ['ওভারভিউ', 'সঞ্চয় পরিচালনা', 'মাঠ সংগ্রহ', 'নিয়ন্ত্রণ', 'সদস্য ও দাবি', 'ব্যবস্থাপনা', 'অন্যান্য'];
+
+  const sec = [];
+
+  /* ---------- ১ · Admin App ---------- */
+  sec.push({
+    key: 'adminapp', num: '১ · ADMIN APP', title: 'Admin App — অ্যাডমিন মোবাইল অ্যাপের সব স্ক্রিন',
+    desc: `একই Backend, একই API, একই নিয়ম — শুধু ৩৯০px-এর জন্য আলাদা UI (D-35)। প্রতিটি স্ক্রিন রোলভিত্তিক শেলে রেন্ডার হয়: বটম নেভ ঠিক ৫ স্লট, বাকি সব হ্যামবার্গার ড্রয়ারে।`,
+    badges: [[`${bn(C.adminapp.count)} স্ক্রিন`, 'v'], ['৮ ভূমিকা শেল', ''], ['৬ মোবাইল প্যাটার্ন', '']],
+    body: () => {
+      const roles = ['COLLECTOR', 'ACCOUNTANT', 'MANAGER', 'APPROVER', 'ORG_ADMIN', 'AUDITOR'];
+      return `<div class="pv-tools"><span class="lab">ভূমিকা ফিল্টার</span>
+          <button class="pv-chip on" data-f="all">সব (${bn(C.adminapp.count)})</button>
+          ${roles.map(r => `<button class="pv-chip" data-f="${r}">${wsRole(r).bn}</button>`).join('')}
+          <input class="pv-search" placeholder="স্ক্রিন খুঁজুন: AM-12 / বকেয়া…" data-search="adminapp">
+        </div>
+        <div data-list="adminapp">${pvGrouped(C.adminapp.groups, 'mob', order)}</div>
+        <div class="pv-note g">✅ <b>প্যারিটি:</b> Admin Web-এর ৭৭টি লজিক্যাল পেজের সবগুলোর মোবাইল রূপ আছে (৭৪টি AM/RAM/JAM/QAM স্ক্রিন + আগে থেকেই রূপান্তরিত ৩টি)। শুধু থার্মাল প্রিন্ট ও খুব বড় এক্সপোর্ট পরিবেশগত সীমায় আলাদা।</div>`;
+    },
+    filter: (chip, term, root) => {
+      root.querySelectorAll('.pv-card').forEach(card => {
+        const id = card.getAttribute('data-id');
+        const m = wsMeta(id);
+        let show = true;
+        if (chip !== 'all') {
+          /* ভূমিকা-ফিল্টার এখন META-র ভূমিকা তালিকা দেখে (m.role), BFS-রিচ না।
+             কারণ: নিরীক্ষা N1/D-76 অনুযায়ী প্রতিটি উপ-পর্দায় ব্যাক বাটন যোগ হওয়ায় মোবাইল
+             লিংক-গ্রাফ পূর্ণ সংযুক্ত হয়ে গেছে — BFS ক্লোজার সব ভূমিকার জন্যই ৩৫/৩৫ কার্ড
+             ফেরাত, ফলে চিপ ফিল্টার অর্থহীন হয়ে পড়ত। m.role-ই বলে কোন ভূমিকা কোন পর্দা পায়। */
+          const m = wsMeta(id);
+          const rs = (m && m.role ? String(m.role) : '').toUpperCase();
+          show = rs.includes(chip.toUpperCase());
+        }
+        if (term && !card.getAttribute('data-name').toLowerCase().includes(term)) show = false;
+        card.style.display = show ? '' : 'none';
+      });
+      root.querySelectorAll('.pv-gtitle').forEach(g => {
+        let n = g.nextElementSibling, vis = 0;
+        if (n) n.querySelectorAll('.pv-card').forEach(c => { if (c.style.display !== 'none') vis++; });
+        g.style.display = vis ? '' : 'none';
+        if (n) n.style.display = vis ? '' : 'none';
+      });
+    }
+  });
+
+  /* ---------- ২ · Member App ---------- */
+  sec.push({
+    key: 'memberapp', num: '২ · MEMBER APP', title: 'Member App — সদস্য মোবাইল অ্যাপের সব স্ক্রিন',
+    desc: 'মোবাইল-ফার্স্ট সদস্য অ্যাপ: লগইন করা সদস্য আব্দুল করিম (RSS-2627-0042)। বটম নেভ = MNAV ৫ স্লট (হোম · সঞ্চয় · [+] জমা দিন · লেনদেন · আরও)।',
+    badges: [[`${bn(C.memberapp.count)} স্ক্রিন`, ''], ['MNAV ৫ স্লট', 'v'], ['শেয়ার্ড মোবাইল ৫', 'w']],
+    body: () => `<div class="pv-tools"><span class="lab">গ্রুপ</span>
+        <input class="pv-search" placeholder="স্ক্রিন খুঁজুন: M-05 / উত্তোলন…" data-search="memberapp"></div>
+      ${pvRoleBlock('MEMBER', 'mob')}
+      <div data-list="memberapp">
+        <div class="pv-gtitle">সদস্য অ্যাপ <span>${bn(META.filter(m => m.id[0] === 'm').length)}টি স্ক্রিন</span></div>
+        ${pvGrid(META.filter(m => m.id[0] === 'm').map(m => m.id), 'mob')}
+        <div class="pv-gtitle">শেয়ার্ড পেজ — মোবাইল ভ্যারিয়েন্ট <span>${bn(META.filter(m => m.id[0] === 's' && m.variant === 'mobile').length)}টি</span></div>
+        ${pvGrid(META.filter(m => m.id[0] === 's' && m.variant === 'mobile').map(m => m.id), 'mob')}
+      </div>
+      <div class="pv-note">📌 গণনার নিয়ম: একই পেজ Member ও Admin দুই প্যানেলে ব্যবহৃত হলে দুই পেজ হিসেবে গণনা হয়; শেয়ার্ড পেজগুলো তাই দুই সেকশনেই দেখানো হয়েছে (স্ক্রিন একবারই তৈরি)।</div>`,
+    filter: (chip, term, root) => pvSimpleFilter(term, root)
+  });
+
+  /* ---------- ৩ · Collector App ---------- */
+  const colNav = wsRoleNav('mob', 'COLLECTOR');
+  sec.push({
+    key: 'collectorapp', num: '৩ · COLLECTOR APP', title: 'Collector App — মাঠ সংগ্রহকের মোবাইল অ্যাপ',
+    desc: 'Shell-A · রাজু আহমেদ (u3) · রুট R1 কেশবপুর সদর · অনুমোদন সীমা ৳০ (D-22) — এন্ট্রি করে, অনুমোদন করে না। অফলাইন সংগ্রহ ও দিনশেষ জমা এই ভূমিকার মূল প্রবাহ।',
+    badges: [[`বটম নেভ ৫ স্লট`, 'v'], [`${bn([...new Set(colNav.all)].length)} স্ক্রিনে পৌঁছায়`, ''], ['অফলাইন sync', 'w']],
+    body: () => {
+      const prim = [...new Set(colNav.primary.map(n => n.id))];
+      const drawerIds = [...new Set(colNav.drawer.map(n => n.id))].filter(x => wsMeta(x) && !prim.includes(x));
+      const deskOnly = colNav.drawer.filter(n => !wsMeta(n.id));
+      return `${pvRoleBlock('COLLECTOR', 'mob')}
+        <div class="pv-gtitle">বটম নেভের ৫ স্লট (প্রধান কাজ) <span>${bn(prim.length)}টি</span></div>
+        ${pvGrid(prim, 'mob')}
+        <div class="pv-gtitle">হ্যামবার্গার ড্রয়ার — সম্পূর্ণ ANAV এর মোবাইল রূপ <span>${bn(drawerIds.length)}টি</span></div>
+        ${pvGrid(drawerIds, 'mob')}
+        <div class="pv-note">🔒 ড্রয়ারের প্রতিটি সেকশন পৌঁছানো যায় (D-35 চুক্তি), কিন্তু সংগ্রহকের অনুমোদন সীমা ৳০ — অনুমোদন-বাধ্য কাজে স্টিকি সিদ্ধান্ত বারে সীমা ও maker≠checker সতর্কতা দেখায়। ${deskOnly.length ? '· ' + bn(deskOnly.length) + 'টি ANAV আইটেমের আলাদা মোবাইল স্ক্রিন নেই (সাব-প্যানেল, D-34)।' : ''}</div>`;
+    },
+    filter: (chip, term, root) => pvSimpleFilter(term, root)
+  });
+
+  /* ---------- ৪ · Other Roles App ---------- */
+  sec.push({
+    key: 'otherroles', num: '৪ · OTHER ROLES APP', title: 'Other Roles App — অন্যান্য ভূমিকার মোবাইল অ্যাপ',
+    desc: 'হিসাবরক্ষক (Shell-B), ব্যবস্থাপক ও অনুমোদনকারী (Shell-C), সমিতি প্রশাসক (Shell-D), নিরীক্ষক / বহিঃনিরীক্ষক / পর্যবেক্ষক (Shell-E, শুধু পঠন)। প্রতিটি ভূমিকার নিজস্ব ল্যান্ডিং ড্যাশবোর্ড, নিজস্ব ৫-স্লট নেভ ও নিজস্ব অনুমোদন সীমা।',
+    badges: [['৭ ভূমিকা', 'v'], ['৫টি শেল (A–E)', ''], ['প্রতি ভূমিকায় ল্যান্ডিং + ৫ স্লট', ''], ['শুধু-পঠন ৩', 'a']],
+    body: () => {
+      const roles = ['ACCOUNTANT', 'MANAGER', 'APPROVER', 'ORG_ADMIN', 'AUDITOR', 'EXTERNAL_AUDITOR', 'VIEWER'];
+      return `<div class="pv-tools"><span class="lab">ভূমিকা</span>
+          <input class="pv-search" placeholder="স্ক্রিন খুঁজুন…" data-search="otherroles"></div>` +
+        roles.map(r => {
+          const nav = wsRoleNav('mob', r);
+          const rr = wsRole(r);
+          const ids = [...new Set(nav.all)];
+          /* এই ভূমিকার নিজস্ব ড্যাশবোর্ড + বটম নেভের ৫ স্লট (ডুপ্লিকেট বাদে) */
+          const prim = [...new Set([rr.landing].concat(nav.primary.map(n => n.id)))].filter(x => wsMeta(x));
+          return `<div data-role="${r}">${pvRoleBlock(r, 'mob')}
+            <div class="pv-gtitle">${rr.bn} — ল্যান্ডিং ড্যাশবোর্ড ও বটম নেভের ৫ স্লট
+              <span>${bn(prim.length)}টি স্ক্রিন · এই ভূমিকা থেকে মোট পৌঁছানো যায় ${bn(ids.length)}টি</span></div>
+            ${pvGrid(prim, 'mob')}
+            <div class="pv-flow"><b>এই ভূমিকার প্রবাহ:</b> ${prim.map(p => wsMeta(p).code).join(' → ')}
+              <span>· ড্রয়ারের বাকি ${bn(Math.max(0, ids.length - prim.length))}টি স্ক্রিন ওয়ার্কস্পেসে হ্যামবার্গার মেনু থেকে চালানো যায়</span></div></div>`;
+        }).join('') +
+        `<div class="pv-note">⚖️ Admin App-এর ৭৪টি স্ক্রিন সব ভূমিকার জন্য একই ডেটা ও একই নিয়ম ব্যবহার করে — পার্থক্য শুধু শেল (বটম নেভ/ড্রয়ার), অনুমোদন সীমা (D-22) ও CRUDA পারমিশন (A-37)। তাই এখানে ভূমিকা প্রতি তার <b>নিজস্ব ল্যান্ডিং ও ৫-স্লট নেভ</b> দেখানো হয়েছে; সম্পূর্ণ ৭৪টি স্ক্রিন §১ Admin App-এ একবারই আছে। মোট স্ক্রিন সংখ্যা ১৯৯-ই থাকে, ভূমিকা প্রতি আলাদা করে গণনা হয় না।</div>`;
+    },
+    filter: (chip, term, root) => pvSimpleFilter(term, root, '[data-role]')
+  });
+
+  /* ---------- ৫ · Web Panel ---------- */
+  sec.push({
+    key: 'webpanel', num: '৫ · WEB PANEL', title: 'Web Panel — Admin Web ও Super Admin Web (ডেস্কটপ)',
+    desc: 'বড় স্ক্রিনের আলাদা Dashboard Layout: বাম সাইডবারে সম্পূর্ণ ANAV (৬ গ্রুপ · ২৫ আইটেম), ডানে কনটেন্ট। মোবাইল অ্যাপের সাথে একই Backend ও একই নিয়ম — শুধু প্রেজেন্টেশন আলাদা, তাই এটি সম্পূর্ণ আলাদা প্রিভিউ সেকশন (কোনো টগল নেই)।',
+    badges: [[`${bn(META.filter(m => m.id[0] === 'a' && m.pres !== 'app').length)} Admin Web`, 'w'], [`${bn(META.filter(m => m.id[0] === 's' && m.variant !== 'mobile').length)} শেয়ার্ড ডেস্কটপ`, 'w'], ['Super Admin ১২ পেজ পরিকল্পিত', 'a']],
+    body: () => {
+      const webIds = META.filter(m => m.id[0] === 'a' && m.pres !== 'app');
+      const shDesk = META.filter(m => m.id[0] === 's' && m.variant !== 'mobile');
+      const groups = {};
+      webIds.forEach(m => {
+        const navKey = (function () { let k = 'অন্যান্য'; ANAV.forEach(g => g.items.forEach(i => { if (i.go === '#' + m.id) k = g.g; })); return k; })();
+        (groups[navKey] = groups[navKey] || []).push(m.id);
+      });
+      const roles = ['W_ORG_ADMIN', 'W_MANAGER', 'W_APPROVER', 'W_ACCOUNTANT', 'W_COLLECTOR', 'W_AUDITOR'];
+      return `<div class="pv-tools"><span class="lab">ভূমিকা ফিল্টার</span>
+          <button class="pv-chip on" data-f="all">সব (${bn(webIds.length + shDesk.length)})</button>
+          ${roles.map(r => `<button class="pv-chip" data-f="${r}">${wsRole(r).bn}</button>`).join('')}
+          <input class="pv-search" placeholder="স্ক্রিন খুঁজুন: A-20 / অনুমোদন…" data-search="webpanel">
+        </div>
+        <div data-list="webpanel">
+          ${pvGrouped(groups, 'web', order)}
+          <div class="pv-gtitle">শেয়ার্ড — ডেস্কটপ / সিস্টেম ভ্যারিয়েন্ট <span>${bn(shDesk.length)}টি</span></div>
+          ${pvGrid(shDesk.map(m => m.id), 'web')}
+        </div>
+        <div class="pv-gtitle" style="margin-top:26px">ভূমিকাভিত্তিক প্রবেশ (ডেস্কটপ)</div>
+        ${roles.map(r => pvRoleBlock(r, 'web')).join('')}
+        <div class="pv-gtitle" style="margin-top:26px">Super Admin Web — প্ল্যাটফর্ম মালিক <span>পরিকল্পিত · ডিজাইন স্থগিত</span></div>
+        <div class="pv-sa-grid">${WS_SUPERADMIN_PLANNED.map(p =>
+          `<div class="pv-sa-card"><b>${p[1]}</b><code>${p[0]}</code><i>${p[2]}</i></div>`).join('')}</div>
+        <div class="pv-note">🔒 <b>Super Admin প্যানেলের কোনো স্ক্রিন এখনো তৈরি নয়</b> — আপনার নির্দেশ অনুযায়ী এটি এখন ডিজাইন করা হচ্ছে না। উপরের ১২টি পেজ <code>specs/03-multi-module-platform-architecture.md</code> §৮.৬-এ পরিকল্পিত; সিদ্ধান্ত D-36…D-45 ও D-66 চূড়ান্ত হলে ডিজাইন হবে। অনুমাননির্ভর কোনো স্ক্রিন এখানে দেখানো হয়নি।</div>`;
+    },
+    filter: (chip, term, root) => {
+      root.querySelectorAll('.pv-card').forEach(card => {
+        const id = card.getAttribute('data-id');
+        let show = true;
+        if (chip !== 'all') {
+          const r = wsRole(chip);
+          const nav = wsRoleNav('web', chip);
+          const set = new Set(nav.drawer.map(n => n.id));
+          set.add(r.landing);
+          nav.all.forEach(x => set.add(x));
+          show = set.has(id);
+        }
+        if (term && !card.getAttribute('data-name').toLowerCase().includes(term)) show = false;
+        card.style.display = show ? '' : 'none';
+      });
+      root.querySelectorAll('.pv-gtitle').forEach(g => {
+        const n = g.nextElementSibling;
+        let vis = 0;
+        if (n) n.querySelectorAll('.pv-card').forEach(c => { if (c.style.display !== 'none') vis++; });
+        g.style.display = vis ? '' : 'none';
+        if (n) n.style.display = vis ? '' : 'none';
+      });
+    }
+  });
+
+  /* ---------- ৬ · Live Prototype ---------- */
+  sec.push({
+    key: 'live', num: '৬ · LIVE PROTOTYPE', title: 'Live Prototype — ইন্টারঅ্যাকটিভ ওয়ার্কস্পেস',
+    desc: 'ভূমিকা ও প্ল্যাটফর্ম বেছে নিয়ে অ্যাপটি বাস্তব অ্যাপের মতো ব্যবহার করুন: একটি একটি করে স্ক্রিন, কাজ করা নেভিগেশন, ড্রয়ার, ফর্ম, ফিল্টার ও সিদ্ধান্ত বার — সাথে পেছনে/সামনে হিস্টরি ও ব্রেডক্রাম্ব।',
+    badges: [['মোবাইল ওয়ার্কস্পেস', 'v'], ['ওয়েব ওয়ার্কস্পেস', 'w'], ['১৫ ভূমিকা-প্রবেশ', '']],
+    body: () => `<div class="pv-live">
+        <div class="pv-live-card">
+          <h3>📱 মোবাইল অ্যাপ ওয়ার্কস্পেস</h3>
+          <p>ফোন ফ্রেমে (৩৯০ × ৮৪৪) সদস্য, সংগ্রহক, হিসাবরক্ষক, ব্যবস্থাপক, অনুমোদনকারী, সমিতি প্রশাসক, নিরীক্ষক, বহিঃনিরীক্ষক ও পর্যবেক্ষক ভূমিকা। প্রতিটি ভূমিকার নিজস্ব ড্যাশবোর্ড, ৫-স্লট বটম নেভ ও হ্যামবার্গার ড্রয়ার।</p>
+          <div class="pv-live-roles">${WS_ROLES.filter(r => r.platform === 'mob').map(r =>
+            `<button class="pv-navpill" onclick="location.href='workspace.html#mob:${r.key}:${r.landing}'">${r.bn}</button>`).join('')}</div>
+          <a class="pv-go" href="workspace.html#sec-mob">মোবাইল ওয়ার্কস্পেস খুলুন →</a>
+        </div>
+        <div class="pv-live-card web">
+          <h3>🖥 ডেস্কটপ ওয়েব ওয়ার্কস্পেস</h3>
+          <p>ব্রাউজার ফ্রেমে Admin Web প্যানেল: সাইডবার IA, ওভারভিউ ড্যাশবোর্ড, অনুমোদন কিউ, ক্যাশ বুক, মাঠ সংগ্রহক ড্যাশবোর্ড ও নিরীক্ষকের রিটার্ন ভিউ। ভূমিকা বদলালে পরিচয়, ল্যান্ডিং ও অনুমোদন সীমা বদলায়।</p>
+          <div class="pv-live-roles">${WS_ROLES.filter(r => r.platform === 'web').map(r =>
+            `<button class="pv-navpill" onclick="location.href='workspace.html#web:${r.key}:${r.landing}'">${r.bn}</button>`).join('')}</div>
+          <a class="pv-go" href="workspace.html#sec-web">ওয়েব ওয়ার্কস্পেস খুলুন →</a>
+        </div>
+      </div>
+      <div class="pv-note g" style="margin-top:16px">🔗 অন্যান্য ইন্টারঅ্যাকটিভ ভিউ: <a href="flows.html" style="color:var(--lime)">User Flow প্রোটোটাইপ (৮টি প্রবাহ · ৭২ ধাপ · ৮৫ লাইভ অ্যাকশন)</a> ·
+        <a href="screens.html" style="color:var(--lime)">সব স্ক্রিনের গ্যালারি (১৯৯)</a> ·
+        <a href="system.html" style="color:var(--lime)">ডিজাইন সিস্টেম</a>।
+        নতুন মডিউল (ROSCA · Joint Goal · Qard Hasanah) ও Super Admin প্যানেলের স্ক্রিন এখনো তৈরি নয় — সেগুলো <code>specs/03</code>-এর সিদ্ধান্ত D-36…D-71 চূড়ান্ত হলে ডিজাইন হবে।</div>`,
+    filter: null
+  });
+
+  /* ---- রেন্ডার ---- */
+  const host = document.getElementById('pvSections');
+  host.innerHTML = sec.map((s, i) => `
+    <div class="pv-sec ${i === 0 ? 'open' : ''}" id="pv-${s.key}" data-key="${s.key}">
+      <div class="pv-sec-h" onclick="pvToggle('${s.key}')">
+        <span class="num">${s.num}</span>
+        <div><h2>${s.title}</h2><p>${s.desc}</p></div>
+        <div class="right">${s.badges.map(b => `<span class="pv-badge ${b[1]}">${b[0]}</span>`).join('')}
+          <span class="pv-chev">▶</span></div>
+      </div>
+      <div class="pv-body" data-body="${s.key}">${i === 0 ? s.body() : ''}</div>
+    </div>`).join('');
+
+  document.getElementById('pvJump').innerHTML = sec.map(s => {
+    const el = document.querySelector(`#pv-${s.key}`);
+    const n = el ? el.querySelectorAll('.pv-card').length : 0;
+    return `<button onclick="pvOpen('${s.key}')"><b>${s.title.split('—')[0].trim()}</b>${n ? `<u>${bn(n)}</u>` : ''}</button>`;
+  }).join('');
+
+  PV.sec = sec;
+  pvWire();
+  pvObserve(host);
+}
+
+function pvToggle(key) {
+  const el = document.getElementById('pv-' + key);
+  const open = el.classList.toggle('open');
+  const body = el.querySelector('[data-body]');
+  if (open && !body.innerHTML.trim()) {
+    const s = PV.sec.find(x => x.key === key);
+    body.innerHTML = s.body();
+    pvWireSection(el, s);
+    pvObserve(body);
+    pvRefreshJump();
+  }
+}
+function pvOpen(key) {
+  const el = document.getElementById('pv-' + key);
+  if (!el.classList.contains('open')) pvToggle(key);
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function pvRefreshJump() {
+  document.getElementById('pvJump').innerHTML = PV.sec.map(s => {
+    const el = document.querySelector(`#pv-${s.key}`);
+    const n = el ? el.querySelectorAll('.pv-card').length : 0;
+    return `<button onclick="pvOpen('${s.key}')"><b>${s.title.split('—')[0].trim()}</b>${n ? `<u>${bn(n)}</u>` : ''}</button>`;
+  }).join('');
+}
+
+function pvSimpleFilter(term, root, blockSel) {
+  const blocks = blockSel ? root.querySelectorAll(blockSel) : [root];
+  blocks.forEach(b => {
+    let vis = 0;
+    b.querySelectorAll('.pv-card').forEach(c => {
+      const ok = !term || c.getAttribute('data-name').toLowerCase().includes(term);
+      c.style.display = ok ? '' : 'none';
+      if (ok) vis++;
+    });
+    if (blockSel) b.style.display = vis ? '' : 'none';
+  });
+  root.querySelectorAll('.pv-gtitle').forEach(g => {
+    const n = g.nextElementSibling;
+    let v = 0;
+    if (n) n.querySelectorAll('.pv-card').forEach(c => { if (c.style.display !== 'none') v++; });
+    g.style.display = v ? '' : 'none';
+    if (n) n.style.display = v ? '' : 'none';
+  });
+}
+
+function pvWireSection(el, s) {
+  const body = el.querySelector('[data-body]');
+  const chips = body.querySelectorAll('.pv-chip[data-f]');
+  const search = body.querySelector('[data-search]');
+  let chip = 'all';
+  const apply = () => { if (s.filter) s.filter(chip, (search && search.value.trim().toLowerCase()) || '', body); };
+  chips.forEach(c => c.addEventListener('click', () => {
+    chips.forEach(x => x.classList.remove('on'));
+    c.classList.add('on'); chip = c.getAttribute('data-f'); apply();
+  }));
+  if (search) search.addEventListener('input', apply);
+}
+function pvWire() {
+  document.querySelectorAll('.pv-sec').forEach(el => {
+    const s = PV.sec.find(x => x.key === el.getAttribute('data-key'));
+    if (el.classList.contains('open') && s) pvWireSection(el, s);
+  });
+}
+
+function pvBoot() {
+  wsBuild();
+  const mob = META.filter(m => m.id[0] === 'm' || m.pres === 'app' || m.variant === 'mobile').length;
+  document.getElementById('pvStats').innerHTML = [
+    [META.length, 'মোট স্ক্রিন'],
+    [bn(125), 'লজিক্যাল পেজ'],
+    [mob, 'মোবাইল অ্যাপ স্ক্রিন'],
+    [META.length - mob, 'ডেস্কটপ ওয়েব স্ক্রিন'],
+    [META.filter(m => m.pres === 'app').length, 'Admin App (AM)'],
+    [META.filter(m => m.id[0] === 'm').length, 'Member App (M)'],
+    [META.filter(m => m.id[0] === 'a' && m.pres !== 'app').length, 'Admin Web (A)'],
+    [META.filter(m => m.id[0] === 's').length, 'Shared (S)']
+  ].map(s => `<div class="pv-stat"><b>${typeof s[0] === 'number' ? bn(s[0]) : s[0]}</b><i>${s[1]}</i></div>`).join('');
+  pvBuildSections();
+}
+document.addEventListener('DOMContentLoaded', pvBoot);
+</script>
+<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="b01f28866e8d20bd7a91599b-|49" defer></script></body>
+</html>

@@ -1,0 +1,222 @@
+# D-01 · সম্পূর্ণ সুদমুক্ত: profit_percentage / মুনাফা UI ও লেখার পথ বন্ধ
+# প্রয়োগ: Source A repo root থেকে  git apply -p1 patches/0001-D01-zero-interest.patch
+# অথবা                        patch -p1 < patches/0001-D01-zero-interest.patch
+# এই প্যাচটি আগে প্রয়োগ করতে হবে (0002-এর লাইন-নম্বর এর পরের অবস্থা ধরে লেখা)।
+# কোনো database migration এখানে নেই — DB পরিবর্তন app/db/*.sql ফাইলে আলাদা ও অনুমোদন-সাপেক্ষ।
+diff --git a/src/pages/AdminUpdates.tsx b/src/pages/AdminUpdates.tsx
+index 381be21..9d5c5f4 100644
+--- a/src/pages/AdminUpdates.tsx
++++ b/src/pages/AdminUpdates.tsx
+@@ -123,13 +123,13 @@ const TEMPLATE_PRESETS = [
+     meeting_time: '',
+     meeting_location: '',
+     right_widget_type: 'button' as PromoRightWidget,
+     button_text: 'উপস্থিত থাকুন',
+     badge_text: 'সাধারণ সভা',
+     image_url: PRESET_ICONS[2].url,
+-    details_content: `### বার্ষিক সাধারণ সভা (AGM) কার্যসূচি\n\n১. বিগত অর্থবছরের আয়-ব্যয় ও অডিট অনুমোদন।\n২. সদস্য সঞ্চয়ের লভ্যাংশ ঘোষণা ও মুনাফা বণ্টন।\n৩. নতুন প্রকল্প ও ঋণ নীতিমালার ওপর উন্মুক্ত আলোচনা।\n\n*সম্মানিত সদস্যদের উপস্থিতি কাম্য।*`,
++    details_content: `### বার্ষিক সাধারণ সভা (AGM) কার্যসূচি\n\n১. বিগত অর্থবছরের আয়-ব্যয় ও অডিট অনুমোদন।\n২. সদস্য সঞ্চয়ের হিসাব ও নিরীক্ষা প্রতিবেদন উপস্থাপন।\n৩. নতুন প্রকল্প ও ঋণ নীতিমালার ওপর উন্মুক্ত আলোচনা।\n\n*সম্মানিত সদস্যদের উপস্থিতি কাম্য।*`,
+     cta_type: 'call' as PromoCtaType,
+     cta_phone: '',
+     cta_text: 'অফিস হেল্পলাইনে কল করুন',
+     cta_link: ''
+   },
+   {
+diff --git a/src/pages/PlanManagement.tsx b/src/pages/PlanManagement.tsx
+index 7049f76..f134cba 100644
+--- a/src/pages/PlanManagement.tsx
++++ b/src/pages/PlanManagement.tsx
+@@ -107,13 +107,12 @@ export default function PlanManagement() {
+   const [planLoans, setPlanLoans] = useState<any[]>([]);
+   const [showNewLoanModal, setShowNewLoanModal] = useState(false);
+   const [newLoanData, setNewLoanData] = useState({
+     memberId: '',
+     amount: 20000,
+     durationMonths: 6,
+-    profitPercent: 0,
+     note: ''
+   });
+   const [repaymentModalOpen, setRepaymentModalOpen] = useState(false);
+   const [selectedLoanForRepay, setSelectedLoanForRepay] = useState<any>(null);
+   const [repayAmount, setRepayAmount] = useState<number | ''>(5000);
+ 
+@@ -171,13 +170,12 @@ export default function PlanManagement() {
+   const [editPlanForm, setEditPlanForm] = useState({
+     name: '',
+     description: '',
+     installment_amount: 1000,
+     late_fee_amount: 50,
+     target_amount: 12000,
+-    profit_percentage: 10,
+     duration_months: 12,
+     frequency: 'monthly' as any,
+     due_date: 1,
+     status: 'active' as 'active' | 'paused' | 'completed'
+   });
+ 
+@@ -254,13 +252,12 @@ export default function PlanManagement() {
+           setEditPlanForm({
+             name: planData.name,
+             description: planData.description || '',
+             installment_amount: planData.installment_amount,
+             late_fee_amount: planData.late_fee_amount,
+             target_amount: planData.target_amount,
+-            profit_percentage: planData.profit_percentage,
+             duration_months: planData.duration_months,
+             frequency: planData.frequency,
+             due_date: planData.due_date || 1,
+             status: planData.status || 'active'
+           });
+         } else {
+@@ -359,13 +356,13 @@ export default function PlanManagement() {
+       await updatePlan(currentId, {
+         name: editPlanForm.name,
+         description: editPlanForm.description,
+         installment_amount: Number(editPlanForm.installment_amount),
+         late_fee_amount: Number(editPlanForm.late_fee_amount),
+         target_amount: Number(editPlanForm.target_amount),
+-        profit_percentage: Number(editPlanForm.profit_percentage),
++        profit_percentage: 0, // D-01: লকড — এই প্ল্যাটফর্মে সুদ বা মুনাফা হিসাব হয় না
+         duration_months: Number(editPlanForm.duration_months),
+         frequency: editPlanForm.frequency,
+         status: editPlanForm.status
+       } as any);
+ 
+       setCurrentPlan({ ...currentPlan, ...editPlanForm } as any);
+@@ -1045,19 +1042,16 @@ export default function PlanManagement() {
+                   value={editPlanForm.late_fee_amount}
+                   onChange={(e) => setEditPlanForm({ ...editPlanForm, late_fee_amount: Number(e.target.value) })}
+                   className="w-full h-11 px-3.5 rounded-xl bg-slate-50 border border-slate-200 text-[13px] bangla text-slate-900 outline-none"
+                 />
+               </div>
+               <div>
+-                <label className="text-[12px] font-bold text-slate-700 bangla block mb-1">লভ্যাংশ (%)</label>
+-                <input
+-                  type="number"
+-                  value={editPlanForm.profit_percentage}
+-                  onChange={(e) => setEditPlanForm({ ...editPlanForm, profit_percentage: Number(e.target.value) })}
+-                  className="w-full h-11 px-3.5 rounded-xl bg-slate-50 border border-slate-200 text-[13px] bangla text-slate-900 outline-none"
+-                />
++                <label className="text-[12px] font-bold text-slate-700 bangla block mb-1">সুদ ৳০ (নীতি D-01)</label>
++                <div className="w-full h-11 px-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-[13px] bangla text-emerald-800 flex items-center gap-2 font-semibold">
++                  সম্পূর্ণ সুদমুক্ত — এই মান পরিবর্তনযোগ্য নয়
++                </div>
+               </div>
+             </div>
+ 
+             <div>
+               <label className="text-[12px] font-bold text-slate-700 bangla block mb-1">স্ট্যাটাস</label>
+               <select
+@@ -1740,13 +1734,13 @@ export default function PlanManagement() {
+                         repaid: 0,
+                         status: 'active',
+                         disbursed_date: getTodayLocalDate()
+                       };
+                       setPlanLoans([newLoan, ...planLoans]);
+                       setShowNewLoanModal(false);
+-                      setNewLoanData({ memberId: '', amount: 20000, durationMonths: 6, profitPercent: 0, note: '' });
++                      setNewLoanData({ memberId: '', amount: 20000, durationMonths: 6, note: '' });
+                       alert('ঋণ মঞ্জুর সফলভাবে সংরক্ষিত হয়েছে!');
+                     }}
+                     className="w-full h-11 rounded-xl bg-primary text-white font-bold text-[13px] bangla hover:bg-primary-dark transition-all mt-1"
+                   >
+                     ঋণ মঞ্জুর নিশ্চিত করুন
+                   </button>
+diff --git a/src/pages/SavingsInsights.tsx b/src/pages/SavingsInsights.tsx
+index dee1285..14c047b 100644
+--- a/src/pages/SavingsInsights.tsx
++++ b/src/pages/SavingsInsights.tsx
+@@ -655,15 +655,15 @@ export default function SavingsInsights() {
+                 <span className="text-slate-500 dark:text-slate-400 bangla">প্ল্যানের মোট মেয়াদকাল</span>
+                 <span className="font-semibold text-slate-800 dark:text-slate-300 bangla">{bn(totalDurationInstallments)} মাস ({planInfo?.frequency === 'weekly' ? 'সাপ্তাহিক' : 'মাসিক'} কিস্তি)</span>
+               </div>
+               <div className="h-[1px] bg-slate-100 dark:bg-white/5 w-full" />
+ 
+               <div className="flex justify-between items-center py-1">
+-                <span className="text-slate-500 dark:text-slate-400 bangla">প্রত্যাশিত লভ্যাংশ হার</span>
+-                <span className="font-semibold text-slate-800 dark:text-slate-300 bangla">
+-                  {planInfo?.profit_percentage ? `${bn(planInfo.profit_percentage)}% মুনাফা` : 'সমিতির নিয়ম অনুযায়ী'}
++                <span className="text-slate-500 dark:text-slate-400 bangla">সুদ ৳০ (নীতি D-01)</span>
++                <span className="font-semibold text-emerald-600 dark:text-emerald-400 bangla">
++                  সম্পূর্ণ সুদমুক্ত — কোনো পূর্বঘোষিত মুনাফা নেই
+                 </span>
+               </div>
+               <div className="h-[1px] bg-slate-100 dark:bg-white/5 w-full" />
+ 
+               <div className="flex justify-between items-center py-1">
+                 <span className="text-slate-500 dark:text-slate-400 bangla">নিরাপত্তা ও এনক্রিপশন</span>
+@@ -672,13 +672,13 @@ export default function SavingsInsights() {
+                 </span>
+               </div>
+             </div>
+ 
+             <div className="flex items-start gap-2 bg-slate-50 dark:bg-slate-900/50 p-3.5 rounded-2xl text-[11px] text-slate-400/95 dark:text-slate-500 font-semibold bangla leading-relaxed border border-slate-100 dark:border-white/5">
+               <Info size={14} className="text-blue-500 shrink-0 mt-0.5" />
+-              <span>সমিতি আইন মোতাবেক কিস্তির নিয়ম ভঙ্গ করলে বা নির্ধারিত সময়ের মধ্যে জমা দিতে ব্যর্থ হলে জরিমানার নিয়মাবলী কার্যকর হবে এবং কোনো ক্ষেত্রে মুনাফার হারে পরিবর্তন আসতে পারে।</span>
++              <span>সমিতি আইন মোতাবেক কিস্তির নিয়ম ভঙ্গ করলে বা নির্ধারিত সময়ের মধ্যে জমা দিতে ব্যর্থ হলে জরিমানার নিয়মাবলী কার্যকর হবে। এই প্ল্যাটফর্মে কোনো সুদ বা মুনাফা হিসাব হয় না (নীতি D-01) — জরিমানা ছাড়া অতিরিক্ত কিছু ধার্য হয় না।</span>
+             </div>
+           </div>
+ 
+         </div>
+       )}
+     </MobileLayout>
+diff --git a/src/store/useSomobayStore.ts b/src/store/useSomobayStore.ts
+index e946c6d..e4010cf 100644
+--- a/src/store/useSomobayStore.ts
++++ b/src/store/useSomobayStore.ts
+@@ -9,13 +9,13 @@ export interface SomobayPlan {
+   duration_months: number;
+   installment_amount: number;
+   frequency: 'weekly' | 'monthly' | 'custom';
+   due_day?: number; // 0-6 for weekly (Sunday-Saturday)
+   due_date?: number; // 1-31 for monthly
+   target_amount: number;
+-  profit_percentage: number;
++  profit_percentage: number; // D-01: সর্বদা ০ — সুদ বা মুনাফা নিষিদ্ধ (ক্লায়েন্ট ও DB দুই স্তরেই লকড)
+   late_fee_amount: number;
+   scheme_type?: 'General' | 'savings' | 'rosca' | 'joint_goal' | 'qard';
+   total_members_limit?: number;
+   current_cycle?: number;
+   is_active: boolean;
+   status: 'active' | 'paused' | 'completed' | 'inactive' | 'archived';
+@@ -342,17 +342,19 @@ export const useSomobayStore = create<SomobayState>((set, get) => ({
+ 
+     if (existingPlans && existingPlans.length > 0) {
+       const typeName = typeLabels[targetType] || targetType;
+       throw new Error(`এই ক্যাটাগরিতে (${typeName}) ইতিমধ্যে একটি স্কিম ("${existingPlans[0].name}") বিদ্যমান রয়েছে। প্রাথমিক পর্যায়ে প্রতি ক্যাটাগরিতে সর্বোচ্চ ১টি স্কিম পরিচালিত হবে। প্রয়োজন হলে বিদ্যমান স্কিমটি সম্পাদনা বা পরিচালনা করুন।`);
+     }
+ 
+-    // Enforce Rule 2: Strict Zero Interest (No profit percentage)
+-    const sanitizedPlan = {
++    // D-01: সম্পূর্ণ সুদমুক্ত নীতি — নিচের ফিল্ডগুলো কখনোই লেখা যাবে না, profit_percentage সর্বদা ০
++    const bannedPlanFields = ['interest_rate', 'profit_rate', 'riba_rate', 'markup_percentage', 'dividend_rate']; // নিষিদ্ধ (D-01)
++    const sanitizedPlan: any = {
+       ...plan,
+       profit_percentage: 0
+     };
++    bannedPlanFields.forEach((f) => { delete sanitizedPlan[f]; });
+ 
+     const { error } = await supabase.from('somobay_plans').insert([sanitizedPlan]);
+     if (error) throw error;
+     get().fetchPlans();
+   },
+ 
+@@ -391,13 +393,17 @@ export const useSomobayStore = create<SomobayState>((set, get) => ({
+       console.error('deletePlan caught error:', err);
+       throw err;
+     }
+   },
+ 
+   updatePlan: async (id, plan) => {
+-    const { error } = await supabase.from('somobay_plans').update(plan).eq('id', id);
++    // D-01: সম্পাদনার সময়ও সুদ/মুনাফা লক — মান ০ ছাড়া কিছু লেখা যাবে না
++    const bannedPlanFields = ['interest_rate', 'profit_rate', 'riba_rate', 'markup_percentage', 'dividend_rate']; // নিষিদ্ধ (D-01)
++    const sanitizedPlan: any = { ...plan, profit_percentage: 0 };
++    bannedPlanFields.forEach((f) => { delete sanitizedPlan[f]; });
++    const { error } = await supabase.from('somobay_plans').update(sanitizedPlan).eq('id', id);
+     if (error) throw error;
+     get().fetchPlans();
+   },
+ 
+   enrollMember: async (memberId, planId, durationMonths, frequency) => {
+     const startDate = new Date();

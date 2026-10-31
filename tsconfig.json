@@ -22,8 +22,24 @@
     },
     "allowImportingTsExtensions": true,
     "noEmit": true,
-    "types": ["vite/client"]
+    "types": [
+      "vite/client"
+    ]
   },
-  "include": ["src", "server.ts", "vite.config.ts"],
-  "exclude": ["superadmin", "dist", "node_modules"]
+  "include": [
+    "src",
+    "server.ts",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "app",
+    "dist",
+    "docs",
+    "node_modules",
+    "patches",
+    "prototype",
+    "reports",
+    "specs",
+    "superadmin"
+  ]
 }

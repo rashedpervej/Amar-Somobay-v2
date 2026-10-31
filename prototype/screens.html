@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Somobay · সঞ্চয় মডিউল — ১২৫ পেজ · ১৯৯ স্ক্রিন (Web + App)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+/* page-local helpers */
+.mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(430px,1fr));gap:28px}
+.adm-grid{display:grid;grid-template-columns:1fr;gap:28px}
+@media(max-width:980px){.mem-grid{grid-template-columns:1fr}}
+.tocbar{display:flex;gap:7px;flex-wrap:wrap;margin:18px 0 0}
+.tocbar button{font-size:12.3px;padding:6px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.05);color:#B9D4C9;cursor:pointer;font-weight:500}
+.tocbar button:hover{background:rgba(201,242,110,.16);color:#fff;border-color:rgba(201,242,110,.4)}
+.tocbar button.adm{border-color:rgba(201,242,110,.24)}
+.tocbar button.sh{border-color:rgba(120,190,255,.32);color:#BBD8F2}
+.tocbar button.app{border-color:rgba(201,190,250,.4);color:#D6CDFB;background:rgba(126,110,220,.16)}
+.sh-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(430px,1fr));gap:28px}
+@media(max-width:980px){.sh-grid{grid-template-columns:1fr}}
+.st-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+.st-card{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-radius:20px;overflow:hidden}
+.st-card .h{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.09);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.st-card .h b{font-size:14px;color:#fff}
+.st-card .h span{font-size:11px;color:#8FB3A6;margin-left:auto}
+.st-card .b{background:var(--paper);padding:0}
+.mini-phone{background:var(--paper)}
+</style>
+</head>
+<body class="proto-body">
+
+<div class="switchbar"><div class="in">
+  <div class="sb-logo">স</div>
+  <div class="sb-title">Somobay · সাধারণ সমবায় সঞ্চয়<small>✅ ১২৫টি লজিক্যাল পেজ · ১৯৯টি স্ক্রিন (General Savings + ROSCA + Joint Goal + কর্জে হাসানা)</small></div>
+  <div class="sb-links">
+    <input class="sb-jump" id="jump" placeholder="পেজ খুঁজুন: M-05 / A-20…" list="jumpList">
+    <datalist id="jumpList"></datalist>
+    <a class="sb-link" href="system.html">Design System</a>
+    <a class="sb-link on" href="screens.html">স্ক্রিন (১৯৯)</a>
+    <a class="sb-link" href="flows.html">User Flow (৮)</a>
+    <a class="sb-link" href="#states">State Gallery</a>
+    <a class="sb-link" href="../specs/00-somobay-savings-module-spec.md">স্পেক</a>
+  </div>
+</div></div>
+
+<div class="pb-wrap">
+  <div class="pb-hero">
+    <span class="kicker">General Cooperative Savings · Prototype</span>
+    <h1>Mobile-first, এক Backend, দুই প্রেজেন্টেশন — <span>১২৫ পেজ · ১৯৯ স্ক্রিন</span></h1>
+    <p>সঞ্চয়-স্পেকের <b>সব ৬৭টি পেজই তৈরি</b> — MVP ৪১ + Phase 2-এর ১৯ + Phase 3-এর ৭ = Member ২১ · Admin ৩৮ · Shared ৮। Phase 1A-তে ছিল টাকার মূল চক্র (২০); 1B-তে স্কিম, নিবন্ধন, বকেয়া, স্টেটমেন্ট (১১); তারপর সিদ্ধান্ত-গ্রহণের পেজ (A-05, A-09, A-11, A-15, A-23) ও ৫টি অবকাঠামো পেজ। <b>Phase 2</b> যোগ করেছে মাঠ সংগ্রহক মোবাইল ড্যাশবোর্ড (A-02), অবস্থা পরিবর্তন ও মৃত্যু দাবি (A-12, A-14), বাল্ক এন্ট্রি ও CSV ইমপোর্ট (A-18, A-19), হিসাব নিয়ন্ত্রণের পুরো স্তর (A-26 ফরেনসিক বিবরণ, A-27 রিভার্সাল, A-28 দিনশেষ ক্যাশ বুক, A-29 তহবিল স্থানান্তর, A-30 রিকনসিলিয়েশন), পরিচালনা (A-32 রুট পরিকল্পনা, A-33 রিমাইন্ডার, A-34 রিপোর্ট কেন্দ্র), সদস্যের বন্ধ-প্রিভিউ/নোটিশ/নমিনি/সেটিংস (M-15, M-17, M-19, M-20) এবং প্ল্যাটফর্ম সেটিংস ও অফলাইন sync (S-03, S-08)। <b>Phase 3 (এবার)</b> যোগ করেছে গভর্ন্যান্স স্তর — সদস্য স্থানান্তর (A-16), আর্থিক বিবরণ ও রেগুলেটরি রিটার্ন (A-35), সেটিংস হাব (A-36), স্টাফ/রোল/পারমিশন ও CRUDA ম্যাট্রিক্স (A-37), অপরিবর্তনীয় অডিট লগ (A-38), সদস্যের সহায়তা ও অভিযোগ কেন্দ্র (M-21) এবং নোটিফিকেশন পছন্দ (S-04)। প্রতিটি স্ক্রিনের নিচে তার উদ্দেশ্য, ভূমিকা, অবস্থা ও স্পেক রেফারেন্স লেখা আছে। <b>৬৭-পেজ তালিকার কোনো পেজই বাকি নেই।</b> এর উপর এখন <b>Admin App (Mobile-first) স্তর</b> যোগ হচ্ছে: Somobay একটি মোবাইল অ্যাপ, তাই Admin Panel-ও মোবাইলে পুরোপুরি ব্যবহারযোগ্য হবে, সাথে Desktop Web-এ বড় স্ক্রিনের আলাদা Dashboard Layout। <b>দুটি আলাদা Business Logic বা Database নয়</b> — একই Backend, একই API, একই নিয়ম (BR-01…BR-15, D-22); শুধু UI আলাদা। নেভিগেশন রোলভিত্তিক শেলে (D-35): মাঠ · হিসাব · অনুমোদন · প্রশাসন · পর্যবেক্ষণ। Leg A-তে শেল + ৬টি মোবাইল প্যাটার্ন + AM-01/02/03; Leg B-তে AM-04…AM-11 (সদস্য খোঁজা, ৩৬০°, জমা এন্ট্রি, নিবন্ধন, আবেদন যাচাই, সম্পাদনা, অ্যাকাউন্ট বিবরণ, প্রস্থান নিষ্পত্তি)। <b>Leg C</b>-তে AM-12…AM-19 (বকেয়া রেজিস্টার, ফরেনসিক অডিট ট্রেইল, সংশোধন/রিভার্সাল, দিনশেষ ক্যাশ বুক, নিষ্পত্তি ও পেমেন্ট, সাধারণ লেজার, অবস্থা পরিবর্তন, মৃত্যু দাবি)। <b>Leg D</b>-তে AM-20…AM-26 (তহবিল স্থানান্তর, রিকনসিলিয়েশন, বাল্ক জমা, CSV ইমপোর্ট, আর্থিক বিবরণ ও রিটার্ন, রিপোর্ট কেন্দ্র, স্কিম বিবরণ)। <b>Leg E</b>-তে AM-27…AM-35। এরপর বহু-মডিউল আর্কিটেকচার (<code style="color:var(--lime)">specs/03</code>) অনুযায়ী <b>ROSCA মডিউল (Phase 1B)</b> যোগ হয়েছে: Admin RA-01…RA-12 (প্রতিটির ডেস্কটপ + মোবাইল অ্যাপ রূপ = ২৪ স্ক্রিন) ও সদস্যের RM-01…RM-06 (৬ স্ক্রিন) = <b>১৮ লজিক্যাল পেজ · ৩০ স্ক্রিন</b>। এরপর <b>Joint Goal মডিউল (Phase 2A)</b> যোগ হয়েছে: Admin JA-01…JA-10 (ডেস্কটপ + মোবাইল = ২০ স্ক্রিন) ও সদস্যের JM-01…JM-05 = <b>১৫ লজিক্যাল পেজ · ২৫ স্ক্রিন</b>। সবশেষে <b>কর্জে হাসানা মডিউল (Phase 3A)</b>: Admin QA-01…QA-17 (ডেস্কটপ + মোবাইল = ৩৪ স্ক্রিন) ও সদস্যের QM-01…QM-08 = <b>২৫ লজিক্যাল পেজ · ৪২ স্ক্রিন</b>; সর্বমোট <b>১২৫ পেজ · ১৯৯ স্ক্রিন</b>। ROSCA-র ফ্লো F-09…F-12, Joint Goal-এর F-13/F-14 ও কর্জে হাসানার F-15…F-17 এখনো তৈরি নয়।
+    সব অঙ্ক <b>ডিফল্ট সিদ্ধান্ত</b> (<code style="color:var(--lime)">specs/02-open-decisions.md</code>) অনুযায়ী হিসাব করা — হার্ডকোড নয়: উত্তোলনযোগ্য ব্যালেন্স প্রতিটি স্ক্রিনে
+    <span class="code">posted − hold − সর্বনিম্ন − লক-ইন</span> সূত্রে গণনা হয়েছে। কোনো সুদ/মুনাফার হিসাব কোথাও নেই।</p>
+    <div class="pb-stats">
+      <div class="pb-stat"><b>১৯৯</b><i>স্ক্রিন (১২৫ লজিক্যাল পেজ)</i></div>
+      <div class="pb-stat"><b>৪০</b><i>Member · মোবাইল (২১ + RM ৬ + JM ৫ + QM ৮)</i></div>
+      <div class="pb-stat"><b>৭৭ + ৭৪</b><i>Admin Web + Admin App (Leg A–E + ROSCA + Joint Goal + কর্জে হাসানা)</i></div>
+      <div class="pb-stat"><b>১২৫/১২৫</b><i>লজিক্যাল পেজ · সব ডিজাইন হয়েছে</i></div>
+      <div class="pb-stat"><b>০</b><i>সুদ-সম্পর্কিত ফিচার</i></div>
+      <div class="pb-stat"><b>৮</b><i>Shared · উভয় প্যানেল</i></div>
+    </div>
+    <div class="tocbar" id="toc"></div>
+  </div>
+
+  <!-- ============ MEMBER ============ -->
+  <div class="pb-sec" id="sec-member">
+    <div class="pb-sec-h"><span class="num">A · MEMBER PANEL</span>
+      <div><h2>সদস্য প্যানেল — মোবাইল (৩৯০ × ৮৪৪) · ২১ পেজ = MVP ১৬ + Phase 2 (M-15, M-17, M-19, M-20) + Phase 3 (M-21) ✅</h2>
+      <p>লগইন করা সদস্য: <b style="color:#fff">আব্দুল করিম</b> · RSS-2627-0042 · কেশবপুর, খুলনা। বয়স ৪১, গ্রামীণ, মাঝারি প্রযুক্তি-দক্ষতা।</p></div></div>
+    <div class="pb-rule"></div>
+    <div class="mem-grid" id="memberGrid"></div>
+  </div>
+
+  <!-- ============ ADMIN ============ -->
+  <div class="pb-sec" id="sec-admin">
+    <div class="pb-sec-h"><span class="num">B · ORGANIZATION ADMIN</span>
+      <div><h2>অ্যাডমিন প্যানেল — ডেস্কটপ/ট্যাবলেট · ৩৭ পেজ (+ A-02 মোবাইল) = MVP ২০ + Phase 2-এর ১৪টি + Phase 3-এর ৫টি ✅</h2>
+      <p>লগইন করা ব্যবহারকারী: <b style="color:#fff">মোঃ আব্দুল্লাহ</b> · ম্যানেজার · অনুমোদন সীমা ৳৫০,০০০ (ডিফল্ট D-22)। একই IA মোবাইলে হ্যামবার্গার মেনু হয়ে যায়।</p></div></div>
+    <div class="pb-rule"></div>
+    <div class="adm-grid" id="adminGrid"></div>
+  </div>
+
+  <!-- ============ ADMIN APP (MOBILE) ============ -->
+  <div class="pb-sec" id="sec-adminapp">
+    <div class="pb-sec-h"><span class="num">C · ADMIN APP (MOBILE-FIRST LAYER)</span>
+      <div><h2>অ্যাডমিন মোবাইল অ্যাপ — একই Backend, একই নিয়ম, আলাদা UI (Leg A + B + C + D + E = ৩৫ স্ক্রিন)</h2>
+      <p>Somobay একটি <b style="color:#fff">Mobile-first অ্যাপ</b>: Admin Panel মোবাইলে পুরোপুরি ব্যবহারযোগ্য, সাথে Desktop Web-এ বড় স্ক্রিনের আলাদা Dashboard Layout।
+      <b style="color:#fff">দুটি আলাদা Business Logic বা Database নয়</b> — একই API, একই ব্যাবসায়িক নিয়ম (BR-01…BR-15), একই অনুমোদন সীমা (D-22)। নিচের স্ক্রিনগুলো সেই একই ডেটা ও ইঞ্জিন ব্যবহার করে, শুধু ৩৯০px-এর জন্য আলাদা লেআউট।
+      নেভিগেশন <b style="color:#fff">রোলভিত্তিক শেল</b> (D-35): মাঠ (COLLECTOR) · হিসাব (ACCOUNTANT) · অনুমোদন (MANAGER/APPROVER) · প্রশাসন (ORG_ADMIN) · পর্যবেক্ষণ (AUDITOR/VIEWER)। বটম নেভ <b style="color:#fff">ঠিক ৫ স্লট</b> (৪টি কাজ + কেন্দ্রীয় FAB, অথবা FAB ছাড়া ৫টি কাজ), বাকি সব হ্যামবার্গার ড্রয়ারে — ড্রয়ারে সর্বদা সম্পূর্ণ ANAV (২৫ আইটেম / ৬ গ্রুপ)।</p></div></div>
+    <div class="pb-rule"></div>
+    <div class="sh-grid" id="adminMobile"></div>
+  </div>
+
+  <!-- ============ SHARED / SYSTEM ============ -->
+  <div class="pb-sec" id="sec-shared">
+    <div class="pb-sec-h"><span class="num">D · SHARED / SYSTEM</span>
+      <div><h2>শেয়ার্ড পেজ — Member ও Admin উভয় প্যানেলে ব্যবহৃত</h2>
+      <p>স্পেকের নিয়ম অনুযায়ী একই পেজ দুই প্যানেলে ব্যবহৃত হলেও <b>দুই পেজ হিসেবে গণনা</b> হয়; তবে এখানে একবারই ডিজাইন করা হয়েছে। S-01/S-02/S-07 মোবাইল-প্রধান, S-05/S-06 ডেস্কটপ ও মোবাইল উভয় রুটে।</p></div></div>
+    <div class="pb-rule"></div>
+    <div class="fs-sm" style="color:#8FB9A8;margin:2px 0 12px;letter-spacing:.4px">▸ মোবাইল ভ্যারিয়েন্ট</div>
+    <div class="sh-grid" id="sharedMobile"></div>
+    <div class="fs-sm" style="color:#8FB9A8;margin:26px 0 12px;letter-spacing:.4px">▸ ডেস্কটপ / সিস্টেম ভ্যারিয়েন্ট</div>
+    <div class="adm-grid" id="sharedDesktop"></div>
+  </div>
+
+  <!-- ============ STATES ============ -->
+  <div class="pb-sec" id="states">
+    <div class="pb-sec-h"><span class="num">E · STATE GALLERY</span>
+      <div><h2>Empty · Loading · Error · Permission · Offline</h2>
+      <p>স্পেকের প্রতিটি পেজে এই ৫–৭টি অবস্থা বাধ্যতামূলক। নিচে M-04 ও A-20 পেজের সব অবস্থা পাশাপাশি দেখানো হলো — ডিজাইন রিভিউতে এটিই সবচেয়ে বেশি ভুল ধরা পড়ে।</p></div></div>
+    <div class="pb-rule"></div>
+    <div class="st-grid" id="stateGrid"></div>
+  </div>
+
+  <div style="margin-top:56px;padding:24px;border-radius:22px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035)">
+    <h2 style="color:#fff;font-size:20px;margin-bottom:12px">পরবর্তী ধাপ</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;font-size:13.6px;color:#A9C8BB;line-height:1.75">
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">১ · ব্যবহারযোগ্যতা যাচাই</b>
+        গ্রামীণ ৩–৫ জন ব্যবহারকারীকে M-06 (জমা) ও M-10 (উত্তোলন) হাঁটিয়ে দেখা — লক্ষ্য: জমা সম্পন্ন ≤ ৬০ সেকেন্ড, "কেন সব টাকা তোলা যাবে না" বোঝা।</div>
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">২ · ✅ সম্পূর্ণ MVP (৪১ পেজ)</b>
+        Phase 1A (২০) + 1B (১১) + সিদ্ধান্ত-পেজ (৫: A-05, A-09, A-11, A-15, A-23) + শেয়ার্ড অবকাঠামো (৫: S-01, S-02, S-05, S-06, S-07) = MVP-এর প্রতিটি পেজ ডিজাইন সম্পন্ন।</div>
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">৩ · ✅ Phase 2 (১৯ পেজ)</b>
+        মাঠ সংগ্রহ (A-02), অবস্থা ও দাবি (A-12, A-14), বাল্ক (A-18, A-19), হিসাব নিয়ন্ত্রণ (A-26…A-30), পরিচালনা (A-32…A-34), সদস্য (M-15, M-17, M-19, M-20), শেয়ার্ড (S-03, S-08)।</div>
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">৪ · ✅ Flow Prototype</b>
+        ৮টি User Flow ক্লিকেবল — <code style="color:var(--lime)">flows.html</code>-এ ৭২ ধাপ, ৮৫টি লাইভ অ্যাকশন, আসল ব্যালেন্স পরিবর্তনসহ।</div>
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">৫ · ✅ Phase 3 (৭ পেজ) — গভর্ন্যান্স</b>
+        A-16 সদস্য স্থানান্তর · A-35 আর্থিক বিবরণ ও রেগুলেটরি রিটার্ন · A-36 সেটিংস হাব · A-37 স্টাফ, রোল ও পারমিশন · A-38 অডিট লগ · M-21 সহায়তা ও অভিযোগ · S-04 নোটিফিকেশন পছন্দ। <b>৬৭/৬৭ পেজ সম্পন্ন</b>।</div>
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">৬ · ✅ Admin App স্তর সম্পূর্ণ (৫৭/৫৭ স্ক্রিন)</b>
+        <b>Leg A ✅</b> — শেল (রোলভিত্তিক ৫-স্লট বটম নেভ + কেন্দ্রীয় FAB + হ্যামবার্গার ড্রয়ার), ৬টি মোবাইল প্যাটার্ন (ফিল্টার শিট · স্ট্যাকড কার্ড · স্ক্রল টেবিল · অ্যাকর্ডিয়ন · স্টেপার শিট · স্টিকি সিদ্ধান্ত বার), AM-01 হোম · AM-02 অনুমোদন কিউ · AM-03 সিদ্ধান্ত।
+        <b>Leg B ✅</b> — AM-04 সদস্য খোঁজা (A-07) · AM-05 সদস্য ৩৬০° (A-10) · AM-06 দ্রুত জমা এন্ট্রি (A-17) · AM-07 নিবন্ধন উইজার্ড (A-08) · AM-08 আবেদন যাচাই (A-11) · AM-09 সদস্য সম্পাদনা (A-09) · AM-10 অ্যাকাউন্ট লেজার (A-13) · AM-11 প্রস্থান নিষ্পত্তি (A-15)। প্রতিটিতে ডেস্কটপের সমান ক্ষমতা — প্যারিটি ম্যাট্রিক্স স্পেক §৮.৭-এ।
+        <b>Leg C ✅</b> — AM-12 বকেয়া রেজিস্টার (A-31) · AM-13 ফরেনসিক বিবরণ ও অডিট ট্রেইল (A-26) · AM-14 সংশোধন ও রিভার্সাল (A-27) · AM-15 দিনশেষ ক্যাশ বুক (A-28) · AM-16 নিষ্পত্তি ও পেমেন্ট (A-24) · AM-17 সাধারণ লেজার (A-25) · AM-18 অবস্থা পরিবর্তন (A-12) · AM-19 মৃত্যু দাবি (A-14)। নতুন: <code style="color:var(--lime)">AMNAV_SCREEN</code> ম্যাপ — ড্রয়ারে সর্বদা ঠিক আইটেম আলোকিত।
+        <b>Leg D ✅</b> — AM-20 তহবিল স্থানান্তর (A-29) · AM-21 রিকনসিলিয়েশন (A-30) · AM-22 বাল্ক জমা (A-18) · AM-23 CSV ইমপোর্ট (A-19) · AM-24 আর্থিক বিবরণ ও রিটার্ন (A-35) · AM-25 রিপোর্ট কেন্দ্র (A-34) · AM-26 স্কিম বিবরণ (A-06)।
+        <b>Leg E ✅</b> — AM-27 স্কিম তালিকা (A-03) · AM-28 স্কিম তৈরি (A-04) · AM-29 স্কিম সম্পাদনা ও সংস্করণ (A-05) · AM-30 সদস্য স্থানান্তর (A-16) · AM-31 সংগ্রহ পরিকল্পনা ও রুট (A-32) · AM-32 রিমাইন্ডার ও যোগাযোগ (A-33) · AM-33 সেটিংস হাব (A-36) · AM-34 স্টাফ, রোল ও পারমিশন (A-37) · AM-35 অডিট লগ (A-38)। <b>Admin Web-এর ৩৮টি লজিক্যাল পেজের ৩৫টির মোবাইল রূপ তৈরি</b> — বাকি ৩টি (A-01 ড্যাশবোর্ড, A-02 মাঠ ড্যাশবোর্ড, A-20/A-22 অনুমোদন কিউ) আগেই AM-01/AM-02/AM-03-এ রূপান্তরিত; অর্থাৎ <b>ক্ষমতার কোনো ঘাটতি নেই</b>।</div>
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">৭ · ✅ ROSCA মডিউল (Phase 1B) — ১৮ পেজ · ৩০ স্ক্রিন</b>
+        <b>Admin Web RA-01…RA-12</b> (a39–a50): ড্যাশবোর্ড · স্কিম ও নিয়ম সংস্করণ · চক্র তালিকা · চক্র বিবরণ ও সিট ম্যাপ · সিট বরাদ্দ ও ওয়েটলিস্ট (⚠️D-48 যাচাই, KYC/মৃত্যু বাদ) · ড্র ক্যালেন্ডার ও ক্রম · ড্র সম্পাদন (পুল গণনা → প্রাপক → maker ≠ checker অনুমোদন → বিতরণ → রসিদ ও হ্যাশ) · অপরিবর্তনীয় ড্র রেজিস্টার · কিস্তি সংগ্রহ ও বকেয়া · ধাপভিত্তিক ডিফল্ট প্রতিকার (⚠️D-41/D-46) · ডিফল্ট নীতি ও কমিটি · রিপোর্ট ও নিরীক্ষা।<br>
+        <b>Admin App RAM-01…RAM-12</b> (am36–am47): একই ১২ পেজের মোবাইল রূপ — শেল/ড্রয়ার/৫-স্লট নেভ, ৩টি ফ্লো পর্দা (am38/am41/am43), নিরীক্ষকের জন্য Shell-E শুধু-পঠন। <b>Member RM-01…RM-06</b> (m22–m27): আমার চক্র · চক্র বিবরণ (সিট কার্ডে §৫.৬-এর চারটি বাধ্যতামূলক তথ্য) · ড্র ক্রম ও ইতিহাস · কিস্তি পরিশোধ · বকেয়া · পেআউট ভাউচার। M-01/M-04/M-16/M-18-এ ROSCA প্রবেশপথ যোগ।<br>
+        ভাষা ও থিম: "আমার চক্র · কিস্তি · ড্র · আমি পেয়েছি / পাব", নীল অ্যাকসেন্ট; নিষিদ্ধ শব্দ লোন/সুদ/বিনিয়োগ = ০। অমীমাংসিত নিয়ম ⚠️ চিহ্নসহ: D-12 (পুনরায় খোলা), D-29, D-38, D-41, D-42, D-46, D-48। যাচাই: <code style="color:var(--lime)">tests/trc.mjs</code> ৭১টি পরীক্ষা সবুজ।</div>
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">৮ · ✅ Joint Goal (যৌথ লক্ষ্য) মডিউল (Phase 2A) — ১৫ পেজ · ২৫ স্ক্রিন</b>
+        <b>Admin Web JA-01…JA-10</b> (a51–a60): লক্ষ্য ড্যাশবোর্ড · লক্ষ্য তালিকা · লক্ষ্য তৈরি/সম্পাদনা ও সংস্করণ (⚠️D-43 সীমা ৫টি) · লক্ষ্য বিস্তারিত হাব · অংশগ্রহণ ও যোগদান অনুমোদন (⚠️D-49) · অবদান সংগ্রহ কিউ ও বকেয়ার ধাপ · মাইলস্টোন ও পূর্বাভাস (⚠️D-68 লিডারবোর্ড নেই) · অর্থ ব্যবহার ও বিতরণ (maker ≠ checker, অনুমোদন সীমা ⚠️D-22, প্রমাণ বাধ্যতামূলক ⚠️D-50) · মেয়াদোত্তীর্ণ লক্ষ্য ও নিষ্পত্তি — মেয়াদ একবার বৃদ্ধি বা আনুপাতিক ফেরত (⚠️D-39) · রিপোর্ট ও লেজার সমন্বয় (ট্রায়াল ব্যালেন্স ৳০, BR-12)।
+        <b>Admin App JAM-01…JAM-10</b> (am48–am57): একই ১০ পেজের মোবাইল রূপ — ড্রয়ার/৫-স্লট নেভ, ৩টি ফ্লো পর্দা (am50/am52/am55), নিরীক্ষকের জন্য Shell-E শুধু-পঠন, বটম নেভ অপরিবর্তিত।
+        <b>Member JM-01…JM-05</b> (m28–m32): আমাদের লক্ষ্য · লক্ষ্য বিবরণ (§৫.৬-এর চার তথ্য: রিং + কাউন্টডাউন + আমার অবদান বনাম প্রতিশ্রুতি + প্রমাণসহ ব্যবহার) · লক্ষ্যে যোগদান ও প্রতিশ্রুতি · অবদানের ইতিহাস · অর্জন ও ব্যবহারের বিবরণ। সদস্য হোম M-01-এ 🟣 কার্ড, M-04-এ অ-উত্তোলনযোগ্য ব্যালেন্স কার্ড (⚠️D-37 · BR-19 · ⚠️D-39), M-16 ও M-18-এ প্রবেশপথ।
+        ভাষা ও থিম: "আমাদের লক্ষ্য · অবদান · লক্ষ্য পূরণ", বেগুনি অ্যাকসেন্ট; নিষিদ্ধ শব্দ স্কিম/লাভ/সুদ = ০। লেজার: অবদান → নির্দিষ্ট লক্ষ্য তহবিল (দায়), খরচ → লক্ষ্য তহবিল ডেবিট + প্রমাণ। হার্নেস <code style="color:var(--lime)">tjg.mjs</code> (১১৩ চেক) সবুজ। <b>ফ্লো F-13/F-14 এখনো তৈরি হয়নি</b> (স্পেক §৮.৮-এ পরিকল্পিত); JA-07…JA-10 ও JM-05 স্পেকের Phase 2 পর্দা।</div>
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">৯ · ✅ কর্জে হাসানা (Qard Hasanah) মডিউল (Phase 3A) — ২৫ পেজ · ৪২ স্ক্রিন</b>
+        <b>Admin Web QA-01…QA-17</b> (a61–a77): QH ড্যাশবোর্ড · পণ্য কনফিগারেশন (QHP-01…03, কমিটি অনুমোদনসহ) · যোগ্যতা নিয়ম ব্যবস্থাপনা (১৪টি নিয়ম · ৪ স্তর Gate/Scope/Financial/Window · সংস্করণ v1–v3) · নিয়ম Simulation (⚠️D-57 — ব্যক্তিগত তালিকা নয়) · যোগ্য সদস্য তালিকা ও কারণ-কোড (১০টি ব্লকিং + ৬টি সতর্কতা) · আবেদন জানালা, মাসিক কোটা ও ফান্ড পুল (⚠️D-51 · ⚠️D-40) · আবেদন কিউ ও SLA (৫ কার্যদিবস) · আবেদন বিস্তারিত ও অপরিবর্তনীয় snapshot (BR-21) · সিদ্ধান্ত — maker ≠ checker, আংশিক অনুমোদন ও সীমা-ছাড় ব্যতিক্রম রেজিস্টার (⚠️D-45) · বিতরণ — OTP গেট (BR-22), ভাউচার ও হ্যাশ · পরিশোধ ছক ও কিস্তি · ঋণ হাব ও শ্রেণিকরণ (⚠️D-44) · পরিশোধ এন্ট্রি ও অপরিবর্তনীয় রসিদ (BR-08 · R-02) · বকেয়া ও ডিফল্ট প্রতিকার (বিলম্ব ফি নেই ⚠️D-41) · সমাপ্তি ও সনদ (QHC-…) · write-off প্রস্তাব ও অনুমোদন — শুধু ORG_ADMIN (BR-23) · রিপোর্ট ও নিরীক্ষা (ট্রায়াল ব্যালেন্স ৳০, রেগুলেটরি সারাংশ ⚠️D-61)।<br>
+        <b>Admin App QAM-01…QAM-17</b> (am58–am74): একই ১৭ পেজের মোবাইল রূপ — ড্রয়ার/৫-স্লট নেভ, ৪টি ফ্লো পর্দা (am66 সিদ্ধান্ত · am67 বিতরণ · am70 পরিশোধ এন্ট্রি · am73 write-off), নিরীক্ষকের জন্য Shell-E শুধু-পঠন, অনুমোদন সীমা ⚠️D-22।<br>
+        <b>Member QM-01…QM-08</b> (m33–m40): সহায়তা হোম · যোগ্যতা ও আমার অবস্থা (কারণ + করণীয়) · পণ্য ও শর্তাবলি · আবেদনপত্র (ধাপভিত্তিক, নথিসহ ⚠️D-58) · আবেদন অবস্থা ও ইতিহাস · আমার সহায়তা · কিস্তি পরিশোধ ও রসিদ (QR-…) · সমাপ্তি সনদ। প্রবেশপথ: M-01-এ অ্যাম্বার কার্ড, M-04-এ "সহায়তা তহবিল" (সঞ্চয় নয় — সদস্যের সঞ্চয় থেকে নেওয়া হয় না ⚠️D-40), M-16 নোটিফিকেশন ও M-18 "আমার মডিউল"।<br>
+        ভাষা ও থিম: "সহায়তা · সুদ ৳০ · মূলধন", অ্যাম্বার অ্যাকসেন্ট ও <code style="color:var(--lime)">data-theme="qh"</code> স্কিন; নিষিদ্ধ শব্দ সুদ/মুনাফা/লাভ/ঋণের দাম = ০ (নেতিবাচক প্রসঙ্গ ছাড়া), "স্কিম" শব্দও নেই — এটি সঞ্চয় স্কিম নয়, আলাদা সহায়তা মডিউল। লেজার: বিতরণ → ডেবিট কর্জে হাসানা আদায়যোগ্য (সম্পদ), ক্রেডিট নগদ/ব্যাংক; আদায় → ডেবিট নগদ, ক্রেডিট আদায়যোগ্য (শুধু মূলধন হ্রাস); write-off → ক্ষতি খাতায় দৃশ্যমান, দায় মেটে না (BR-23)। সর্বত্র ট্রায়াল ব্যালেন্স ৳০ (BR-12)। হার্নেস <code style="color:var(--lime)">tqh.mjs</code> (১৫৪ চেক) সবুজ। <b>ফ্লো F-15/F-16/F-17 এখনো তৈরি হয়নি</b> (স্পেক §৮.৮-এ পরিকল্পিত); A-01/AM-01 মডিউল সারাংশ কার্ড ও A-10/AM-05-এর ৩৬০° ক্রস-মডিউল এক্সপোজার সংযুক্তি (§৮.৫) বাকি।</div>
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">১০ · React রূপান্তর</b>
+        একই টোকেন ও কম্পোনেন্ট Vite + React + TypeScript-এ; mock লেজারে আসল ব্যালেন্স হিসাব; রোল-সুইচার ও স্টেট-সুইচারসহ।</div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/app.js" type="98a98d42100d22f76ff051fa-text/javascript"></script>
+<script src="assets/screens.js" type="98a98d42100d22f76ff051fa-text/javascript"></script>
+<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="98a98d42100d22f76ff051fa-|49" defer></script></body>
+</html>

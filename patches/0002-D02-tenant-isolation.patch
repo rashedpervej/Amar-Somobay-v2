@@ -1,0 +1,403 @@
+# D-02 · Cross-tenant isolation: কোড স্তরের স্কোপিং ও ডিফল্ট-org ফলব্যাক বন্ধ
+# প্রয়োগ: Source A repo root থেকে  git apply -p1 patches/0002-D02-tenant-isolation.patch
+# অথবা                        patch -p1 < patches/0002-D02-tenant-isolation.patch
+# প্রয়োগের ক্রম: প্রথমে 0001-D01-zero-interest.patch, তারপর এই প্যাচ।
+# কোনো database migration এখানে নেই — DB পরিবর্তন app/db/*.sql ফাইলে আলাদা ও অনুমোদন-সাপেক্ষ।
+diff --git a/src/components/CooperativeTenantGuard.tsx b/src/components/CooperativeTenantGuard.tsx
+index c1b6937..1b39397 100644
+--- a/src/components/CooperativeTenantGuard.tsx
++++ b/src/components/CooperativeTenantGuard.tsx
+@@ -57,13 +57,12 @@ export const CooperativeTenantGuard: React.FC = () => {
+         // Ensure fresh memberships are loaded
+         if (memberships.length === 0) {
+           await fetchMemberships();
+         }
+ 
+         const currentMemberships = useAuthStore.getState().memberships;
+-        const currentProfile = useAuthStore.getState().profile;
+ 
+         // Extract organizations where user is an active member
+         const userOrgs = currentMemberships
+           .filter(m => m.status === 'active' && m.organization)
+           .map(m => m.organization!);
+ 
+@@ -106,13 +105,14 @@ export const CooperativeTenantGuard: React.FC = () => {
+                 }
+               }
+             }
+ 
+             if (dbOrg) {
+               const hasMembership = currentMemberships.some(m => m.organization_id === dbOrg.id && m.status === 'active');
+-              if (hasMembership || currentProfile?.role === 'admin') {
++              // D-02: বৈশ্বিক profiles.role কখনো অন্য সমবায়ে প্রবেশাধিকার দেয় না — শুধু সক্রিয় সদস্যপদ
++              if (hasMembership) {
+                 targetOrg = dbOrg;
+               } else {
+                 if (isMounted) {
+                   setAccessDenied(true);
+                   setVerifying(false);
+                 }
+@@ -136,13 +136,14 @@ export const CooperativeTenantGuard: React.FC = () => {
+         // Access Granted: bind active tenant context
+         if (isMounted) {
+           setResolvedOrg(targetOrg);
+           useAuthStore.setState({
+             activeOrganizationId: targetOrg.id,
+             activeOrganization: targetOrg as any,
+-            activeRole: currentMemberships.find(m => m.organization_id === targetOrg.id)?.role || (currentProfile?.role === 'admin' ? 'cooperative_admin' : 'member')
++            // D-02: ভূমিকা শুধু organization_members থেকে আসে — বৈশ্বিক রোল থেকে অনুমান নিষিদ্ধ
++          activeRole: currentMemberships.find(m => m.organization_id === targetOrg.id && m.status === 'active')?.role || 'member'
+           });
+           setVerifying(false);
+         }
+       } catch (err) {
+         console.error('Tenant access verification error:', err);
+         if (isMounted) {
+diff --git a/src/components/QuickCollectModal.tsx b/src/components/QuickCollectModal.tsx
+index 82743ef..1406978 100644
+--- a/src/components/QuickCollectModal.tsx
++++ b/src/components/QuickCollectModal.tsx
+@@ -84,16 +84,28 @@ export const QuickCollectModal: React.FC<QuickCollectModalProps> = ({
+     }
+   };
+ 
+   const fetchMembers = async (search: string) => {
+     setLoadingMembers(true);
+     try {
++      // D-02: শুধু সক্রিয় সমবায়ের সদস্য — অন্য সমবায়ের সদস্য এই তালিকায় আসবে না
++      const listOrgId = useAuthStore.getState().activeOrganizationId;
++      if (!listOrgId) { setMembers([]); return; }
++      const { data: tenantMembers } = await supabase
++        .from('organization_members')
++        .select('user_id')
++        .eq('organization_id', listOrgId)
++        .eq('role', 'member')
++        .eq('status', 'active');
++      const memberIds = (tenantMembers || []).map((r: any) => r.user_id);
++      if (memberIds.length === 0) { setMembers([]); return; }
++
+       let query = supabase
+         .from('profiles')
+         .select('id, full_name, phone, avatar_url')
+-        .eq('role', 'member')
++        .in('id', memberIds)
+         .limit(10);
+ 
+       if (search.trim()) {
+         query = query.or(`full_name.ilike.%${search}%,phone.ilike.%${search}%`);
+       }
+ 
+@@ -172,13 +184,15 @@ export const QuickCollectModal: React.FC<QuickCollectModalProps> = ({
+ 
+     if (submitting) return; // Prevent double submit
+     setSubmitting(true);
+     setErrorMsg('');
+ 
+     try {
+-      const activeOrgId = adminProfile?.id ? (useAuthStore.getState().activeOrganizationId || '00000000-0000-0000-0000-000000000001') : '00000000-0000-0000-0000-000000000001';
++      // D-02: ডিফল্ট সমবায়ে ফলব্যাক নিষিদ্ধ
++      const activeOrgId = useAuthStore.getState().activeOrganizationId;
++      if (!activeOrgId) throw new Error('সমবায় শনাক্ত করা যায়নি — কিস্তি আদায় করা যাচ্ছে না (নীতি D-02)।');
+       
+       const { data: newPayment, error: payError } = await supabase
+         .from('plan_payments')
+         .insert([{
+           organization_id: activeOrgId,
+           member_plan_id: activeMemberPlan.id,
+diff --git a/src/lib/qardHasanahService.ts b/src/lib/qardHasanahService.ts
+index 475017e..9005881 100644
+--- a/src/lib/qardHasanahService.ts
++++ b/src/lib/qardHasanahService.ts
+@@ -82,19 +82,21 @@ export interface QardRepayment {
+     phone: string;
+   };
+ }
+ 
+ export const qardHasanahService = {
+   // 1. Get Authorized Qard Hasanah Fund Summary (Reconciled from Database)
+-  async getFundSummary(): Promise<QardFundSummary> {
++  async getFundSummary(organizationId?: string | null): Promise<QardFundSummary> {
+     try {
++      // D-02: প্রতিটি সমবায়ের তহবিল আলাদা — organization_id দিয়ে স্কোপ করা হয়
++      const scope = (q: any) => (organizationId ? q.eq('organization_id', organizationId) : q);
+       // Calculate real totals from actual loans and repayments in Supabase
+       const [loansRes, repaymentsRes, fundRes] = await Promise.all([
+-        supabase.from('qard_loans').select('principal_amount'),
+-        supabase.from('qard_repayments').select('amount').eq('status', 'approved'),
+-        supabase.from('qard_funds').select('total_allocated, total_disbursed, total_recovered').limit(1).maybeSingle()
++        scope(supabase.from('qard_loans').select('principal_amount')),
++        scope(supabase.from('qard_repayments').select('amount').eq('status', 'approved')),
++        scope(supabase.from('qard_funds').select('total_allocated, total_disbursed, total_recovered')).limit(1).maybeSingle()
+       ]);
+ 
+       const realDisbursed = (loansRes.data || []).reduce((sum, l) => sum + (Number(l.principal_amount) || 0), 0);
+       const realRecovered = (repaymentsRes.data || []).reduce((sum, r) => sum + (Number(r.amount) || 0), 0);
+ 
+       let allocated = 50000; // Standard initial cooperative reserve
+@@ -119,22 +121,24 @@ export const qardHasanahService = {
+         available_balance: 50000
+       };
+     }
+   },
+ 
+   // Update authorized fund pool (Admin only)
+-  async updateFundAllocation(newTotalAllocated: number): Promise<void> {
++  async updateFundAllocation(newTotalAllocated: number, organizationId?: string | null): Promise<void> {
++    if (!organizationId) throw new Error('সমবায় শনাক্ত করা যায়নি — তহবিল পরিবর্তন করা যাবে না (নীতি D-02)।');
+     try {
+-      const { data: existing } = await supabase.from('qard_funds').select('id').limit(1).maybeSingle();
++      const { data: existing } = await supabase.from('qard_funds').select('id').eq('organization_id', organizationId).limit(1).maybeSingle();
+       if (existing?.id) {
+         await supabase.from('qard_funds').update({
+           total_allocated: newTotalAllocated,
+           updated_at: new Date().toISOString()
+         }).eq('id', existing.id);
+       } else {
+         await supabase.from('qard_funds').insert({
++          organization_id: organizationId, // D-02: tenant ছাড়া তহবিল সারি তৈরি হবে না
+           fund_name: 'সাধারণ কর্জে হাসানা তহবিল',
+           total_allocated: newTotalAllocated,
+           total_disbursed: 0,
+           total_recovered: 0
+         });
+       }
+@@ -271,21 +275,21 @@ export const qardHasanahService = {
+           .select('user_id')
+           .eq('organization_id', orgId)
+           .in('role', ['cooperative_admin', 'collector'])
+           .eq('status', 'active');
+         admins = (orgAdmins || []).map(a => ({ id: a.user_id }));
+       } else {
+-        const { data: globalAdmins } = await supabase.from('profiles').select('id').eq('role', 'admin');
+-        admins = globalAdmins || [];
++        // D-02: সমবায় শনাক্ত না হলে অন্য সমবায়ের অ্যাডমিনকে নোটিশ পাঠানো যাবে না
++        console.warn('D-02: আবেদনের organization_id নেই — নোটিফিকেশন পাঠানো হয়নি।');
+       }
+ 
+       if (admins && admins.length > 0) {
+         for (const admin of admins) {
+           await supabase.from('notifications').insert({
+             user_id: admin.id,
+-            organization_id: orgId || null,
++            organization_id: orgId, // D-02: tenant ছাড়া নোটিফিকেশন নয়
+             title: 'নতুন কর্জে হাসানা আবেদন',
+             message: `একজন সদস্য ৳${toBn(params.requested_amount)} সুদমুক্ত কর্জের আবেদন জমা দিয়েছেন।`,
+             type: 'info',
+             source_module: 'plan'
+           });
+         }
+@@ -368,13 +372,13 @@ export const qardHasanahService = {
+     if (app.status === 'disbursed') throw new Error('এই আবেদনটির অর্থ ইতিমধ্যে বিতরণ করা হয়েছে (ডুপ্লিকেট প্রতিরোধ)।');
+     if (app.status !== 'approved') throw new Error('অর্থ বিতরণের পূর্বে আবেদনটি অনুমোদিত হওয়া আবশ্যক।');
+ 
+     const disburseAmount = Number(app.approved_amount || app.requested_amount || 0);
+ 
+     // 2. Strict Fund Verification: check available fund
+-    const fundSummary = await this.getFundSummary();
++    const fundSummary = await this.getFundSummary((app as any)?.organization_id);
+     if (fundSummary.available_balance < disburseAmount) {
+       throw new Error(`তহবিলে পর্যাপ্ত অর্থ নেই! বর্তমান অবশিষ্ট তহবিল: ${formatBnCurrency(fundSummary.available_balance)}, কিন্তু বিতরণের পরিমাণ: ${formatBnCurrency(disburseAmount)}।`);
+     }
+ 
+     const today = getTodayLocalDate();
+     const disbRef = params.disbursementRef || `DISB-${Math.floor(10000 + Math.random() * 90000)}`;
+@@ -421,20 +425,25 @@ export const qardHasanahService = {
+         status: 'disbursed',
+         disbursement_date: today,
+         disbursement_ref: disbRef
+       })
+       .eq('id', app.id);
+ 
+-    // 5. Update Fund Ledger table if exists
++    // 5. Update Fund Ledger table if exists (D-02: সমবায়-স্কোপড)
+     try {
+-      const { data: fund } = await supabase.from('qard_funds').select('id, total_disbursed').limit(1).maybeSingle();
+-      if (fund?.id) {
+-        await supabase.from('qard_funds').update({
+-          total_disbursed: (Number(fund.total_disbursed) || 0) + disburseAmount,
+-          updated_at: new Date().toISOString()
+-        }).eq('id', fund.id);
++      const fundOrgId = (app as any)?.organization_id;
++      if (!fundOrgId) {
++        console.warn('D-02: আবেদনের organization_id নেই — তহবিল খাতা হালনাগাদ করা হয়নি।');
++      } else {
++        const { data: fund } = await supabase.from('qard_funds').select('id, total_disbursed').eq('organization_id', fundOrgId).limit(1).maybeSingle();
++        if (fund?.id) {
++          await supabase.from('qard_funds').update({
++            total_disbursed: (Number(fund.total_disbursed) || 0) + disburseAmount,
++            updated_at: new Date().toISOString()
++          }).eq('id', fund.id);
++        }
+       }
+     } catch (fErr) {
+       console.warn('Could not increment qard_funds:', fErr);
+     }
+ 
+     // 6. Notify Member
+@@ -544,20 +553,25 @@ export const qardHasanahService = {
+       await supabase
+         .from('qard_applications')
+         .update({ status: 'completed' })
+         .eq('id', loan.application_id);
+     }
+ 
+-    // 5. Update Fund Ledger table
++    // 5. Update Fund Ledger table (D-02: সমবায়-স্কোপড)
+     try {
+-      const { data: fund } = await supabase.from('qard_funds').select('id, total_recovered').limit(1).maybeSingle();
+-      if (fund?.id) {
+-        await supabase.from('qard_funds').update({
+-          total_recovered: (Number(fund.total_recovered) || 0) + repayAmount,
+-          updated_at: new Date().toISOString()
+-        }).eq('id', fund.id);
++      const fundOrgId = (loan as any)?.organization_id;
++      if (!fundOrgId) {
++        console.warn('D-02: ঋণের organization_id নেই — তহবিল খাতা হালনাগাদ করা হয়নি।');
++      } else {
++        const { data: fund } = await supabase.from('qard_funds').select('id, total_recovered').eq('organization_id', fundOrgId).limit(1).maybeSingle();
++        if (fund?.id) {
++          await supabase.from('qard_funds').update({
++            total_recovered: (Number(fund.total_recovered) || 0) + repayAmount,
++            updated_at: new Date().toISOString()
++          }).eq('id', fund.id);
++        }
+       }
+     } catch (fErr) {
+       console.warn('Could not update qard_funds recovery:', fErr);
+     }
+ 
+     // 6. Notify Member
+diff --git a/src/lib/withdrawalService.ts b/src/lib/withdrawalService.ts
+index 09d6a06..9fc0720 100644
+--- a/src/lib/withdrawalService.ts
++++ b/src/lib/withdrawalService.ts
+@@ -122,13 +122,15 @@ export const withdrawalService = {
+     const { data: planInfo } = await supabase
+       .from('member_plans')
+       .select('organization_id')
+       .eq('id', params.memberPlanId)
+       .single();
+ 
+-    const orgId = planInfo?.organization_id || '00000000-0000-0000-0000-000000000001';
++    // D-02: ডিফল্ট সমবায়ে ফলব্যাক নিষিদ্ধ — অন্য tenant-এ ডেটা লেখা যাবে না
++    const orgId = planInfo?.organization_id;
++    if (!orgId) throw new Error('সমবায় শনাক্ত করা যায়নি — উত্তোলনের আবেদন জমা দেওয়া যাচ্ছে না (নীতি D-02)।');
+ 
+     const { data, error } = await supabase
+       .from('savings_withdrawals')
+       .insert([{
+         organization_id: orgId,
+         member_id: params.memberId,
+diff --git a/src/pages/qard/AdminQardHasanah.tsx b/src/pages/qard/AdminQardHasanah.tsx
+index 096166e..6ac4570 100644
+--- a/src/pages/qard/AdminQardHasanah.tsx
++++ b/src/pages/qard/AdminQardHasanah.tsx
+@@ -83,13 +83,13 @@ export default function AdminQardHasanah() {
+   }, []);
+ 
+   const loadAllData = async () => {
+     try {
+       setLoading(true);
+       const [fund, apps, allLoans, allRepays] = await Promise.all([
+-        qardHasanahService.getFundSummary(),
++        qardHasanahService.getFundSummary(useAuthStore.getState().activeOrganizationId), // D-02
+         qardHasanahService.getApplications(),
+         qardHasanahService.getLoans(),
+         qardHasanahService.getRepayments()
+       ]);
+ 
+       setFundSummary(fund);
+@@ -197,13 +197,13 @@ export default function AdminQardHasanah() {
+       return;
+     }
+ 
+     try {
+       setActionLoading(true);
+       setErrorMessage('');
+-      await qardHasanahService.updateFundAllocation(amount);
++      await qardHasanahService.updateFundAllocation(amount, useAuthStore.getState().activeOrganizationId); // D-02
+       setShowFundModal(false);
+       setSuccessMessage('কর্জে হাসানা অনুমোদিত তহবিল সফলভাবে হালনাগাদ করা হয়েছে।');
+       await loadAllData();
+     } catch (err: any) {
+       setErrorMessage(err.message || 'তহবিল সংরক্ষণে সমস্যা হয়েছে।');
+     } finally {
+diff --git a/src/store/useSomobayStore.ts b/src/store/useSomobayStore.ts
+index e4010cf..23722b6 100644
+--- a/src/store/useSomobayStore.ts
++++ b/src/store/useSomobayStore.ts
+@@ -1,9 +1,10 @@
+ import { create } from 'zustand';
+ import { supabase } from '../lib/supabase';
+ import { formatLocalDate, getTodayLocalDate } from '../lib/dateUtils';
++import { useAuthStore } from './useAuthStore'; // D-02: সক্রিয় সমবায় দিয়ে স্কোপিং
+ 
+ export interface SomobayPlan {
+   id: string;
+   name: string;
+   description: string;
+   duration_months: number;
+@@ -254,29 +255,41 @@ export const useSomobayStore = create<SomobayState>((set, get) => ({
+ 
+   fetchAdminStats: async () => {
+     try {
+       set({ loading: true });
+       const today = getTodayLocalDate();
+ 
+-      // 1. Total Members
+-      const { count: membersCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'member');
++      // D-02: ড্যাশবোর্ডের প্রতিটি সংখ্যা শুধু সক্রিয় সমবায়ের — অন্য সমবায়ের ডেটা মিশবে না
++      const statsOrgId = useAuthStore.getState().activeOrganizationId;
++
++      // 1. Total Members — বৈশ্বিক profiles.role নয়, নিজের সমবায়ের সদস্য তালিকা
++      let membersQuery = supabase.from('organization_members').select('*', { count: 'exact', head: true })
++        .eq('role', 'member').eq('status', 'active');
++      if (statsOrgId) membersQuery = membersQuery.eq('organization_id', statsOrgId);
++      const { count: membersCount } = await membersQuery;
+ 
+       // 2. Active Plan Types (Templates)
+-      const { count: planTypesCount } = await supabase.from('somobay_plans').select('*', { count: 'exact', head: true }).eq('is_active', true);
++      let planTypesQuery = supabase.from('somobay_plans').select('*', { count: 'exact', head: true }).eq('is_active', true);
++      if (statsOrgId) planTypesQuery = planTypesQuery.eq('organization_id', statsOrgId);
++      const { count: planTypesCount } = await planTypesQuery;
+ 
+       // 3. Active Enrollments & Overdue Info
+-      const { data: plansData } = await supabase.from('member_plans').select('id, next_due_date, status, plan:somobay_plans(installment_amount)');
++      let enrollQuery = supabase.from('member_plans').select('id, next_due_date, status, plan:somobay_plans(installment_amount)');
++      if (statsOrgId) enrollQuery = enrollQuery.eq('organization_id', statsOrgId);
++      const { data: plansData } = await enrollQuery;
+       
+       const activeEnrollments = plansData?.filter(p => p.status === 'active') || [];
+       const overduePlans = activeEnrollments.filter(p => p.next_due_date && p.next_due_date < today);
+       
+       // Calculate pending dues (rough estimate)
+       const pendingDues = overduePlans.reduce((acc, curr) => acc + ((curr.plan as any)?.installment_amount || 0), 0);
+ 
+       // 4. Total Collections and Fines from All Time using Centralized Formula
+-      const { data: paymentsData } = await supabase.from('plan_payments').select('member_plan_id, amount, type, status, penalty_paid');
++      let paymentsQuery = supabase.from('plan_payments').select('member_plan_id, amount, type, status, penalty_paid');
++      if (statsOrgId) paymentsQuery = paymentsQuery.eq('organization_id', statsOrgId); // D-02
++      const { data: paymentsData } = await paymentsQuery;
+       const approvedPayments = paymentsData?.filter(p => !p.status || p.status === 'approved') || [];
+       
+       const paymentsGrouped: { [key: string]: any[] } = {};
+       for (const p of approvedPayments) {
+         const mpId = p.member_plan_id || 'unknown';
+         if (!paymentsGrouped[mpId]) {
+@@ -292,13 +305,15 @@ export const useSomobayStore = create<SomobayState>((set, get) => ({
+         const groupStats = calculateMemberPlanBalances(paymentsGrouped[mpId]);
+         totalCollectionsAll += groupStats.effectiveInstallmentBalance;
+         totalFinesCollectedAll += groupStats.totalFinesCollected;
+       }
+ 
+       // 5. Overdue Members (Unique members)
+-      const { data: overdueMembersData } = await supabase.from('member_plans').select('member_id').eq('status', 'active').lt('next_due_date', today);
++      let overdueQuery = supabase.from('member_plans').select('member_id').eq('status', 'active').lt('next_due_date', today);
++      if (statsOrgId) overdueQuery = overdueQuery.eq('organization_id', statsOrgId); // D-02
++      const { data: overdueMembersData } = await overdueQuery;
+       const overdueMembersCount = new Set(overdueMembersData?.map(m => m.member_id)).size;
+ 
+       set({
+         adminStats: {
+           totalMembers: membersCount || 0,
+           activePlanTypes: planTypesCount || 0,

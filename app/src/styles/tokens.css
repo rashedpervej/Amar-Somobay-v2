@@ -1,0 +1,163 @@
+/* ============================================================
+   Somobay Design System — Phase 1
+   উৎস: prototype/assets/ui.css  (:root ব্লক, হুবহু)
+        + prototype/assets/skins.css ([data-theme="qh"])
+
+   নিয়ম (ব্যবহারকারীর নির্দেশ, অপরিবর্তনীয়):
+   ১) নতুন প্রোটোটাইপের রঙ, টাইপোগ্রাফি, স্পেসিং, কর্নার রেডিয়াস ও লেআউট-ই
+      চূড়ান্ত ডিজাইন সিস্টেম। পুরনো অ্যাপের UI এখানে চাপানো যাবে না।
+   ২) এই ফাইলে টোকেনের মান পরিবর্তন করা যাবে না — কেবল নতুন টোকেন যোগ করা যাবে,
+      তাও অনুমোদন নিয়ে। মান বদলাতে হলে prototype/assets/ui.css আগে বদলাতে হবে,
+      তারপর tests/d03-design-tokens.mjs দিয়ে parity যাচাই করতে হবে।
+   ৩) স্ট্যাটাস রঙের অর্থ কোনো থিমে বদলায় না (সফল=সবুজ, বিপদ=লাল, সতর্ক=হলুদ, তথ্য=নীল)।
+   ৪) সুদ/রিবা-সংক্রান্ত কোনো রঙ, লেবেল বা টোকেন যোগ করা যাবে না (নীতি D-01)।
+   ============================================================ */
+
+:root {
+  /* brand */
+  --green-900:#04231A; --green-800:#064437; --green-700:#0B6B53;
+  --green-600:#0E8266; --green-500:#12A273; --green-100:#E6F7EF; --green-050:#F2FBF7;
+  --lime:#C9F26E; --lime-soft:#EAFBC4;
+  --teal-900:#082A33;
+  /* alias */
+  --green:#0B6B53; --mint:#E6F7EF; --rose:#E2574C; --rose-bg:#FDECEA;
+
+  /* status */
+  --ok:#0F8A5F; --ok-bg:#E4F6EC; --ok-bd:#B6E4CB; --ok-ink:#0A5C3F;
+  --warn:#B26A00; --warn-bg:#FFF4DE; --warn-bd:#F3D9A4; --warn-ink:#7A4800;
+  --danger:#C63F35; --danger-bg:#FDECEA; --danger-bd:#F5C6C0; --danger-ink:#8E2B23;
+  --info:#1E6FB8; --info-bg:#E8F1FB; --info-bd:#C2DBF2; --info-ink:#154E82;
+  --neutral:#5B7169; --neutral-bg:#EEF2F0; --neutral-bd:#D7E0DC; --neutral-ink:#3D4F49;
+  --purple:#6B4FC0; --purple-bg:#F0EBFC; --purple-bd:#D8CDF3; --purple-ink:#4A3588;
+
+  /* surface */
+  --paper:#F4F7F5; --card:#FFFFFF; --card-2:#FAFCFB;
+  --line:#E2EAE6; --line-2:#EFF4F1; --line-3:#D3DED8;
+  --txt:#0E211A; --txt-2:#33473F; --mut:#63796F; --mut-2:#8AA096;
+
+  /* radius */
+  --r-xs:8px; --r-sm:12px; --r-md:16px; --r-lg:22px; --r-xl:28px; --r-pill:999px;
+
+  /* shadow */
+  --sh-1:0 1px 2px rgba(6,40,30,.06);
+  --sh-2:0 1px 2px rgba(6,40,30,.05), 0 8px 22px -14px rgba(6,40,30,.28);
+  --sh-3:0 2px 6px rgba(6,40,30,.07), 0 18px 44px -20px rgba(6,40,30,.34);
+
+  /* type scale — Bangla-first, generous */
+  --fs-display:40px; --fs-hero:34px; --fs-h1:26px; --fs-h2:21px; --fs-h3:18px;
+  --fs-body:16px; --fs-body-l:17px; --fs-sm:14px; --fs-xs:12px;
+  --lh:1.62;
+  --ff:'Hind Siliguri','Noto Sans Bengali','Bangla MN','Shonar Bangla','Nirmala UI',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ff-num:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;
+
+  /* touch */
+  --tap:48px; --tap-lg:54px;
+}
+
+/* ---------- কর্জে হাসানা (ইসলামিক) থিম — skins.css থেকে হুবহু ---------- */
+:root {
+  --qh-emerald-900:#04231C; --qh-emerald-800:#064437; --qh-emerald-700:#0B6B52;
+  --qh-emerald-600:#0E8264; --qh-emerald-500:#12A273; --qh-emerald-100:#E8F5EF; --qh-emerald-050:#F4FBF7;
+  --qh-gold:#C9A227; --qh-gold-deep:#7E6410; --qh-gold-soft:#F6EBD2; --qh-gold-pale:#FBF3DE;
+  --qh-gold-ink:#6B5210; --qh-gold-bd:#E7D6A6; --qh-gold-hi:#E9CE8B;
+  --qh-line:#E0E9E2; --qh-ink:#0E211A; --qh-mut:#5E7268;
+  --qh-ff-ar:'Scheherazade New','Amiri','Noto Naskh Arabic','Traditional Arabic','Geeza Pro',serif;
+}
+
+[data-theme="qh"] {
+  --mod-950:#03211A; --mod-900:#04231C; --mod-800:#064437; --mod-700:#0B6B52;
+  --mod-600:#0E8264; --mod-500:#12A273; --mod-100:#E8F5EF; --mod-050:#F4FBF7;
+  --mod-hi:#E9CE8B; --mod-hi-2:#D4B464; --mod-hi-3:#E3C67F; --mod-on-hi:#3A2E08;
+  --mod-hi-soft:#FBF3DE; --mod-hi-ink:#6B5210; --mod-hi-bd:#E7D6A6;
+  --mod-sub:#A9CFC0; --mod-hero-3:#0A5A47;
+  --mod-glow:rgba(11,107,82,.95); --mod-glow-hi:rgba(212,180,100,.85);
+  --mod-g13:rgba(233,206,139,.15); --mod-g14:rgba(233,206,139,.16); --mod-g28:rgba(233,206,139,.34);
+  --mod-hero-glow:rgba(233,206,139,.26);
+  --mod-gold:#C9A227; --mod-gold-deep:#7E6410; --mod-gold-soft:#F6EBD2;
+}
+
+/* ---------- Tailwind v4 থিম ম্যাপিং ----------
+   Tailwind-এর নিজস্ব ডিফল্ট (যেমন rounded-md = 6px, text-sm = 14px) এই প্রোটোটাইপের
+   মানের সঙ্গে মেলে না। তাই নিচে prototype-এর টোকেনকে Tailwind namespace-এ bind করা হলো,
+   যাতে `bg-card`, `text-mut`, `rounded-r-md`, `text-body` সব একই ডিজাইন মান দেয়।
+   কোনো নতুন রঙ/মান এখানে তৈরি করা হয়নি — শুধু নাম ম্যাপ করা হয়েছে।            */
+@theme inline {
+  /* brand */
+  --color-green-900: var(--green-900);
+  --color-green-800: var(--green-800);
+  --color-green-700: var(--green-700);
+  --color-green-600: var(--green-600);
+  --color-green-500: var(--green-500);
+  --color-green-100: var(--green-100);
+  --color-green-050: var(--green-050);
+  --color-lime: var(--lime);
+  --color-lime-soft: var(--lime-soft);
+  --color-teal-900: var(--teal-900);
+  --color-brand: var(--green);
+  --color-mint: var(--mint);
+  --color-rose: var(--rose);
+  --color-rose-bg: var(--rose-bg);
+
+  /* status */
+  --color-ok: var(--ok);       --color-ok-bg: var(--ok-bg);       --color-ok-bd: var(--ok-bd);       --color-ok-ink: var(--ok-ink);
+  --color-warn: var(--warn);   --color-warn-bg: var(--warn-bg);   --color-warn-bd: var(--warn-bd);   --color-warn-ink: var(--warn-ink);
+  --color-danger: var(--danger); --color-danger-bg: var(--danger-bg); --color-danger-bd: var(--danger-bd); --color-danger-ink: var(--danger-ink);
+  --color-info: var(--info);   --color-info-bg: var(--info-bg);   --color-info-bd: var(--info-bd);   --color-info-ink: var(--info-ink);
+  --color-neutral: var(--neutral); --color-neutral-bg: var(--neutral-bg); --color-neutral-bd: var(--neutral-bd); --color-neutral-ink: var(--neutral-ink);
+  --color-purple: var(--purple); --color-purple-bg: var(--purple-bg); --color-purple-bd: var(--purple-bd); --color-purple-ink: var(--purple-ink);
+
+  /* surface + ink */
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-line-3: var(--line-3);
+  --color-txt: var(--txt);
+  --color-txt-2: var(--txt-2);
+  --color-mut: var(--mut);
+  --color-mut-2: var(--mut-2);
+
+  /* qard hasanah theme */
+  --color-qh-700: var(--qh-emerald-700);
+  --color-qh-600: var(--qh-emerald-600);
+  --color-qh-500: var(--qh-emerald-500);
+  --color-qh-100: var(--qh-emerald-100);
+  --color-qh-050: var(--qh-emerald-050);
+  --color-qh-gold: var(--qh-gold);
+  --color-qh-gold-deep: var(--qh-gold-deep);
+  --color-qh-gold-soft: var(--qh-gold-soft);
+  --color-qh-gold-ink: var(--qh-gold-ink);
+  --color-qh-gold-bd: var(--qh-gold-bd);
+
+  /* radius */
+  --radius-r-xs: var(--r-xs);
+  --radius-r-sm: var(--r-sm);
+  --radius-r-md: var(--r-md);
+  --radius-r-lg: var(--r-lg);
+  --radius-r-xl: var(--r-xl);
+  --radius-r-pill: var(--r-pill);
+
+  /* type */
+  --font-sans: var(--ff);
+  --font-num: var(--ff-num);
+  --font-arabic: var(--qh-ff-ar);
+  --text-display: var(--fs-display);
+  --text-hero: var(--fs-hero);
+  --text-h1: var(--fs-h1);
+  --text-h2: var(--fs-h2);
+  --text-h3: var(--fs-h3);
+  --text-body: var(--fs-body);
+  --text-body-l: var(--fs-body-l);
+  --text-sm: var(--fs-sm);
+  --text-xs: var(--fs-xs);
+
+  /* shadow */
+  --shadow-sh-1: var(--sh-1);
+  --shadow-sh-2: var(--sh-2);
+  --shadow-sh-3: var(--sh-3);
+
+  /* touch targets */
+  --spacing-tap: var(--tap);
+  --spacing-tap-lg: var(--tap-lg);
+}

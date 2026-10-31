@@ -1,0 +1,46 @@
+/* ============================================================
+   Somobay — base layer (Phase 1)
+   prototype/assets/ui.css-এর ভিত্তি আচরণ হুবহু: paper পৃষ্ঠতল, Bangla-first ফন্ট,
+   ৪৮px ট্যাপ টার্গেট, সংখ্যায় Bangla digit।
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+html, body, #root { min-height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--txt);
+  font-family: var(--ff);
+  font-size: var(--fs-body);
+  line-height: var(--lh);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* সংখ্যা সবসময় বাংলা অঙ্কে — Latin digit UI-তে দেখানো নিষেধ (প্রোটোটাইপের নিয়ম) */
+.num, .bn-num { font-family: var(--ff-num); font-variant-numeric: tabular-nums; }
+
+h1, h2, h3, h4 { margin: 0; font-weight: 700; line-height: 1.3; }
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+p { margin: 0; }
+
+button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+
+/* ন্যূনতম ট্যাপ টার্গেট */
+button, [role="button"], a.tap, .tap { min-height: var(--tap); }
+.btn-sm, .chip, .badge { min-height: 36px; }
+
+:focus-visible { outline: 3px solid var(--green-500); outline-offset: 2px; border-radius: var(--r-xs); }
+
+/* স্ক্রলবার (প্রোটোটাইপের মতো নরম) */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--line-3); border-radius: var(--r-pill); }
+::-webkit-scrollbar-track { background: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

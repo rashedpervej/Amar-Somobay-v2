@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>সমবায় · Somobay — মোবাইল UI (নতুন ডিজাইন)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#07140F; --ink2:#15241E;
+  --green:#0B6B53; --green2:#12A273; --green-d:#064437;
+  --lime:#C9F26E; --mint:#E6F7EF;
+  --amber:#FFB020; --amber-bg:#FFF3DB; --amber-ink:#8A5300;
+  --rose:#E2574C; --rose-bg:#FDECEA;
+  --paper:#F6F8F6; --card:#FFFFFF;
+  --line:rgba(11,51,40,.09);
+  --txt:#132620; --mut:#607A71;
+  --r:22px;
+  --sh:0 1px 2px rgba(7,40,30,.05), 0 10px 26px -14px rgba(7,40,30,.22);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%}
+body{
+  font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color:#E8F2EC;
+  background:
+    radial-gradient(1100px 700px at 12% -10%, #11543f 0%, transparent 60%),
+    radial-gradient(900px 600px at 95% 0%, #0d3b4a 0%, transparent 55%),
+    linear-gradient(180deg,#07140F 0%, #061A14 55%, #04100C 100%);
+  background-attachment:fixed;
+  padding:28px 18px 70px;
+}
+
+/* ---------- page chrome ---------- */
+.wrap{max-width:1280px;margin:0 auto}
+.brandbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(145deg,var(--lime),#7fd98d 60%,#12A273);
+  display:grid;place-items:center;color:#06281F;font-weight:700;font-size:20px;box-shadow:0 8px 24px -10px #9ae86a}
+.brandbar h1{font-size:21px;font-weight:700;letter-spacing:.2px}
+.brandbar p{font-size:13px;color:#8FB3A6}
+.pill{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.tagp{font-size:12px;padding:7px 13px;border-radius:999px;border:1px solid rgba(201,242,110,.25);
+  background:rgba(201,242,110,.07);color:#CDE9D8}
+.hero{margin:26px 0 8px;max-width:760px}
+.hero h2{font-size:clamp(24px,3.4vw,38px);line-height:1.28;font-weight:700;color:#fff}
+.hero h2 span{background:linear-gradient(90deg,var(--lime),#6FE3B2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin-top:12px;font-size:15px;line-height:1.75;color:#9CBCB0}
+
+/* ---------- live demo ---------- */
+.stage{margin-top:34px;display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:40px;align-items:start}
+@media(max-width:980px){.stage{grid-template-columns:1fr;gap:28px}}
+.panel h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#7FA294;font-weight:600}
+.switch{margin-top:14px;display:flex;flex-direction:column;gap:9px}
+.sw{display:flex;gap:13px;align-items:center;text-align:right;width:100%;cursor:pointer;
+  border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);border-radius:16px;padding:13px 15px;
+  color:#D8E9E1;font-family:inherit;font-size:15px;transition:.22s}
+.sw:hover{background:rgba(201,242,110,.08);border-color:rgba(201,242,110,.3);transform:translateX(-3px)}
+.sw.on{background:linear-gradient(100deg,rgba(201,242,110,.16),rgba(18,162,115,.12));border-color:rgba(201,242,110,.5);color:#fff}
+.sw b{display:block;font-weight:600}
+.sw small{color:#86A89B;font-size:12px}
+.sw i{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:rgba(201,242,110,.14);flex:none}
+.sw.on i{background:var(--lime)}
+.sw i svg{width:18px;height:18px;stroke:var(--lime);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.sw.on i svg{stroke:#06281F}
+.notes{margin-top:22px;border-top:1px dashed rgba(255,255,255,.12);padding-top:18px;display:grid;gap:12px}
+.note{display:flex;gap:10px;font-size:13.5px;color:#9CBCB0;line-height:1.6}
+.note b{color:#D9ECDF;font-weight:600}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--lime);margin-top:7px;flex:none}
+
+/* ---------- phone ---------- */
+.phonewrap{justify-self:center}
+.phone{width:390px;height:844px;border-radius:50px;padding:11px;position:relative;
+  background:linear-gradient(160deg,#2b3a35,#0c1a15 40%,#243330);
+  box-shadow:0 2px 0 rgba(255,255,255,.12) inset, 0 50px 90px -40px rgba(0,0,0,.95), 0 0 0 1px rgba(255,255,255,.05)}
+.screen{width:100%;height:100%;border-radius:40px;overflow:hidden;background:var(--paper);position:relative;color:var(--txt)}
+.notch{position:absolute;top:19px;left:50%;transform:translateX(-50%);width:112px;height:28px;border-radius:16px;background:#070b0a;z-index:40}
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;animation:fade .32s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.status{display:flex;justify-content:space-between;align-items:center;padding:15px 24px 0;font-size:12.5px;font-weight:600;flex:none;position:relative;z-index:30}
+.body{flex:1;overflow-y:auto;padding:4px 18px 104px;scrollbar-width:none}
+.body::-webkit-scrollbar{display:none}
+
+/* ---------- in-app ---------- */
+.top{display:flex;align-items:center;gap:12px;padding:14px 2px 10px}
+.av{width:44px;height:44px;border-radius:16px;background:linear-gradient(145deg,var(--green2),var(--green-d));color:#fff;
+  display:grid;place-items:center;font-weight:700;font-size:17px;flex:none;box-shadow:0 8px 18px -10px var(--green)}
+.top .nm{font-size:17px;font-weight:700;line-height:1.25}
+.top .sb{font-size:12.5px;color:var(--mut)}
+.iconbtn{width:40px;height:40px;border-radius:14px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;flex:none;position:relative}
+.iconbtn svg{width:19px;height:19px;stroke:var(--txt);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bdg{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--rose);color:#fff;
+  font-size:10.5px;font-weight:700;display:grid;place-items:center;border:2px solid var(--paper)}
+
+.balance{border-radius:26px;padding:20px;color:#fff;position:relative;overflow:hidden;
+  background:linear-gradient(145deg,#0E7A5E 0%, #0B6B53 45%, #053B2F 100%);
+  box-shadow:0 18px 40px -22px rgba(6,60,46,.9)}
+.balance::after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-90px;top:-120px;
+  background:radial-gradient(circle,rgba(201,242,110,.32),transparent 70%)}
+.balance::before{content:"";position:absolute;width:160px;height:160px;border-radius:50%;left:-70px;bottom:-90px;
+  background:radial-gradient(circle,rgba(255,255,255,.14),transparent 70%)}
+.bl-row{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
+.bl-lab{font-size:12.5px;color:rgba(255,255,255,.78);display:flex;align-items:center;gap:6px}
+.chip{font-size:11px;font-weight:600;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.16);backdrop-filter:blur(4px)}
+.amt{font-size:38px;font-weight:700;letter-spacing:-.5px;margin-top:8px;position:relative;z-index:2;line-height:1.1}
+.amt small{font-size:19px;font-weight:600;opacity:.75;margin-left:3px}
+.bl-sub{position:relative;z-index:2;margin-top:8px;display:flex;gap:8px;align-items:center;font-size:12.5px;color:rgba(255,255,255,.82)}
+.up{display:inline-flex;align-items:center;gap:3px;background:rgba(201,242,110,.2);color:var(--lime);font-weight:600;padding:3px 8px;border-radius:999px;font-size:11.5px}
+.bl-cta{position:relative;z-index:2;margin-top:18px;display:grid;grid-template-columns:1.25fr 1fr;gap:9px}
+.btn{border:none;font-family:inherit;cursor:pointer;border-radius:16px;padding:14px 10px;font-size:15.5px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:7px;transition:.18s}
+.btn:active{transform:scale(.97)}
+.btn svg{width:18px;height:18px;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.b-lime{background:var(--lime);color:#06281F;box-shadow:0 10px 22px -12px rgba(201,242,110,.9)}
+.b-lime svg{stroke:#06281F}
+.b-ghost{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.22)}
+.b-ghost svg{stroke:#fff}
+.b-green{background:var(--green);color:#fff;width:100%}
+.b-green svg{stroke:#fff}
+.b-soft{background:var(--mint);color:var(--green);border:1px solid rgba(11,107,83,.14)}
+.b-soft svg{stroke:var(--green)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--sh)}
+.mt{margin-top:14px}
+.sect{display:flex;justify-content:space-between;align-items:baseline;margin:20px 2px 10px}
+.sect h4{font-size:16px;font-weight:700}
+.sect a{font-size:13px;color:var(--green);font-weight:600;text-decoration:none}
+
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 4px 10px;text-align:center;box-shadow:var(--sh);cursor:pointer;transition:.18s}
+.q:active{transform:scale(.96)}
+.q i{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;margin:0 auto 7px;background:var(--mint)}
+.q i svg{width:20px;height:20px;stroke:var(--green);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.q span{font-size:12.5px;font-weight:600;display:block;line-height:1.25}
+.q.amb i{background:var(--amber-bg)} .q.amb i svg{stroke:var(--amber-ink)}
+
+.alert{display:flex;align-items:center;gap:12px;border-radius:18px;padding:13px 14px;margin-top:14px;
+  background:linear-gradient(100deg,var(--amber-bg),#FFF9EC);border:1px solid rgba(255,176,32,.35)}
+.alert .ic{width:38px;height:38px;border-radius:13px;background:var(--amber);display:grid;place-items:center;flex:none}
+.alert .ic svg{width:20px;height:20px;stroke:#5A3600;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.alert b{display:block;font-size:14.5px;color:var(--amber-ink)}
+.alert small{font-size:12.5px;color:#9A6A13}
+.alert button{margin-left:auto;background:var(--amber-ink);color:#fff;border:none;border-radius:12px;padding:10px 14px;
+  font-family:inherit;font-size:13.5px;font-weight:600;cursor:pointer;flex:none}
+
+.rowbtw{display:flex;justify-content:space-between;align-items:center}
+.tiny{font-size:12.5px;color:var(--mut)}
+.bar{height:9px;border-radius:99px;background:#E7EDEA;overflow:hidden;margin-top:11px}
+.bar>i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green2),var(--lime))}
+.faces{display:flex;margin-top:12px}
+.faces span{width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;
+  font-size:11px;font-weight:600;border:2px solid #fff;margin-left:-8px}
+.faces span:first-child{margin-left:0}
+.faces .mo{background:#DCE8E3;color:var(--green)}
+
+.tx{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.tx:last-child{border-bottom:none;padding-bottom:2px}
+.tx .ic{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;flex:none;background:var(--mint)}
+.tx .ic svg{width:19px;height:19px;stroke:var(--green);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tx .ic.out{background:#EEF1F0} .tx .ic.out svg{stroke:#50625C}
+.tx .ic.wait{background:var(--amber-bg)} .tx .ic.wait svg{stroke:var(--amber-ink)}
+.tx b{font-size:14.5px;font-weight:600;display:block}
+.tx .v{margin-right:0;margin-left:0;text-align:left;font-size:14.5px;font-weight:700;margin-inline-start:auto}
+.v.in{color:var(--green2)} .v.out{color:var(--txt)} .v.wait{color:var(--amber-ink)}
+
+.tabs{display:flex;gap:7px;background:#EBF0ED;padding:5px;border-radius:16px;margin-top:16px}
+.tabs button{flex:1;border:none;background:transparent;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--mut);
+  padding:9px 4px;border-radius:12px;cursor:pointer}
+.tabs button.on{background:#fff;color:var(--green);box-shadow:0 2px 8px rgba(7,40,30,.09)}
+
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:13px 14px;box-shadow:var(--sh)}
+.stat small{font-size:12px;color:var(--mut)}
+.stat b{display:block;font-size:19px;font-weight:700;margin-top:3px}
+
+.badge{font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:999px}
+.bg-g{background:var(--mint);color:var(--green)}
+.bg-a{background:var(--amber-bg);color:var(--amber-ink)}
+.bg-r{background:var(--rose-bg);color:var(--rose)}
+.bg-n{background:#EEF1F0;color:#50625C}
+
+.steps{display:flex;align-items:center;margin-top:16px}
+.step{flex:1;text-align:center;position:relative}
+.step i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;margin:0 auto;background:#E7EDEA;color:#8AA09A;
+  font-size:11px;font-weight:700;position:relative;z-index:2;border:2px solid #fff}
+.step.done i{background:var(--green);color:#fff}
+.step.now i{background:var(--amber);color:#4A2D00;box-shadow:0 0 0 4px rgba(255,176,32,.22)}
+.step span{display:block;font-size:10.5px;margin-top:6px;color:var(--mut)}
+.step.done span,.step.now span{color:var(--txt);font-weight:600}
+.step::before{content:"";position:absolute;top:13px;right:50%;width:100%;height:2px;background:#E7EDEA}
+.step:first-child::before{display:none}
+.step.done::before,.step.now::before{background:var(--green)}
+
+.member{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
+.member:last-child{border-bottom:none}
+.member .av2{width:36px;height:36px;border-radius:12px;background:#E9F2EE;color:var(--green);display:grid;place-items:center;font-weight:600;font-size:14px;flex:none}
+.member b{font-size:14px;display:block}
+.member .badge{margin-inline-start:auto}
+
+.appr{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px;box-shadow:var(--sh);margin-top:12px;
+  border-right:4px solid var(--green)}
+.appr.warn{border-right-color:var(--amber)}
+.appr .acts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}
+.appr .acts button{border-radius:14px;padding:12px;font-family:inherit;font-size:14px;font-weight:600;border:none;cursor:pointer}
+.ok{background:var(--green);color:#fff}
+.no{background:#F1F4F3;color:var(--txt);border:1px solid var(--line)!important}
+
+.nav{position:absolute;left:0;right:0;bottom:0;padding:9px 10px 14px;display:grid;grid-template-columns:repeat(5,1fr);
+  background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-top:1px solid var(--line);z-index:20}
+.nv{background:none;border:none;font-family:inherit;display:grid;justify-items:center;gap:4px;padding:6px 0;cursor:pointer;color:var(--mut);position:relative}
+.nv svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nv span{font-size:11px;font-weight:600}
+.nv.on{color:var(--green)}
+.nv.on::before{content:"";position:absolute;top:-9px;width:26px;height:3px;border-radius:99px;background:var(--green)}
+.fab{position:absolute;bottom:88px;inset-inline-end:18px;width:56px;height:56px;border-radius:20px;border:none;cursor:pointer;z-index:25;
+  background:linear-gradient(145deg,var(--lime),#86DE8C);display:grid;place-items:center;box-shadow:0 14px 30px -12px rgba(140,220,110,.95)}
+.fab svg{width:26px;height:26px;stroke:#06281F;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+/* gallery */
+.gal{margin-top:72px}
+.galhead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.galhead h3{font-size:22px;color:#fff;font-weight:700}
+.galhead p{font-size:13.5px;color:#8FB3A6;margin-top:5px}
+.grid{margin-top:26px;display:flex;gap:30px;overflow-x:auto;padding:6px 2px 26px;scroll-snap-type:x mandatory}
+.gitem{scroll-snap-align:center;flex:none;text-align:center}
+.gitem .cap{margin-top:14px;font-size:13.5px;color:#BBD6CA;font-weight:600}
+.gitem .cap small{display:block;color:#7FA294;font-weight:400;font-size:12px;margin-top:2px}
+.mini{width:300px;height:649px;border-radius:40px;padding:8px;position:relative;
+  background:linear-gradient(160deg,#2b3a35,#0c1a15 45%,#243330);box-shadow:0 30px 60px -34px #000, 0 0 0 1px rgba(255,255,255,.05)}
+.mini .holder{width:100%;height:100%;border-radius:33px;overflow:hidden;position:relative;background:var(--paper)}
+.mini .inner{width:390px;height:844px;transform:scale(.7436);transform-origin:top left;position:absolute;top:0;left:0;color:var(--txt)}
+.foot{margin-top:40px;text-align:center;font-size:12.5px;color:#5E8073}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brandbar">
+    <div class="logo">স</div>
+    <div>
+      <h1>সমবায় · Somobay</h1>
+      <p>গ্রামীণ সমিতির ডিজিটাল সঞ্চয়, ROSCA ও কর্জে হাসানা</p>
+    </div>
+    <div class="pill">
+      <span class="tagp">বাংলা–প্রথম</span>
+      <span class="tagp">বড় টাচ টার্গেট</span>
+      <span class="tagp">১৮–৫০ বছর</span>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h2>টাকার হিসাব হোক <span>সহজ, পরিষ্কার আর বিশ্বাসযোগ্য</span></h2>
+    <p>নতুন ডিজাইনে প্রতিটি স্ক্রিনে একটাই প্রধান কাজ, বড় সংখ্যা, স্পষ্ট রঙের অর্থ (সবুজ = ঠিক আছে, হলুদ = কাজ বাকি) আর বাংলা সংখ্যায় লেখা — যাতে কম পড়ালেখা জানা সদস্যও এক নজরে বুঝতে পারেন।</p>
+  </div>
+
+  <div class="stage">
+    <div class="panel">
+      <h3>লাইভ প্রোটোটাইপ · স্ক্রিন বাছুন</h3>
+      <div class="switch" id="switch"></div>
+
+      <div class="notes">
+        <div class="note"><i class="dot"></i><span><b>ভরসার সংকেত:</b> প্রতিটি টাকার অঙ্কের পাশে অবস্থা — “জমা হয়েছে”, “অ্যাডমিন যাচাই করছেন”, “বাকি”।</span></div>
+        <div class="note"><i class="dot"></i><span><b>এক-হাতে ব্যবহার:</b> প্রধান বাটন নিচে, ন্যাভিগেশন ৫টি, সর্বনিম্ন ৪৮px টাচ এরিয়া।</span></div>
+        <div class="note"><i class="dot"></i><span><b>কম ডেটা/কম আলো:</b> হালকা ব্যাকগ্রাউন্ড, মোটা কনট্রাস্ট, আইকন+লেবেল একসাথে।</span></div>
+        <div class="note"><i class="dot"></i><span><b>স্বচ্ছ ROSCA:</b> ড্রের আগে কেউ বিজয়ী জানে না — স্ক্রিনেই লেখা থাকে, বিবাদ কমে।</span></div>
+      </div>
+    </div>
+
+    <div class="phonewrap">
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="screen">
+          <div id="live"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gal">
+    <div class="galhead">
+      <div>
+        <h3>পাঁচটি মূল স্ক্রিন</h3>
+        <p>পাশে স্ক্রল করুন → · একই ডিজাইন সিস্টেম, একই রঙের ভাষা</p>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <p class="foot">Somobay UI concept · Hind Siliguri · ৳ বাংলা সংখ্যা · ডেমো ডেটা</p>
+</div>
+
+<script type="a203cd18e6fb32046bde64f1-text/javascript">
+const I = {
+  home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/>',
+  wallet:'<rect x="3" y="6" width="18" height="13" rx="3.5"/><path d="M16 12.5h3"/><path d="M3 9.5h12"/>',
+  users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16 5.2a3.2 3.2 0 0 1 0 6"/><path d="M18 20c0-2.2-.8-3.9-2-5"/>',
+  hand:'<path d="M12 3v9"/><path d="M8.5 6.5 12 3l3.5 3.5"/><path d="M4 14c3 3.2 5.4 4.6 8 4.6S17 17.2 20 14"/><path d="M3 20h18"/>',
+  grid:'<rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/>',
+  plus:'<path d="M12 5v14"/><path d="M5 12h14"/>',
+  bell:'<path d="M18 9a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6"/><path d="M10.5 20a2 2 0 0 0 3 0"/>',
+  arrowdown:'<path d="M12 4v13"/><path d="M6.5 11.5 12 17l5.5-5.5"/>',
+  arrowup:'<path d="M12 20V7"/><path d="M6.5 12.5 12 7l5.5 5.5"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  warn:'<path d="M12 8v5"/><circle cx="12" cy="16.5" r=".9" fill="currentColor" stroke="none"/><path d="M12 3.5 21 19.5H3Z"/>',
+  gift:'<rect x="3.5" y="9" width="17" height="11" rx="2.5"/><path d="M3.5 13.5h17"/><path d="M12 9v11"/><path d="M12 9S9 9 8 7.8 8.6 4.5 10 5s2 4 2 4 1-3.5 2.4-4 2.6.9 1.6 2.8S12 9 12 9Z"/>',
+  chart:'<path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-4"/><path d="M13 16V8"/><path d="M18 16v-6"/>',
+  phone:'<rect x="6.5" y="2.5" width="11" height="19" rx="3"/><path d="M10.5 18.5h3"/>',
+  check:'<path d="M5 12.5 10 17.5 19 7"/>',
+  shield:'<path d="M12 3 20 6v6c0 4.4-3.3 7.6-8 9-4.7-1.4-8-4.6-8-9V6Z"/><path d="M9 12.2l2.2 2.3L15.3 10"/>',
+  search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/>',
+  file:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/>',
+  eye:'<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.6"/>'
+};
+const sv = (k,c='') => `<svg class="${c}" viewBox="0 0 24 24">${I[k]}</svg>`;
+
+const status = `<div class="status"><span>৯:৪১</span><span style="letter-spacing:2px">▮▮▮ ◗ ▰</span></div>`;
+
+const nav = (active) => {
+  const items=[['home','হোম','home'],['savings','সঞ্চয়','wallet'],['rosca','ROSCA','users'],['loan','ঋণ','hand'],['admin','আরও','grid']];
+  return `<div class="nav">${items.map(([k,l,ic])=>
+    `<button class="nv ${k===active?'on':''}" data-go="${k}">${sv(ic)}<span>${l}</span></button>`).join('')}</div>`;
+};
+
+const SCREENS = {
+home: () => `${status}<div class="body">
+  <div class="top">
+    <div class="av">ক</div>
+    <div style="flex:1">
+      <div class="nm">আসসালামু আলাইকুম, করিম</div>
+      <div class="sb">রহিমা সঞ্চয় সমিতি · সদস্য নং ০৪২</div>
+    </div>
+    <div class="iconbtn">${sv('bell')}<span class="bdg">২</span></div>
+  </div>
+
+  <div class="balance">
+    <div class="bl-row">
+      <div class="bl-lab">${sv('shield','')} আপনার মোট সঞ্চয়</div>
+      <span class="chip">অক্টোবর ২০২৬</span>
+    </div>
+    <div class="amt">৳ ১,২৫,০০০</div>
+    <div class="bl-sub"><span class="up">↑ ৪.২%</span> এই মাসে জমা ৳ ৫,০০০</div>
+    <div class="bl-cta">
+      <button class="btn b-lime">${sv('plus')} এখন জমা দিন</button>
+      <button class="btn b-ghost">${sv('eye')} বিবরণ</button>
+    </div>
+  </div>
+
+  <div class="alert">
+    <div class="ic">${sv('warn')}</div>
+    <div><b>কিস্তি ৩ বকেয়া</b><small>৳ ২,০০০ · ৩ নভেম্বরের আগে</small></div>
+    <button>দিন</button>
+  </div>
+
+  <div class="quick">
+    <div class="q"><i>${sv('wallet')}</i><span>সঞ্চয়</span></div>
+    <div class="q"><i>${sv('users')}</i><span>ROSCA</span></div>
+    <div class="q"><i>${sv('hand')}</i><span>ঋণ</span></div>
+    <div class="q amb"><i>${sv('phone')}</i><span>বিকাশ</span></div>
+  </div>
+
+  <div class="sect"><h4>আপনার ROSCA গ্রুপ</h4><a>বিস্তারিত</a></div>
+  <div class="card">
+    <div class="rowbtw">
+      <div><b style="font-size:15.5px">রহিমা গ্রুপ · ১২ জন</b><div class="tiny">পরবর্তী ড্র · ৩ নভেম্বর</div></div>
+      <span class="badge bg-a">৩ জন বাকি</span>
+    </div>
+    <div class="bar"><i style="width:75%"></i></div>
+    <div class="rowbtw" style="margin-top:9px">
+      <span class="tiny">৯ / ১২ জন কিস্তি দিয়েছেন</span>
+      <span class="tiny" style="color:var(--green);font-weight:600">৭৫%</span>
+    </div>
+    <div class="faces"><span>স</span><span>র</span><span>আ</span><span>ম</span><span>ক</span><span class="mo">+৭</span></div>
+    <div class="tiny" style="margin-top:10px;background:var(--mint);border-radius:12px;padding:9px 11px;color:var(--green)">
+      সবার জমা শেষ হলেই লটারিতে ড্র — আগে কেউ বিজয়ী জানেন না।</div>
+  </div>
+
+  <div class="sect"><h4>সাম্প্রতিক লেনদেন</h4><a>সব দেখুন</a></div>
+  <div class="card" style="padding:4px 16px">
+    <div class="tx"><div class="ic">${sv('arrowdown')}</div><div><b>সাধারণ সঞ্চয় জমা</b><div class="tiny">২৮ অক্টোবর · বিকাশ</div></div><div class="v in">+ ৳ ৫,০০০</div></div>
+    <div class="tx"><div class="ic">${sv('users')}</div><div><b>ROSCA কিস্তি ২</b><div class="tiny">২০ অক্টোবর · নগদ</div></div><div class="v in">+ ৳ ২,০০০</div></div>
+    <div class="tx"><div class="ic out">${sv('arrowup')}</div><div><b>কর্জে হাসানা কিস্তি</b><div class="tiny">১৫ অক্টোবর</div></div><div class="v out">− ৳ ১,০০০</div></div>
+  </div>
+</div>
+<button class="fab">${sv('plus')}</button>${nav('home')}`,
+
+savings: () => `${status}<div class="body">
+  <div class="top">
+    <div class="iconbtn">${sv('wallet')}</div>
+    <div style="flex:1"><div class="nm">সঞ্চয় ও জমা</div><div class="sb">রহিমা সঞ্চয় সমিতি</div></div>
+    <div class="iconbtn">${sv('search')}</div>
+  </div>
+
+  <div class="balance">
+    <div class="bl-lab">বর্তমান ব্যালেন্স</div>
+    <div class="amt">৳ ১,২৫,০০০</div>
+    <div class="bl-sub">পাসবই নং ০৪২ · সর্বশেষ হালনাগাদ আজ</div>
+    <div class="bl-cta" style="grid-template-columns:1fr">
+      <button class="btn b-lime">${sv('plus')} জমা দিন</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><small>এই বছর জমা</small><b>৳ ৪৮,০০০</b></div>
+    <div class="stat"><small>মাসিক নির্ধারিত</small><b>৳ ৫,০০০</b></div>
+  </div>
+
+  <div class="card mt">
+    <div class="rowbtw"><b style="font-size:15px">বছরের লক্ষ্য ৳ ৬০,০০০</b><span class="badge bg-g">৮০%</span></div>
+    <div class="bar"><i style="width:80%"></i></div>
+    <div class="tiny" style="margin-top:8px">আর ৳ ১২,০০০ জমা দিলেই লক্ষ্য পূর্ণ 🎯</div>
+  </div>
+
+  <div class="tabs"><button class="on">সব</button><button>জমা</button><button>উত্তোলন</button></div>
+
+  <div class="sect"><h4>লেনদেনের খতিয়ান</h4><a>PDF</a></div>
+  <div class="card" style="padding:4px 16px">
+    <div class="tx"><div class="ic wait">${sv('clock')}</div><div><b>জমা অপেক্ষমাণ</b><div class="tiny">অ্যাডমিন যাচাই করছেন</div></div><div class="v wait">৳ ২,০০০</div></div>
+    <div class="tx"><div class="ic">${sv('arrowdown')}</div><div><b>মাসিক সঞ্চয় জমা</b><div class="tiny">২৮ অক্টোবর · বিকাশ</div></div><div class="v in">+ ৳ ৫,০০০</div></div>
+    <div class="tx"><div class="ic">${sv('arrowdown')}</div><div><b>মাসিক সঞ্চয় জমা</b><div class="tiny">২৮ সেপ্টেম্বর · নগদ</div></div><div class="v in">+ ৳ ৫,০০০</div></div>
+    <div class="tx"><div class="ic">${sv('arrowdown')}</div><div><b>মাসিক সঞ্চয় জমা</b><div class="tiny">২৮ আগস্ট · হাতে হাতে</div></div><div class="v in">+ ৳ ৫,০০০</div></div>
+  </div>
+</div>
+<button class="fab">${sv('plus')}</button>${nav('savings')}`,
+
+rosca: () => `${status}<div class="body">
+  <div class="top">
+    <div class="iconbtn">${sv('users')}</div>
+    <div style="flex:1"><div class="nm">ROSCA গ্রুপ</div><div class="sb">রহিমা গ্রুপ · ১২ জন সদস্য</div></div>
+    <div class="iconbtn">${sv('bell')}</div>
+  </div>
+
+  <div class="balance" style="background:linear-gradient(145deg,#15604E,#0B4A3C 55%,#07332A)">
+    <div class="bl-row"><div class="bl-lab">${sv('gift')} পরবর্তী ড্র</div><span class="chip">রাউন্ড ৩</span></div>
+    <div class="amt" style="font-size:30px">৩ নভেম্বর ২০২৬</div>
+    <div class="bl-sub">বিজয়ী লটারিতে নির্ধারিত হবে — আগে কেউ জানেন না</div>
+    <div style="position:relative;z-index:2;margin-top:14px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:16px;padding:12px">
+      <div class="rowbtw" style="color:#fff;font-size:13px"><span>এই রাউন্ডের কিস্তি</span><b>৯ / ১২</b></div>
+      <div class="bar" style="background:rgba(255,255,255,.2)"><i style="width:75%"></i></div>
+      <div style="font-size:12px;color:rgba(255,255,255,.82);margin-top:8px">৩ জন বাকি · সবার জমার পরই ড্র হবে</div>
+    </div>
+  </div>
+
+  <div class="alert">
+    <div class="ic">${sv('warn')}</div>
+    <div><b>আপনার বকেয়া ৳ ২,০০০</b><small>কিস্তি ৩ · ড্রের আগে জমা দিন</small></div>
+    <button>জমা</button>
+  </div>
+
+  <div class="card mt">
+    <div class="rowbtw"><div><b style="font-size:15px">আপনার অবস্থা</b><div class="tiny">এখনো পাননি · ড্রের জন্য যোগ্য</div></div><span class="badge bg-g">যোগ্য ✓</span></div>
+  </div>
+
+  <div class="tabs"><button class="on">পাননি (৭)</button><button>পেয়েছেন (৫)</button><button>হিস্ট্রি</button></div>
+
+  <div class="card mt" style="padding:6px 16px">
+    <div class="member"><div class="av2">স</div><div><b>সালমা বেগম</b><div class="tiny">ড্র-পুলে আছেন</div></div><span class="badge bg-a">অপেক্ষমাণ</span></div>
+    <div class="member"><div class="av2" style="background:var(--green);color:#fff">ক</div><div><b>আপনি (করিম)</b><div class="tiny">ড্র-পুলে আছেন</div></div><span class="badge bg-a">অপেক্ষমাণ</span></div>
+    <div class="member"><div class="av2">আ</div><div><b>আবুল হোসেন</b><div class="tiny">কিস্তি জমা হয়েছে</div></div><span class="badge bg-g">জমা ✓</span></div>
+    <div class="member"><div class="av2">ম</div><div><b>মরিয়ম আক্তার</b><div class="tiny">কিস্তি বাকি</div></div><span class="badge bg-r">বাকি</span></div>
+    <div class="member"><div class="av2 mo">+৩</div><div><b>আরও ৩ জন</b><div class="tiny">নাম ড্রের পর প্রকাশিত হবে</div></div></div>
+  </div>
+</div>${nav('rosca')}`,
+
+loan: () => `${status}<div class="body">
+  <div class="top">
+    <div class="iconbtn">${sv('hand')}</div>
+    <div style="flex:1"><div class="nm">কর্জে হাসানা</div><div class="sb">সম্পূর্ণ সুদমুক্ত ঋণ সহায়তা</div></div>
+    <div class="iconbtn">${sv('file')}</div>
+  </div>
+
+  <div class="balance" style="background:linear-gradient(145deg,#0E7A5E,#0B6B53 45%,#053B2F)">
+    <div class="bl-row"><div class="bl-lab">চলমান ঋণ</div><span class="chip">সক্রিয়</span></div>
+    <div class="amt">৳ ১০,০০০</div>
+    <div class="bl-sub">বাকি পরিশোধ ৳ ৬,০০০ · ৬ মাস</div>
+    <div style="position:relative;z-index:2;margin-top:12px">
+      <div class="bar" style="background:rgba(255,255,255,.2)"><i style="width:40%"></i></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.82);margin-top:7px">
+        <span>৪০% পরিশোধ হয়েছে</span><span>৪ / ১০ কিস্তি</span></div>
+    </div>
+    <div class="bl-cta"><button class="btn b-lime">${sv('arrowup')} কিস্তি দিন ৳ ১,০০০</button>
+      <button class="btn b-ghost">${sv('plus')} নতুন</button></div>
+  </div>
+
+  <div class="card mt" style="background:linear-gradient(100deg,#F3FBF6,#fff)">
+    <div class="rowbtw"><b style="font-size:15px">পরবর্তী কিস্তি</b><span class="badge bg-g">৭ দিন বাকি</span></div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-top:5px"><div style="font-size:24px;font-weight:700">৳ ১,০০০</div><div class="tiny">· ৫ নভেম্বর ২০২৬</div></div>
+  </div>
+
+  <div class="sect"><h4>আবেদনের অবস্থা</h4><span class="badge bg-a">চলমান</span></div>
+  <div class="card">
+    <div class="rowbtw"><div><b style="font-size:15px">চিকিৎসা খরচের জন্য</b><div class="tiny">আবেদন #১০৪৮ · ২৬ অক্টোবর</div></div><b style="font-size:16px">৳ ১৫,০০০</b></div>
+    <div class="steps">
+      <div class="step done"><i>✓</i><span>জমা</span></div>
+      <div class="step done"><i>✓</i><span>যাচাই</span></div>
+      <div class="step now"><i>৩</i><span>অনুমোদন</span></div>
+      <div class="step"><i>৪</i><span>বিতরণ</span></div>
+      <div class="step"><i>৫</i><span>পরিশোধ</span></div>
+    </div>
+    <div class="tiny" style="margin-top:14px;background:var(--amber-bg);color:var(--amber-ink);border-radius:12px;padding:10px 12px">
+      অ্যাডমিনের সিদ্ধান্তের অপেক্ষায় · সাধারণত ২–৩ দিন লাগে</div>
+  </div>
+
+  <div class="sect"><h4>পরিশোধের ইতিহাস</h4><a>সব</a></div>
+  <div class="card" style="padding:4px 16px">
+    <div class="tx"><div class="ic">${sv('check')}</div><div><b>কিস্তি ৪</b><div class="tiny">৫ অক্টোবর · দেওয়া হয়েছে</div></div><div class="v in">৳ ১,০০০</div></div>
+    <div class="tx"><div class="ic wait">${sv('clock')}</div><div><b>কিস্তি ৫</b><div class="tiny">৫ নভেম্বর · বাকি</div></div><div class="v wait">৳ ১,০০০</div></div>
+    <div class="tx"><div class="ic out">${sv('clock')}</div><div><b>কিস্তি ৬</b><div class="tiny">৫ ডিসেম্বর · আসন্ন</div></div><div class="v out">৳ ১,০০০</div></div>
+  </div>
+</div>${nav('loan')}`,
+
+admin: () => `${status}<div class="body">
+  <div class="top">
+    <div class="av" style="background:linear-gradient(145deg,#2E7D9A,#13435A)">অ</div>
+    <div style="flex:1"><div class="nm">অনুমোদন কিউ</div><div class="sb">রহিমা সঞ্চয় সমিতি · অ্যাডমিন</div></div>
+    <div class="iconbtn">${sv('chart')}</div>
+  </div>
+
+  <div class="balance" style="background:linear-gradient(145deg,#15604E,#0A4336 50%,#06312A)">
+    <div class="bl-row"><div class="bl-lab">${sv('clock')} অনুমোদনের অপেক্ষায়</div><span class="chip">আজ</span></div>
+    <div class="amt">৭ <small>টি কাজ</small></div>
+    <div class="bl-sub">৪টি কর্জে হাসানা · ৩টি জমা যাচাই</div>
+    <div class="bl-cta"><button class="btn b-lime">${sv('check')} দ্রুত অনুমোদন</button>
+      <button class="btn b-ghost">${sv('file')} রিপোর্ট</button></div>
+  </div>
+
+  <div class="tabs"><button class="on">সব ৭</button><button>ঋণ ৪</button><button>জমা ৩</button><button>ড্র</button></div>
+
+  <div class="appr">
+    <div class="rowbtw"><span class="badge bg-g">কর্জে হাসানা · আবেদন</span><span class="badge bg-n">নতুন</span></div>
+    <div style="display:flex;align-items:center;gap:11px;margin-top:11px">
+      <div class="av2" style="width:40px;height:40px;border-radius:13px;background:#E9F2EE;color:var(--green);display:grid;place-items:center;font-weight:600">ক</div>
+      <div style="flex:1"><b style="font-size:15px">করিম উদ্দিন</b><div class="tiny">চিকিৎসা খরচ · ১০ মাসে পরিশোধ</div></div>
+      <b style="font-size:16px">৳ ১৫,০০০</b>
+    </div>
+    <div class="tiny" style="margin-top:10px;background:#F3F7F5;border-radius:11px;padding:9px 11px">সঞ্চয় ৳ ১,২৫,০০০ · আগের ঋণ সময়মতো পরিশোধ ✓</div>
+    <div class="acts"><button class="no">বিস্তারিত</button><button class="ok">অনুমোদন</button></div>
+  </div>
+
+  <div class="appr warn">
+    <div class="rowbtw"><span class="badge bg-a">ROSCA · ড্র প্রস্তুত নয়</span><span class="badge bg-r">যাচাই বাকি</span></div>
+    <div style="margin-top:10px"><b style="font-size:15px">রহিমা গ্রুপ · ৩ নভেম্বর</b>
+      <div class="tiny">৩ জনের কিস্তি বাকি, ড্র চালানো যাবে না</div></div>
+    <div class="bar"><i style="width:75%;background:linear-gradient(90deg,var(--amber),#FFD27D)"></i></div>
+    <div class="acts"><button class="no">বকেয়া দেখুন</button><button class="ok" style="background:var(--amber-ink)">মনে করিয়ে দিন</button></div>
+  </div>
+
+  <div class="appr">
+    <div class="rowbtw"><span class="badge bg-g">জমা যাচাই</span><span class="badge bg-n">বিকাশ</span></div>
+    <div style="display:flex;align-items:center;gap:11px;margin-top:11px">
+      <div class="av2" style="width:40px;height:40px;border-radius:13px;background:#E9F2EE;color:var(--green);display:grid;place-items:center;font-weight:600">স</div>
+      <div style="flex:1"><b style="font-size:15px">সালমা বেগম</b><div class="tiny">TrxID: 9F2KD81 · ২৯ অক্টোবর</div></div>
+      <b style="font-size:16px">৳ ২,০০০</b>
+    </div>
+    <div class="acts"><button class="no">বাতিল</button><button class="ok">মিলেছে ✓</button></div>
+  </div>
+</div>
+<div class="nav">
+  <button class="nv" data-go="home">${sv('chart')}<span>ওভারভিউ</span></button>
+  <button class="nv" data-go="rosca">${sv('users')}<span>সদস্য</span></button>
+  <button class="nv on" data-go="admin">${sv('check')}<span>অনুমোদন</span></button>
+  <button class="nv" data-go="savings">${sv('wallet')}<span>লেনদেন</span></button>
+  <button class="nv" data-go="loan">${sv('grid')}<span>আরও</span></button>
+</div>`
+};
+
+const META = [
+  ['home','হোম ড্যাশবোর্ড','মেম্বার · এক নজরে সব','home'],
+  ['savings','সঞ্চয় ও জমা','মেম্বার · ব্যালেন্স ও খতিয়ান','wallet'],
+  ['rosca','ROSCA গ্রুপ','মেম্বার · স্বচ্ছ ড্র','users'],
+  ['loan','কর্জে হাসানা','মেম্বার · সুদমুক্ত ঋণ','hand'],
+  ['admin','অনুমোদন কিউ','অ্যাডমিন · সিদ্ধান্ত','check']
+];
+
+const live = document.getElementById('live');
+const sws  = document.getElementById('switch');
+
+sws.innerHTML = META.map(([k,t,s,ic],i)=>
+  `<button class="sw ${i===0?'on':''}" data-go="${k}"><i>${sv(ic)}</i><span style="flex:1"><b>${t}</b><small>${s}</small></span></button>`).join('');
+
+function show(k){
+  if(!SCREENS[k]) k='home';
+  live.innerHTML = `<div class="scr">${SCREENS[k]()}</div>`;
+  sws.querySelectorAll('.sw').forEach(b=>b.classList.toggle('on', b.dataset.go===k));
+}
+document.addEventListener('click', e=>{
+  const b = e.target.closest('[data-go]');
+  if(b) show(b.dataset.go);
+});
+show('home');
+
+document.getElementById('grid').innerHTML = META.map(([k,t,s])=>
+  `<div class="gitem"><div class="mini"><div class="holder"><div class="inner">${SCREENS[k]()}</div></div></div>
+   <div class="cap">${t}<small>${s}</small></div></div>`).join('');
+</script>
+<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="a203cd18e6fb32046bde64f1-|49" defer></script></body>
+</html>

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Somobay · Design System — Phase 1 ফাউন্ডেশন</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+.tok{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:11px}
+.tok-i{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
+.tok-i .c{height:54px}
+.tok-i .m{padding:8px 10px}
+.tok-i .m b{font-size:12.6px;display:block;line-height:1.35}
+.tok-i .m i{font-style:normal;font-size:10.8px;color:var(--mut);font-family:ui-monospace,Menlo,monospace;display:block;margin-top:2px}
+.ty{display:flex;align-items:baseline;gap:16px;padding:11px 0;border-bottom:1px solid var(--line-2)}
+.ty:last-child{border-bottom:0}
+.ty .n{width:132px;flex:none;font-size:11.5px;color:var(--mut);font-family:ui-monospace,Menlo,monospace}
+.ty .s{flex:1;min-width:0;color:var(--txt)}
+.ds-stage{scroll-margin-top:90px}
+.tocb{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.tocb button{font-size:12px;padding:6px 11px;border-radius:99px;border:1px solid rgba(255,255,255,.13);
+  background:rgba(255,255,255,.05);color:#B9D4C9;cursor:pointer}
+.tocb button:hover{background:rgba(201,242,110,.16);color:#fff}
+.dodont{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.dodont{grid-template-columns:1fr}}
+.dd{border-radius:14px;padding:14px;border:1.5px solid}
+.dd.good{background:var(--ok-bg);border-color:var(--ok-bd)}
+.dd.bad{background:var(--danger-bg);border-color:var(--danger-bd)}
+.dd h5{font-size:13.5px;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.dd.good h5{color:var(--ok-ink)}.dd.bad h5{color:var(--danger-ink)}
+.dd p,.dd li{font-size:13px;line-height:1.68}
+.dd.good p,.dd.good li{color:var(--ok-ink)}.dd.bad p,.dd.bad li{color:var(--danger-ink)}
+.dd ul{list-style:disc;padding-left:18px}
+</style>
+</head>
+<body class="proto-body">
+
+<div class="switchbar"><div class="in">
+  <div class="sb-logo">স</div>
+  <div class="sb-title">Somobay · Design System<small>Phase 1 — Design Foundation</small></div>
+  <div class="sb-links">
+    <a class="sb-link on" href="system.html">Design System</a>
+    <a class="sb-link" href="screens.html">স্ক্রিন (৬৭)</a>
+    <a class="sb-link" href="flows.html">User Flow (৮)</a>
+    <a class="sb-link" href="screens.html#states">State Gallery</a>
+    <a class="sb-link" href="../specs/00-somobay-savings-module-spec.md">স্পেক</a>
+  </div>
+</div></div>
+
+<div class="pb-wrap">
+  <div class="pb-hero">
+    <span class="kicker">Design Foundation · v0.1</span>
+    <h1>১৪টি প্যাটার্ন ডিজাইন করলে <span>৬৭ পেজের ৮০% কাজ শেষ</span></h1>
+    <p>এই পেজটি Somobay-এর সঞ্চয় মডিউলের ডিজাইন ভিত্তি: টোকেন, টাইপোগ্রাফি, কোর কম্পোনেন্ট, ১৪টি পুনর্ব্যবহৃত প্যাটার্ন এবং সব অবস্থার (Empty · Loading · Error · Permission · Offline) ভাষা।
+    প্রতিটি প্যাটার্নের পাশে লেখা আছে সেটি <b>কতটি পেজে</b> পুনর্ব্যবহৃত হবে — এটিই ডিজাইনের অগ্রাধিকার ঠিক করার যুক্তি।
+    আপনার বিদ্যমান <code style="color:var(--lime)">index.html</code> প্রোটোটাইপের সবুজ-লাইম পরিচয় এখানে বজায় রাখা হয়েছে, কিন্তু অ্যাপের ভেতরটা <b>হালকা থিম</b> — গ্রামীণ ব্যবহারকারীর পঠনযোগ্যতার জন্য।</p>
+    <div class="pb-stats">
+      <div class="pb-stat"><b>১৪</b><i>কোর প্যাটার্ন</i></div>
+      <div class="pb-stat"><b>২৪</b><i>কালার টোকেন</i></div>
+      <div class="pb-stat"><b>৭</b><i>স্টেট টাইপ</i></div>
+      <div class="pb-stat"><b>১৬px</b><i>ন্যূনতম টেক্সট</i></div>
+      <div class="pb-stat"><b>৪৮px</b><i>ন্যূনতম ট্যাপ টার্গেট</i></div>
+      <div class="pb-stat"><b>৮০%</b><i>কভারেজ</i></div>
+    </div>
+    <div class="tocb" id="toc"></div>
+  </div>
+
+  <div id="blocks"></div>
+
+  <div style="margin-top:50px;padding:24px;border-radius:22px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.035)">
+    <h2 style="color:#fff;font-size:20px;margin-bottom:10px">এই ফাউন্ডেশন থেকে পরবর্তী ধাপ</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;font-size:13.6px;color:#A9C8BB;line-height:1.75">
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">১ · স্ক্রিন দেখুন</b> <a href="screens.html" style="color:#fff;border-bottom:1px dashed var(--lime)">screens.html →</a> স্পেকের ৬৭টি পেজ + ROSCA-র ১৮ পেজ + Joint Goal-এর ১৫ পেজ + কর্জে হাসানার ২৫ পেজ = ১২৫ পেজের হাই-ফিডেলিটি UI (MVP ৪১ + Phase 2-এর ১৯ + Phase 3-এর ৭), সব টোকেন ও প্যাটার্ন প্রয়োগ করা অবস্থায়।</div>
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">২ · ডিফল্ট যাচাই করুন</b> ৩৪টি ব্যবসায়িক সিদ্ধান্তের ডিফল্ট <code>specs/02-open-decisions.md</code>-এ লক করা আছে। বদলাতে চাইলে শুধু D-কোড বলুন।</div>
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">৩ · ব্যবহারযোগ্যতা টেস্ট</b> গ্রামীণ ৩–৫ জন ব্যবহারকারীকে P-01 (Amount), P-06 (Eligibility) ও M-06 (জমা) দেখিয়ে বোঝাপড়া যাচাই।</div>
+      <div><b style="color:var(--lime);display:block;margin-bottom:4px">৪ · React রূপান্তর</b> একই টোকেন → CSS variables, ১৪টি প্যাটার্ন → ১৪টি কম্পোনেন্ট, mock লেজারে আসল ব্যালেন্স হিসাব।</div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/app.js" type="9bdbc80fb549c8a938256dbf-text/javascript"></script>
+<script type="9bdbc80fb549c8a938256dbf-text/javascript">
+const B = [];
+const block = (id, num, title, code, desc, stageHtml, note) => B.push({ id, num, title, code, desc, stageHtml, note });
+
+/* ---------- 0. Tokens ---------- */
+const SW = (name, varn, hex, cls) => `<div class="tok-i"><div class="c" style="background:${hex}"></div>
+  <div class="m"><b>${name}</b><i>${varn}</i><i>${hex}</i></div></div>`;
+
+block('tokens', '০', 'কালার টোকেন', 'DESIGN TOKENS',
+  'সবুজ = আস্থা ও সমবায়ের পরিচয়; লাইম = অ্যাকশন ও ইতিবাচকতা। <b>প্রতিটি অবস্থার জন্য রঙ + আইকন + লেবেল তিনটিই ব্যবহার করা হয়</b> — কখনোই শুধু রঙ নয় (বর্ণান্ধ ব্যবহারকারীর জন্য)। অ্যাপের ভেতরে হালকা থিম: গ্রামীণ পরিবেশে উজ্জ্বল আলোয় পড়ার জন্য উচ্চ কনট্রাস্ট দরকার।',
+  `<div class="ds-stage">
+    <div class="fs-sm sb mb-12" style="color:var(--txt-2)">ব্র্যান্ড</div>
+    <div class="tok mb-16">
+      ${SW('Green 900','--green-900','#04231A')}${SW('Green 800','--green-800','#064437')}
+      ${SW('Green 700 · primary','--green-700','#0B6B53')}${SW('Green 500 · accent','--green-500','#12A273')}
+      ${SW('Green 100 · tint','--green-100','#E6F7EF')}${SW('Lime · CTA','--lime','#C9F26E')}
+    </div>
+    <div class="fs-sm sb mb-12" style="color:var(--txt-2)">অবস্থা (Status) — প্রতিটিতে bg / border / ink তিনটি টোকেন</div>
+    <div class="tok mb-16">
+      ${SW('সফল · Posted/Active','--ok-bg','#E4F6EC')}${SW('সতর্ক · Pending/Due','--warn-bg','#FFF4DE')}
+      ${SW('ঝুঁকি · Rejected/Overdue','--danger-bg','#FDECEA')}${SW('তথ্য · Under review','--info-bg','#E8F1FB')}
+      ${SW('নিষ্ক্রিয় · Closed','--neutral-bg','#EEF2F0')}${SW('বিশেষ · Matured/Reversed','--purple-bg','#F0EBFC')}
+    </div>
+    <div class="fs-sm sb mb-12" style="color:var(--txt-2)">পৃষ্ঠতল ও রেখা</div>
+    <div class="tok">
+      ${SW('Paper (পটভূমি)','--paper','#F4F7F5')}${SW('Card','--card','#FFFFFF')}
+      ${SW('Line','--line','#E2EAE6')}${SW('Text','--txt','#0E211A')}
+      ${SW('Muted','--mut','#63796F')}${SW('Muted 2','--mut-2','#8AA096')}
+    </div>
+  </div>`,
+  '<b>কনট্রাস্ট যাচাই:</b> --txt on --paper = 15.1:1 ✓ · --mut on --card = 5.4:1 ✓ · সব status ink on bg ≥ 4.8:1 ✓ (WCAG AA পাস, AAA কাছাকাছি)');
+
+/* ---------- 0.5 Typography ---------- */
+block('type', '০.৫', 'বাংলা টাইপোগ্রাফি স্কেল', 'HIND SILIGURI',
+  'টার্গেট ব্যবহারকারী ১৮–৫০, গ্রামীণ + শহুরে — পঠনযোগ্যতা সবার আগে। তাই <b>ন্যূনতম বডি টেক্সট ১৬px</b> (১৪px নয়) এবং টাকার অঙ্ক ৩৪–৪০px। লাইন-হাইট ১.৬২ — বাংলা যুক্তাক্ষর ও মাত্রার জন্য ইংরেজির চেয়ে বেশি উল্লম্ব জায়গা লাগে।',
+  `<div class="ds-stage">
+    <div class="ty"><span class="n">--fs-display · 40/700</span><span class="s" style="font-size:40px;font-weight:700;letter-spacing:-.5px">৳১,৫৪,৬৫,০০০</span></div>
+    <div class="ty"><span class="n">--fs-hero · 34/700</span><span class="s amt amt-hero">৳১২,৫০০</span></div>
+    <div class="ty"><span class="n">--fs-h1 · 26/700</span><span class="s" style="font-size:26px;font-weight:700">আমার সঞ্চয় অ্যাকাউন্ট</span></div>
+    <div class="ty"><span class="n">--fs-h2 · 21/700</span><span class="s" style="font-size:21px;font-weight:700">মাসিক সাধারণ সঞ্চয়</span></div>
+    <div class="ty"><span class="n">--fs-h3 · 18/600</span><span class="s" style="font-size:18px;font-weight:600">টাকার হিসাব — ধাপে ধাপে</span></div>
+    <div class="ty"><span class="n">--fs-body-l · 17/400</span><span class="s" style="font-size:17px">প্রতি মাসের ১০ তারিখে ৳১,০০০ করে জমা দিতে হবে। গ্র্যাজ পিরিয়ড ৭ দিন।</span></div>
+    <div class="ty"><span class="n">--fs-body · 16/400</span><span class="s" style="font-size:16px">সর্বনিম্ন ব্যালেন্স ৳৫০০ রাখতে হবে, তাই এখন তোলা যাবে ৳১২,০০০।</span></div>
+    <div class="ty"><span class="n">--fs-sm · 14/400</span><span class="s" style="font-size:14px;color:var(--mut)">সহায়ক তথ্য, মেটাডেটা, টাইমস্ট্যাম্প — মূল বিষয়বস্তুতে ১৪px-এর নিচে ব্যবহার নিষেধ।</span></div>
+    <div class="ty"><span class="n">--fs-xs · 12/500</span><span class="s" style="font-size:12px;color:var(--mut-2)">শুধু চিপ/ব্যাজ/লেবেলে — বাক্য লেখা যাবে না</span></div>
+  </div>`,
+  '<b>নিয়ম:</b> সংখ্যা সবসময় <span class="code">font-variant-numeric: tabular-nums</span> — যাতে তালিকায় অঙ্কগুলো উল্লম্বভাবে মেলে।');
+
+/* ---------- 1. Amount Display ---------- */
+block('p1', '১', 'Amount Display — টাকা প্রদর্শন', 'P-01 · ~৩০ পেজে reuse',
+  'পুরো অ্যাপের সবচেয়ে গুরুত্বপূর্ণ কম্পোনেন্ট। নিয়ম: <b>বাংলা সংখ্যা প্রধান</b>, ইংরেজি সংখ্যা ছোট করে পাশে (ব্যাংক/সরকারি কাজে লাগে), এবং রসিদে <b>কথায়</b> লেখা। দিক (+/−) রঙ ও চিহ্ন দুটো দিয়েই বোঝানো হয়।',
+  `<div class="ds-stage">
+    <div class="ds-grid mb-16">
+      <div class="card pad"><div class="fs-xs mut">Hero (ব্যালেন্স)</div>
+        <div class="amt amt-hero">৳১২,৫০০</div><div class="amt-alt">Tk 12,500</div></div>
+      <div class="card pad"><div class="fs-xs mut">H1 (কার্ড)</div>
+        <div class="amt amt-h1">৳৩৬,০০০</div><div class="amt-alt">Tk 36,000</div></div>
+      <div class="card pad"><div class="fs-xs mut">Body (তালিকা)</div>
+        <div class="amt amt-body amt-pos">+৳১,০০০</div><div class="amt-alt">Tk 1,000</div></div>
+      <div class="card pad"><div class="fs-xs mut">কর্তন (negative)</div>
+        <div class="amt amt-body amt-neg">−৳৫,০০০</div><div class="amt-alt">Tk 5,000</div></div>
+      <div class="card pad"><div class="fs-xs mut">নিষ্ক্রিয়/লুকানো</div>
+        <div class="amt amt-body amt-mut">৳•••••</div><div class="amt-alt">দেখাতে ট্যাপ করুন</div></div>
+      <div class="card pad"><div class="fs-xs mut">রসিদে কথায়</div>
+        <div class="amt amt-h2">৳১,০০০</div><div class="amt-words">এক হাজার টাকা মাত্র</div></div>
+    </div>
+    <div class="dodont">
+      <div class="dd good"><h5>${ic('checkc','sm')} করণীয়</h5><ul>
+        <li>বাংলা সংখ্যা প্রধান, ইংরেজি সহায়ক — দুটোই একসাথে</li>
+        <li>টাকার অঙ্কে <span class="code">tabular-nums</span> ব্যবহার</li>
+        <li>রসিদ ও নিষ্পত্তিতে অঙ্ক কথায় লেখা</li>
+        <li>লক্ষ/হাজারের ভারতীয় গ্রুপিং (১,৫৪,৬৫,০০০)</li></ul></div>
+      <div class="dd bad"><h5>${ic('xc','sm')} বর্জনীয়</h5><ul>
+        <li>শুধু ইংরেজি সংখ্যা (গ্রামীণ ব্যবহারকারীর জন্য বাধা)</li>
+        <li>দশমিকের পর অপ্রয়োজনীয় শূন্য (৳১,০০০.০০ → ৳১,০০০)</li>
+        <li>ঋণাত্মক অঙ্ক শুধু লাল রঙে দেখানো (চিহ্ন − ও দিতে হবে)</li>
+        <li>ভাসমান সংখ্যার হিসাব — সব অঙ্ক পয়সা-পূর্ণসংখ্যায়</li></ul></div>
+    </div>
+  </div>`,
+  '<b>কোড:</b> <span class="code">tk(paisa)</span> ও <span class="code">words(paisa)</span> ফাংশন <span class="code">assets/app.js</span>-এ — সব স্ক্রিন এটিই ব্যবহার করে, হার্ডকোড টেক্সট নয়।');
+
+/* ---------- 2. Transaction Row ---------- */
+block('p2', '২', 'Transaction Row — লেনদেন সারি', 'P-02 · ~১২ পেজে reuse',
+  'জমা/উত্তোলন/ফি/সংশোধন — সব লেনদেনের একই গঠন। বাঁয়ে ধরন-আইকন, মাঝে শিরোনাম + মেটা + স্ট্যাটাস, ডানে অঙ্ক ও ইংরেজি সহায়ক সংখ্যা। মোবাইলে কার্ড-তালিকা, ডেস্কটপে একই ডেটা টেবিলে — <b>দ্বৈত রেন্ডার, একই কম্পোনেন্ট</b>।',
+  `<div class="ds-stage">
+    <div class="card mb-16" style="overflow:hidden;max-width:520px">
+      ${txRow({ accId:'a1', type:'deposit', amount:100000, date:'2026-10-10', channel:'cash_field', status:'posted', by:'রাজু আহমেদ', receipt:'RCP-2627-1418' })}
+      ${txRow({ accId:'a1', type:'deposit', amount:30000, date:'2026-10-29', channel:'bkash', status:'pending', by:'সদস্য (নিজে)' })}
+      ${txRow({ accId:'a1', type:'withdrawal', amount:100000, date:'2026-06-22', channel:'bkash', status:'posted', by:'মোঃ আব্দুল্লাহ' })}
+      ${txRow({ accId:'a4', type:'reversal', amount:100000, date:'2026-09-16', channel:'cash_office', status:'reversed', by:'সুমি রানী' })}
+      ${txRow({ accId:'a1', type:'fee', amount:5000, date:'2026-07-01', channel:'cash_office', status:'posted', by:'সিস্টেম (বার্ষিক ফি)' })}
+    </div>
+    <div class="fs-xs mut mb-16">↑ একই ডেটা, ডেস্কটপ টেবিল রূপ ↓</div>
+    <div class="tbl-wrap"><div class="tbl-scroll"><table class="tbl"><thead><tr>
+      <th>তারিখ</th><th>বিবরণ</th><th>মাধ্যম</th><th class="num">পরিমাণ</th><th>অবস্থা</th></tr></thead><tbody>
+      <tr><td>${dshort('2026-10-10')}</td><td><b>সঞ্চয় জমা</b><div class="fs-xs mut">কিস্তি ২০ · রাজু আহমেদ</div></td>
+        <td>মাঠ সংগ্রহ</td><td class="num amt-pos">+${tk(100000)}</td><td>${CHIP(DEP_STATUS,'posted')}</td></tr>
+      <tr><td>${dshort('2026-10-29')}</td><td><b>সঞ্চয় জমা</b><div class="fs-xs mut">বিকাশ · যাচাই বাকি</div></td>
+        <td>বিকাশ</td><td class="num amt-mut">+${tk(30000)}</td><td>${CHIP(DEP_STATUS,'pending')}</td></tr>
+      <tr style="background:var(--purple-bg)"><td>${dshort('2026-09-16')}</td><td><b>সংশোধন</b><div class="fs-xs mut" style="color:var(--purple-ink)">RCP-2627-1301 বাতিল</div></td>
+        <td>অফিস</td><td class="num amt-neg">−${tk(100000)}</td><td>${CHIP(DEP_STATUS,'reversed')}</td></tr>
+    </tbody></table></div></div>
+  </div>`,
+  '<b>স্বচ্ছতার নীতি:</b> সংশোধিত (Reversed) এন্ট্রি কখনো লুকানো হয় না — মূল ও উল্টো এন্ট্রি দুটোই দেখানো হয় (নীতি R-02)।');
+
+/* ---------- 3. Status Chip ---------- */
+block('p3', '৩', 'Status Chip — অবস্থার চিপ', 'P-03 · ~৪০ পেজে reuse',
+  '৫টি state machine-এর (স্কিম · সদস্য · অ্যাকাউন্ট · জমা · উত্তোলন) সব অবস্থার একক ভাষা। <b>রঙ + আইকন + লেবেল</b> — তিনটিই। শুধু রঙ ব্যবহার করা নিষেধ।',
+  `<div class="ds-stage">
+    <div class="fs-sm sb mb-8">সদস্যের অ্যাকাউন্ট</div>
+    <div class="ds-row mb-16">${Object.entries(ACC_STATUS).map(([k,v])=>CHIP(ACC_STATUS,k)).join('')}</div>
+    <div class="fs-sm sb mb-8">সদস্য</div>
+    <div class="ds-row mb-16">${Object.entries(MEM_STATUS).map(([k,v])=>CHIP(MEM_STATUS,k)).join('')}</div>
+    <div class="fs-sm sb mb-8">জমা</div>
+    <div class="ds-row mb-16">${Object.entries(DEP_STATUS).map(([k,v])=>CHIP(DEP_STATUS,k)).join('')}</div>
+    <div class="fs-sm sb mb-8">উত্তোলন</div>
+    <div class="ds-row mb-16">${Object.entries(WD_STATUS).map(([k,v])=>CHIP(WD_STATUS,k)).join('')}</div>
+    <div class="fs-sm sb mb-8">স্কিম</div>
+    <div class="ds-row mb-16">${Object.entries(SCH_STATUS).map(([k,v])=>CHIP(SCH_STATUS,k)).join('')}</div>
+    <div class="fs-sm sb mb-8">আকার</div>
+    <div class="ds-row">${CHIP(ACC_STATUS,'active')} <span class="chip chip-ok chip-lg">${ic('checkc')} বড় সংস্করণ</span>
+      <span class="chip chip-warn" style="font-size:11px;padding:2px 8px">ছোট (টেবিল)</span></div>
+  </div>`,
+  '<b>রঙের অর্থ স্থির:</b> সবুজ=সম্পন্ন/সক্রিয় · হলুদ=অপেক্ষা/সময়সীমা · লাল=ব্যর্থ/ঝুঁকি · নীল=প্রক্রিয়াধীন · ধূসর=বন্ধ/নিষ্ক্রিয় · বেগুনি=বিশেষ (মেয়াদ পূর্ণ/সংশোধিত)।');
+
+/* ---------- 4. Account Card ---------- */
+block('p4', '৪', 'Account Card — অ্যাকাউন্ট কার্ড', 'P-04 · ~৬ পেজে reuse',
+  'M-04-এর মূল একক। একটি কার্ডেই ব্যালেন্স, তোলা যাবে, অবস্থা, অগ্রগতি ও দ্রুত অ্যাকশন। অবস্থা অনুযায়ী কার্ডের চেহারা বদলায় — ফ্রিজ হলে লাল ব্যানার ও কারণ, মেয়াদ পূর্ণ হলে সবুজ ব্যানার।',
+  `<div class="ds-stage">
+    <div class="ds-grid" style="grid-template-columns:repeat(auto-fill,minmax(330px,1fr))">
+      ${accCard(acc('a1'))}${accCard(acc('a5'))}${accCard(acc('a6'))}
+    </div>
+  </div>`,
+  '<b>মূল নীতি:</b> অ্যাকশন বাটন নিষ্ক্রিয় হলে <b>কারণ দেখাতেই হবে</b> — শুধু ধূসর বাটন দেখালে সদস্যের আস্থা নষ্ট হয়।');
+
+/* ---------- 5. Balance Breakdown ---------- */
+block('p5', '৫', 'Balance Breakdown — ব্যালেন্সের হিসাব ভাঙন', 'P-05 · ~৫ পেজে reuse',
+  'Somobay-এর <b>সবচেয়ে গুরুত্বপূর্ণ আবিষ্কারমূলক প্যাটার্ন</b>। "আমার ৳১২,৫০০ আছে, কিন্তু তুলতে পারছি ৳১২,০০০ — কেন?" এই প্রশ্নের ধাপে ধাপে উত্তর। M-05, M-10, M-15, A-13, A-23 — পাঁচটি পেজে একই কম্পোনেন্ট।',
+  `<div class="ds-stage">
+    <div class="ds-grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+      <div><div class="fs-sm sb mb-8">সাধারণ অবস্থা (M-05 / M-10)</div>
+        <div class="brk">${brkRow('অ্যাকাউন্টে আছে (Posted)','২০টি কিস্তি জমা',tk(1250000))}
+          ${brkRow('যাচাইয়ের অপেক্ষায়','এখনো ব্যালেন্সে যোগ হয়নি','+'+tk(30000),'sub','বিকাশ ৳৩০০')}
+          ${brkRow('বিয়োগ: আটক (Hold)','চলমান আবেদন নেই','−'+tk(0),'sub')}
+          ${brkRow('বিয়োগ: সর্বনিম্ন ব্যালেন্স','স্কিমের নিয়ম · D-02','−'+tk(50000),'sub','অ্যাকাউন্ট সচল রাখতে')}
+          ${brkRow('এখন তোলা যাবে','',tk(1200000),'total')}</div></div>
+      <div><div class="fs-sm sb mb-8">লক-ইনসহ (মেয়াদি স্কিম · M-10)</div>
+        <div class="brk">${brkRow('অ্যাকাউন্টে আছে (Posted)','৩টি কিস্তি জমা',tk(420000))}
+          ${brkRow('বিয়োগ: লক-ইন','৬ মাস পূর্ণ হয়নি · D-06','−'+tk(420000),'sub','২১ জানুয়ারি ২০২৭ পর্যন্ত')}
+          ${brkRow('বিয়োগ: সর্বনিম্ন ব্যালেন্স','',  '−'+tk(500000),'sub')}
+          ${brkRow('এখন তোলা যাবে','লক-ইন শেষ হলে ৳৩৭,০০০',tk(0),'total')}</div>
+        <div class="alert alert-warn mt-12">${ic('lock')}<div><b>লক-ইন শেষ হবে ${dstr('2027-01-21')}</b> আর ${bn(83)} দিন বাকি। জরুরি প্রয়োজনে fast-track আবেদন করা যায় (D-25)।</div></div></div>
+      <div><div class="fs-sm sb mb-8">ফ্রিজ করা অ্যাকাউন্ট (M-04/A-13)</div>
+        <div class="brk">${brkRow('অ্যাকাউন্টে আছে (Posted)','৭২টি কিস্তি জমা',tk(360000))}
+          ${brkRow('বিয়োগ: ফ্রিজ','উত্তোলন স্থগিত','−'+tk(360000),'sub','কমিটির সিদ্ধান্ত ২০২৬/১৪')}
+          ${brkRow('এখন তোলা যাবে','জমা দেওয়া যাবে (D-20)',tk(0),'total')}</div>
+        <div class="alert alert-danger mt-12">${ic('freeze')}<div><b>উত্তোলন স্থগিত</b> ${acc('a6').frozenReason}<br>
+          <span class="fs-xs">করেছেন: ${acc('a6').frozenBy} · ${dstr(acc('a6').frozenAt)}</span></div></div></div>
+    </div>
+  </div>`,
+  '<b>এই প্যাটার্ন কেন জরুরি:</b> সমবায়ে অবিশ্বাসের প্রধান কারণ "হিসাব বুঝি না"। প্রতিটি কর্তনের পাশে <span class="code">?</span> আইকনে কারণ থাকায় সদস্য নিজেই উত্তর পেয়ে যান — অফিসে ফোন করার দরকার হয় না।');
+
+/* ---------- 6. Approval Queue ---------- */
+block('p6', '৬', 'Approval Queue + Bulk Select — অনুমোদন কিউ', 'P-06 · ~৮ পেজে reuse',
+  'A-11, A-20, A-22, A-30, A-31 — সব কিউ-এর একই গঠন: ফিল্টার বার → বাল্ক সিলেক্ট → সারি → অ্যাকশন → সামারি ফুটার। <b>maker ≠ checker</b> নীতি UI স্তরেই প্রয়োগ হয় (নিজের এন্ট্রিতে অনুমোদন বাটন নিষ্ক্রিয় + কারণ)।',
+  `<div class="ds-stage">
+    <div class="tbl-wrap">
+      <div class="tbl-tools">
+        <div class="searchbox" style="min-width:230px;flex:1;max-width:330px">${ic('search','sm')}<input placeholder="রসিদ নং বা রেফারেন্স…"></div>
+        <button class="chip-btn on">সব মাধ্যম</button><button class="chip-btn">বিকাশ</button><button class="chip-btn">ব্যাংক</button>
+        <button class="chip-btn" style="border-color:var(--danger-bd);color:var(--danger-ink)">SLA অতিক্রম (${bn(1)})</button>
+      </div>
+      <div class="alert alert-info" style="border-radius:0;border-width:0 0 1px 0">${ic('info')}
+        <div>২টি নির্বাচিত — <b>বাল্ক অ্যাকশন:</b></div>
+        <div class="btn-row mt-8"><button class="btn btn-soft btn-sm">${ic('check','sm')} অনুমোদন</button>
+          <button class="btn btn-danger btn-sm">${ic('x','sm')} প্রত্যাখ্যান</button>
+          <button class="btn btn-ghost btn-sm">${ic('download','sm')} এক্সপোর্ট</button></div></div>
+      <div class="tbl-scroll"><table class="tbl"><thead><tr>
+        <th style="width:34px"><button class="chk">${ic('check')}</button></th>
+        <th>রসিদ</th><th>সদস্য</th><th class="num">পরিমাণ</th><th>মাধ্যম</th><th>প্রমাণ</th><th>অপেক্ষা</th><th>অ্যাকশন</th></tr></thead>
+        <tbody>
+          <tr><td><button class="chk on">${ic('check')}</button></td><td><b>RCP-2627-1522</b></td>
+            <td><div class="who"><div class="avatar sm">র</div><div><b>রহিমা বেগম</b><i>RSS-2627-0087</i></div></div></td>
+            <td class="num">${tk(500000)}</td><td>বিকাশ</td><td><span class="chip chip-ok">${ic('cam')}আছে</span></td>
+            <td><span class="chip chip-warn">${bn(16)} ঘণ্টা</span></td>
+            <td><div class="btn-row" style="gap:6px"><button class="btn btn-soft btn-sm">${ic('check','sm')} অনুমোদন</button><button class="btn btn-danger btn-sm">${ic('x','sm')}</button></div></td></tr>
+          <tr style="background:var(--danger-bg)"><td><button class="chk">${ic('check')}</button></td><td><b>RCP-2627-1525</b></td>
+            <td><div class="who"><div class="avatar sm">ন</div><div><b>নুরুজ্জামান</b><i>RSS-2627-0119</i></div></div></td>
+            <td class="num">${tk(100000)}</td><td>মাঠ সংগ্রহ</td><td><span class="chip chip-danger">${ic('warn')}নেই</span></td>
+            <td><span class="chip chip-danger">${bn(78)} ঘণ্টা</span></td>
+            <td><div class="btn-row" style="gap:6px"><button class="btn btn-ghost btn-sm dis" title="আপনি নিজে রেকর্ড করেছেন">${ic('lock','sm')} অনুমোদন</button>
+              <button class="btn btn-ghost btn-sm">${ic('cam','sm')} ছবি চান</button></div></td></tr>
+          <tr><td><button class="chk on">${ic('check')}</button></td><td><b>RCP-2627-1523</b></td>
+            <td><div class="who"><div class="avatar sm">নু</div><div><b>নুসরাত জাহান</b><i>RSS-2627-0201</i></div></div></td>
+            <td class="num">${tk(200000)}</td><td>নগদ (ওয়ালেট)</td><td><span class="chip chip-ok">${ic('cam')}আছে</span></td>
+            <td><span class="chip chip-ok">${bn(3)} ঘণ্টা</span></td>
+            <td><div class="btn-row" style="gap:6px"><button class="btn btn-soft btn-sm">${ic('check','sm')} অনুমোদন</button><button class="btn btn-danger btn-sm">${ic('x','sm')}</button></div></td></tr>
+        </tbody></table></div>
+      <div class="tbl-sum"><div><i>নির্বাচিত ২টি</i><b>${tk(700000)}</b></div>
+        <div><i>মোট ঝুলন্ত</i><b>${tk(850000)}</b></div>
+        <div><i>অনুমোদনের পর ব্যালেন্স প্রভাব</i><b style="color:var(--ok-ink)">+${tk(700000)}</b></div></div>
+    </div>
+  </div>`,
+  '<b>SLA রঙ:</b> ≤২৪ ঘণ্টা সবুজ · ২৪–৪৮ হলুদ · >৪৮ লাল (এসকেলেশন তৈরি)।');
+
+/* ---------- 7. Timeline ---------- */
+block('p7', '৭', 'Timeline / Status History — অবস্থার ইতিহাস', 'P-07 · ~৭ পেজে reuse',
+  'M-12, M-15, A-21, A-23, A-26, A-14, A-12 — যেকোনো প্রক্রিয়ার অগ্রগতি দেখানোর একক ভাষা। সম্পন্ন ধাপ সবুজ, চলমান হলুদ (স্পন্দনসহ), ব্যর্থ লাল, বাকি ধূসর।',
+  `<div class="ds-stage"><div class="ds-grid" style="grid-template-columns:repeat(auto-fit,minmax(330px,1fr))">
+    <div class="card pad"><div class="fs-sm sb mb-12">উত্তোলন আবেদন — চলমান (M-12)</div>
+      <div class="tl">
+        <div class="tl-i done"><b>আবেদন জমা হয়েছে</b><i>আজ · সকাল ৮:৪২ · OTP যাচাই ✓</i><div class="who">আপনি (সদস্য)</div></div>
+        <div class="tl-i cur"><b>পর্যালোচনায় — ম্যানেজার</b><i>${bn(5)} ঘণ্টা ধরে অপেক্ষমাণ</i><div class="who">মোঃ আব্দুল্লাহ · সীমা ${tk(5000000)}</div></div>
+        <div class="tl-i"><b>অনুমোদন</b><i>প্রত্যাশিত: আজ বা আগামীকাল</i></div>
+        <div class="tl-i"><b>নোটিশ পিরিয়ড শেষ</b><i>${dstr('2026-11-06')} · ৭ দিন (D-02)</i></div>
+        <div class="tl-i"><b>টাকা পাঠানো হবে</b><i>${dstr('2026-11-07')} · বিকাশ</i></div>
+      </div></div>
+    <div class="card pad"><div class="fs-sm sb mb-12">জমা — প্রত্যাখ্যাত (A-21)</div>
+      <div class="tl">
+        <div class="tl-i done"><b>রেকর্ড হয়েছে</b><i>${dstr('2026-10-18')} · সংগ্রহক</i></div>
+        <div class="tl-i done"><b>যাচাই কিউতে</b><i>${dstr('2026-10-18')}</i></div>
+        <div class="tl-i bad"><b>প্রত্যাখ্যাত</b><i>কারণ: লক-ইন মেয়াদ শেষ হয়নি</i><div class="who">মোঃ আব্দুল্লাহ · ${dstr('2026-10-19')}</div></div>
+      </div></div>
+    <div class="card pad"><div class="fs-sm sb mb-12">লেনদেন অডিট ট্রেইল (A-26)</div>
+      <div class="tl">
+        <div class="tl-i done"><b>সংগ্রহক রেকর্ড করেছেন</b><i>${dstr('2026-10-10')} · দুপুর ১২:৪০ · অফলাইন থেকে sync</i></div>
+        <div class="tl-i done"><b>স্বয়ংক্রিয় পোস্টিং</b><i>নগদ জমা → আলাদা অনুমোদন লাগেনি</i></div>
+        <div class="tl-i done"><b>রসিদ + SMS</b><i>RCP-2627-1418 · ডেলিভার্ড ✓</i></div>
+        <div class="tl-i done"><b>দিন সমাপ্তিতে অন্তর্ভুক্ত</b><i>ক্যাশ বুক লাইন ১৭</i></div>
+      </div></div>
+  </div></div>`,
+  '<b>নিয়ম:</b> প্রতিটি ধাপে <b>কে</b> ও <b>কখন</b> থাকতেই হবে — শুধু অবস্থা লিখলে জবাবদিহি থাকে না।');
+
+/* ---------- 8. Receipt ---------- */
+block('p8', '৮', 'Receipt / Voucher Template — রসিদ', 'P-08 · ~৭ পেজে reuse',
+  'গ্রামীণ ব্যবহারকারীর কাছে <b>কাগজের রসিদই বিশ্বাসের প্রমাণ</b>। তাই ডিজিটাল রসিদও পরিচিত ফরম্যাটে: সমিতির নাম ও নিবন্ধন নং, বড় অঙ্ক, কথায়, বিবরণ, ভেরিফিকেশন কোড + QR। প্রিন্ট-বান্ধব (সাদা পটভূমি, ড্যাশড বর্ডার)।',
+  `<div class="ds-stage"><div class="ds-grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+    ${receiptBlock({ title:'সঞ্চয় জমা গ্রহণ করা হয়েছে', amount:100000, code:'RSS-1418-7Q2X', rows:[
+      ['রসিদ নং','RCP-2627-1418'],['তারিখ ও সময়', dstr('2026-10-10')+' · '+bn('12:40')],
+      ['সদস্য','আব্দুল করিম · RSS-2627-0042'],['অ্যাকাউন্ট','RSS-2627-0042-MS'],
+      ['মাধ্যম','মাঠ সংগ্রহ (নগদ)'],['সংগ্রহক','রাজু আহমেদ · C-07'],
+      ['জমার পর ব্যালেন্স', tk(1250000)]]})}
+    ${receiptBlock({ title:'উত্তোলন ভাউচার', amount:2500000, code:'RSS-W211-8T3R', rows:[
+      ['ভাউচার নং','WVC-2627-0211'],['আবেদন নং','WR-2627-0211'],
+      ['সদস্য','শাহানারা খাতুন · RSS-2627-0056'],['মাধ্যম','ব্যাংক ট্রান্সফার'],
+      ['উত্তোলন ফি', tk(2000)],['নেট প্রদান', tk(2498000)],
+      ['অনুমোদন','কাজী নুরুন্নবী (APPROVER)']], foot:'এই ভাউচার প্রদানের চূড়ান্ত প্রমাণ। কোনো সুদ বা মুনাফা কর্তন করা হয়নি।'})}
+  </div></div>`,
+  '<b>গোপনীয়তা:</b> প্রকাশ্য যাচাই পেজে (S-07) রসিদের <b>সীমিত</b> তথ্য দেখানো হবে — সম্পূর্ণ সদস্য তথ্য নয় (ডেটা ন্যূনতমকরণ)।');
+
+/* ---------- 9. Member Identity ---------- */
+block('p9', '৯', 'Member Identity Card — সদস্য পরিচয়', 'P-09 · ~১০ পেজে reuse',
+  'ভুল মানুষের অ্যাকাউন্টে টাকা ঢোকা প্রতিরোধের প্রধান হাতিয়ার: <b>ছবি + নাম + সদস্য নং</b> সবসময় একসাথে। A-17-এ জমা রেকর্ডের সময় ছবি মিলিয়ে নেওয়া বাধ্যতামূলক ধাপ।',
+  `<div class="ds-stage"><div class="ds-grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+    <div class="card pad"><div class="hrow" style="gap:13px">
+      <div class="avatar lg">র</div><div class="grow">
+        <div class="hrow wrap" style="gap:8px"><b style="font-size:19px">রহিমা বেগম</b>${CHIP(MEM_STATUS,'active')}</div>
+        <div class="fs-sm mut mt-4">RSS-2627-0087 · স্বামী: আব্দুল জলিল</div>
+        <div class="fs-sm mut">${ic('home','sm')} গৌরীঘোনা, ত্রিমোহনী · ${ic('phone','sm')} 01822-334455</div>
+        <div class="fs-xs mt-8"><span class="chip chip-ok">${ic('shield')}KYC যাচাইকৃত</span> <span class="chip chip-ok">${ic('check')}বকেয়া নেই</span></div>
+      </div></div></div>
+    <div class="card pad"><div class="hrow" style="gap:13px">
+      <div class="avatar lg" style="background:linear-gradient(145deg,#FFE1DD,#F6B9B2)">ন</div><div class="grow">
+        <div class="hrow wrap" style="gap:8px"><b style="font-size:19px">নুরুজ্জামান</b>${CHIP(MEM_STATUS,'active')}</div>
+        <div class="fs-sm mut mt-4">RSS-2627-0119 · পিতা: মোঃ ইদ্রিস</div>
+        <div class="fs-sm mut">${ic('home','sm')} বিদ্যানন্দকাঠি · ${ic('phone','sm')} 01933-778811</div>
+        <div class="fs-xs mt-8"><span class="chip chip-warn">${ic('warn')}KYC বাকি</span> <span class="chip chip-danger">${ic('warn')}বকেয়া ${tk(154000)}</span></div>
+      </div></div></div>
+    <div class="card pad"><div class="hrow" style="gap:13px">
+      <div class="avatar lg" style="background:linear-gradient(145deg,#EDE6FB,#CFC0F0)">আ</div><div class="grow">
+        <div class="hrow wrap" style="gap:8px"><b style="font-size:19px">মৃত আব্দুর রহমান</b>${CHIP(MEM_STATUS,'deceased')}</div>
+        <div class="fs-sm mut mt-4">RSS-2627-0009 · দাবি চলমান</div>
+        <div class="fs-sm mut">${ic('user','sm')} নমিনি: ফাতেমা খাতুন (স্ত্রী)</div>
+        <div class="fs-xs mt-8"><span class="chip chip-purple">${ic('heart')}মৃত্যু দাবি · A-14</span></div>
+      </div></div></div>
+    <div class="card pad" style="border-color:var(--line-3)"><div class="fs-xs mut mb-8">কমপ্যাক্ট রূপ (টেবিল সারি)</div>
+      <div class="who" style="display:flex;gap:10px;align-items:center"><div class="avatar sm">শ</div>
+        <div><b style="font-size:14px;display:block">শাহানারা খাতুন</b><i style="font-style:normal;color:var(--mut);font-size:12px">RSS-2627-0056</i></div></div></div>
+  </div></div>`,
+  '<b>মৃত সদস্যের জন্য</b> বেগুনি/নিরপেক্ষ রঙ ব্যবহার করা হয় — লাল নয়। সহানুভূতিপূর্ণ টোন (A-14 নোট)।');
+
+/* ---------- 10. Filter + Search ---------- */
+block('p10', '১০', 'Filter Bar + Search — ফিল্টার ও অনুসন্ধান', 'P-10 · ~১২ পেজে reuse',
+  'সব তালিকা পেজের উপরের অংশ। মোবাইলে অনুভূমিক স্ক্রল, ডেস্কটপে এক সারিতে। সার্চ বাংলা ও ইংরেজি উভয় সংখ্যায় কাজ করে (01711… এবং ০১৭১১…)।',
+  `<div class="ds-stage"><div class="ds-col">
+    <div class="card pad"><div class="fs-xs mut mb-12">মোবাইল (M-08)</div>
+      <div class="searchbox">${ic('search','sm')}<input placeholder="রসিদ নং বা ট্রানজেকশন আইডি খুঁজুন"></div>
+      <div class="filters mt-12"><button class="chip-btn on">সব</button><button class="chip-btn">জমা</button>
+        <button class="chip-btn">উত্তোলন</button><button class="chip-btn">ফি</button>
+        <button class="chip-btn">সংশোধন</button><button class="chip-btn">${ic('cal','sm')} তারিখ</button></div></div>
+    <div class="card pad"><div class="fs-xs mut mb-12">ডেস্কটপ (A-07)</div>
+      <div class="tbl-tools" style="padding:0;border:0;background:transparent">
+        <div class="searchbox" style="min-width:280px;flex:1;max-width:400px">${ic('search','sm')}<input placeholder="নাম, মোবাইল, NID বা সদস্য নং…"></div>
+        <button class="chip-btn on">সব (${bn(284)})</button><button class="chip-btn">সক্রিয়</button>
+        <button class="chip-btn">আবেদন ${bn(3)}</button><button class="chip-btn">নিষ্ক্রিয়</button>
+        <button class="chip-btn">${ic('filter','sm')} এলাকা</button><button class="chip-btn">${ic('book2','sm')} স্কিম</button>
+        <button class="chip-btn" style="margin-left:auto">${ic('sort','sm')} সাজান</button></div></div>
+    <div class="card pad"><div class="fs-xs mut mb-12">ফলাফল নেই — "খালি তালিকা" নয়</div>
+      <div class="state state-sm"><div class="state-ico neutral">${ic('search')}</div>
+        <h4>"৳৫০০০" দিয়ে কিছু পাওয়া যায়নি</h4>
+        <p>ফিল্টার মিলিয়ে দেখুন — হয়তো তারিখের পরিসর ছোট, অথবা রসিদ নম্বরে টাইপিং ভুল হয়েছে।</p>
+        <button class="btn btn-soft btn-sm">${ic('refresh','sm')} সব ফিল্টার মুছুন</button></div></div>
+  </div></div>`,
+  '<b>গুরুত্বপূর্ণ পার্থক্য:</b> "কোনো ডেটা নেই" (Empty) ও "এই শর্তে কিছু পাওয়া যায়নি" (No Result) — দুটি <b>আলাদা</b> স্টেট, আলাদা বার্তা ও আলাদা অ্যাকশন।');
+
+/* ---------- 11. Form + Validation ---------- */
+block('p11', '১১', 'Form Field + Inline Validation — ফর্ম ও যাচাই', 'P-11 · ~২৫ পেজে reuse',
+  'গ্রামীণ ব্যবহারকারীর জন্য ফর্মের ভাষা সরল রাখা হয়েছে। বৈধতা বার্তা <b>দোষারোপহীন</b> এবং সমাধানসহ। টাকার ইনপুটে বড় ফন্ট ও ৳ চিহ্ন আলাদা ঘরে।',
+  `<div class="ds-stage"><div class="ds-grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+    <div class="card pad">
+      <div class="fs-sm sb mb-12">টাকার ইনপুট</div>
+      <div class="field"><label>জমার পরিমাণ <span class="req">*</span><span class="hint">সীমা ৳৫০০–৳৫০,০০০</span></label>
+        <div class="inp-money"><span class="cur">৳</span><input value="${en('1000')}"></div>
+        <div class="amt-alt mt-8">${words(100000)} · ${tkEn(100000)}</div>
+        <div class="chipset mt-12"><button class="chip-btn on">নির্ধারিত কিস্তি</button><button class="chip-btn">৳৫০০</button>
+          <button class="chip-btn">৳২,০০০</button><button class="chip-btn">${ic('star','sm')} সর্বোচ্চ</button></div></div>
+      <div class="field"><label>ভুল পরিমাণ</label>
+        <div class="inp-money" style="border-color:var(--danger);box-shadow:0 0 0 4px rgba(198,63,53,.1)"><span class="cur">৳</span><input value="${en('80000')}"></div>
+        <div class="err-msg">${ic('warn','sm')} <span>এই স্কিমে একবারে সর্বোচ্চ ৳৫০,০০০ জমা দেওয়া যাবে। ৳৫০,০০০ দিতে চাইলে "সর্বোচ্চ" বোতামে ট্যাপ করুন।</span></div></div>
+    </div>
+    <div class="card pad">
+      <div class="fs-sm sb mb-12">নির্বাচন ও টগল</div>
+      <div class="field"><label>মাধ্যম</label>
+        <div class="seg"><button class="on">নগদ</button><button>বিকাশ</button><button>ব্যাংক</button></div></div>
+      <div class="field"><label>রেফারেন্স</label><select class="inp"><option>বিকাশ TrxID</option><option>ব্যাংক স্লিপ</option></select></div>
+      <div class="field"><label>ডকুমেন্ট আপলোড</label>
+        <div class="hrow" style="gap:11px">
+          <div style="width:76px;height:76px;border-radius:14px;background:var(--neutral-bg);display:grid;place-items:center;border:1.5px dashed var(--line-3)">${ic('cam')}</div>
+          <div style="width:76px;height:76px;border-radius:14px;background:linear-gradient(140deg,#DDE7E2,#C7D6CF);display:grid;place-items:center;position:relative">${ic('file')}
+            <span class="chip chip-ok" style="position:absolute;bottom:-7px;left:50%;transform:translateX(-50%)">✓</span></div>
+          <div class="fs-xs mut grow">ছবি ৫MB-এর কম, পরিষ্কার ও চার কোণা দেখা যায় এমন হতে হবে</div></div></div>
+      <div class="field"><label>বন্ধ করা ক্ষেত্র (A-09)</label>
+        <input class="inp" value="নুরুজ্জামান" disabled>
+        <div class="hlp">${ic('lock','sm')} নাম পরিবর্তনের জন্য প্রমাণসহ অনুমোদনের অনুরোধ করতে হবে।</div></div>
+    </div>
+    <div class="card pad">
+      <div class="fs-sm sb mb-12">উইজার্ড ধাপ (A-04 / A-08)</div>
+      <div class="stepper"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+      <div class="stepper-l"><b>৩. KYC ও ডকুমেন্ট</b><span>৫ ধাপের ৩য়</span></div>
+      <div class="alert alert-info mb-12">${ic('info')}<div>ধাপ সম্পূর্ণ না হলে পরের ধাপে যাওয়া যাবে না। খসড়া স্বয়ংক্রিয়ভাবে সংরক্ষিত হচ্ছে।</div></div>
+      <div class="btn-row stretch"><button class="btn btn-ghost">${ic('back','sm')} পেছনে</button>
+        <button class="btn btn-primary grow">পরবর্তী ধাপ ${ic('chev','sm')}</button></div>
+      <div class="hr"></div>
+      <div class="fs-sm sb mb-8">OTP যাচাই (S-01 / M-10)</div>
+      <div class="otp"><i class="on">৮</i><i class="on">২</i><i class="on">৪</i><i class="on">৭</i><i></i><i></i></div>
+      <div class="t-c fs-xs mut mt-12">আবার পাঠান: ${bn('28')} সেকেন্ড পরে</div>
+    </div>
+  </div></div>`,
+  '<b>ডাবল-সাবমিট প্রতিরোধ:</b> জমা/আবেদন বোতাম ট্যাপ করলেই নিষ্ক্রিয় হয়ে স্পিনার দেখাবে — নেটওয়ার্ক ধীর হলেও দুবার এন্ট্রি হবে না (idempotency key সহ)।');
+
+/* ---------- 12. KPI Card ---------- */
+block('p12', '১২', 'KPI Card + Mini Chart — সংখ্যা কার্ড', 'P-12 · ~৬ পেজে reuse',
+  'M-01, A-01, A-02, A-06, A-28, A-34 — সব ড্যাশবোর্ডের একক। সংখ্যা না এলে <b>শূন্য নয়, "—"</b> দেখানো হয় (শূন্য দেখালে ভুল বোঝাবুঝি হয়) এবং "সর্বশেষ হালনাগাদ" সময় বাধ্যতামূলক।',
+  `<div class="ds-stage"><div class="kpis">
+    <div class="kpi clickable"><div class="kpi-l"><span class="txi in" style="width:30px;height:30px;border-radius:10px">${ic('down','sm')}</span>আজ সংগৃহীত</div>
+      <div class="kpi-v">${tk(2845000)}</div><div class="kpi-a"><span class="kpi-trend up">▲ ${bn(24)}%</span> গতকালের চেয়ে</div><span class="go">${ic('chev','sm')}</span></div>
+    <div class="kpi clickable"><div class="kpi-l"><span class="txi hold" style="width:30px;height:30px;border-radius:10px">${ic('warn','sm')}</span>মোট বকেয়া</div>
+      <div class="kpi-v" style="color:var(--danger-ink)">${tk(8640000)}</div><div class="kpi-a">${bn(23)} জন · ৯০+ দিন: ${tk(1640000)}</div><span class="go">${ic('chev','sm')}</span></div>
+    <div class="kpi"><div class="kpi-l"><span class="txi lime" style="width:30px;height:30px;border-radius:10px">${ic('target','sm')}</span>লক্ষ্য অর্জন</div>
+      <div class="kpi-v">${bn(68)}%</div><div class="prog warn mt-8"><i style="width:68%"></i></div>
+      <div class="kpi-a">লক্ষ্য ${tk(4200000)} · বাকি ${tk(1355000)}</div></div>
+    <div class="kpi"><div class="kpi-l"><span class="txi neutral" style="width:30px;height:30px;border-radius:10px">${ic('clock','sm')}</span>লোড হচ্ছে…</div>
+      <div class="kpi-v" style="color:var(--mut-2)">—</div><div class="sk" style="height:10px;width:70%;margin-top:8px"></div>
+      <div class="kpi-a">শূন্য দেখানো হবে না</div></div>
+  </div>
+  <div class="card mt-16"><div class="card-h"><h3>গত ৭ দিনের সংগ্রহ</h3><span class="right"><button class="link">বিস্তারিত ${ic('chev','sm')}</button></span></div>
+    <div class="card-b"><div class="mini-chart" style="height:110px">
+      ${KPI.last7.map((v,i)=>`<i class="${i===6?'hi':''}" style="height:${Math.round(v/3200000*100)}%"></i>`).join('')}</div>
+      <div class="hrow mt-12 fs-xs mut" style="justify-content:space-between">${[6,5,4,3,2,1,0].reverse().map(i=>`<span>${dshort(daysAgo(i))}</span>`).join('')}</div>
+      <div class="hr"></div>
+      <div class="fs-sm sb mb-8">স্কিমভিত্তিক ভাগ</div>
+      ${KPI.schemeSplit.map(s=>`<div class="bar-row"><span class="lb">${s.n}</span><span class="tr"><i style="width:${s.p}%"></i></span><span class="vl">${tk(s.v)}</span></div>`).join('')}
+    </div></div></div>`,
+  '<b>চার্ট নীতি:</b> চার্ট কখনো একমাত্র তথ্যবাহী নয় — পাশে সংখ্যাও থাকবে। রঙিন চার্টের উপর নির্ভর না করে লেবেল/মান দেওয়া বাধ্যতামূলক।');
+
+/* ---------- 13. Data Table vs Card List ---------- */
+block('p13', '১৩', 'Data Table ↔ Card List — দ্বৈত রেন্ডার', 'P-13 · ~১৮ পেজে reuse',
+  'একই ডেটা দুই রূপে: ডেস্কটপে টেবিল, মোবাইলে কার্ড-তালিকা। একজন ম্যানেজার মাঠে মোবাইলে ও অফিসে ডেস্কটপে <b>একই জিনিস একই ক্রমে</b> পাবেন — এটিই Admin IA-এর মূল শর্ত।',
+  `<div class="ds-stage">
+    <div class="ds-grid" style="grid-template-columns:1fr 1fr;gap:16px">
+      <div><div class="fs-sm sb mb-8">ডেস্কটপ টেবিল</div>
+        <div class="tbl-wrap"><div class="tbl-scroll"><table class="tbl"><thead><tr>
+          <th>সদস্য</th><th>এলাকা</th><th class="num">সঞ্চয়</th><th class="num">বকেয়া</th><th>অবস্থা</th></tr></thead>
+          <tbody>
+            ${[['র','রহিমা বেগম','ত্রিমোহনী',1435000,0,'active'],['ন','নুরুজ্জামান','বিদ্যানন্দকাঠি',520000,154000,'active'],
+               ['শ','শাহানারা খাতুন','সুফলাকাটি',3600000,0,'active'],['আ','আলমগীর হোসেন','পাঁজিয়া',360000,51000,'dormant']]
+              .map(([p,n,u,s,d,st])=>`<tr><td><div class="who"><div class="avatar sm">${p}</div><div><b>${n}</b></div></div></td>
+                <td>${u}</td><td class="num">${tk(s)}</td>
+                <td class="num">${d?`<span style="color:var(--danger-ink)">${tk(d)}</span>`:'<span class="mut2">—</span>'}</td>
+                <td>${CHIP(MEM_STATUS,st)}</td></tr>`).join('')}
+          </tbody></table></div></div></div>
+      <div><div class="fs-sm sb mb-8">মোবাইল কার্ড (একই ডেটা)</div>
+        ${[['র','রহিমা বেগম','RSS-2627-0087 · ত্রিমোহনী',1435000,0,'active'],
+           ['ন','নুরুজ্জামান','RSS-2627-0119 · বিদ্যানন্দকাঠি',520000,154000,'active']]
+          .map(([p,n,sub,s,d,st])=>`<div class="card pad mb-12"><div class="hrow" style="gap:11px">
+            <div class="avatar">${p}</div><div class="grow"><b class="fs-md sb">${n}</b><div class="fs-xs mut">${sub}</div></div>
+            ${CHIP(MEM_STATUS,st)}</div>
+            <div class="grid2 mt-12"><div><div class="fs-xs mut">মোট সঞ্চয়</div><div class="amt amt-h2">${tk(s)}</div></div>
+              <div class="t-r"><div class="fs-xs mut">বকেয়া</div><div class="amt amt-h2 ${d?'amt-neg':'amt-mut'}">${d?tk(d):'—'}</div></div></div></div>`).join('')}
+      </div>
+    </div>
+  </div>`,
+  '<b>কলাম অগ্রাধিকার:</b> মোবাইলে ছোট স্ক্রিনে সব কলাম দেখানো হয় না — নাম, অঙ্ক ও অবস্থা থাকে; বাকিগুলো ট্যাপ করলে বিস্তারিত পেজে।');
+
+/* ---------- 14. Empty States ---------- */
+block('p14', '১৪', 'Empty State Library — খালি অবস্থার ভাষা', 'P-14 · ~৩০ পেজে reuse',
+  'খালি পেজ মানে সুযোগ — প্রতিটি Empty State-এ <b>পরবর্তী পদক্ষেপ</b> থাকতেই হবে। ছয়টি ভ্যারিয়েন্ট পুরো মডিউলকে ঢেকে দেয়। ভাষা ইতিবাচক ও দোষারোপহীন।',
+  `<div class="ds-stage"><div class="ds-grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+    <div class="card"><div class="state"><div class="state-ico lime">${ic('wallet')}</div>
+      <h4>আপনার এখনো কোনো সঞ্চয় অ্যাকাউন্ট নেই</h4>
+      <p>৩টি স্কিম চালু আছে। দৈনিক ৳৫০ থেকে শুরু করতে পারেন।</p>
+      <button class="btn btn-primary">স্কিম দেখুন</button><div class="alt">প্রথমবার · সদস্য</div></div></div>
+    <div class="card"><div class="state"><div class="state-ico ok">${ic('checkc')}</div>
+      <h4>সব জমা নিষ্পন্ন হয়ে গেছে ✓</h4>
+      <p>কোনো যাচাই বাকি নেই। আজ ৩১টি অনুমোদন হয়েছে — গড় সময় ২ ঘণ্টা ১৪ মিনিট।</p>
+      <button class="btn btn-ghost">খতিয়ান দেখুন</button><div class="alt">কাজ শেষ · কিউ</div></div></div>
+    <div class="card"><div class="state"><div class="state-ico neutral">${ic('search')}</div>
+      <h4>"৳৫০০০" দিয়ে কিছু পাওয়া যায়নি</h4>
+      <p>তারিখের পরিসর বাড়ান বা রসিদ নম্বর যাচাই করুন।</p>
+      <button class="btn btn-soft btn-sm">সব ফিল্টার মুছুন</button><div class="alt">ফলাফল নেই ≠ খালি</div></div></div>
+    <div class="card"><div class="state"><div class="state-ico ok">${ic('target')}</div>
+      <h4>কোনো বকেয়া নেই 🎉</h4>
+      <p>আপনি সব কিস্তি সময়মতো দিয়েছেন। পরবর্তী কিস্তি ১০ নভেম্বর।</p>
+      <button class="btn btn-ghost">সময়সূচি দেখুন</button><div class="alt">পুরস্কারমূলক মুহূর্ত</div></div></div>
+    <div class="card"><div class="state"><div class="state-ico lime">${ic('sparkle')}</div>
+      <h4>আপনার সমিতির যাত্রা শুরু হোক</h4>
+      <p>৪টি ধাপ শেষ করলে ড্যাশবোর্ড চালু হবে।</p>
+      <button class="btn btn-primary">স্কিম তৈরি করুন</button><div class="alt">First-run · অ্যাডমিন</div></div></div>
+    <div class="card"><div class="state"><div class="state-ico neutral">${ic('history')}</div>
+      <h4>এখনো কোনো লেনদেন নেই</h4>
+      <p>অ্যাকাউন্ট খোলা হয়েছে আজ। প্রথম জমা দিলে এখানে দেখা যাবে।</p>
+      <button class="btn btn-primary btn-sm">প্রথম জমা দিন</button><div class="alt">নতুন অ্যাকাউন্ট</div></div></div>
+  </div></div>`,
+  '<b>ভাষার নীতি:</b> "বকেয়া আছে" না বলে "এই কিস্তিটি এখনো বাকি" · "ভুল হয়েছে" না বলে "মিলিয়ে দেখুন" · শুধু খালি ইলাস্ট্রেশন রেখে CTA না দেওয়া নিষেধ।');
+
+/* ---------- 15. Navigation ---------- */
+block('nav', '১৫', 'Navigation Structure — নেভিগেশন', 'IA',
+  'Member: ৫-ট্যাব বটম নেভ, মাঝখানে <b>কেন্দ্রীয় [+] জমা</b> বোতাম — গ্রামীণ ব্যবহারকারীর ৮০% কাজ "টাকা জমা দেওয়া", তাই এটি সবসময় এক ট্যাপের দূরত্বে। Admin: স্থির সাইডবার (ডেস্কটপ) → হ্যামবার্গার (মোবাইল), একই IA।',
+  `<div class="ds-stage">
+    <div class="ds-grid" style="grid-template-columns:repeat(auto-fit,minmax(330px,1fr))">
+      <div class="card" style="overflow:hidden">
+        <div class="card-h"><h3>Member বটম নেভ</h3><span class="sub">সক্রিয় ট্যাব: সঞ্চয়</span></div>
+        ${bottomNav('savings')}
+        <div class="card-b fs-sm mut">হোম (M-01) · সঞ্চয় (M-04) · <b>জমা দিন (M-06)</b> · লেনদেন (M-08) · আরও (M-18/M-20)</div>
+      </div>
+      <div class="card" style="overflow:hidden">
+        <div class="card-h"><h3>Admin সাইডবার</h3><span class="sub">MANAGER ভূমিকা</span></div>
+        <div style="padding:12px;background:#04231A">
+          <div style="border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.12)">${sidebar('depappr').replace('<aside class="sidebar">','<aside class="sidebar" style="position:static;height:auto">')}</div>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <b>বিদ্যমান প্রোটোটাইপের সাথে সম্পর্ক:</b> আপনার <span class="code">index.html</span>-এ নেভ ছিল হোম · সঞ্চয় · ROSCA · ঋণ · আরও।
+      এই মডিউলের জন্য সঞ্চয় ট্যাবের ভেতরে সম্পূর্ণ সাব-নেভিগেশন তৈরি হয়েছে। ROSCA ও ঋণ আলাদা মডিউল (স্পেকের ১.৩) — তাই এখানে নেই।
+      কেন্দ্রীয় [+] বোতামটি মূল নেভের গঠন বদলায় না, শুধু "সঞ্চয়"-এর ভেতরের প্রধান অ্যাকশনকে এক ট্যাপে নিয়ে আসে।
+    </div>
+  </div>`,
+  '<b>ডিপ লিংক:</b> প্রতিটি রসিদ/SMS থেকে সরাসরি নির্দিষ্ট লেনদেনে যাওয়া যাবে — তাই M-07/M-09 মোডাল নয়, পূর্ণ পেজ।');
+
+/* ---------- 16. Accessibility ---------- */
+block('a11y', '১৬', 'অ্যাক্সেসিবিলিটি ও গ্রামীণ ব্যবহার উপযোগিতা', 'A11Y',
+  'টার্গেট: বয়স ১৮–৫০, গ্রামীণ + শহুরে, প্রযুক্তি-দক্ষতার বিপরীতমুখী বৈচিত্র্য। একই UI-তে সহজ ও বিস্তারিত — <b>progressive disclosure</b>।',
+  `<div class="ds-stage">
+    <div class="dodont mb-16">
+      <div class="dd good"><h5>${ic('checkc','sm')} এই ডিজাইনে যা আছে</h5><ul>
+        <li>ন্যূনতম টেক্সট <b>16px</b>, টাকার অঙ্ক <b>34–40px</b></li>
+        <li>সব ট্যাপ টার্গেট <b>≥ 48px</b> (প্রধান বোতাম 54px)</li>
+        <li>আইকন + লেবেল সবসময় একসাথে, কখনো আইকন একা নয়</li>
+        <li>অবস্থা = রঙ + আইকন + লেবেল (বর্ণান্ধ-নিরাপদ)</li>
+        <li>বাংলা সংখ্যা প্রধান, ইংরেজি সংখ্যা সহায়ক, টগলযোগ্য</li>
+        <li>কনট্রাস্ট ≥ 4.8:1 (WCAG AA, অধিকাংশ AAA)</li>
+        <li>প্রধান অ্যাকশন স্ক্রিনের নিচের অর্ধে (এক হাতে ব্যবহার)</li>
+        <li>skeleton loader — লেআউট নড়ে না (layout shift = 0)</li>
+        <li>প্রিন্টযোগ্য রসিদ (কাগজের অভ্যস্ত ব্যবহারকারীর জন্য)</li>
+        <li>অফলাইন ব্যাজ + cached ডেটা + "সর্বশেষ হালনাগাদ" সময়</li>
+      </ul></div>
+      <div class="dd bad"><h5>${ic('xc','sm')} ইচ্ছাকৃতভাবে বাদ দেওয়া হয়েছে</h5><ul>
+        <li>শুধু রঙের উপর নির্ভরশীল অবস্থা নির্দেশক</li>
+        <li>১৪px-এর কম বডি টেক্সট</li>
+        <li>কারুসেল/অটো-স্ক্রল (ধীর সংযোগে নিয়ন্ত্রণ হারায়)</li>
+        <li>ভিডিও/অ্যানিমেশননির্ভর ব্যাখ্যা (ডেটা সাশ্রয়)</li>
+        <li>শুধু ইংরেজি লেবেল</li>
+        <li>ডাবল-ট্যাপ/সোয়াইপ-নির্ভর গুরুত্বপূর্ণ অ্যাকশন</li>
+        <li>ধূসর বাটন দিয়ে আটকানো — কারণ না দেখানো</li>
+        <li>সুদ/মুনাফা-সম্পর্কিত কোনো শব্দ বা হিসাব</li>
+      </ul></div>
+    </div>
+    <div class="fs-sm sb mb-8">টেক্সট সাইজ মোড (S-03 সেটিংস থেকে)</div>
+    <div class="ds-row" style="align-items:flex-end;gap:18px">
+      <div><div class="fs-xs mut mb-4">স্বাভাবিক</div><div class="amt amt-h2">৳১২,৫০০</div></div>
+      <div><div class="fs-xs mut mb-4">বড় (🔵 Phase 2)</div><div class="amt" style="font-size:26px;font-weight:700">৳১২,৫০০</div></div>
+      <div><div class="fs-xs mut mb-4">সহজ মোড</div><div class="amt" style="font-size:30px;font-weight:700">৳১২,৫০০</div><div class="fs-xs mut">বাকি তথ্য লুকানো</div></div>
+    </div>
+    <div class="note"><b>সহজ মোড বনাম বিস্তারিত মোড:</b> "স্মার্ট" ব্যবহারকারী M-05-এ লেজার এন্ট্রি ও ব্যালেন্স ব্রেকডাউন দেখতে চান; কম-দক্ষ ব্যবহারকারী শুধু "কত টাকা আছে" ও "জমা দিন" বোতাম চান। একই পেজে দুটোই থাকবে — ডিফল্ট সহজ, "বিস্তারিত দেখুন"-এ বাকিগুলো। এটি S-03 থেকে টগলযোগ্য হবে।</div>
+  </div>`,
+  '<b>ভাষার টোন:</b> সম্মানসূচক, দোষারোপহীন, সংখ্যা-নির্দিষ্ট। "আপনি ভুল করেছেন" নয় — "মিলিয়ে দেখুন"।');
+
+/* ---------- 17. States language ---------- */
+block('states', '১৭', 'সব অবস্থার ভাষা (States)', 'STATES',
+  'স্পেকের প্রতিটি পেজে এই ৭টি অবস্থা বাধ্যতামূলক। নিচে M-04 পেজের সব অবস্থা — <a href="screens.html#states" style="color:var(--lime);border-bottom:1px dashed">State Gallery-তে সম্পূর্ণ সেট দেখুন →</a>',
+  `<div class="ds-stage"><div class="ds-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+    ${[['ok','checkc','Normal','স্বাভাবিক ডেটা লোড হয়েছে। "সর্বশেষ হালনাগাদ" সময় দেখানো বাধ্যতামূলক।'],
+       ['lime','wallet','Empty','কোনো ডেটা নেই — পরবর্তী পদক্ষেপের CTA থাকতেই হবে।'],
+       ['neutral','clock','Loading','skeleton — গঠন একই থাকবে, সংখ্যার জায়গায় "—" (শূন্য নয়)।'],
+       ['danger','warn','Error','রেফারেন্স কোড + retry + cached ডেটা + হেল্পলাইন।'],
+       ['info','shield','Permission','কেন অনুমতি নেই ও কার কাছে চাইতে হবে — বলা বাধ্যতামূলক।'],
+       ['warn','wifioff','Offline','queued এন্ট্রি সংখ্যা + "মুছে যাবে না" নিশ্চয়তা।'],
+       ['warn','lock','Blocked','কেন আটকে আছে + কবে সম্ভব হবে + বিকল্প পথ।']]
+      .map(([c,i,t,d])=>`<div class="card"><div class="state state-sm"><div class="state-ico ${c}">${ic(i)}</div>
+        <h4>${t}</h4><p>${d}</p></div></div>`).join('')}
+  </div></div>`,
+  '<b>সবচেয়ে বেশি ভুল হয় যেখানে:</b> Error-এ cached সংখ্যা দেখিয়ে "এটি পুরনো" না বলা, এবং Blocked-এ কারণ না দেখানো — দুটোই বিশ্বাস নষ্ট করে।');
+
+/* ---------- mount ---------- */
+document.getElementById('blocks').innerHTML = B.map(b => `
+  <div class="pb-sec" id="${b.id}">
+    <div class="pb-sec-h"><span class="num">${b.num}</span>
+      <div><h2>${b.title}</h2><p><span class="code">${b.code}</span></p></div></div>
+    <div class="pb-rule"></div>
+    <div class="ds-block"><p>${b.desc}</p>${b.stageHtml}${b.note ? `<div class="note">${b.note}</div>` : ''}</div>
+  </div>`).join('');
+document.getElementById('toc').innerHTML = B.map(b => `<button onclick="go('#${b.id}')">${b.num} · ${b.title.split('—')[0]}</button>`).join('');
+</script>
+<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="9bdbc80fb549c8a938256dbf-|49" defer></script></body>
+</html>

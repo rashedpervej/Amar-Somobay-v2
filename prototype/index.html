@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Somobay — সাধারণ সমবায় সঞ্চয় মডিউল · কাজের ফল</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+body{background:radial-gradient(1200px 600px at 15% -10%,#0B6B53 0%,#052A20 45%,#04231A 100%);min-height:100vh;color:#D6E7DF}
+.wrap{max-width:1120px;margin:0 auto;padding:46px 20px 70px}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.brand .m{width:42px;height:42px;border-radius:14px;background:var(--lime);color:var(--green-900);display:grid;place-items:center;font-weight:700;font-size:20px}
+.brand b{font-size:17px;color:#fff}.brand i{display:block;font-style:normal;font-size:12.5px;color:#8FB9A8}
+h1{font-size:34px;line-height:1.32;color:#fff;letter-spacing:-.5px;margin-bottom:12px}
+h1 em{font-style:normal;color:var(--lime)}
+.lead{font-size:16px;line-height:1.78;color:#A9C8BB;max-width:820px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:34px}
+.lnk{display:block;text-decoration:none;border-radius:20px;padding:22px;border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.045);transition:.18s;position:relative;overflow:hidden}
+.lnk:hover{border-color:var(--lime);background:rgba(201,242,110,.1);transform:translateY(-2px)}
+.lnk .no{position:absolute;right:18px;top:12px;font-size:46px;font-weight:700;color:rgba(255,255,255,.07);letter-spacing:-2px}
+.lnk .tag{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.5px;padding:3px 9px;border-radius:99px;margin-bottom:11px}
+.t-build{background:rgba(201,242,110,.16);color:var(--lime);border:1px solid rgba(201,242,110,.35)}
+.t-spec{background:rgba(255,255,255,.08);color:#B9D4C9;border:1px solid rgba(255,255,255,.14)}
+.t-old{background:rgba(255,176,32,.14);color:#FFD37A;border:1px solid rgba(255,176,32,.3)}
+.t-arch{background:rgba(186,140,255,.16);color:#D9C4FF;border:1px solid rgba(186,140,255,.34)}
+.t-live{background:rgba(120,190,255,.16);color:#BFE0FF;border:1px solid rgba(120,190,255,.34)}
+.t-skin{background:rgba(233,206,139,.16);color:#F0DCA6;border:1px solid rgba(233,206,139,.36)}
+.t-ux{background:rgba(255,169,107,.16);color:#FFC79A;border:1px solid rgba(255,169,107,.36)}
+.lnk h3{color:#fff;font-size:20px;margin-bottom:7px;line-height:1.4}
+.lnk p{font-size:13.6px;line-height:1.72;color:#A0C0B2}
+.lnk .go{margin-top:14px;font-size:13px;font-weight:600;color:var(--lime);display:flex;align-items:center;gap:6px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:rgba(255,255,255,.1);
+  border-radius:18px;overflow:hidden;margin-top:34px;border:1px solid rgba(255,255,255,.1)}
+.st{background:#062B21;padding:16px 14px;text-align:center}
+.st b{display:block;font-size:25px;font-weight:700;color:#fff;letter-spacing:-.5px}
+.st i{font-style:normal;font-size:11.5px;color:#8FB9A8;display:block;margin-top:4px}
+.sec{margin-top:44px}
+.sec h2{color:#fff;font-size:21px;margin-bottom:6px}
+.sec>p{font-size:14px;color:#A0C0B2;line-height:1.75;max-width:800px}
+table{width:100%;border-collapse:collapse;margin-top:16px;font-size:13.6px;background:rgba(255,255,255,.03);border-radius:14px;overflow:hidden}
+th{text-align:left;font-size:10.8px;font-weight:600;letter-spacing:.5px;color:#8FB9A8;background:rgba(255,255,255,.06);padding:9px 12px}
+td{padding:9px 12px;border-top:1px solid rgba(255,255,255,.07);color:#CFE4DA}
+td b{color:#fff}
+.foot{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-size:12.5px;color:#7FA795;line-height:1.75}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:rgba(255,255,255,.09);padding:2px 6px;border-radius:6px;color:var(--lime)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><div class="m">স</div><div><b>Somobay</b><i>সাধারণ সমবায় সঞ্চয় মডিউল · v0.1 · ৩০ অক্টোবর ২০২৬</i></div></div>
+
+  <h1>স্পেক থেকে <em>হাই-ফিডেলিটি প্রোটোটাইপ</em> — সব এক জায়গায়</h1>
+  <p class="lead">১৬২টি ফাংশন, ৬৭টি পেজ ও ৮টি ইউজার ফ্লো বিশ্লেষণ করা হয়েছে; ৩৪টি ব্যবসায়িক সিদ্ধান্ত ডিফল্ট ধরে লক করা হয়েছে;
+  এবং সেই ডিফল্ট দিয়ে ডিজাইন সিস্টেম + <b>স্পেকের সব ৬৭টি পেজ</b>ের UI + <b>৮টি ক্লিকেবল ইউজার ফ্লো</b> তৈরি করা হয়েছে; এরপর বহু-মডিউল আর্কিটেকচার (specs/03) অনুযায়ী <b>ROSCA মডিউলের ১৮ পেজ / ৩০ স্ক্রিন</b> এবং <b>Joint Goal (যৌথ লক্ষ্য) মডিউলের ১৫ পেজ / ২৫ স্ক্রিন</b> এবং <b>কর্জে হাসানা (সুদমুক্ত সহায়তা) মডিউলের ২৫ পেজ / ৪২ স্ক্রিন</b> যোগ হয়েছে — সর্বমোট <b>১২৫ লজিক্যাল পেজ · ১৯৯ স্ক্রিন</b>। এখন সব স্ক্রিন <b>৬টি ক্যাটাগরির Preview Dashboard</b>-এ সাজানো এবং <b>ভূমিকাভিত্তিক Live Prototype Workspace</b>-এ বাস্তব অ্যাপের মতো চালানো যায়। নিচের যেকোনোটি খুলে দেখুন।</p>
+
+  <div class="grid">
+    <a class="lnk" href="../specs/04-admin-app-ux-audit.md"><span class="no">৩৬</span>
+      <span class="tag t-ux">UX নিরীক্ষা · ধাপ A–E সম্পন্ন · ৩১ অক্টোবর ২০২৬</span>
+      <h3>Admin App মোবাইল UX নিরীক্ষা — <span style="color:#FFC79A">ওয়েব-লেআউট চিহ্নিত ও সংশোধন</span></h3>
+      <p>৩৬টি Admin App পর্দা মেপে দেখা হয়েছে: <b>১৪টিতে</b> ওয়েব-ভিত্তিক লেআউট, <b>১২টি</b> সিস্টেমগত ন্যাভিগেশন/ইন্টারঅ্যাকশন ত্রুটি, <b>১২টিতে</b> মোবাইল-ফার্স্ট রিডিজাইন প্রস্তাব। <b>ধাপ A বাস্তবায়িত:</b> হেডারের Shell-চিপ স্ট্রিপ বাদ (১২০→০, ~১১৭px স্টিকি উচ্চতা ফেরত) · ব্যাক বাটন (০→১৯ পর্দা, ৪৪px) · ১৫টি কার্যপ্রবাহ পর্দায় নেভ/ড্রয়ার বন্ধ + ফ্লো-বার · কেবাব অ্যাকশন শিট (৩৬/৩৬ কার্যকর) · A-02 সম্পূর্ণ পুনর্গঠন (ড্রয়ার + Shell-A নেভ + স্টিকি CTA)। নতুন সিদ্ধান্ত <b>D-75…D-80</b>।</p>
+      <span class="go">রিপোর্ট পড়ুন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="lnk" href="../specs/05-admin-app-mobile-contract.md"><span class="no">১৮</span>
+      <span class="tag t-ux">মোবাইল চুক্তি · ধাপ E · নতুন · ৩১ অক্টোবর ২০২৬</span>
+      <h3>Admin App প্রতি-পর্দা <span style="color:#FFC79A">মোবাইল চুক্তি (MC-01…MC-18)</span></h3>
+      <p>৭৫টি Admin App পর্দার (AM-01…AM-35 + RAM-01…RAM-12 + JAM-01…JAM-10 + QAM-01…QAM-17 + A-02) প্রতিটির জন্য লিখিত ও মাপা চুক্তি: তিন নেভ-মডেল (ল্যান্ডিং ৩ · গভীর ৪৭ · ফ্লো ২৫), ব্যাক-ম্যাপ, প্রতিটি নিয়ন্ত্রণ কার্যকর (মৃত ০), সর্বনিম্ন ট্যাপ ৪৪px, ৭টি বাধ্যতামূলক স্টেটের কভারেজ, রিঅ্যাক্ট কম্পোনেন্ট ম্যাপিং ও ১৬-ঘরের চেকলিস্ট। নতুন হার্নেস <code>tmc.mjs</code> (২০ চেক) + স্বয়ংক্রিয় ছক <code>mobile-contract.md</code> + আসল-ব্রাউজার ভিউপোর্ট অডিটর <code style="color:#FFC79A">prototype/mobile-check.html</code> (৪ ডিভাইস প্রিসেটে ৭৫ পর্দা মাপে)।</p>
+      <span class="go">চুক্তি পড়ুন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="lnk" href="screens.html#m22"><span class="no">৩০</span>
+      <span class="tag t-build">ROSCA মডিউল · Phase 1B · ৩১ অক্টোবর ২০২৬</span>
+      <h3>ROSCA — চক্রভিত্তিক সঞ্চয় পুল: <span style="color:#8FC7EE">১৮ পেজ · ৩০ স্ক্রিন তৈরি</span></h3>
+      <p><b>Admin RA-01…RA-12</b> (ডেস্কটপ + মোবাইল অ্যাপ = ২৪ স্ক্রিন) ও <b>Member RM-01…RM-06</b> (৬ স্ক্রিন)। স্কিম ও নিয়ম সংস্করণ, সিট বরাদ্দ ও ওয়েটলিস্ট (⚠️D-48 যাচাই), ড্র ক্যালেন্ডার ও ক্রম, ৫ ধাপের ড্র সম্পাদন (পুল গণনা → প্রাপক → maker ≠ checker অনুমোদন → বিতরণ → রসিদ ও হ্যাশ), অপরিবর্তনীয় ড্র রেজিস্টার, কিস্তি সংগ্রহ ও বকেয়া, ধাপভিত্তিক ডিফল্ট প্রতিকার (⚠️D-41/D-46) ও ৬টি রিপোর্ট। সদস্য পক্ষে প্রতিটি সিট কার্ডে <b>চারটি বাধ্যতামূলক তথ্য</b> (§৫.৬) — নীল থিম, ভাষা "আমার চক্র · কিস্তি · ড্র · আমি পেয়েছি / পাব"। অমীমাংসিত নিয়ম ⚠️ চিহ্নসহ: D-12, D-29, D-38, D-41, D-42, D-46, D-48। <b>ফ্লো F-09…F-12 এখনো তৈরি হয়নি।</b></p>
+      <span class="go">ROSCA স্ক্রিন দেখুন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="screens.html#m28"><span class="no">২৫</span>
+      <span class="tag t-build">Joint Goal মডিউল · Phase 2A · ৩১ অক্টোবর ২০২৬</span>
+      <h3>Joint Goal (যৌথ লক্ষ্য) — নির্দিষ্ট উদ্দেশ্যে যৌথ তহবিল: <span style="color:#C3AEF0">১৫ পেজ · ২৫ স্ক্রিন তৈরি</span></h3>
+      <p><b>Admin JA-01…JA-10</b> (ডেস্কটপ + মোবাইল অ্যাপ = ২০ স্ক্রিন) ও <b>Member JM-01…JM-05</b> (৫ স্ক্রিন)। লক্ষ্য তৈরি ও সংস্করণ, অংশগ্রহণ ও যোগদান অনুমোদন (⚠️D-49), মাসভিত্তিক সংগ্রহ কিউ ও বকেয়ার প্রতিকার ধাপ, মাইলস্টোন ও পূর্বাভাস, অর্থ ব্যবহার/বিতরণ (maker ≠ checker · অনুমোদন সীমা ⚠️D-22 · প্রমাণ বাধ্যতামূলক ⚠️D-50), মেয়াদোত্তীর্ণ লক্ষ্যের নিষ্পত্তি ও আনুপাতিক ফেরত (⚠️D-39) এবং রিপোর্ট/লেজার সমন্বয় (ট্রায়াল ব্যালেন্স ৳০, BR-12)। টাকা জমা হয় <b>নির্দিষ্ট লক্ষ্য তহবিল</b> (দায়) খাতে — সদস্যের "মোট সঞ্চয়"-এ যোগ হয় না (⚠️D-37) এবং <b>ব্যক্তিগত উত্তোলন নেই (BR-19)</b>। সদস্য পক্ষে বেগুনি থিম, ভাষা "আমাদের লক্ষ্য · অবদান · লক্ষ্য পূরণ", এবং §৫.৬-এর <b>চারটি বাধ্যতামূলক তথ্য</b> — প্রগ্রেস রিং, মেয়াদের কাউন্টডাউন, আমার অবদান বনাম প্রতিশ্রুতি, প্রমাণসহ ব্যবহারের বিবরণ। মাইলস্টোন আছে, <b>লিডারবোর্ড নেই (⚠️D-68)</b>। নতুন হার্নেস <code>tjg.mjs</code> (১১৩ চেক) সবুজ। <b>ফ্লো F-13/F-14 এখনো তৈরি হয়নি</b> (স্পেক §৮.৮-এ পরিকল্পিত)।</p>
+      <span class="go">Joint Goal স্ক্রিন দেখুন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="skins.html"><span class="no">৬</span>
+      <span class="tag t-skin">স্কিন সিস্টেম · নতুন · ৩০ অক্টোবর ২০২৬</span>
+      <h3>Skin System — চার মডিউলের চার থিম, <span style="color:#E9CE8B">QH ইসলামিক থিমে</span></h3>
+      <p>আপনার নির্দেশ অনুযায়ী মডিউলভিত্তিক স্কিন তৈরি হয়েছে: <b>General Savings</b> (সবুজ) · <b>ROSCA</b> (নীল, সদস্য-চক্র জ্যামিতি) · <b>Joint Goal</b> (বেগুনি, যুগ্ম ত্রিভুজ) · <b style="color:#E9CE8B">Qard Hasanah (ইসলামিক থিম)</b> · <b>Platform</b> (গ্রাফাইট) + বিদ্যমান ডিফল্ট। ইসলামিক থিমে আছে পান্না সবুজ ও সোনালি প্যালেট, ৮-কোণা তারকা (খাতাম) ও গিরিহ প্যাটার্ন, মিহরাব আর্চ, বিসমিল্লাহ ক্যালিগ্রাফি, দোয়া ব্লক, আয়াত/হাদিস রেফারেন্স চিপ, তাসবিহ-মোটিফ কিস্তি অগ্রগতি এবং <b>"সুদমুক্ত · সুদ ৳০"</b> ব্যাজ — কোনো প্রাণী/মানুষের ছবি নেই, কোথাও সুদ বা অতিরিক্ত চার্জের ভাষা নেই (BR-13)। প্রয়োগ একটি অ্যাট্রিবিউটে: <code>data-theme="qh"</code> — তাই <b>তখনকার ১০২টি স্ক্রিনের একটি মার্কআপও বদলায়নি</b>, কোনো নতুন পেজ যোগ হয়নি; একই নীতি আজও বহাল — বর্তমান <b>১২৫ পেজ · ১৯৯ স্ক্রিন</b>-এও স্কিন শুধু উপস্থাপনা স্তর। গ্যালারিতে আছে ৬টি চুক্তি-নিয়ম, টোকেন তুলনা, ১৫টি প্যাটার্ন, কম্পোনেন্ট প্রিভিউ, ২২টি <code>.qh-*</code> কিট ক্লাস, WCAG AA কনট্রাস্ট যাচাই, এবং একই আসল স্ক্রিন চার থিমে পাশাপাশি তুলনা। স্কিন সম্পর্কিত ৩টি নতুন সিদ্ধান্ত <b>D-72…D-74</b> আপনার উত্তরের অপেক্ষায়।</p>
+      <span class="go">স্কিন গ্যালারি খুলুন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="preview.html"><span class="no">৬</span>
+      <span class="tag t-live">প্রিভিউ ড্যাশবোর্ড · নতুন · ৩০ অক্টোবর ২০২৬</span>
+      <h3>Category-wise Preview Dashboard (৬ সেকশন · ১৯৯ স্ক্রিন)</h3>
+      <p>তৈরি করা সব স্ক্রিন এখন ক্যাটাগরি ধরে আলাদা সেকশনে: <b>১ Admin App</b> (৭৪) · <b>২ Member App</b> (৪৫ = ৪০ সদস্য + ৫ শেয়ার্ড মোবাইল) · <b>৩ Collector App</b> (২৪) · <b>৪ Other Roles App</b> (৭ ভূমিকা — প্রতিটির নিজস্ব ল্যান্ডিং + ৫-স্লট নেভ) · <b>৫ Web Panel</b> (৮০ = ৭৬ Admin Web + A-02 মোবাইল ভ্যারিয়েন্ট + ৩ শেয়ার্ড ডেস্কটপ, সাথে Super Admin-এর ১২টি পরিকল্পিত পেজ) · <b>৬ Live Prototype</b>। প্রতিটি কার্ডে <b>লাইভ থাম্বনেইল</b> (আসল স্ক্রিন HTML স্কেল করে দেখানো), ভূমিকা চিপ, সার্চ, <b>▶ লাইভ চালান</b> ও গ্যালারি লিংক। মোবাইল অ্যাপ আর ডেস্কটপ ওয়েব <b>সম্পূর্ণ আলাদা সেকশন — কোনো ভিউ টগল নেই</b>। বিদ্যমান ডিজাইন ও ফিচার অক্ষুণ্ণ: আগের ১৫৭ স্ক্রিন নতুন করে আঁকা হয়নি, নতুন মডিউল আলাদা সেকশনে যোগ হয়েছে।</p>
+      <span class="go">ড্যাশবোর্ড খুলুন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="workspace.html"><span class="no">১৫</span>
+      <span class="tag t-live">ইন্টারঅ্যাকটিভ ওয়ার্কস্পেস · নতুন</span>
+      <h3>Live Prototype Workspace — ভূমিকা ধরে অ্যাপ চালান</h3>
+      <p>একই পাতায় দুটি স্বতন্ত্র ওয়ার্কস্পেস: <b>📱 মোবাইল অ্যাপ</b> (ফোন ফ্রেম ৩৯০ × ৮৪৪) ও <b>🖥 ডেস্কটপ ওয়েব</b> (ব্রাউজার ফ্রেম + সাইডবার)। মোট <b>১৫ ভূমিকা-প্রবেশ</b> — মোবাইলে ৯ (সদস্য · সংগ্রহক · হিসাবরক্ষক · ব্যবস্থাপক · অনুমোদনকারী · সমিতি প্রশাসক · নিরীক্ষক · বহিঃনিরীক্ষক · পর্যবেক্ষক), ওয়েবে ৬। ভূমিকা বদলালেই বদলায় <b>ল্যান্ডিং ড্যাশবোর্ড, বটম নেভের ৫ স্লট, হ্যামবার্গার ড্রয়ার (সম্পূর্ণ ৪৯-আইটেম ANAV), ব্যবহারকারীর পরিচয় ও অনুমোদন সীমা</b> (D-22)। বোতাম, ফর্ম, ফিল্টার, ট্যাব, ড্রয়ার ও সিদ্ধান্ত বার সব কাজ করে; সাথে ← পেছনে / সামনে → হিস্টরি, ব্রেডক্রাম্ব, মোবাইল ↔ ডেস্কটপ স্ক্রিন ম্যাপিং (A-20 ↔ AM-02) ও শেয়ারযোগ্য ডিপ লিংক। Super Admin প্যানেল এখানে <b>১২টি লক করা "পরিকল্পিত" কার্ড</b> (P-01…P-12) — ডিজাইন স্থগিত, D-36…D-45 ও D-66 চূড়ান্ত হলে খোলা হবে।</p>
+      <span class="go">ওয়ার্কস্পেস চালান <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="flows.html"><span class="no">৮</span>
+      <span class="tag t-build">প্রোটোটাইপ · নতুন</span>
+      <h3>ক্লিকেবল ইউজার ফ্লো (৮ flow · ৭২ ধাপ)</h3>
+      <p>স্পেকের §7-এর ৮টি ফ্লো এখন <b>আসল ক্লিকেবল</b>: নিবন্ধন → সক্রিয় সদস্য, নতুন স্কিম চালু, নিয়মিত জমা (মাঠ + ওয়ালেট), জমা যাচাই, উত্তোলন, বকেয়া ও রিমাইন্ডার, স্টেটমেন্ট ও দিন/মাস সমাপ্তি, অ্যাকাউন্ট বন্ধ। বোতাম চাপলে ব্যালেন্স বদলায়, লেজার এন্ট্রি বসে, hold তৈরি ও ছাড়া পড়ে, কিউ কমে, নোটিফিকেশন ও অডিট লগ জমে — ডান পাশে লাইভ স্টেট প্যানেলে সব দেখা যায়। BR-04, D-09, D-19, D-22, D-27-এর মতো নিয়মগুলো আটকে দেয় বা সিদ্ধান্ত চায়।</p>
+      <span class="go">ফ্লো চালিয়ে দেখুন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="screens.html"><span class="no">১৯৯</span>
+      <span class="tag t-build">প্রোটোটাইপ · নতুন</span>
+      <h3>স্ক্রিন — ১২৫ পেজ · ১৯৯ স্ক্রিন (Web + App)</h3>
+      <p>Member ২১ + <b>ROSCA RM ৬</b> + <b>Joint Goal JM ৫</b> + <b>কর্জে হাসানা QM ৮</b> = ৪০ পেজ (মোবাইল ফ্রেম) · Admin ৩৮ + <b>ROSCA RA ১২</b> + <b>Joint Goal JA ১০</b> + <b>কর্জে হাসানা QA ১৭</b> = ৭৭ পেজ (৭৬ ডেস্কটপ + সংগ্রহকের মোবাইল ড্যাশবোর্ড A-02; প্রতিটি Admin পেজের মোবাইল অ্যাপ রূপসহ) · Shared ৮ পেজ = <b>১২৫ লজিক্যাল পেজ</b>। <b>MVP-এর ৪১টি</b>, তার উপর <b>Phase 2-এর ১৯টি</b> ও <b>Phase 3-এর ৭টি</b>: মাঠ সংগ্রহ, অবস্থা পরিবর্তন ও মৃত্যু দাবি, বাল্ক এন্ট্রি ও CSV ইমপোর্ট, ফরেনসিক লেনদেন বিবরণ, রিভার্সাল, দিনশেষ ক্যাশ বুক, তহবিল স্থানান্তর, রিকনসিলিয়েশন, রুট পরিকল্পনা, রিমাইন্ডার, রিপোর্ট কেন্দ্র, অ্যাকাউন্ট বন্ধের প্রিভিউ, নোটিশ বোর্ড, নমিনি, সেটিংস ও অফলাইন sync; সবশেষে গভর্ন্যান্স স্তর — সদস্য স্থানান্তর, আর্থিক বিবরণ ও রেগুলেটরি রিটার্ন, সেটিংস হাব, স্টাফ/রোল/পারমিশন (CRUDA ম্যাট্রিক্স), অপরিবর্তনীয় অডিট লগ, সহায়তা ও অভিযোগ কেন্দ্র, নোটিফিকেশন পছন্দ। সব mock ডেটা একই লেজার থেকে আসছে। <b>Somobay Mobile-first</b> — তাই Admin Panel-এরও অ্যাপ স্তর আছে: একই Backend/API/নিয়ম, শুধু আলাদা UI। <b>Leg A</b>-তে অ্যাডমিন মোবাইল শেল (রোলভিত্তিক ৫-স্লট বটম নেভ + কেন্দ্রীয় FAB + হ্যামবার্গার ড্রয়ার), ৬টি মোবাইল প্যাটার্ন ও AM-01/02/03 (হোম · অনুমোদন কিউ · সিদ্ধান্ত); <b>Leg B</b>-তে AM-04…AM-11 — সদস্য খোঁজা (A-07), ৩৬০° সারাংশ (A-10), দ্রুত জমা এন্ট্রি (A-17), নিবন্ধন উইজার্ড (A-08), আবেদন যাচাই (A-11), সদস্য সম্পাদনা (A-09), অ্যাকাউন্ট লেজার (A-13) ও প্রস্থান নিষ্পত্তি (A-15)। <b>Leg C</b>-তে AM-12…AM-19 — বকেয়া রেজিস্টার (A-31), ফরেনসিক বিবরণ ও অডিট ট্রেইল (A-26), সংশোধন ও রিভার্সাল (A-27), দিনশেষ ক্যাশ বুক (A-28), নিষ্পত্তি ও পেমেন্ট (A-24), সাধারণ লেজার (A-25), সদস্য অবস্থা পরিবর্তন (A-12) ও মৃত্যু দাবি নিষ্পত্তি (A-14)। <b>Leg D</b>-তে AM-20…AM-26 — তহবিল স্থানান্তর (A-29), রিকনসিলিয়েশন (A-30), বাল্ক জমা (A-18), CSV ইমপোর্ট ও ম্যাপিং (A-19), আর্থিক বিবরণ ও রেগুলেটরি রিটার্ন (A-35), রিপোর্ট কেন্দ্র (A-34) ও স্কিম বিবরণ (A-06)। <b>Leg E</b>-তে AM-27…AM-35 — স্কিম তালিকা (A-03), স্কিম তৈরির উইজার্ড (A-04), স্কিম সম্পাদনা ও সংস্করণ তুলনা (A-05), সদস্য স্থানান্তর (A-16), সংগ্রহ পরিকল্পনা ও রুট (A-32), রিমাইন্ডার ও যোগাযোগ (A-33), সেটিংস হাব (A-36), স্টাফ/রোল/পারমিশন ও CRUDA ম্যাট্রিক্স (A-37) এবং অপরিবর্তনীয় অডিট লগ (A-38)। অর্থাৎ <b>৩৫টি অ্যাডমিন অ্যাপ স্ক্রিন — Admin App স্তর সম্পূর্ণ</b>: ৩৮টি অ্যাডমিন লজিক্যাল পেজের সবগুলোর মোবাইল রূপ আছে, প্রতিটিতে একই ব্যালেন্স ইঞ্জিন, একই নীতি-যাচাই ও একই অনুমোদন সীমা (D-22)। <b>কোনো ফাংশন শুধু-ডেস্কটপ নয়</b> (থার্মাল প্রিন্ট ও বড় এক্সপোর্ট ছাড়া, যা পরিবেশের সীমা)।</p>
+      <span class="go">স্ক্রিন দেখুন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="system.html"><span class="no">১৪</span>
+      <span class="tag t-build">প্রোটোটাইপ · নতুন</span>
+      <h3>ডিজাইন সিস্টেম</h3>
+      <p>২৪টি কালার টোকেন, বাংলা টাইপোগ্রাফি স্কেল, ১৪টি পুনর্ব্যবহৃত প্যাটার্ন (প্রতিটির reuse-সংখ্যাসহ), নেভিগেশন গঠন, অ্যাক্সেসিবিলিটি তালিকা ও করণীয়/বর্জনীয়।</p>
+      <span class="go">ডিজাইন সিস্টেম <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="screens.html#states"><span class="no">১২</span>
+      <span class="tag t-build">প্রোটোটাইপ · নতুন</span>
+      <h3>State Gallery</h3>
+      <p>Normal · Empty · Loading · Error · Permission · Offline · Blocked · Success · Warning · Frozen · Rejected · Stale — ১২টি অবস্থা একই M-04 পেজে প্রয়োগ করা। প্রতিটি স্ক্রিনে এই ভাষাই ব্যবহার হয়েছে।</p>
+      <span class="go">গ্যালারি দেখুন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="../specs/03-multi-module-platform-architecture.md"><span class="no">৪</span>
+      <span class="tag t-arch">স্পেক · নতুন রিপোর্ট · ৩০ অক্টোবর ২০২৬</span>
+      <h3>Multi-Module Platform Architecture ও Functional Planning</h3>
+      <p>Multi-tenant SaaS (Super Admin + প্ল্যানভিত্তিক অনুমতি) · ৩টি Savings Scheme Category — General Savings · ROSCA · Joint Goal · স্বতন্ত্র <b>Qard Hasanah</b> মডিউল (সুদমুক্ত, শুধু সদস্যদের জন্য) · Member ও Admin Panel-এ চার মডিউলের উপস্থাপনা · QH Eligibility Engine (৪ স্তর + কারণ-কোড) · নতুন ৫৮ পেজ, ৯টি ফ্লো, BR-16…BR-28, +২৭ এনটিটি · <b>৪০টি নতুন সিদ্ধান্ত D-36…D-74 আপনার উত্তরের অপেক্ষায়</b> (২টি ✅ উত্তর পেয়েছি)। এতে কোনো নতুন ডিজাইন বা কোড নেই।</p>
+      <span class="go">রিপোর্ট পড়ুন ও উত্তর দিন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="../specs/00-somobay-savings-module-spec.md"><span class="no">৬৭</span>
+      <span class="tag t-spec">স্পেক · মূল ডকুমেন্ট</span>
+      <h3>ফাংশনাল স্পেসিফিকেশন</h3>
+      <p>১৭ গ্রুপে ১৬২ ফাংশন (MoSCoW) · Member ২১ + Admin ৩৮ + Shared ৮ = ৬৭ পেজ · প্রতিটি পেজের ৯টি বৈশিষ্ট্য · ৮টি ইউজার ফ্লো · ১৫টি ব্যবসায়িক নিয়ম · ৮টি লেজার-অখণ্ডতা নীতি · ১১ ভূমিকার CRUDA ম্যাট্রিক্স।</p>
+      <span class="go">স্পেক পড়ুন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="../specs/02-open-decisions.md"><span class="no">৩৪</span>
+      <span class="tag t-spec">স্পেক</span>
+      <h3>৩৪টি সিদ্ধান্ত + লক করা ডিফল্ট</h3>
+      <p>উত্তোলনের নিয়ম, ফি, লক-ইন, অনুমোদন সীমা, বকেয়া, মৃত্যু দাবি — সব অজানা ব্যবসায়িক নিয়ম। প্রতিটিতে ডিফল্ট লক করা আছে এবং প্রোটোটাইপে <code>D-কোড</code> চিপ দিয়ে চিহ্নিত।</p>
+      <span class="go">ডিফল্ট দেখুন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="../specs/01-data-model-and-api.md"><span class="no">API</span>
+      <span class="tag t-spec">স্পেক</span>
+      <h3>ডেটা মডেল ও API কন্ট্র্যাক্ট</h3>
+      <p>টেবিল স্কিমা, অ্যাকাউন্ট অবস্থা মেশিন, লেজার অখণ্ডতার নিয়ম, সব API endpoint, idempotency ও ইতিহাস-রাখার নীতি। টাকা কখনো float-এ নয় — সব <code>*_paisa BIGINT</code>।</p>
+      <span class="go">ডেটা মডেল <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+
+    <a class="lnk" href="original-5-screens.html"><span class="no">৫</span>
+      <span class="tag t-old">আপনার আগের ডিজাইন</span>
+      <h3>মূল ৫ মোবাইল স্ক্রিন</h3>
+      <p>আপনি যে প্রোটোটাইপ দিয়ে শুরু করেছিলেন (হোম · সঞ্চয় · ROSCA · ঋণ · আরও)। তার সবুজ-লাইম পরিচয় ও বটম নেভ এই নতুন ডিজাইনে বজায় রাখা হয়েছে।</p>
+      <span class="go">আগের ডিজাইন <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></span></a>
+  </div>
+
+  <div class="stats">
+    <div class="st"><b>১৬২</b><i>ফাংশন</i></div>
+    <div class="st"><b>১০০</b><i>পেজ (৬৭ + ROSCA ১৮ + JG ১৫)</i></div>
+    <div class="st"><b>১০০/১০০</b><i>লজিক্যাল পেজ ✓</i></div>
+    <div class="st"><b>১৯৯</b><i>স্ক্রিন (Web + App)</i></div>
+    <div class="st"><b>৪১</b><i>তার মধ্যে MVP</i></div>
+    <div class="st"><b>৮</b><i>ইউজার ফ্লো</i></div>
+    <div class="st"><b>৩৫</b><i>ডিফল্ট সিদ্ধান্ত</i></div>
+    <div class="st"><b>৬</b><i>ক্যাটাগরি প্রিভিউ সেকশন</i></div>
+    <div class="st"><b>১৫</b><i>ভূমিকা-ওয়ার্কস্পেস</i></div>
+    <div class="st"><b>৬</b><i>মডিউল স্কিন (থিম)</i></div>
+    <div class="st"><b>৫৮</b><i>Admin App পর্দা নিরীক্ষিত</i></div>
+  </div>
+
+  <div class="sec">
+    <h2>এখন কী দেখবেন</h2>
+    <p>প্রোটোটাইপে সব অঙ্ক আসল হিসাব থেকে আসছে — কোনো সংখ্যা হার্ডকোড করা নেই। <b>balanceBreakdown()</b> ফাংশন ব্যালেন্স ভাঙে এভাবে:</p>
+    <table>
+      <thead><tr><th>ধাপ</th><th>কী হয়</th><th>উদাহরণ (আব্দুল করিম · মাসিক সঞ্চয়)</th></tr></thead>
+      <tbody>
+        <tr><td><b>১</b></td><td>পোস্টেড ব্যালেন্স = অনুমোদিত লেজার এন্ট্রির যোগফল</td><td>৳১২,৫০০</td></tr>
+        <tr><td><b>২</b></td><td>বিয়োগ: আটক (Hold) = চলমান উত্তোলন আবেদন</td><td>−৳০</td></tr>
+        <tr><td><b>৩</b></td><td>বিয়োগ: সর্বনিম্ন ব্যালেন্স (D-02)</td><td>−৳৫০০</td></tr>
+        <tr><td><b>৪</b></td><td>বিয়োগ: লক-ইন (শুধু মেয়াদি স্কিমে, D-06)</td><td>−৳০</td></tr>
+        <tr><td><b>৫</b></td><td>বিয়োগ: ফ্রিজ (কমিটির সিদ্ধান্তে)</td><td>−৳০</td></tr>
+        <tr><td><b>=</b></td><td><b>এখন তোলা যাবে</b> — এটাই সদস্য দেখেন</td><td><b>৳১২,০০০</b></td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:14px">এই হিসাবটি <b>কখনো ডেটাবেসে সংরক্ষিত হয় না</b> — প্রতিবার লেজার থেকে তৈরি হয় (নীতি R-01)। তাই কোনো সংশোধন হলে পুরনো সংখ্যা "আটকে" থাকে না।</p>
+  </div>
+
+  <div class="sec">
+    <h2>ডিফল্ট কীভাবে বদলাবেন</h2>
+    <p>প্রতিটি স্ক্রিনের নিচে ছোট চিপে লেখা আছে কোন সিদ্ধান্তের ডিফল্ট ব্যবহার হয়েছে — যেমন <code>ডিফল্ট · D-02</code>।
+    বদলাতে চাইলে শুধু কোড ও নতুন নিয়ম বলুন: <b>"D-02 → নোটিশ ৩ দিন, মাসে ৩ বার"</b> — সংশ্লিষ্ট সব স্ক্রিন, হিসাব ও ফ্লো একসাথে আপডেট হয়ে যাবে।</p>
+  </div>
+
+  <div class="foot">
+    <b style="color:#B9D4C9">ফাইল অবস্থান:</b> <code>prototype/skins.html</code> · <code>prototype/preview.html</code> · <code>prototype/workspace.html</code> · <code>prototype/flows.html</code> · <code>prototype/screens.html</code> · <code>prototype/system.html</code> · <code>prototype/assets/ui.css</code> · <code>prototype/assets/app.js</code> · <code>prototype/assets/screens.js</code> · <code>prototype/assets/workspace.js</code> · <code>prototype/assets/skins.css</code> · <code>prototype/assets/skins.js</code> · <code>prototype/assets/store.js</code> · <code>specs/00…</code> <code>01…</code> <code>02…</code> <code>03…</code> <code>04-admin-app-ux-audit.md</code> · <code>prototype/tests/</code><br>
+    <b style="color:#B9D4C9">প্রযুক্তি:</b> বিশুদ্ধ HTML/CSS/JS — কোনো বিল্ড স্টেপ নেই, যেকোনো ব্রাউজারে সরাসরি খোলে। React-এ রূপান্তরের জন্য টোকেন CSS variable ও প্যাটার্নগুলো কম্পোনেন্ট হিসেবে সরাসরি ম্যাপ করা যাবে।<br>
+    <b style="color:#B9D4C9">আইনি ভিত্তি:</b> সমবায় সমিতি আইন ২০০১ (সংশোধিত ২০০২, ২০১৩) · বিধিমালা ২০০৪ (সংশোধিত ২০২০) · জাতীয় সমবায় নীতিমালা ২০১২। <b style="color:#FFD37A">কোনো সুদ/মুনাফা হিসাব নেই</b> (BR-13)।
+  </div>
+</div>
+</body>
+</html>

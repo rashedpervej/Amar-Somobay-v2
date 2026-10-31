@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Somobay · Skin System — মডিউলভিত্তিক থিম (QH = ইসলামিক থিম)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<link rel="stylesheet" href="assets/skins.css">
+<style>
+/* ===== গ্যালারি-লোকাল স্টাইল (skp- প্রিফিক্স — ui.css/skins.css-এর সাথে সংঘর্ষ নেই) ===== */
+body.skp{background:
+  radial-gradient(1100px 700px at 10% -12%, #0B4234 0%, transparent 62%),
+  radial-gradient(900px 620px at 96% -6%, #0A3348 0%, transparent 58%), #041A14;
+  color:#E4F0EA;min-height:100%}
+.skp-wrap{max-width:1660px;margin:0 auto;padding:0 22px 80px}
+.skp-top{position:sticky;top:0;z-index:70;background:rgba(4,26,20,.94);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.1)}
+.skp-top .in{max-width:1660px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.skp-logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(140deg,#C9F26E,#5FD39A);
+  color:#06301F;display:grid;place-items:center;font-weight:700;font-size:18px;flex:none}
+.skp-title{color:#fff;font-size:15.4px;font-weight:600;line-height:1.35}
+.skp-title small{display:block;font-size:11.6px;color:#8FB9A8;font-weight:400;margin-top:2px}
+.skp-switch{display:flex;gap:7px;flex-wrap:wrap;margin-left:auto}
+.skp-switch button{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);color:#C6DCD1;
+  border-radius:13px;padding:7px 12px;cursor:pointer;text-align:left;line-height:1.4;transition:.16s;min-width:132px}
+.skp-switch button:hover{border-color:rgba(201,242,110,.5);color:#fff}
+.skp-switch button.on{background:rgba(201,242,110,.14);border-color:rgba(201,242,110,.55);color:#fff}
+.skp-switch b{display:block;font-size:12.8px;font-weight:600}
+.skp-switch i{display:block;font-style:normal;font-size:10.6px;color:#8FB9A8;margin-top:1px}
+.skp-switch u{text-decoration:none;display:inline-block;font-size:9.8px;font-weight:700;letter-spacing:.4px;
+  margin-top:5px;padding:2px 7px;border-radius:99px;background:rgba(255,176,32,.16);color:#FFD37A;
+  border:1px solid rgba(255,176,32,.3)}
+.skp-switch u.ok{background:rgba(201,242,110,.14);color:#C9F26E;border-color:rgba(201,242,110,.32)}
+.skp-readout{margin-top:10px;padding:9px 13px;border-radius:12px;background:rgba(0,0,0,.28);
+  border:1px solid rgba(255,255,255,.1);font-family:ui-monospace,Menlo,Consolas,monospace;
+  font-size:11.8px;color:#BFE0FF;word-break:break-all}
+.skp-readout b{color:#C9F26E}
+
+h1{color:#fff;font-size:clamp(26px,3.4vw,40px);line-height:1.32;margin:34px 0 12px;letter-spacing:-.5px}
+h1 em{font-style:normal;color:#C9F26E}
+.skp-lead{font-size:15.6px;line-height:1.8;color:#A9C8BB;max-width:1020px}
+.skp-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(146px,1fr));gap:11px;margin-top:24px}
+.skp-st{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px 15px}
+.skp-st b{display:block;font-size:24px;font-weight:700;color:#fff;letter-spacing:-.5px}
+.skp-st i{font-style:normal;font-size:11.4px;color:#8FB9A8;display:block;margin-top:4px;line-height:1.5}
+
+.skp-sec{margin-top:46px;scroll-margin-top:120px}
+.skp-sec-h{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:16px}
+.skp-sec-h .num{font-size:11.4px;font-weight:700;letter-spacing:.8px;color:#C9F26E;
+  border:1px solid rgba(201,242,110,.32);border-radius:99px;padding:5px 12px;flex:none;margin-top:5px}
+.skp-sec-h h2{color:#fff;font-size:22px;line-height:1.4}
+.skp-sec-h p{font-size:13.6px;color:#A0C0B2;line-height:1.78;max-width:1080px;margin-top:6px}
+.skp-rule{height:1px;background:linear-gradient(90deg,rgba(201,242,110,.4),rgba(201,242,110,.05) 62%,transparent);margin:14px 0 0}
+
+.skp-rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:12px;margin-top:14px}
+.skp-rule-c{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px 16px}
+.skp-rule-c b{display:block;color:#fff;font-size:13.8px;margin-bottom:6px}
+.skp-rule-c p{font-size:12.6px;color:#A0C0B2;line-height:1.75}
+.skp-rule-c code{font-size:11.4px;background:rgba(255,255,255,.09);color:#C9F26E;padding:2px 6px;border-radius:6px}
+
+.skp-panel{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:18px}
+.skp-note{margin-top:15px;padding:13px 16px;border-radius:14px;border:1px solid rgba(120,190,255,.28);
+  background:rgba(60,140,220,.1);color:#CFE4F5;font-size:12.8px;line-height:1.78}
+.skp-note.g{border-color:rgba(201,242,110,.3);background:rgba(201,242,110,.08);color:#DDECC9}
+.skp-note.a{border-color:rgba(255,176,32,.3);background:rgba(255,176,32,.09);color:#FFE0A8}
+.skp-note code{font-size:11.6px;background:rgba(255,255,255,.1);color:#C9F26E;padding:2px 6px;border-radius:6px}
+.skp-jump{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.skp-jump button{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);color:#C6DCD1;
+  border-radius:99px;padding:7px 14px;font-size:12.4px;cursor:pointer}
+.skp-jump button:hover{border-color:rgba(201,242,110,.5);color:#fff}
+.skp-foot{margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-size:12.4px;
+  color:#7FA795;line-height:1.8}
+.skp-foot code{font-size:11.6px;background:rgba(255,255,255,.08);color:#C9F26E;padding:2px 6px;border-radius:6px}
+.skp-dc{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-top:14px}
+.skp-dc-c{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:15px 17px}
+.skp-dc-c h3{color:#fff;font-size:14.6px;margin-bottom:7px}
+.skp-dc-c .q{font-size:12.8px;color:#CFE4DA;line-height:1.78}
+.skp-dc-c .d{margin-top:9px;padding-top:9px;border-top:1px dashed rgba(255,255,255,.14);
+  font-size:12.2px;color:#9FBFB2;line-height:1.75}
+.skp-dc-c .d b{color:#FFD37A}
+@media(max-width:720px){.skp-switch{margin-left:0;width:100%}.skp-switch button{flex:1;min-width:0}}
+</style>
+</head>
+<body class="skp" data-skin="default">
+
+<div class="skp-top"><div class="in">
+  <div class="skp-logo">স</div>
+  <div class="skp-title">Skin System — মডিউলভিত্তিক থিম চুক্তি
+    <small>General Savings · ROSCA · Joint Goal · <b style="color:#E9CE8B">Qard Hasanah (ইসলামিক থিম)</b> · Platform</small></div>
+  <div class="skp-switch" data-sk-switch></div>
+</div>
+<div class="skp-wrap"><div class="skp-readout" id="skNow"></div></div>
+</div>
+
+<div class="skp-wrap">
+  <h1>চার মডিউলের জন্য <em>চারটি স্কিন</em> — একটি মার্কআপও বদলায় না</h1>
+  <p class="skp-lead">স্কিন মানে শুধু রঙ ও অলংকরণের স্তর: <b>একই Backend, একই API, একই নিয়ম</b> (R-01…R-08, BR-01…BR-28), একই স্ক্রিন।
+    নিচের সুইচারে স্কিন বদলান — বিদ্যমান <b>১৯৯টি স্ক্রিন</b> সাথে সাথে নতুন থিমে রঙ হবে, কিন্তু কোনো স্ক্রিনের গঠন, হিসাব, অনুমোদন-প্রবাহ বা স্ট্যাটাস রঙ বদলাবে না।
+    <b style="color:#E9CE8B">Qard Hasanah মডিউলের পেজ/স্কিন ইসলামিক থিমে হবে</b> — পান্না সবুজ + সোনালি, জ্যামিতিক প্যাটার্ন, মিহরাব আর্চ ও ক্যালিগ্রাফি; কোনো প্রাণী/মানুষের ছবি নেই, এবং কোথাও সুদ বা অতিরিক্ত চার্জের ভাষা নেই (BR-13)।</p>
+
+  <div class="skp-stats">
+    <div class="skp-st"><b>৬</b><i>স্কিন (১ ডিফল্ট + ৫ মডিউল)</i></div>
+    <div class="skp-st"><b>২৫</b><i>টোকেন প্রতি স্কিনে (QH-তে ৩০)</i></div>
+    <div class="skp-st"><b>১৫</b><i>জ্যামিতিক প্যাটার্ন ভ্যারিয়েন্ট</i></div>
+    <div class="skp-st"><b>২২</b><i>ইসলামিক কিট ক্লাস (.qh-*)</i></div>
+    <div class="skp-st"><b>০</b><i>মার্কআপ / JS পরিবর্তন</i></div>
+    <div class="skp-st"><b>১৯৯</b><i>স্ক্রিন অক্ষুণ্ণ (স্কিন = উপস্থাপনা স্তর)</i></div>
+  </div>
+
+  <div class="skp-jump">
+    <button onclick="if (!window.__cfRLUnblockHandlers) return false; document.getElementById('s1').scrollIntoView({behavior:'smooth'})" data-cf-modified-e308d31cbd0fb5bb5f769d6c-="">১ চুক্তি</button>
+    <button onclick="if (!window.__cfRLUnblockHandlers) return false; document.getElementById('s2').scrollIntoView({behavior:'smooth'})" data-cf-modified-e308d31cbd0fb5bb5f769d6c-="">২ টোকেন</button>
+    <button onclick="if (!window.__cfRLUnblockHandlers) return false; document.getElementById('s3').scrollIntoView({behavior:'smooth'})" data-cf-modified-e308d31cbd0fb5bb5f769d6c-="">৩ প্যাটার্ন</button>
+    <button onclick="if (!window.__cfRLUnblockHandlers) return false; document.getElementById('s4').scrollIntoView({behavior:'smooth'})" data-cf-modified-e308d31cbd0fb5bb5f769d6c-="">৪ কম্পোনেন্ট</button>
+    <button onclick="if (!window.__cfRLUnblockHandlers) return false; document.getElementById('s5').scrollIntoView({behavior:'smooth'})" data-cf-modified-e308d31cbd0fb5bb5f769d6c-="">৫ ইসলামিক কিট</button>
+    <button onclick="if (!window.__cfRLUnblockHandlers) return false; document.getElementById('s6').scrollIntoView({behavior:'smooth'})" data-cf-modified-e308d31cbd0fb5bb5f769d6c-="">৬ প্রয়োগ</button>
+    <button onclick="if (!window.__cfRLUnblockHandlers) return false; document.getElementById('s7').scrollIntoView({behavior:'smooth'})" data-cf-modified-e308d31cbd0fb5bb5f769d6c-="">৭ সীমা ও সিদ্ধান্ত</button>
+  </div>
+
+  <!-- ==================== ১ ==================== -->
+  <div class="skp-sec" id="s1">
+    <div class="skp-sec-h"><span class="num">১ · CONTRACT</span>
+      <div><h2>স্কিন চুক্তি — ৬টি নিয়ম</h2>
+        <p>এই নিয়মগুলোই ঠিক করে দেয় স্কিন কী বদলাতে পারে এবং কী কখনোই পারবে না। লক্ষ্য: ভিজ্যুয়্যাল পরিচয় মডিউলভিত্তিক আলাদা হবে, কিন্তু অর্থ ও নিয়ম একটুও বদলাবে না।</p></div></div>
+    <div class="skp-rules">
+      <div class="skp-rule-c"><b>১ · একটি অ্যাট্রিবিউটেই সব</b>
+        <p>যেকোনো কনটেইনারে <code>data-theme="qh"</code> দিলেই তার ভেতরের সব স্ক্রিন সেই স্কিনে রঙ হবে। মডিউল ধরে অটো করতে <code>data-module="qard_hasanah"</code>।</p></div>
+      <div class="skp-rule-c"><b>২ · ডিফল্ট অক্ষুণ্ণ</b>
+        <p><code>data-theme</code> না থাকলে <code>ui.css</code>-এর বিদ্যমান ডিজাইন হুবহু থাকে। এই ফাইলের প্রতিটি রুল স্কোপড — তাই পুরনো স্ক্রিন কখনো ওভাররাইড হয় না।</p></div>
+      <div class="skp-rule-c"><b>৩ · স্ট্যাটাস রঙ স্থির</b>
+        <p>সফল=সবুজ, বিপদ=লাল, সতর্ক=হলুদ, তথ্য=নীল — কোনো স্কিনে বদলায় না। শুধু ব্র্যান্ড রঙ বদলায়; অর্থ বদলালে UI ভুল বার্তা দেয়।</p></div>
+      <div class="skp-rule-c"><b>৪ · মার্কআপ/JS একই</b>
+        <p>কোনো স্ক্রিনের HTML বা লজিক বদলাতে হয় না। তাই ১৯৯ স্ক্রিনের গণনা, ফ্লো ও পারমিশন অপরিবর্তিত থাকে।</p></div>
+      <div class="skp-rule-c"><b>৫ · সুদমুক্ত ভাষা বাধ্যতামূলক</b>
+        <p>কোনো স্কিনে সুদ/ইন্টারেস্ট/মুনাফা/ঋণের দাম হিসাব বা লেবেল যোগ করা যাবে না (BR-13)। QH স্কিনে সর্বত্র <b>"সুদ ৳০"</b>।</p></div>
+      <div class="skp-rule-c"><b>৬ · অ্যাক্সেসিবিলিটি ন্যূনতম শর্ত</b>
+        <p>প্রতিটি টেক্সট জোড়ায় WCAG AA (৪.৫:১) কনট্রাস্ট, প্যাটার্ন লেখার পেছনে ≤ ২২% অস্বচ্ছতায়, এবং <code>prefers-reduced-motion</code>/<code>prefers-contrast</code> সম্মানিত।</p></div>
+    </div>
+    <div class="sk-lab">মডিউল → স্কিন ম্যাপিং</div>
+    <div id="skMap"></div>
+    <div class="skp-note">📌 <b>গুরুত্বপূর্ণ:</b> স্কিন তৈরি হলেই নতুন পেজ তৈরি হয় না। ROSCA (১৮), Joint Goal (১৫), Qard Hasanah (২৫) ও Platform (১২) — মোট ৭০টি পেজ এখনো
+      <b>পরিকল্পিত</b> (<code>specs/03</code> §৮.২–§৮.৬); সেগুলোর স্কিন এখানে প্রস্তুত রাখা হয়েছে যাতে পেজ তৈরির সময় শুধু <code>data-theme</code> বসাতে হয়।
+      স্কিন যোগ করায় পেজ/স্ক্রিন গণনা অপরিবর্তিত: <b>১২৫ লজিক্যাল পেজ · ১৯৯ স্ক্রিন</b> (৬৭ বিদ্যমান + ROSCA ১৮ + Joint Goal ১৫ + কর্জে হাসানা ২৫)।</div>
+  </div>
+
+  <!-- ==================== ২ ==================== -->
+  <div class="skp-sec" id="s2">
+    <div class="skp-sec-h"><span class="num">২ · TOKENS</span>
+      <div><h2>টোকেন — সক্রিয় স্কিন ও পাশাপাশি তুলনা</h2>
+        <p>প্রতিটি স্কিন ২৫টি <code>--mod-*</code> টোকেন সংজ্ঞায়িত করে (QH-তে সোনালি টোকেনসহ ৩০টি)। একটি ব্রিজ রুল এই টোকেনগুলোকে বিদ্যমান ব্র্যান্ড টোকেনে (<code>--green-*</code>, <code>--lime</code>, <code>--lime-soft</code>, <code>--green</code>, <code>--mint</code>) ম্যাপ করে — ফলে পুরো অ্যাপ একসাথে রি-স্কিন হয়।</p></div></div>
+    <div class="skp-panel">
+      <div class="sk-lab">সক্রিয় স্কিনের টোকেন (সুইচার বদলালেই হালনাগাদ হবে)</div>
+      <div id="skTokens"></div>
+      <div class="sk-lab">সব স্কিনের তুলনা</div>
+      <div id="skTokensAll"></div>
+    </div>
+    <div class="skp-note g">✅ <b>ব্রিজ ম্যাপিং:</b> <code>[data-theme]{--green-900:var(--mod-900); --green-800:var(--mod-800); --green-700:var(--mod-700); --green-600:var(--mod-600); --green-500:var(--mod-500); --green-100:var(--mod-100); --green-050:var(--mod-050); --lime:var(--mod-hi); --lime-soft:var(--mod-hi-soft); --green:var(--mod-700); --mint:var(--mod-100);}</code>
+      — এছাড়া যেসব কম্পোনেন্টে রঙ হার্ডকোড ছিল (<code>.avatar</code>, <code>.bnv-fab .fab</code>, <code>.btn-lime</code>, <code>.chip-lime</code>, <code>.sidebar</code>, <code>.sb-item.on</code>, <code>.bal-hero</code>, <code>.drawer-i.on</code> ইত্যাদি) সেগুলোও স্কিন-সচেতন করা হয়েছে।</div>
+  </div>
+
+  <!-- ==================== ৩ ==================== -->
+  <div class="skp-sec" id="s3">
+    <div class="skp-sec-h"><span class="num">৩ · PATTERNS</span>
+      <div><h2>জ্যামিতিক প্যাটার্ন ও অলংকরণ</h2>
+        <p>সব প্যাটার্ন ইনলাইন SVG ডেটা-URI — কোনো বাইরের ছবি বা নেটওয়ার্ক লাগে না, তাই অফলাইন/প্রিন্ট দুটোতেই কাজ করে।
+          ইসলামিক স্কিনে ঐতিহ্যবাহী জ্যামিতি: ৮-কোণা তারকা (খাতাম/রুব-উল-হিজব), পরস্পর-ছেদী বৃত্ত (গিরিহ), আরবেস্ক ব্যান্ড ও মিহরাব আর্চ।</p></div></div>
+    <div class="skp-panel" id="skPatterns"></div>
+    <div class="skp-rules">
+      <div class="skp-rule-c"><b>প্যাটার্নের সীমা</b><p>শুধু পটভূমি/বর্ডার/ডিভাইডারে। টেক্সটের ঠিক পেছনে হলে অস্বচ্ছতা ≤ ২২%, অন্যথায় স্ক্রিম ব্যবহার বাধ্যতামূলক।</p></div>
+      <div class="skp-rule-c"><b>কোনো প্রতিকৃতি নয়</b><p>প্রাণী, মানুষ, মূর্তি বা ছবিভিত্তিক অলংকরণ নেই — শুধু জ্যামিতি ও ক্যালিগ্রাফি। আইকন সেটও বিদ্যমান লাইন-আইকন (বস্তুভিত্তিক)।</p></div>
+      <div class="skp-rule-c"><b>প্রিন্ট ও মোশন</b><p><code>@media print</code>-এ প্যাটার্ন বাদ; <code>prefers-reduced-motion</code>-এ অ্যানিমেশন বন্ধ; <code>prefers-contrast:more</code>-এ প্যাটার্ন আরও হালকা।</p></div>
+    </div>
+  </div>
+
+  <!-- ==================== ৪ ==================== -->
+  <div class="skp-sec" id="s4">
+    <div class="skp-sec-h"><span class="num">৪ · COMPONENTS</span>
+      <div><h2>কম্পোনেন্ট প্রিভিউ — সক্রিয় স্কিনে</h2>
+        <p>নিচের সব কম্পোনেন্ট বিদ্যমান <code>ui.css</code> ক্লাস দিয়েই তৈরি (নতুন মার্কআপ নয়)। উপরের সুইচারে স্কিন বদলালে এই প্যানেল সাথে সাথে বদলাবে — এটাই প্রমাণ করে যে একটি অ্যাট্রিবিউটেই পুরো অ্যাপ রি-স্কিন হয়।</p></div></div>
+    <div id="skComp"></div>
+    <div class="skp-note">🔎 স্ট্যাটাস রঙ (সবুজ/লাল/হলুদ/নীল) ইচ্ছাকৃতভাবে <b>সব স্কিনে একই</b> রাখা হয়েছে — ৭টি বাধ্যতামূলক অবস্থা (Normal · Empty · Loading · Error · Permission · Offline · Blocked) যেন যেকোনো থিমে একই অর্থ দেয়।</div>
+  </div>
+
+  <!-- ==================== ৫ ==================== -->
+  <div class="skp-sec" id="s5">
+    <div class="skp-sec-h"><span class="num">৫ · QARD HASANAH</span>
+      <div><h2>ইসলামিক থিম কিট — Qard Hasanah মডিউলের জন্য</h2>
+        <p>আপনার নির্দেশ অনুযায়ী <b>Qard Hasanah-এর পেজ/স্কিন ইসলামিক থিমে হবে</b>। কিটটি এখানে সম্পূর্ণ তৈরি ও প্রদর্শিত: পান্না সবুজ + সোনালি প্যালেট, জ্যামিতিক প্যাটার্ন, মিহরাব আর্চ, ক্যালিগ্রাফি, দোয়া ব্লক, আয়াত/হাদিস রেফারেন্স চিপ, তাসবিহ-মোটিফ অগ্রগতি, এবং "সুদমুক্ত · সুদ ৳০" ব্যাজ।
+          এই সেকশনটি সর্বদা <code>data-theme="qh"</code>-এ থাকে — সুইচারের সাথে বদলায় না।</p></div></div>
+
+    <div class="skp-rules">
+      <div class="skp-rule-c"><b>প্যালেট</b><p>পান্না সবুজ <code>#0B6B52</code>/<code>#064437</code> + সোনালি <code>#C9A227</code>/<code>#E9CE8B</code>। সোনালি শুধু অলংকরণ ও সীমানায়; টেক্সটে গাঢ় সোনালি <code>#6B5210</code> (AA পাস)।</p></div>
+      <div class="skp-rule-c"><b>জ্যামিতি</b><p>৮-কোণা তারকা (খাতাম) ও ছেদী বৃত্ত (গিরিহ) টাইল, আরবেস্ক ব্যান্ড, মিহরাব আর্চ হেডার — সব SVG ডেটা-URI, কোনো ছবি ফাইল নেই।</p></div>
+      <div class="skp-rule-c"><b>ক্যালিগ্রাফি</b><p>বিসমিল্লাহ হেডার, আয়াত চিপ ও দোয়া ব্লক — <code>Amiri</code>/<code>Scheherazade New</code>/<code>Noto Naskh Arabic</code> ফন্ট স্ট্যাক, <code>direction:rtl</code>, ফলব্যসহ।</p></div>
+      <div class="skp-rule-c"><b>সুদমুক্ত ভাষা</b><p>শুধু মূল (প্রিন্সিপাল) প্রদর্শন; প্রতিটি অঙ্কের পাশে <b>সুদ ৳০</b>। বিলম্বে জরিমানা নয় — সময় বৃদ্ধি (respite) বা মওকুফ।</p></div>
+    </div>
+
+    <div id="skQhSamples"></div>
+
+    <div class="sk-lab">শব্দচয়ন চুক্তি (QH মডিউলে বাধ্যতামূলক)</div>
+    <div id="skWords"></div>
+
+    <div class="sk-lab">কনট্রাস্ট যাচাই — ইসলামিক প্যালেট (WCAG 2.1 AA)</div>
+    <div id="skContrastQh"></div>
+
+    <div class="sk-lab">কিট ক্লাস তালিকা (.qh-* — ২২টি)</div>
+    <div class="skp-panel"><table class="sk-tbl"><thead><tr><th>ক্লাস</th><th>কী করে</th><th>কোথায় ব্যবহৃত হবে</th></tr></thead><tbody>
+      <tr><td><code>.qh-bismillah</code></td><td>বিসমিল্লাহ ক্যালিগ্রাফি হেডার + আরবেস্ক ব্যান্ড</td><td>QM-01 হোম, QA-01 ড্যাশবোর্ডের শীর্ষে</td></tr>
+      <tr><td><code>.qh-arch</code> / <code>.qh-arch.pointed</code></td><td>মিহরাব আর্চ কার্ড/হেডার (গোলাকার ও pointed মাস্ক ভ্যারিয়েন্ট)</td><td>মডিউল হাব, পুল সারাংশ কার্ড</td></tr>
+      <tr><td><code>.qh-pattern</code> / <code>.dark</code> / <code>.girih</code></td><td>জ্যামিতিক টাইল পটভূমি (হালকা ও গাঢ় পৃষ্ঠতলে)</td><td>হিরো কার্ড, খালি অবস্থার পটভূমি</td></tr>
+      <tr><td><code>.qh-band</code> / <code>.qh-divider</code> / <code>.qh-star8</code></td><td>অলংকরণ ব্যান্ড, ডিভাইডার, ۞ গ্লিফ</td><td>সেকশন বিভাজন</td></tr>
+      <tr><td><code>.qh-riba</code></td><td>"সুদমুক্ত · সুদ ৳০" ব্যাজ (স্ট্রাইক-থ্রু সহ)</td><td>প্রতিটি অঙ্ক/কার্ডে বাধ্যতামূলক</td></tr>
+      <tr><td><code>.qh-ref</code> / <code>.qh-ref.hadith</code></td><td>আয়াত/হাদিস রেফারেন্স চিপ (তথ্যমূলক)</td><td>মডিউল পরিচিতি, সহায়তা প্যানেল</td></tr>
+      <tr><td><code>.qh-dua</code></td><td>দোয়া ব্লক (আরবি + বাংলা অনুবাদ)</td><td>সফল নিশ্চিতকরণ, মওকুফ অনুমোদন</td></tr>
+      <tr><td><code>.qh-hero</code> / <code>-b</code> / <code>-f</code></td><td>হিরো কার্ড (হেডার + ব্যান্ড + ফুটার)</td><td>QM-01, QA-01</td></tr>
+      <tr><td><code>.qh-kpi</code> / <code>.qh-kpi-c.zero</code></td><td>KPI গ্রিড — "সুদ ৳০" সেলটি সোনালি টিন্টে আলাদা</td><td>সব অঙ্ক-প্রদর্শন স্ক্রিনে</td></tr>
+      <tr><td><code>.qh-tasbih</code></td><td>কিস্তি অগ্রগতি (তাসবিহ-দানা মোটিফ)</td><td>QM-05 পরিশোধ পরিকল্পনা, QA-10 নিরীক্ষা</td></tr>
+      <tr><td><code>.qh-gate</code> / <code>.pass</code> / <code>.fail</code></td><td>ইলিজিবিলিটি গেটের ৪ স্তর + কারণ কোড</td><td>QM-02 আবেদন, QA-06 নিয়ম</td></tr>
+      <tr><td><code>.qh-note</code> / <code>.qh-nofig</code> / <code>.qh-lock</code></td><td>শরীয়াহ নোট, ছবি-নিষেধাজ্ঞা চিপ, লকড চিপ</td><td>সব QH স্ক্রিনের ফুটার</td></tr>
+      <tr><td><code>.qh-word</code></td><td>শব্দচয়ন চুক্তি টেবিল (নিষিদ্ধ ↔ অনুমোদিত)</td><td>ডিজাইন রিভিউ ও QA চেকলিস্ট</td></tr>
+      <tr><td><code>.qh-crescent</code></td><td>ছোট জ্যামিতিক চাঁদ-গ্লিফ (ঐচ্ছিক, ≤ ১৮px)</td><td>শুধু মডিউল পরিচয় চিপে</td></tr>
+    </tbody></table></div>
+
+    <div class="skp-note a">⚠️ <b>সীমা (স্পষ্টভাবে):</b> উপরের সব নমুনা <b>কম্পোনেন্ট-স্তরের</b> — এগুলো কোনো পেজ নয় এবং পেজ গণনায় যোগ হয়নি।
+      Qard Hasanah মডিউলের <b>২৫টি পেজ (QA-01…QA-17, QM-01…QM-08) এখনো তৈরি করা হয়নি</b>, কারণ সেগুলো <code>specs/03</code> §১৩-এর সিদ্ধান্ত D-36…D-45-এর উত্তরের অপেক্ষায়।
+      উত্তর পেলে এই কিট দিয়েই সেগুলোর স্ক্রিন বানানো হবে। <b>আয়াত/হাদিস রেফারেন্স প্রকাশের আগে যাচাই বাধ্যতামূলক (D-74)</b> — এখানে হাদিসের নম্বর ইচ্ছাকৃতভাবে দেওয়া হয়নি।</div>
+  </div>
+
+  <!-- ==================== ৬ ==================== -->
+  <div class="skp-sec" id="s6">
+    <div class="skp-sec-h"><span class="num">৬ · APPLY</span>
+      <div><h2>বিদ্যমান স্ক্রিনে প্রয়োগ — একই স্ক্রিন, ভিন্ন স্কিন</h2>
+        <p>নিচের ফ্রেমগুলোতে <b>আসল স্ক্রিন</b> (<code>assets/screens.js</code>-এর একই রেন্ডারার থেকে) পাশাপাশি বিভিন্ন স্কিনে দেখানো হয়েছে — এই তুলনা সুইচার থেকে স্বাধীন।
+          লক্ষ্য করুন: গঠন, অঙ্ক, নিয়ম-চিপ, বাটন ও স্ট্যাটাস রঙ সব জায়গায় এক; শুধু ব্র্যান্ড স্তর বদলেছে।</p></div></div>
+
+    <div class="sk-lab">M-01 সদস্য হোম — ডিফল্ট · ROSCA · Joint Goal · <b style="color:#E9CE8B">Qard Hasanah</b></div>
+    <div id="skCmpMob"></div>
+
+    <div class="sk-lab">AM-01 অ্যাডমিন অ্যাপ হোম (MANAGER শেল) — ডিফল্ট বনাম ইসলামিক স্কিন</div>
+    <div id="skCmpMob2"></div>
+
+    <div class="sk-lab">A-01 ডেস্কটপ ওভারভিউ ড্যাশবোর্ড — ডিফল্ট · ইসলামিক · Platform (পরিকল্পিত)</div>
+    <div id="skCmpWeb"></div>
+
+    <div class="sk-lab">প্রয়োগের কোড</div>
+    <div id="skSnips"></div>
+
+    <div class="skp-note g">🧭 <b>ধাপে ধাপে (React প্রোটোটাইপে):</b> ১) রাউটে মডিউল চিহ্নিত করুন → ২) রুট কনটেইনারে <code>data-theme</code>/<code>data-module</code> বসান →
+      ৩) <code>skins.css</code> একবার গ্লোবালি লোড করুন → ৪) QH মডিউলে কিট কম্পোনেন্ট (<code>.qh-riba</code>, <code>.qh-ref</code>, <code>.qh-kpi.zero</code>) যোগ করুন →
+      ৫) প্রতিটি অঙ্কে "সুদ ৳০" নিশ্চিত করুন (QA চেকলিস্ট)। বিদ্যমান কম্পোনেন্ট লাইব্রেরি বদলাতে হয় না।</div>
+  </div>
+
+  <!-- ==================== ৭ ==================== -->
+  <div class="skp-sec" id="s7">
+    <div class="skp-sec-h"><span class="num">৭ · LIMITS</span>
+      <div><h2>সীমা, অ্যাক্সেসিবিলিটি ও খোলা সিদ্ধান্ত</h2>
+        <p>স্কিন সিস্টেম যা <b>করবে না</b>: নতুন পেজ যোগ, হিসাবের নিয়ম বদল, স্ট্যাটাস রঙের অর্থ বদল, পারমিশন/শেল বদল, অথবা এমন কোনো অলংকরণ যা পড়ার ক্ষমতা কমায়।
+          তিনটি বিষয় এখনো আপনার সিদ্ধান্তের অপেক্ষায় — ডিফল্ট ধরে কাজ করা হয়েছে।</p></div></div>
+
+    <div class="sk-lab">সক্রিয় স্কিনের কনট্রাস্ট যাচাই (WCAG 2.1 AA — ন্যূনতম ৪.৫:১)</div>
+    <div id="skContrast"></div>
+    <div class="skp-note a">🔍 <b>পাওয়া একটি সমস্যা (বিদ্যমান ডিজাইনে, স্কিন সিস্টেমে নয়):</b> <code>.bal-hero</code>-এর সাব-টেক্সট <code>#9FC4B6</code>
+      গ্রেডিয়েন্টের গাঢ় প্রান্ত <code>#0A5A47</code>-এর উপরে বসলে কনট্রাস্ট দাঁড়ায় <b>৪.৩০:১</b> — স্বাভাবিক আকারের টেক্সটের জন্য AA (৪.৫:১) এর সামান্য নিচে (বড় টেক্সটের জন্য পাস)।
+      <b>ডিফল্ট ও General Savings স্কিনে এটি ইচ্ছাকৃতভাবে বদলানো হয়নি</b>, কারণ আপনার শর্ত ছিল বিদ্যমান ডিজাইন অক্ষুণ্ণ থাকবে।
+      বাকি চারটি স্কিনে (ROSCA ৪.৭৪ · Joint Goal ৪.৮৫ · Qard Hasanah ৪.৮২ · Platform ৫.৮৬) একই জোড়া AA পাস করে।
+      চাইলে এক লাইনে ঠিক করা যাবে: <code>[data-theme] .bal-alt{color:var(--mod-sub)}</code> — GS স্কিনে <code>--mod-sub:#A8CFBF</code> বসালেই ৪.৯০:১ হবে। বললে করে দেব।</div>
+
+    <div class="skp-dc">
+      <div class="skp-dc-c"><h3>D-72 · স্কিন কারা বেছে নেবে?</h3>
+        <div class="q">মডিউলভিত্তিক অটো (QH পেজে সবসময় ইসলামিক), নাকি টেনান্ট (সমিতি) নিজের ব্র্যান্ডিং বেছে নিতে পারবে, নাকি দুটোই?</div>
+        <div class="d"><b>ডিফল্ট:</b> মডিউলভিত্তিক অটো + টেনান্ট ওভাররাইডের অনুমতি (Super Admin ব্র্যান্ডিং D-70-এর সাথে সঙ্গতি রেখে)। টেনান্ট চাইলে QH স্কিন বন্ধ করতে পারবে না — এটি মডিউলের পরিচয়।</div></div>
+      <div class="skp-dc-c"><h3>D-73 · ইসলামিক থিমের আওতা</h3>
+        <div class="q">ইসলামিক থিম কি শুধু Qard Hasanah মডিউলের পেজে, নাকি পুরো সদস্য অ্যাপে, নাকি টেনান্টের ধরনভেদে?</div>
+        <div class="d"><b>ডিফল্ট:</b> শুধু QH মডিউলের পেজ/স্ক্রিনে। বাকি মডিউল নিজস্ব স্কিনে (GS সবুজ · ROSCA নীল · JG বেগুনি)। সদস্য অ্যাপের হাব (M-18) নিরপেক্ষ থাকবে, QH কার্ডটিতে ইসলামিক পরিচয় দেখাবে।</div></div>
+      <div class="skp-dc-c"><h3>D-74 · ধর্মীয় টেক্সট প্রদর্শন</h3>
+        <div class="q">আয়াত/হাদিস রেফারেন্স ও দোয়া কি সব ব্যবহারকারীকে দেখানো হবে, না কি ঐচ্ছিক/বন্ধ করার সুযোগ থাকবে? কে অনুমোদন দেবে?</div>
+        <div class="d"><b>ডিফল্ট:</b> শুধু তথ্যমূলক চিপে, বিপণন ভাষায় নয়; ব্যবহারকারী সেটিংসে লুকাতে পারবেন; প্রকাশের আগে শরীয়াহ বোর্ড/নির্দিষ্ট ইমাম কর্তৃক টেক্সট ও রেফারেন্স যাচাই বাধ্যতামূলক (হাদিস নম্বর তখনই যোগ হবে)।</div></div>
+    </div>
+
+    <div class="skp-note">📎 এই তিনটি সিদ্ধান্ত <code>specs/02-open-decisions.md</code> ও <code>specs/03-multi-module-platform-architecture.md</code> §১৩.৬-এ যোগ করা হয়েছে (D-36…D-74 = ৪২টি কোড · ৪০টি অমীমাংসিত)।
+      উত্তরের নমুনা: <code>D-72 = মডিউলভিত্তিক অটো, টেনান্ট ওভাররাইড নয়</code>।</div>
+
+    <div class="sk-lab">এক নজরে ফাইল</div>
+    <div class="skp-panel"><table class="sk-tbl"><thead><tr><th>ফাইল</th><th>কী আছে</th><th>আকার</th></tr></thead><tbody>
+      <tr><td><code>assets/skins.css</code></td><td>৫টি স্কিনের র‍্যাম্প · ব্রিজ ম্যাপিং · ১৫ প্যাটার্ন · ২২টি <code>.qh-*</code> কিট ক্লাস · অ্যাক্সেসিবিলিটি/প্রিন্ট রুল</td><td>৯ সেকশন</td></tr>
+      <tr><td><code>assets/skins.js</code></td><td><code>SKINS</code> মেটাডেটা · <code>skApply()</code>/<code>window.setSkin()</code> · টোকেন প্রোব · কনট্রাস্ট ইঞ্জিন · কিট ও তুলনা রেন্ডারার</td><td>গ্যালারি রানটাইম</td></tr>
+      <tr><td><code>skins.html</code></td><td>এই গ্যালারি — চুক্তি, টোকেন, প্যাটার্ন, কম্পোনেন্ট, ইসলামিক কিট, প্রয়োগ, সীমা</td><td>৭ সেকশন</td></tr>
+      <tr><td><code>assets/ui.css</code></td><td>অপরিবর্তিত, শুধু ৩টি হারানো এলিয়াস টোকেন যোগ (<code>--green</code>, <code>--mint</code>, <code>--rose</code>) — এতদিন সংজ্ঞাহীন থাকায় ১৩টি রুলের রঙ বসত না</td><td>+২ লাইন</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div class="skp-foot">
+    <b style="color:#B9D4C9">গণনা:</b> ১২৫ লজিক্যাল পেজ · ১৯৯ স্ক্রিন · ৮ ফ্লো · স্কিন = উপস্থাপনা স্তর, তাই স্কিনের কারণে নতুন পেজ যোগ হয়নি (৬৭ বিদ্যমান + ROSCA ১৮ + Joint Goal ১৫ + কর্জে হাসানা ২৫ পেজ আলাদা ধাপে যোগ হয়েছে)।<br>
+    <b style="color:#B9D4C9">আইনি ও শরীয়াহ ভিত্তি:</b> সমবায় সমিতি আইন ২০০১ (সংশোধিত ২০০২, ২০১৩) · বিধিমালা ২০০৪ (সংশোধিত ২০২০) · জাতীয় সমবায় নীতিমালা ২০১২ ·
+      <b style="color:#FFD37A">সুদ/রিবা সম্পূর্ণ নিষিদ্ধ (BR-13)</b> · করজে হাসানা = শুধু মূল ফেরত (কুরআন ২:২৪৫, ২:২৭৫)।<br>
+    <b style="color:#B9D4C9">সম্পর্কিত:</b> <code>preview.html</code> (৬ ক্যাটাগরি প্রিভিউ) · <code>workspace.html</code> (লাইভ ওয়ার্কস্পেস) · <code>screens.html</code> (১৯৯ স্ক্রিন গ্যালারি) · <code>system.html</code> (ডিজাইন সিস্টেম) · <code>specs/03</code> §৮, §১৩
+  </div>
+</div>
+
+<script src="assets/app.js" type="e308d31cbd0fb5bb5f769d6c-text/javascript"></script>
+<script src="assets/screens.js" type="e308d31cbd0fb5bb5f769d6c-text/javascript"></script>
+<script src="assets/workspace.js" type="e308d31cbd0fb5bb5f769d6c-text/javascript"></script>
+<script src="assets/skins.js" type="e308d31cbd0fb5bb5f769d6c-text/javascript"></script>
+<script type="e308d31cbd0fb5bb5f769d6c-text/javascript">
+/* গ্যালারি বুট — বিদ্যমান কোনো পেজের লজিকে হাত দেয় না */
+(function () {
+  function start() {
+    try { if (typeof wsBuild === 'function') wsBuild(); } catch (e) { console.warn('[skins] wsBuild', e.message); }
+    skBoot();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
+})();
+</script>
+<script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="e308d31cbd0fb5bb5f769d6c-|49" defer></script></body>
+</html>
