@@ -13,6 +13,7 @@ const SUITES = [
   ['D-02 · Cross-tenant isolation', 'd02-tenant-isolation.mjs'],
   ['D-03 · ডিজাইন টোকেন সমতা', 'd03-design-tokens.mjs'],
   ['D-04 · Source A স্ক্যান + SQL শৃঙ্খলা', 'd04-source-a-scan.mjs'],
+  ['D-05 · শেল ও নেভিগেশন চুক্তি', 'd05-shell-contract.mjs'],
 ];
 
 const BN = '০১২৩৪৫৬৭৮৯';
