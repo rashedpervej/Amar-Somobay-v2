@@ -5,6 +5,8 @@ import MemberApp from '../src/apps/member/MemberApp';
 import { MemberProvider } from '../src/store/memberStore';
 import { ModuleProvider } from '../src/store/moduleStore';
 import { SessionProvider } from '../src/store/sessionStore';
+import { AdminProvider } from '../src/store/adminStore';
+import AdminMobileApp from '../src/apps/admin/AdminMobileApp';
 import Login from '../src/apps/shared/screens/Login';
 import OrgSwitcher from '../src/apps/shared/screens/OrgSwitcher';
 import AccountSettings from '../src/apps/shared/screens/AccountSettings';
@@ -33,6 +35,17 @@ const MEMBER_ROUTES = [
   ['/m/qard/loans', 'আমার সহায়তা'], ['/m/qard/pay', 'কিস্তি পরিশোধ'], ['/m/qard/certificate/ql2', 'সমাপ্তি সনদ'],
 ];
 
+const ADMIN_ROUTES = [
+  ['/a/home', 'সমিতির অবস্থা'], ['/a/approvals', 'অনুমোদন কিউ'], ['/a/approvals/ap1', 'অনুমোদনের সিদ্ধান্ত'],
+  ['/a/members', 'সদস্য খুঁজুন'], ['/a/members/new', 'নতুন সদস্য নিবন্ধন'], ['/a/members/m1', 'মোট সঞ্চয়'],
+  ['/a/members/m1/edit', 'সদস্য সম্পাদনা'], ['/a/members/m1/status', 'অবস্থা পরিবর্তন'],
+  ['/a/members/m1/close', 'প্রস্থান ও নিষ্পত্তি'], ['/a/entry', 'জমা এন্ট্রি'],
+  ['/a/accounts/a1', 'জমা হয়েছে (posted)'], ['/a/txn/t1', 'Who · When · Where'],
+  ['/a/reversal', 'সংশোধন ও রিভার্সাল'], ['/a/cashbook', 'দিনশেষ ক্যাশ বুক'],
+  ['/a/payouts', 'নিষ্পত্তি ও পেমেন্ট'], ['/a/ledger', 'সাধারণ লেজার'],
+  ['/a/claims', 'মৃত্যু দাবি নিষ্পত্তি'], ['/a/transfer', 'তহবিল স্থানান্তর'], ['/a/dues', 'বকেয়া রেজিস্টার'],
+];
+
 const SHARED_ROUTES = [
   ['/login', Login, 'মোবাইল নম্বর দিয়ে প্রবেশ'],
   ['/organizations', OrgSwitcher, 'আমার সমিতিসমূহ'],
@@ -58,6 +71,23 @@ for (const [route, title] of MEMBER_ROUTES) {
               React.createElement(Route, { path: '/m/*', element: React.createElement(MemberApp) }))))),
     );
     const ok = html.length > 1200 && /<h[1-3]/.test(html) && html.includes(title);
+    console.log(`${ok ? 'PASS' : 'FAIL'} ${route} — ${html.length} bytes`);
+    if (!ok) fail++;
+  } catch (e) {
+    console.log(`FAIL ${route} — ${e.message}`);
+    fail++;
+  }
+}
+
+for (const [route, title] of ADMIN_ROUTES) {
+  try {
+    const html = renderToStaticMarkup(
+      React.createElement(MemoryRouter, { initialEntries: [route] },
+        React.createElement(AdminProvider, null,
+          React.createElement(Routes, null,
+            React.createElement(Route, { path: '/a/*', element: React.createElement(AdminMobileApp) })))),
+    );
+    const ok = html.length > 1200 && html.includes(title);
     console.log(`${ok ? 'PASS' : 'FAIL'} ${route} — ${html.length} bytes`);
     if (!ok) fail++;
   } catch (e) {

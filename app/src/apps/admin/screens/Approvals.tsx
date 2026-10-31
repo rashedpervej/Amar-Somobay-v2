@@ -1,123 +1,169 @@
 /* ============================================================
-   src/apps/admin/screens/Approvals.tsx — AM-02 অনুমোদন কিউ (+ AM-03 সিদ্ধান্ত)
-   ফ্লো পর্দা: নেভ বন্ধ, ব্যাক বাধ্যতামূলক (specs/05 §৪)।
-   ডেমো — কোনো সিদ্ধান্ত সংরক্ষিত হয় না, কোনো ডেটাবেস ছোঁয়া হয় না।
+   src/apps/admin/screens/Approvals.tsx — AM-02 অনুমোদন কিউ
+   ট্যাব (উত্তোলন/জমা/সদস্য/সংশোধন) · সীমা-সচেতন ব্যাজ · SLA অ্যালার্ট।
+   প্রতিটি কার্ড → AM-03 সিদ্ধান্ত পর্দা।
    ============================================================ */
 
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Check, Eye, X } from 'lucide-react';
-import { Badge, Button, Card, DecisionBar, Row } from '../../../components/ui';
+import { useMemo, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { AlertTriangle, CheckCheck, ChevronRight, Clock, Eye, Filter, ShieldAlert, Users } from 'lucide-react';
+import { Badge, Button, Chip, Chipset, SectionHead } from '../../../components/ui';
+import { EmptyState } from '../../../components/form';
 import { bn } from '../../../lib/bn';
-import { approvals as seed, type DemoApproval } from '../../../demo/data';
+import { useAdmin } from '../../../store/adminStore';
+import { approvalsOf, CHANNEL_LABEL, type ApprovalKind } from '../../../domain/admin';
+import { Note, StackedCard, StackHead } from './parts';
+
+const TABS: { k: ApprovalKind; t: string }[] = [
+  { k: 'withdrawal', t: 'উত্তোলন' },
+  { k: 'deposit', t: 'জমা' },
+  { k: 'member', t: 'সদস্য' },
+  { k: 'correction', t: 'সংশোধন' },
+];
+
+const KIND_BN: Record<ApprovalKind | 'all', string> = {
+  withdrawal: 'উত্তোলন', deposit: 'জমা', member: 'সদস্য নিবন্ধন', correction: 'সংশোধন', all: 'সব',
+};
 
 export default function Approvals() {
   const navigate = useNavigate();
-  const [items, setItems] = useState<DemoApproval[]>(seed);
-  const [selected, setSelected] = useState<DemoApproval | null>(null);
-  const [result, setResult] = useState<string>('');
+  const [params] = useSearchParams();
+  const { state } = useAdmin();
+  const [tab, setTab] = useState<ApprovalKind | 'all'>('withdrawal');
+  const [mine, setMine] = useState(true);
+  const [slaOnly, setSlaOnly] = useState(false);
 
-  function decide(action: 'approve' | 'reject') {
-    if (!selected) return;
-    setResult(
-      action === 'approve'
-        ? `${selected.member}-এর ${selected.kind} অনুমোদিত হলো (ডেমো — সংরক্ষিত হয়নি)`
-        : `${selected.member}-এর ${selected.kind} প্রত্যাখ্যাত হলো (ডেমো — সংরক্ষিত হয়নি)`,
-    );
-    setItems((prev) => prev.filter((x) => x.id !== selected.id));
-    setSelected(null);
-  }
+  const roleQS = params.get('role') ? `?role=${params.get('role')}` : '';
+  const list = useMemo(() => {
+    let rows = approvalsOf(state.approvals, tab);
+    if (mine) rows = rows.filter((r) => r.inLimit);
+    if (slaOnly) rows = rows.filter((r) => r.hoursAgo > 24);
+    return rows;
+  }, [state.approvals, tab, mine, slaOnly]);
 
-  if (selected) {
-    return (
-      <div className="relative min-h-full flex flex-col">
-        <div className="p-4 grow space-y-3">
-          <Card title="অনুমোদনের সিদ্ধান্ত" sub={`${selected.member} · ${selected.kind}`}>
-            <dl className="text-sm divide-y divide-line-2">
-              {[
-                ['সদস্য', selected.member],
-                ['ধরন', selected.kind],
-                ['অঙ্ক', selected.amount ? `৳${bn(selected.amount)}` : 'প্রযোজ্য নয়'],
-                ['জমা দিয়েছেন', selected.by],
-                ['সময়', selected.submitted],
-              ].map(([k, v]) => (
-                <div key={k} className="flex justify-between py-2">
-                  <dt className="text-mut">{k}</dt>
-                  <dd className="font-bold text-txt">{v}</dd>
-                </div>
-              ))}
-            </dl>
-            <p className="text-xs text-mut mt-3">
-              অনুমোদনে কোনো সুদ/মুনাফা যোগ হয় না — শুধু জমার অঙ্ক।
-            </p>
-          </Card>
-          <Card title="যাচাই">
-            <ul className="pl-5 text-sm text-txt-2 space-y-1.5">
-              <li>সদস্যের পরিচয় ও সদস্য নম্বর মিলেছে</li>
-              <li>জমার রসিদ ও অঙ্ক মিলেছে</li>
-              <li>একই দিনে দ্বিগুণ জমা নেই</li>
-            </ul>
-          </Card>
-        </div>
-        <DecisionBar note={`${bn(items.length)}টি বাকি`}>
-          <Button variant="secondary" icon={<X size={16} />} onClick={() => decide('reject')}>
-            প্রত্যাখ্যান
-          </Button>
-          <Button icon={<Check size={16} />} onClick={() => decide('approve')}>
-            অনুমোদন
-          </Button>
-        </DecisionBar>
-      </div>
-    );
-  }
+  const all = state.approvals;
+  const overLimit = all.filter((a) => !a.inLimit && a.kind === 'withdrawal');
+  const total = list.reduce((s, a) => s + a.amount, 0);
 
   return (
-    <div className="p-4 space-y-3">
-      {result ? (
-        <div className="rounded-r-md bg-ok-bg border border-ok-bd text-ok-ink px-4 py-3 text-sm font-bold">
-          {result}
+    <div className="p-4 space-y-4 pb-6">
+      <div className="flex items-center gap-2">
+        <div className="grow">
+          <h2 className="text-h2 text-txt">অনুমোদন কিউ</h2>
+          <p className="text-sm text-mut">{bn(all.length)}টি সিদ্ধান্ত বাকি · আপনার সীমা ৳{bn(50000)}</p>
         </div>
+        <Badge tone={all.length ? 'danger' : 'ok'}>{bn(all.length)}</Badge>
+      </div>
+
+      <div className="flex gap-1.5 overflow-x-auto pb-1">
+        {TABS.map((t) => {
+          const n = approvalsOf(state.approvals, t.k).length;
+          return (
+            <button key={t.k} type="button" onClick={() => setTab(t.k)}
+              className={`min-h-tap shrink-0 px-3.5 rounded-r-pill border text-sm font-bold ${tab === t.k ? 'bg-green-700 text-white border-green-800' : 'bg-card text-txt-2 border-line-3'}`}>
+              {t.t} <span className="opacity-80">({bn(n)})</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <Chipset>
+        <Chip active={mine} onClick={() => setMine((v) => !v)}>আমার সীমার ভিতরে</Chip>
+        <Chip active={slaOnly} onClick={() => setSlaOnly((v) => !v)}>SLA অতিক্রম</Chip>
+        <Chip active={false} onClick={() => { setMine(false); setSlaOnly(false); }}>
+          <Filter size={14} className="inline -mt-0.5 mr-1" />সব
+        </Chip>
+      </Chipset>
+
+      {overLimit.length ? (
+        <Note tone="danger">
+          <b>{bn(overLimit.length)}টি আবেদন আপনার সীমার বাইরে</b>
+          <span className="block text-xs mt-0.5">এগুলো অনুমোদন করা যাবে না — দেখা ও মন্তব্য করা যাবে, সিদ্ধান্ত APPROVER-এর (D-22, BR-04)।</span>
+        </Note>
       ) : null}
 
-      <div className="flex items-center gap-2">
-        <h2 className="text-h3 text-txt grow">অনুমোদনের অপেক্ষায়</h2>
-        <Badge tone={items.length ? 'danger' : 'ok'}>{bn(items.length)}টি</Badge>
-      </div>
+      <SectionHead title={`${KIND_BN[tab]} — অপেক্ষমাণ`} sub={`${bn(list.length)}টি · মোট ৳${bn(total)}`} />
 
-      <div className="rounded-r-md border border-line bg-card overflow-hidden shadow-sh-1">
-        {items.map((a) => (
-          <Row
-            key={a.id}
-            title={a.member}
-            sub={`${a.kind} · ${a.submitted} · ${a.by}`}
-            right={
-              <span className="text-right">
-                <span className="num block font-bold text-txt">{a.amount ? `৳${bn(a.amount)}` : '—'}</span>
-                <span className="text-xs text-green-700 font-bold">দেখুন</span>
-              </span>
-            }
-            onClick={() => setSelected(a)}
-          />
-        ))}
-        {items.length === 0 ? (
-          <div className="px-4 py-10 text-center text-mut text-sm">
-            সব অনুমোদন সম্পন্ন — ডেমো, কিছুই সংরক্ষিত হয়নি
+      {list.length === 0 ? (
+        <EmptyState title="কিউ খালি" sub="এই বিভাগে সিদ্ধান্তের অপেক্ষায় কিছু নেই" action={<Button variant="secondary" size="sm" onClick={() => { setMine(false); setSlaOnly(false); }}>সব দেখুন</Button>} />
+      ) : null}
+
+      {list.map((a) => (
+        <StackedCard
+          key={a.id}
+          tone={a.hoursAgo > 24 ? 'warn' : ''}
+          head={
+            <StackHead
+              title={`${a.member} · ৳${bn(a.amount)}`}
+              sub={`${a.ref} · ${a.submitted} · ${a.by}`}
+              right={
+                <div className="flex flex-wrap gap-1.5 mt-2">
+                  <Badge tone="info">{KIND_BN[a.kind]}</Badge>
+                  {a.hoursAgo > 24 ? <Badge tone="warn"><Clock size={12} /> {bn(a.hoursAgo)} ঘণ্টা</Badge> : null}
+                  {a.inLimit ? null : <Badge tone="danger">সীমার বাইরে</Badge>}
+                  {a.evidence ? <Badge tone="ok">প্রমাণ আছে</Badge> : <Badge tone="danger">প্রমাণ নেই</Badge>}
+                </div>
+              }
+            />
+          }
+          foot={
+            <>
+              <Button size="sm" variant="secondary" className="grow" icon={<Eye size={15} />} onClick={() => navigate(`/a/approvals/${a.id}${a.kind === 'member' ? '/review' : ''}${roleQS}`)}>
+                দেখুন ও সিদ্ধান্ত
+              </Button>
+              <Button size="sm" variant="ghost" icon={<Users size={15} />} onClick={() => navigate(`/a/members/${a.memberId}${roleQS}`)}>৩৬০°</Button>
+            </>
+          }
+        >
+          <div className="text-sm text-txt-2 space-y-1 py-1">
+            {a.kind === 'withdrawal' ? (
+              <>
+                <div className="flex justify-between"><span className="text-mut text-xs">উপলব্ধ</span><span className="num font-bold">৳{bn(a.avail)}</span></div>
+                <div className="flex justify-between"><span className="text-mut text-xs">কারণ</span><span className="font-bold">{a.reason}</span></div>
+                <div className="flex justify-between"><span className="text-mut text-xs">মাধ্যম</span><span className="font-bold">{a.method === 'cash_office' ? 'অফিস কাউন্টার' : CHANNEL_LABEL[a.method]}</span></div>
+              </>
+            ) : null}
+            {a.kind === 'deposit' ? (
+              <>
+                <div className="flex justify-between"><span className="text-mut text-xs">রসিদ</span><span className="num font-bold">{a.ref}</span></div>
+                <div className="flex justify-between"><span className="text-mut text-xs">মিল</span><span className="font-bold">{a.matched === 'auto' ? 'স্বয়ংক্রিয় মিল ✓' : a.matched === 'partial' ? 'আংশিক মিল' : 'মিল নেই'}</span></div>
+              </>
+            ) : null}
+            {a.kind === 'member' ? (
+              <>
+                <div className="flex justify-between"><span className="text-mut text-xs">আবেদন</span><span className="num font-bold">{a.ref}</span></div>
+                <div className="flex justify-between"><span className="text-mut text-xs">প্রথম জমা</span><span className="num font-bold">৳{bn(a.amount)}</span></div>
+                <div className="flex justify-between"><span className="text-mut text-xs">নোট</span><span className="font-bold">{a.note}</span></div>
+              </>
+            ) : null}
+            {a.kind === 'correction' ? (
+              <>
+                <div className="flex justify-between"><span className="text-mut text-xs">সংশোধন</span><span className="num font-bold">{a.ref}</span></div>
+                <div className="flex justify-between"><span className="text-mut text-xs">এন্ট্রি করেছেন</span><span className="font-bold text-xs">{a.by}</span></div>
+              </>
+            ) : null}
           </div>
-        ) : null}
-      </div>
+        </StackedCard>
+      ))}
+
+      <Note tone="info">
+        <b>maker ≠ checker (BR-04)</b>
+        <span className="block text-xs mt-0.5">যিনি এন্ট্রি করেছেন তিনি তা অনুমোদন করতে পারবেন না · অনুমোদন সীমা ভূমিকা অনুযায়ী (D-22)।</span>
+      </Note>
 
       <div className="flex gap-2">
-        <Button variant="secondary" block icon={<Eye size={16} />} onClick={() => setSelected(items[0] ?? null)}>
+        <Button variant="ghost" className="grow" icon={<Filter size={15} />} onClick={() => { setMine(false); setSlaOnly(false); }}>সব ফিল্টার বাদ</Button>
+        <Button className="grow" icon={<CheckCheck size={15} />} onClick={() => list[0] && navigate(`/a/approvals/${list[0].id}${roleQS}`)} disabled={!list.length}>
           প্রথমটি খুলুন
-        </Button>
-        <Button variant="ghost" block onClick={() => navigate('/a/home')}>
-          হোমে ফিরুন
         </Button>
       </div>
 
-      <p className="text-xs text-mut text-center">
-        ফ্লো পর্দা — নেভ বন্ধ, ব্যাক বাধ্যতামূলক (MC-03)।
-      </p>
+      <div className="flex items-center justify-center gap-1.5 text-xs text-mut">
+        <ShieldAlert size={13} /> সিদ্ধান্ত অপরিবর্তনীয় — সংশোধন মানে রিভার্সাল (AM-14) ও অডিট লগ।
+      </div>
+      <div className="flex items-center justify-center gap-1.5 text-xs text-mut">
+        <AlertTriangle size={13} /> কোনো সুদ/মুনাফা যোগ হয় না — শুধু জমার অঙ্ক (D-01)।
+      </div>
     </div>
   );
 }

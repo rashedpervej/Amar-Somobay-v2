@@ -42,7 +42,7 @@ S.sec('১ · রুট নিবন্ধন');
     /path="\/m\/\*"\s+element=\{<MemberProvider>\s*<ModuleProvider>\s*<MemberApp \/>\s*<\/ModuleProvider>\s*<\/MemberProvider>\}/.test(MAIN),
   );
   S.check('শেয়ার্ড ৮ রুট main.tsx-এ নিবন্ধিত', ['/login', '/organizations', '/account', '/account/notifications', '/403', '/error', '/verify', '/sync'].every((r) => MAIN.includes(`path="${r}"`)));
-  S.check('/a/* → AdminMobileApp', /path="\/a\/\*"\s+element=\{<AdminMobileApp \/>\}/.test(MAIN));
+  S.check('/a/* → AdminProvider + AdminMobileApp', /path="\/a\/\*"\s+element=\{<AdminProvider>\s*<AdminMobileApp \/>\s*<\/AdminProvider>\}/.test(MAIN));
   S.check('/w/* → AdminWebApp', /path="\/w\/\*"\s+element=\{<AdminWebApp \/>\}/.test(MAIN));
   S.check('অজানা পথ → /', /path="\*"\s+element=\{<Navigate to="\/" replace \/>\}/.test(MAIN));
   S.check('BrowserRouter ব্যবহৃত', /<BrowserRouter>/.test(MAIN));
@@ -111,7 +111,7 @@ S.sec('৩ · অ্যাডমিন মোবাইল ও ওয়েব');
   S.check('Approvals.tsx আছে', existsSync(join(ROOT, 'src/apps/admin/screens/Approvals.tsx')));
   S.check('AM হোম রুট', /path="home"\s+element=\{<AdminHome/.test(ADMIN_APP));
   S.check('AM অনুমোদন রুট', /path="approvals"\s+element=\{<Approvals \/>\}/.test(ADMIN_APP));
-  S.check('অনুমোদন ফ্লো মডেলে', /location\.pathname === '\/a\/approvals' \? 'flow'/.test(ADMIN_APP));
+  S.check('অনুমোদনের সিদ্ধান্ত ফ্লো মডেলে (নেভ বন্ধ)', /path\.startsWith\('\/a\/approvals\/'\)[\s\S]{0,120}model: 'flow'/.test(ADMIN_APP));
   S.check('ভূমিকা ?role= থেকে আসে (ডিফল্ট MANAGER)', /resolveAdminShell\(params\.get\('role'\)\)/.test(ADMIN_APP));
   S.check('অজানা নেভ-কী → সৎ "ফেজ ৩" কার্ড', /\/a\/soon\/\$\{slot\.key\}/.test(ADMIN_APP));
   S.check('ওয়েব ড্যাশবোর্ড রুট', /path="dashboard"\s+element=\{<Dashboard \/>\}/.test(WEB_APP));

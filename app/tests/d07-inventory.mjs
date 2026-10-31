@@ -116,12 +116,13 @@ S.sec('৪ · "done/partial" দাবির প্রমাণ কোডে আ
   S.check('প্রতিটি done/partial-এর রুট দেওয়া আছে', tracked.every((r) => r.react_route.startsWith('/')),
     tracked.filter((r) => !r.react_route.startsWith('/')).map((r) => r.id).join(', '));
 
-  /* /m/* রুট MemberApp-এর ভেতরে nested — সেখানে পূর্ণ পথ নয়, `path="schemes/:id"` থাকে।
+  /* /m/* ও /a/* রুট নিজ নিজ অ্যাপের ভেতরে nested — সেখানে পূর্ণ পথ নয়,
+     `path="schemes/:id"` / `path="members/:memberId"` থাকে।
      তাই পূর্ণ পথ অথবা nested রূপ — যেকোনো একটি থাকলেই প্রমাণ হয়েছে। */
   const routes = [...new Set(tracked.map((r) => r.react_route))];
   const missing = routes.filter((rt) => {
     const path = rt.split('?')[0];
-    const nested = path.startsWith('/m/') ? path.slice(3) : null;
+    const nested = path.startsWith('/m/') || path.startsWith('/a/') ? path.slice(3) : null;
     const hit = [path, nested].filter(Boolean).some(
       (p) => APP_SRC.includes(`'${p}'`) || APP_SRC.includes(`"${p}"`),
     );

@@ -84,26 +84,26 @@ s06,S-06,"সাধারণ ত্রুটি, অফলাইন ও 404",Sha
 s03,S-03,প্রোফাইল ও অ্যাকাউন্ট সেটিংস (প্ল্যাটফর্ম স্তর),Shared,Shared,সবাই,done,2,/account,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
 s08,S-08,অফলাইন Sync ও কিউ অবস্থা,Shared,Shared,COLLECTOR · ACCOUNTANT,done,2,/sync,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
 s04,S-04,নোটিফিকেশন সেটিংস ও পছন্দ,Shared,Shared,সবাই,done,2,/account/notifications,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
-am01,AM-01,অ্যাডমিন মোবাইল হোম,Admin App,GeneralSavings,MANAGER · APPROVER · ORG_ADMIN · ACCOUNTANT,partial,4,/a/home,"AM-01 হোম — KPI ও তালিকা; সব কুইক-অ্যাকশন এখনো ""ফেজ ৩"" কার্ডে"
-am02,AM-02,অনুমোদন কিউ (মোবাইল),Admin App,GeneralSavings,MANAGER · APPROVER · ORG_ADMIN,partial,4,/a/approvals,AM-02 কিউ — তালিকা ও ফিল্টার আংশিক
-am03,AM-03,অনুমোদনের সিদ্ধান্ত (মোবাইল),Admin App,GeneralSavings,MANAGER · APPROVER · ORG_ADMIN,partial,4,/a/approvals,AM-03 সিদ্ধান্ত — যাচাই-তালিকা ও অনুমোদন/প্রত্যাখ্যান আছে
-am04,AM-04,সদস্য খোঁজা ও তালিকা (মোবাইল),Admin App,GeneralSavings,COLLECTOR · MANAGER · ACCOUNTANT,todo,4,,
-am05,AM-05,সদস্য ৩৬০° সারাংশ (মোবাইল),Admin App,GeneralSavings,MANAGER · ACCOUNTANT · COLLECTOR (স্কোপড),todo,4,,
-am06,AM-06,দ্রুত জমা এন্ট্রি (মোবাইল),Admin App,GeneralSavings,COLLECTOR · ACCOUNTANT,todo,4,,
-am07,AM-07,নতুন সদস্য নিবন্ধন (মোবাইল),Admin App,GeneralSavings,COLLECTOR · MANAGER · ORG_ADMIN,todo,4,,
-am08,AM-08,আবেদন বিবরণ ও যাচাই (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,todo,4,,
-am09,AM-09,সদস্য সম্পাদনা (মোবাইল),Admin App,GeneralSavings,MANAGER · ACCOUNTANT · ORG_ADMIN,todo,4,,
-am10,AM-10,অ্যাকাউন্ট বিবরণ ও লেজার (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · AUDITOR (R),todo,4,,
-am11,AM-11,প্রস্থান ও চূড়ান্ত নিষ্পত্তি (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,todo,4,,
-am12,AM-12,বকেয়া রেজিস্টার (মোবাইল),Admin App,GeneralSavings,COLLECTOR · MANAGER · ACCOUNTANT,todo,4,,
-am13,AM-13,লেনদেন বিবরণ (ফরেনসিক) ও অডিট ট্রেইল (মোবাইল),Admin App,GeneralSavings,AUDITOR · MANAGER · ACCOUNTANT,todo,4,,
-am14,AM-14,সংশোধন ও রিভার্সাল (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,todo,4,,
-am15,AM-15,দিনশেষ ক্যাশ বুক ও দিন সমাপ্তি (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER,todo,4,,
-am16,AM-16,নিষ্পত্তি ও পেমেন্ট (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER,todo,4,,
-am17,AM-17,লেনদেন ব্যবস্থাপনা / সাধারণ লেজার (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · AUDITOR (R),todo,4,,
-am18,AM-18,সদস্য অবস্থা পরিবর্তন (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,todo,4,,
-am19,AM-19,মৃত্যু দাবি নিষ্পত্তি (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,todo,4,,
-am20,AM-20,তহবিল স্থানান্তর (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · ORG_ADMIN,todo,4,,
+am01,AM-01,অ্যাডমিন মোবাইল হোম,Admin App,GeneralSavings,MANAGER · APPROVER · ORG_ADMIN · ACCOUNTANT,done,4,/a/home,"AM-01 হোম — KPI ও তালিকা; সব কুইক-অ্যাকশন এখনো ""ফেজ ৩"" কার্ডে Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।"
+am02,AM-02,অনুমোদন কিউ (মোবাইল),Admin App,GeneralSavings,MANAGER · APPROVER · ORG_ADMIN,done,4,/a/approvals,AM-02 কিউ — তালিকা ও ফিল্টার আংশিক Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am03,AM-03,অনুমোদনের সিদ্ধান্ত (মোবাইল),Admin App,GeneralSavings,MANAGER · APPROVER · ORG_ADMIN,done,4,/a/approvals/:id,AM-03 সিদ্ধান্ত — যাচাই-তালিকা ও অনুমোদন/প্রত্যাখ্যান আছে Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am04,AM-04,সদস্য খোঁজা ও তালিকা (মোবাইল),Admin App,GeneralSavings,COLLECTOR · MANAGER · ACCOUNTANT,done,4,/a/members, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am05,AM-05,সদস্য ৩৬০° সারাংশ (মোবাইল),Admin App,GeneralSavings,MANAGER · ACCOUNTANT · COLLECTOR (স্কোপড),done,4,/a/members/:memberId, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am06,AM-06,দ্রুত জমা এন্ট্রি (মোবাইল),Admin App,GeneralSavings,COLLECTOR · ACCOUNTANT,done,4,/a/entry, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am07,AM-07,নতুন সদস্য নিবন্ধন (মোবাইল),Admin App,GeneralSavings,COLLECTOR · MANAGER · ORG_ADMIN,done,4,/a/members/new, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am08,AM-08,আবেদন বিবরণ ও যাচাই (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,done,4,/a/approvals/:id/review, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am09,AM-09,সদস্য সম্পাদনা (মোবাইল),Admin App,GeneralSavings,MANAGER · ACCOUNTANT · ORG_ADMIN,done,4,/a/members/:memberId/edit, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am10,AM-10,অ্যাকাউন্ট বিবরণ ও লেজার (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · AUDITOR (R),done,4,/a/accounts/:accountId, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am11,AM-11,প্রস্থান ও চূড়ান্ত নিষ্পত্তি (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,done,4,/a/members/:memberId/close, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am12,AM-12,বকেয়া রেজিস্টার (মোবাইল),Admin App,GeneralSavings,COLLECTOR · MANAGER · ACCOUNTANT,done,4,/a/dues, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am13,AM-13,লেনদেন বিবরণ (ফরেনসিক) ও অডিট ট্রেইল (মোবাইল),Admin App,GeneralSavings,AUDITOR · MANAGER · ACCOUNTANT,done,4,/a/txn/:txnId, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am14,AM-14,সংশোধন ও রিভার্সাল (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,done,4,/a/reversal, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am15,AM-15,দিনশেষ ক্যাশ বুক ও দিন সমাপ্তি (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER,done,4,/a/cashbook, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am16,AM-16,নিষ্পত্তি ও পেমেন্ট (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER,done,4,/a/payouts, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am17,AM-17,লেনদেন ব্যবস্থাপনা / সাধারণ লেজার (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · AUDITOR (R),done,4,/a/ledger, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am18,AM-18,সদস্য অবস্থা পরিবর্তন (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,done,4,/a/members/:memberId/status, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am19,AM-19,মৃত্যু দাবি নিষ্পত্তি (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,done,4,/a/claims, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am20,AM-20,তহবিল স্থানান্তর (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · ORG_ADMIN,done,4,/a/transfer, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
 am21,AM-21,রিকনসিলিয়েশন ও ব্যতিক্রম নিষ্পত্তি (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · AUDITOR (R),todo,5,,
 am22,AM-22,বাল্ক জমা / কিস্তি এন্ট্রি (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · COLLECTOR · MANAGER,todo,5,,
 am23,AM-23,বাল্ক ইমপোর্ট ও ম্যাপিং (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · ORG_ADMIN,todo,5,,
