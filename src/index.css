@@ -1,4 +1,16 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+
+/* D1: সোর্স-স্কোপ — শুধু পুরনো অ্যাপের ফাইল। ইমপোর্ট করা app/, prototype/, docs/, specs/
+   কখনোই legacy production CSS-এ ঢুকবে না (বেসলাইন বান্ডল অপরিবর্তিত থাকবে)। */
+@source ".";
+@source "../index.html";
+@source "../server.ts";
+@source "../api";
+@source "../data";
+@source "../public";
+@source "../*.md";
+@source "../*.sql";
+@source "../*.json";
 
 @font-face {
   font-family: 'SolaimanLipi';

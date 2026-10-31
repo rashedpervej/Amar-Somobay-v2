@@ -394,7 +394,13 @@ export const useSomobayStore = create<SomobayState>((set, get) => ({
   },
 
   updatePlan: async (id, plan) => {
-    const { error } = await supabase.from('somobay_plans').update(plan).eq('id', id);
+    // D-01 (strict zero interest): শুধু createPlan নয়, এডিটও শূন্য-লক করা হলো।
+    // আগে এডিট ফর্ম দিয়ে যেকোনো শতাংশ সংরক্ষণ করা সম্ভব ছিল — এই ফাঁকটি বন্ধ।
+    const sanitizedPlan = {
+      ...plan,
+      profit_percentage: 0
+    };
+    const { error } = await supabase.from('somobay_plans').update(sanitizedPlan).eq('id', id);
     if (error) throw error;
     get().fetchPlans();
   },

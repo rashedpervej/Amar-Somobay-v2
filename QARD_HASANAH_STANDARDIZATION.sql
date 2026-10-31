@@ -153,30 +153,27 @@ CREATE TRIGGER tr_qard_repayment_sync
 AFTER INSERT OR UPDATE OR DELETE ON public.qard_repayments
 FOR EACH ROW EXECUTE FUNCTION public.handle_qard_repayment_sync();
 
--- 7. Seed Initial Qard Scheme in somobay_plans if none exists
-INSERT INTO public.somobay_plans (
-  name,
-  description,
-  scheme_type,
-  duration_months,
-  installment_amount,
-  target_amount,
-  profit_percentage,
-  late_fee_amount,
-  is_active,
-  status
-)
-SELECT 
-  'কর্জে হাসানা — সুদমুক্ত ঋণ ফান্ড',
-  'জরুরি পারিবারিক, চিকিৎসা ও ব্যবসা প্রয়োজনে সম্পূর্ণ সুদমুক্ত ঋণ সুবিধা।',
-  'qard',
-  6,
-  5000,
-  30000,
-  0,
-  0,
-  true,
-  'active'
-WHERE NOT EXISTS (
-  SELECT 1 FROM public.somobay_plans WHERE scheme_type = 'qard'
-);
+-- 7. [নিষ্ক্রিয় — নীতি D-01 / Gate #2, ৩১ অক্টোবর ২০২৬]
+--
+-- নিচের সিডটি আর চালানো হবে না। কারণ: `scheme_type='qard'`-কে `somobay_plans`-এ
+-- একটি সাধারণ সঞ্চয়-স্কিম হিসেবে তৈরি করছিল, যা QH-কে তার নিজস্ব মডিউল ও
+-- লাইফসাইকেল থেকে দূরে সরিয়ে দিত এবং দ্বিতীয়/তৃতীয়বার চালালে ডুপ্লিকেট
+-- QH-স্কিম তৈরি হতো (X1)। কর্জে হাসানা এখন শুধু `qard_funds` / `qard_loans` /
+-- `qard_repayments` দিয়ে চলবে (দেখুন `specs/03`), এবং QH-তে কোনো
+-- `profit_percentage` থাকবে না (নীতি D-01)।
+--
+-- ডিলিট করা হয়নি — ইতিহাস ও প্রয়োজনে রেফারেন্সের জন্য নিচে মন্তব্যে রাখা হলো।
+-- ইতিমধ্যে তৈরি হওয়া সারি মুছতে হবে না; নীতি অনুযায়ী সেগুলো নিষ্ক্রিয় (is_active=false)
+-- করার প্রস্তাব আলাদা অনুমোদনের বিষয়।
+--
+-- INSERT INTO public.somobay_plans (
+--   name, description, scheme_type, duration_months, installment_amount,
+--   target_amount, profit_percentage, late_fee_amount, is_active, status
+-- )
+-- SELECT
+--   'কর্জে হাসানা — সুদমুক্ত ঋণ ফান্ড',
+--   'জরুরি পারিবারিক, চিকিৎসা ও ব্যবসা প্রয়োজনে সম্পূর্ণ সুদমুক্ত ঋণ সুবিধা।',
+--   'qard', 6, 5000, 30000, 0, 0, true, 'active'
+-- WHERE NOT EXISTS (
+--   SELECT 1 FROM public.somobay_plans WHERE scheme_type = 'qard'
+-- );

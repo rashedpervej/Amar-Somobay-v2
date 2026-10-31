@@ -657,13 +657,8 @@ export default function SavingsInsights() {
               </div>
               <div className="h-[1px] bg-slate-100 dark:bg-white/5 w-full" />
 
-              <div className="flex justify-between items-center py-1">
-                <span className="text-slate-500 dark:text-slate-400 bangla">প্রত্যাশিত লভ্যাংশ হার</span>
-                <span className="font-semibold text-slate-800 dark:text-slate-300 bangla">
-                  {planInfo?.profit_percentage ? `${bn(planInfo.profit_percentage)}% মুনাফা` : 'সমিতির নিয়ম অনুযায়ী'}
-                </span>
-              </div>
-              <div className="h-[1px] bg-slate-100 dark:bg-white/5 w-full" />
+              {/* D-01: সঞ্চয় আমানতে শতাংশ-ভিত্তিক কোনো প্রতিশ্রুতির সারি দেখানো হয় না (বাদ)।
+                  শেয়ার-মূলধনের লভ্যাংশ আলাদা পর্দায় — সঞ্চয়ের সাথে মেশানো হয় না। */}
 
               <div className="flex justify-between items-center py-1">
                 <span className="text-slate-500 dark:text-slate-400 bangla">নিরাপত্তা ও এনক্রিপশন</span>

@@ -1,0 +1,206 @@
+id,code,name,platform,module,roles,status,batch,react_route,note
+m01,M-01,সঞ্চয় হোম / সদস্য ড্যাশবোর্ড,Member App,GeneralSavings,MEMBER,done,1,/m/home,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m02,M-02,উপলব্ধ স্কিম ব্রাউজ,Member App,GeneralSavings,MEMBER,done,1,/m/schemes,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m03,M-03,স্কিম বিবরণ ও নামভর্তি,Member App,GeneralSavings,MEMBER,done,1,/m/schemes/:schemeId,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m04,M-04,আমার সঞ্চয় অ্যাকাউন্ট তালিকা,Member App,GeneralSavings,MEMBER,done,1,/m/savings,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m05,M-05,সঞ্চয় অ্যাকাউন্ট বিবরণ,Member App,GeneralSavings,MEMBER,done,1,/m/savings/:accountId,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m06,M-06,জমা প্রদান,Member App,GeneralSavings,MEMBER,done,1,/m/deposit,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m07,M-07,জমা নিশ্চিতকরণ ও রসিদ,Member App,GeneralSavings,MEMBER,done,1,/m/deposit/receipt/:depositId,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m08,M-08,লেনদেনের ইতিহাস,Member App,GeneralSavings,MEMBER,done,1,/m/txn,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m09,M-09,লেনদেন বিবরণ ও ডিজিটাল রসিদ,Member App,GeneralSavings,MEMBER,done,1,/m/txn/:txnId,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m10,M-10,উত্তোলনের আবেদন,Member App,GeneralSavings,MEMBER,done,1,/m/withdrawals/new,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m11,M-11,আমার উত্তোলন আবেদন তালিকা,Member App,GeneralSavings,MEMBER,done,1,/m/withdrawals,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m12,M-12,উত্তোলন আবেদন বিবরণ,Member App,GeneralSavings,MEMBER,done,1,/m/withdrawals/:id,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m13,M-13,বকেয়া ও নির্ধারিত কিস্তি,Member App,GeneralSavings,MEMBER,done,1,/m/dues,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m14,M-14,স্টেটমেন্ট ও রসিদ কেন্দ্র,Member App,GeneralSavings,MEMBER,done,1,/m/statement,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m16,M-16,নোটিফিকেশন,Member App,GeneralSavings,MEMBER,done,1,/m/notifications,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m18,M-18,আমার প্রোফাইল ও KYC,Member App,GeneralSavings,MEMBER,done,1,/m/profile,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a01,A-01,অ্যাডমিন ওভারভিউ ড্যাশবোর্ড,Admin Web,GeneralSavings,,done,10,/w/dashboard,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a03,A-03,স্কিম তালিকা,Admin Web,GeneralSavings,,done,10,/w/schemes,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a04,A-04,স্কিম তৈরি (উইজার্ড),Admin Web,GeneralSavings,,done,10,/w/schemes/new,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a05,A-05,স্কিম সম্পাদনা (নতুন সংস্করণ),Admin Web,GeneralSavings,,done,10,/w/schemes/:schemeId,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a06,A-06,স্কিম বিবরণ ও পরিসংখ্যান,Admin Web,GeneralSavings,,done,10,/w/schemes/:schemeId,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a07,A-07,সদস্য তালিকা,Admin Web,GeneralSavings,,done,10,/w/members,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a08,A-08,সদস্য নিবন্ধন (উইজার্ড),Admin Web,GeneralSavings,,done,10,/w/members/new,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a09,A-09,সদস্য সম্পাদনা,Admin Web,GeneralSavings,,done,10,/w/members/:memberId,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a10,A-10,সদস্য প্রোফাইল ৩৬০°,Admin Web,GeneralSavings,,done,10,/w/members/:memberId,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m15,M-15,অ্যাকাউন্ট বন্ধের আবেদন ও নিষ্পত্তি প্রিভিউ,Member App,GeneralSavings,MEMBER,done,1,/m/close-request,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m17,M-17,নোটিশ বোর্ড,Member App,GeneralSavings,MEMBER,done,1,/m/notices,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m19,M-19,নমিনি ব্যবস্থাপনা,Member App,GeneralSavings,MEMBER,done,1,/m/nominees,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m20,M-20,অ্যাকাউন্ট ও নিরাপত্তা সেটিংস,Member App,GeneralSavings,MEMBER,done,1,/m/settings,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m21,M-21,"সহায়তা, রসিদ যাচাই ও অভিযোগ",Member App,GeneralSavings,MEMBER (+ সাধারণ জনগণ S-07 দিয়ে),done,1,/m/help,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+m22,RM-01,আমার চক্র,Member App,ROSCA,MEMBER,done,3,/m/circles,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
+m23,RM-02,চক্র বিস্তারিত,Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
+m24,RM-03,ড্র ক্রম ও পরবর্তী ড্র,Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId/draws,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
+m25,RM-04,কিস্তি পরিশোধ,Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId/pay,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
+m26,RM-05,ড্র ইতিহাস ও আমার প্রাপ্তি,Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId/history,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
+m27,RM-06,পেআউট রসিদ (প্রাপ্তি ভাউচার),Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId/receipt/:drawId,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
+a11,A-11,সদস্য আবেদন বিবরণ ও যাচাই,Admin Web,GeneralSavings,,done,10,/w/applications/:appId,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a13,A-13,অ্যাকাউন্ট বিবরণ (অ্যাডমিন),Admin Web,GeneralSavings,,done,10,/w/accounts/:accId,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a15,A-15,সদস্য প্রস্থান ও চূড়ান্ত নিষ্পত্তি,Admin Web,GeneralSavings,,done,10,/w/members/:memberId/exit,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a17,A-17,জমা রেকর্ড,Admin Web,GeneralSavings,,done,10,/w/deposits,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a20,A-20,জমা অনুমোদন কিউ,Admin Web,GeneralSavings,,done,10,/w/approvals/deposits,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a21,A-21,জমা বিবরণ ও প্রমাণ যাচাই,Admin Web,GeneralSavings,,done,10,/w/approval/:id,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a22,A-22,উত্তোলন অনুমোদন কিউ,Admin Web,GeneralSavings,,done,10,/w/approvals/withdrawals,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a23,A-23,উত্তোলন আবেদন বিবরণ ও সিদ্ধান্ত,Admin Web,GeneralSavings,,done,10,/w/approval/:id,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a24,A-24,নিষ্পত্তি ও পেমেন্ট,Admin Web,GeneralSavings,,done,10,/w/payouts,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a25,A-25,লেনদেন ব্যবস্থাপনা / সাধারণ লেজার,Admin Web,GeneralSavings,,done,10,/w/ledger,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a31,A-31,বকেয়া রেজিস্টার,Admin Web,GeneralSavings,,done,10,/w/dues,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a02,A-02,মাঠ সংগ্রহক ড্যাশবোর্ড,Admin Web,GeneralSavings,COLLECTOR (মাঠ),done,11,/w/collector,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a12,A-12,সদস্য অবস্থা পরিবর্তন (Suspend / Freeze / Dormant),Admin Web,GeneralSavings,,done,11,/w/status,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a14,A-14,মৃত্যু দাবি নিষ্পত্তি,Admin Web,GeneralSavings,,done,11,/w/claims/:id,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a18,A-18,বাল্ক জমা / কিস্তি এন্ট্রি,Admin Web,GeneralSavings,,done,11,/w/bulk,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a19,A-19,বাল্ক ইমপোর্ট ও ম্যাপিং (CSV),Admin Web,GeneralSavings,,done,11,/w/bulk/import,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a26,A-26,লেনদেন বিবরণ (ফরেনসিক) ও অডিট ট্রেইল,Admin Web,GeneralSavings,,done,11,/w/txn/:txnId,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a27,A-27,লেনদেন সংশোধন / রিভার্সাল (Reversal JE),Admin Web,GeneralSavings,,done,11,/w/reversal,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a28,A-28,দিনশেষ জমা ও ক্যাশ বুক,Admin Web,GeneralSavings,,done,11,/w/cashbook,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a29,A-29,তহবিল স্থানান্তর (Cash ↔ Bank ↔ Wallet),Admin Web,GeneralSavings,,done,11,/w/transfer,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a30,A-30,রিকনসিলিয়েশন ও ব্যতিক্রম নিষ্পত্তি,Admin Web,GeneralSavings,,done,11,/w/recon,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a32,A-32,সংগ্রহ পরিকল্পনা ও রুট,Admin Web,GeneralSavings,,done,11,/w/routes,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a33,A-33,রিমাইন্ডার ও যোগাযোগ শিডিউল,Admin Web,GeneralSavings,,done,11,/w/reminders,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a34,A-34,রিপোর্ট কেন্দ্র,Admin Web,GeneralSavings,,done,11,/w/reports,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a16,A-16,সদস্য স্থানান্তর (রুট / শাখা),Admin Web,GeneralSavings,,done,11,/w/moves,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a35,A-35,আর্থিক বিবরণ ও রেগুলেটরি রিটার্ন,Admin Web,GeneralSavings,,done,11,/w/finance,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a36,A-36,সেটিংস হাব,Admin Web,GeneralSavings,,done,11,/w/settings,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a37,A-37,"স্টাফ, রোল ও পারমিশন",Admin Web,GeneralSavings,,done,11,/w/staff,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a38,A-38,অডিট লগ,Admin Web,GeneralSavings,,done,11,/w/audit,"ব্যাচ ১১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a39,RA-01,ROSCA ড্যাশবোর্ড,Admin Web,ROSCA,,done,8,/w/rc,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a40,RA-02,ROSCA স্কিম তালিকা,Admin Web,ROSCA,,done,8,/w/rc/schemes,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a41,RA-03,ROSCA স্কিম তৈরি / সম্পাদনা,Admin Web,ROSCA,,done,8,/w/rc/schemes/new,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a42,RA-04,সক্রিয় সার্কেল তালিকা,Admin Web,ROSCA,,done,8,/w/rc/circles,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a43,RA-05,সার্কেল বিস্তারিত হাব,Admin Web,ROSCA,,done,8,/w/rc/circles/:circleId,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a44,RA-06,সিট বরাদ্দ / সদস্য নির্বাচন,Admin Web,ROSCA,,done,8,/w/rc/circles/:circleId/seats,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a45,RA-07,ড্র ক্যালেন্ডার ও ক্রম,Admin Web,ROSCA,,done,8,/w/rc/draws,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a46,RA-08,ড্র সম্পাদন (ধাপভিত্তিক),Admin Web,ROSCA,,done,8,/w/rc/draws/:drawId/run,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a47,RA-09,ড্র ইতিহাস ও রেজিস্টার,Admin Web,ROSCA,,done,8,/w/rc/draws/history,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a48,RA-10,কিস্তি সংগ্রহ ও বকেয়া,Admin Web,ROSCA,,done,8,/w/rc/collect,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a49,RA-11,ডিফল্ট ও প্রতিস্থাপন,Admin Web,ROSCA,,done,8,/w/rc/defaults,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a50,RA-12,ROSCA রিপোর্ট,Admin Web,ROSCA,,done,8,/w/rc/reports,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+s01,S-01,লগইন / OTP প্রমাণীকরণ,Shared,Shared,সবাই,done,2,/login,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s02,S-02,সমিতি নির্বাচন (Organization Switcher),Shared,Shared,একাধিক সমিতির সদস্য/স্টাফ,done,2,/organizations,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s07,S-07,ডকুমেন্ট ভিউয়ার ও রসিদ যাচাই (প্রকাশ্য),Shared,Shared,সদস্য + স্টাফ + সাধারণ জনগণ (লগইন ছাড়া),done,2,/verify,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s05,S-05,অনুমতি প্রত্যাখ্যান (403),Shared,Shared,সব ভূমিকা,done,2,/403,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s06,S-06,"সাধারণ ত্রুটি, অফলাইন ও 404",Shared,Shared,সব ভূমিকা,done,2,/error,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s03,S-03,প্রোফাইল ও অ্যাকাউন্ট সেটিংস (প্ল্যাটফর্ম স্তর),Shared,Shared,সবাই,done,2,/account,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s08,S-08,অফলাইন Sync ও কিউ অবস্থা,Shared,Shared,COLLECTOR · ACCOUNTANT,done,2,/sync,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+s04,S-04,নোটিফিকেশন সেটিংস ও পছন্দ,Shared,Shared,সবাই,done,2,/account/notifications,"ব্যাচ ২ — sessionStore-সংযুক্ত, দৃশ্যমান ফলাফল/ত্রুটি, রুট-স্মোক পাস"
+am01,AM-01,অ্যাডমিন মোবাইল হোম,Admin App,GeneralSavings,MANAGER · APPROVER · ORG_ADMIN · ACCOUNTANT,done,4,/a/home,"AM-01 হোম — KPI ও তালিকা; সব কুইক-অ্যাকশন এখনো ""ফেজ ৩"" কার্ডে Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।"
+am02,AM-02,অনুমোদন কিউ (মোবাইল),Admin App,GeneralSavings,MANAGER · APPROVER · ORG_ADMIN,done,4,/a/approvals,AM-02 কিউ — তালিকা ও ফিল্টার আংশিক Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am03,AM-03,অনুমোদনের সিদ্ধান্ত (মোবাইল),Admin App,GeneralSavings,MANAGER · APPROVER · ORG_ADMIN,done,4,/a/approvals/:id,AM-03 সিদ্ধান্ত — যাচাই-তালিকা ও অনুমোদন/প্রত্যাখ্যান আছে Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am04,AM-04,সদস্য খোঁজা ও তালিকা (মোবাইল),Admin App,GeneralSavings,COLLECTOR · MANAGER · ACCOUNTANT,done,4,/a/members, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am05,AM-05,সদস্য ৩৬০° সারাংশ (মোবাইল),Admin App,GeneralSavings,MANAGER · ACCOUNTANT · COLLECTOR (স্কোপড),done,4,/a/members/:memberId, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am06,AM-06,দ্রুত জমা এন্ট্রি (মোবাইল),Admin App,GeneralSavings,COLLECTOR · ACCOUNTANT,done,4,/a/entry, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am07,AM-07,নতুন সদস্য নিবন্ধন (মোবাইল),Admin App,GeneralSavings,COLLECTOR · MANAGER · ORG_ADMIN,done,4,/a/members/new, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am08,AM-08,আবেদন বিবরণ ও যাচাই (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,done,4,/a/approvals/:id/review, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am09,AM-09,সদস্য সম্পাদনা (মোবাইল),Admin App,GeneralSavings,MANAGER · ACCOUNTANT · ORG_ADMIN,done,4,/a/members/:memberId/edit, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am10,AM-10,অ্যাকাউন্ট বিবরণ ও লেজার (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · AUDITOR (R),done,4,/a/accounts/:accountId, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am11,AM-11,প্রস্থান ও চূড়ান্ত নিষ্পত্তি (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,done,4,/a/members/:memberId/close, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am12,AM-12,বকেয়া রেজিস্টার (মোবাইল),Admin App,GeneralSavings,COLLECTOR · MANAGER · ACCOUNTANT,done,4,/a/dues, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am13,AM-13,লেনদেন বিবরণ (ফরেনসিক) ও অডিট ট্রেইল (মোবাইল),Admin App,GeneralSavings,AUDITOR · MANAGER · ACCOUNTANT,done,4,/a/txn/:txnId, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am14,AM-14,সংশোধন ও রিভার্সাল (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,done,4,/a/reversal, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am15,AM-15,দিনশেষ ক্যাশ বুক ও দিন সমাপ্তি (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER,done,4,/a/cashbook, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am16,AM-16,নিষ্পত্তি ও পেমেন্ট (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER,done,4,/a/payouts, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am17,AM-17,লেনদেন ব্যবস্থাপনা / সাধারণ লেজার (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · AUDITOR (R),done,4,/a/ledger, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am18,AM-18,সদস্য অবস্থা পরিবর্তন (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,done,4,/a/members/:memberId/status, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am19,AM-19,মৃত্যু দাবি নিষ্পত্তি (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN,done,4,/a/claims, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am20,AM-20,তহবিল স্থানান্তর (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · ORG_ADMIN,done,4,/a/transfer, Batch 4 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am21,AM-21,রিকনসিলিয়েশন ও ব্যতিক্রম নিষ্পত্তি (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · AUDITOR (R),done,5,/a/recon, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am22,AM-22,বাল্ক জমা / কিস্তি এন্ট্রি (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · COLLECTOR · MANAGER,done,5,/a/batch, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am23,AM-23,বাল্ক ইমপোর্ট ও ম্যাপিং (মোবাইল),Admin App,GeneralSavings,ACCOUNTANT · MANAGER · ORG_ADMIN,done,5,/a/import, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am24,AM-24,আর্থিক বিবরণ ও রেগুলেটরি রিটার্ন (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN · AUDITOR (R),done,5,/a/finance, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am25,AM-25,রিপোর্ট কেন্দ্র (মোবাইল),Admin App,GeneralSavings,AUDITOR · ACCOUNTANT · MANAGER · ORG_ADMIN,done,5,/a/reports, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am26,AM-26,স্কিম বিবরণ ও পরিসংখ্যান (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN · ACCOUNTANT,done,5,/a/schemes/:schemeId, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am27,AM-27,স্কিম তালিকা (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN · ACCOUNTANT (R),done,5,/a/schemes, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am28,AM-28,স্কিম তৈরি (মোবাইল উইজার্ড),Admin App,GeneralSavings,ORG_ADMIN · MANAGER (প্রস্তাব),done,5,/a/schemes/new, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am29,AM-29,স্কিম সম্পাদনা ও সংস্করণ (মোবাইল),Admin App,GeneralSavings,ORG_ADMIN · MANAGER,done,5,/a/schemes/:schemeId/edit, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am30,AM-30,সদস্য স্থানান্তর (মোবাইল),Admin App,GeneralSavings,MANAGER · ORG_ADMIN · COLLECTOR (প্রস্তাব),done,5,/a/moves, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am31,AM-31,সংগ্রহ পরিকল্পনা ও রুট (মোবাইল),Admin App,GeneralSavings,MANAGER · COLLECTOR (R) · ORG_ADMIN,done,5,/a/routes, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am32,AM-32,রিমাইন্ডার ও যোগাযোগ (মোবাইল),Admin App,GeneralSavings,MANAGER · ACCOUNTANT · ORG_ADMIN,done,5,/a/reminders, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am33,AM-33,সেটিংস হাব (মোবাইল),Admin App,GeneralSavings,ORG_ADMIN · MANAGER (R) · AUDITOR (R),done,5,/a/settings, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am34,AM-34,"স্টাফ, রোল ও পারমিশন (মোবাইল)",Admin App,GeneralSavings,ORG_ADMIN,done,5,/a/staff, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am35,AM-35,অডিট লগ (মোবাইল),Admin App,GeneralSavings,AUDITOR · EXTERNAL_AUDITOR · ORG_ADMIN (R),done,5,/a/audit, Batch 5 · AM পর্দা সম্পূর্ণ (ডেমো ডেটা)।
+am36,RAM-01,ROSCA ড্যাশবোর্ড (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),done,6,/a/rc,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am37,RAM-02,চক্র স্কিম তালিকা (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · ACCOUNTANT (R) · AUDITOR (R),done,6,/a/rc/schemes,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am38,RAM-03,স্কিম তৈরি / সম্পাদনা (মোবাইল),Admin App,ROSCA,ORG_ADMIN · MANAGER (প্রস্তাব),done,6,/a/rc/schemes/new,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am39,RAM-04,সক্রিয় চক্র তালিকা (মোবাইল),Admin App,ROSCA,সব অ্যাডমিন রোল · COLLECTOR নিজের রুট,done,6,/a/rc/circles,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am40,RAM-05,চক্র বিস্তারিত হাব (মোবাইল),Admin App,ROSCA,সব অ্যাডমিন রোল · COLLECTOR নিজের রুট,done,6,/a/rc/circles/:circleId,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am41,RAM-06,সিট বরাদ্দ / সদস্য নির্বাচন (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · COLLECTOR (প্রস্তাব),done,6,/a/rc/circles/:circleId/seats,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am42,RAM-07,ড্র ক্যালেন্ডার ও ক্রম (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · AUDITOR (R),done,6,/a/rc/calendar,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am43,RAM-08,ড্র সম্পাদন (মোবাইল · ফ্লো),Admin App,ROSCA,MANAGER (প্রস্তুত) · APPROVER/ORG_ADMIN (অনুমোদন),done,6,/a/rc/circles/:circleId/draw,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am44,RAM-09,ড্র রেজিস্টার (মোবাইল),Admin App,ROSCA,AUDITOR · MANAGER · ACCOUNTANT (R),done,6,/a/rc/register,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am45,RAM-10,কিস্তি সংগ্রহ ও বকেয়া (মোবাইল),Admin App,ROSCA,COLLECTOR · ACCOUNTANT · MANAGER,done,6,/a/rc/collect,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am46,RAM-11,ডিফল্ট ও প্রতিস্থাপন (মোবাইল),Admin App,ROSCA,MANAGER · APPROVER · ORG_ADMIN,done,6,/a/rc/defaults,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am47,RAM-12,ROSCA রিপোর্ট (মোবাইল),Admin App,ROSCA,MANAGER · ORG_ADMIN · AUDITOR (R),done,6,/a/rc/reports,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+a51,JA-01,যৌথ লক্ষ্য ড্যাশবোর্ড,Admin Web,JointGoal,,done,8,/w/jg,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a52,JA-02,লক্ষ্য তালিকা ও পরিকল্পনা সীমা,Admin Web,JointGoal,,done,8,/w/jg/goals,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a53,JA-03,লক্ষ্য তৈরি / সম্পাদনা (নিয়ম ও সংস্করণ),Admin Web,JointGoal,,done,8,/w/jg/goals/new,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a54,JA-04,লক্ষ্য বিস্তারিত হাব,Admin Web,JointGoal,,done,8,/w/jg/goals/:goalId,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a55,JA-05,অংশগ্রহণ ব্যবস্থাপনা ও যোগদান অনুমোদন,Admin Web,JointGoal,,done,8,/w/jg/join,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a56,JA-06,অবদান সংগ্রহ কিউ ও বকেয়া,Admin Web,JointGoal,,done,8,/w/jg/collect,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a57,JA-07,মাইলস্টোন ও অগ্রগতি ট্র্যাকিং,Admin Web,JointGoal,,done,8,/w/jg/milestones,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a58,JA-08,অর্থ ব্যবহার ও বিতরণ,Admin Web,JointGoal,,done,8,/w/jg/spend,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a59,JA-09,মেয়াদোত্তীর্ণ ও নিষ্পত্তি,Admin Web,JointGoal,,done,8,/w/jg/close,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+a60,JA-10,Joint Goal রিপোর্ট ও নিরীক্ষা,Admin Web,JointGoal,,done,8,/w/jg/reports,"ব্যাচ ৮ — ডেস্কটপ ওয়েব; স্টোর-সংযুক্ত কার্যকরী পর্দা (maker ≠ checker, প্রমাণ ও কমিটি গেট)"
+am48,JAM-01,যৌথ লক্ষ্য ড্যাশবোর্ড (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),done,6,/a/jg,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am49,JAM-02,লক্ষ্য তালিকা (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · APPROVER,done,6,/a/jg/goals,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am50,JAM-03,লক্ষ্য তৈরি / সম্পাদনা (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN (প্রস্তাব),done,6,/a/jg/new,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am51,JAM-04,লক্ষ্য বিস্তারিত হাব (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),done,6,/a/jg/goals/:goalId,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am52,JAM-05,যোগদান অনুমোদন (মোবাইল),Admin App,JointGoal,APPROVER · ORG_ADMIN · MANAGER (প্রস্তাব),done,6,/a/jg/goals/:goalId/parts,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am53,JAM-06,অবদান সংগ্রহ কিউ (মোবাইল),Admin App,JointGoal,COLLECTOR (এন্ট্রি) · ACCOUNTANT · MANAGER,done,6,/a/jg/arrears,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am54,JAM-07,মাইলস্টোন ও অগ্রগতি (মোবাইল),Admin App,JointGoal,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),done,6,/a/jg/goals/:goalId/milestones,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am55,JAM-08,বিতরণ অনুমোদন (মোবাইল),Admin App,JointGoal,APPROVER · ORG_ADMIN · MANAGER (সীমা অনুযায়ী) · ACCOUNTANT (প্রস্তাব),done,6,/a/jg/goals/:goalId/disbursements,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am56,JAM-09,মেয়াদোত্তীর্ণ ও নিষ্পত্তি (মোবাইল),Admin App,JointGoal,MANAGER · APPROVER · ORG_ADMIN · ACCOUNTANT (ছক),done,6,/a/jg/goals/:goalId/settle,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+am57,JAM-10,Joint Goal রিপোর্ট (মোবাইল),Admin App,JointGoal,AUDITOR · MANAGER · ORG_ADMIN (R),done,6,/a/jg/reports,"ব্যাচ ৬ — স্টোর-সংযুক্ত (useAdminRo/useAdminJg), মৃত বোতাম নেই, রুট-স্মোক পাস"
+m28,JM-01,আমাদের লক্ষ্য,Member App,JointGoal,MEMBER,done,3,/m/goals,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"
+m29,JM-02,লক্ষ্য বিস্তারিত,Member App,JointGoal,MEMBER,done,3,/m/goals/:goalId,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"
+m30,JM-03,যোগদান ও প্রতিশ্রুতি,Member App,JointGoal,MEMBER,done,3,/m/goals/:goalId/join,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"
+m31,JM-04,আমার অবদান ও ইতিহাস,Member App,JointGoal,MEMBER,done,3,/m/goals/:goalId/contribute,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"
+m32,JM-05,অর্জন ও ব্যবহারের বিবরণ,Member App,JointGoal,MEMBER,done,3,/m/goals/uses,"ব্যাচ ৩ — joinGoal/contributeGoal প্রবাহ কাজ করে, BR-19 কপি, রুট-স্মোক পাস"
+m33,QM-01,কর্জে হাসানা হোম,Member App,QardHasanah,MEMBER,done,3,/m/qard,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m34,QM-02,যোগ্যতা ও আমার অবস্থা,Member App,QardHasanah,MEMBER,done,3,/m/qard/eligibility,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m35,QM-03,পণ্য ও শর্তাবলি,Member App,QardHasanah,MEMBER,done,3,/m/qard/products,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m36,QM-04,সহায়তার আবেদনপত্র,Member App,QardHasanah,MEMBER,done,3,/m/qard/apply,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m37,QM-05,আবেদন অবস্থা ও ইতিহাস,Member App,QardHasanah,MEMBER,done,3,/m/qard/applications,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m38,QM-06,আমার সহায়তা,Member App,QardHasanah,MEMBER,done,3,/m/qard/loans,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m39,QM-07,কিস্তি পরিশোধ,Member App,QardHasanah,MEMBER,done,3,/m/qard/pay,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+m40,QM-08,সমাপ্তি সনদ,Member App,QardHasanah,MEMBER,done,3,/m/qard/certificate/:loanId,"ব্যাচ ৩ — applyQard/repayQard প্রবাহ, সুদ ৳০ (BR-20), রুট-স্মোক পাস"
+a61,QA-01,QH ড্যাশবোর্ড,Admin Web,QardHasanah,,done,9,/w/qh,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a62,QA-02,সহায়তা পণ্য কনফিগারেশন,Admin Web,QardHasanah,,done,9,/w/qh/products,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a63,QA-03,যোগ্যতা নিয়ম ব্যবস্থাপনা,Admin Web,QardHasanah,,done,9,/w/qh/rules,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a64,QA-04,নিয়ম Simulation,Admin Web,QardHasanah,,done,9,/w/qh/simulation,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a65,QA-05,যোগ্য সদস্য তালিকা ব্যবস্থাপনা,Admin Web,QardHasanah,,done,9,/w/qh/eligible,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a66,QA-06,আবেদন জানালা ও কোটা নিয়ন্ত্রণ,Admin Web,QardHasanah,,done,9,/w/qh/window,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a67,QA-07,আবেদন কিউ (তালিকা),Admin Web,QardHasanah,,done,9,/w/qh/queue,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a68,QA-08,আবেদন বিস্তারিত,Admin Web,QardHasanah,,done,9,/w/qh/applications/:appId,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a69,QA-09,অনুমোদন / প্রত্যাখ্যান / তথ্য চেয়ে ফেরত,Admin Web,QardHasanah,,done,9,/w/qh/applications/:appId/decision,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a70,QA-10,বিতরণ ব্যবস্থাপনা,Admin Web,QardHasanah,,done,9,/w/qh/disburse,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a71,QA-11,পরিশোধ ছক ও কিস্তি তালিকা,Admin Web,QardHasanah,,done,9,/w/qh/loans,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a72,QA-12,ঋণ বিস্তারিত (হাব),Admin Web,QardHasanah,,done,9,/w/qh/loans/:loanId,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a73,QA-13,পরিশোধ এন্ট্রি ও রসিদ,Admin Web,QardHasanah,,done,9,/w/qh/loans/:loanId/repay,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a74,QA-14,বকেয়া ও ডিফল্ট ব্যবস্থাপনা,Admin Web,QardHasanah,,done,9,/w/qh/arrears,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a75,QA-15,সমাপ্তি ও সনদ,Admin Web,QardHasanah,,done,9,/w/qh/loans/:loanId/close,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a76,QA-16,Write-off ব্যবস্থাপনা,Admin Web,QardHasanah,,done,9,/w/qh/writeoff,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+a77,QA-17,QH রিপোর্ট,Admin Web,QardHasanah,,done,9,/w/qh/reports,"ব্যাচ ৯ — ডেস্কটপ QH স্টোর-সংযুক্ত, OTP/maker≠checker/সুদ শূন্য যাচাই, রুট-স্মোক পাস"
+am58,QAM-01,QH ড্যাশবোর্ড (মোবাইল),Admin App,QardHasanah,MANAGER · ORG_ADMIN · ACCOUNTANT · APPROVER · AUDITOR (R),done,7,/a/qh,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am59,QAM-02,পণ্য কনফিগারেশন (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · MANAGER (প্রস্তাব),done,7,/a/qh/products,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am60,QAM-03,যোগ্যতা নিয়ম (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · APPROVER,done,7,/a/qh/rules,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am61,QAM-04,নিয়ম Simulation (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · MANAGER,done,7,/a/qh/simulation,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am62,QAM-05,যোগ্য সদস্য তালিকা (মোবাইল),Admin App,QardHasanah,MANAGER · APPROVER · ORG_ADMIN · AUDITOR (R),done,7,/a/qh/eligible,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am63,QAM-06,"জানালা, কোটা ও পুল (মোবাইল)",Admin App,QardHasanah,ORG_ADMIN · MANAGER · APPROVER,done,7,/a/qh/window,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am64,QAM-07,আবেদন কিউ (মোবাইল),Admin App,QardHasanah,MANAGER · APPROVER · ORG_ADMIN · AUDITOR (R),done,7,/a/qh/applications,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am65,QAM-08,আবেদন বিস্তারিত (মোবাইল),Admin App,QardHasanah,MANAGER · APPROVER · ORG_ADMIN,done,7,/a/qh/applications/:appId,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am66,QAM-09,সিদ্ধান্ত — অনুমোদন / ফেরত / প্রত্যাখ্যান (মোবাইল),Admin App,QardHasanah,APPROVER · ORG_ADMIN (maker ≠ checker),done,7,/a/qh/applications/:appId/decision,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am67,QAM-10,বিতরণ — OTP ও ভাউচার (মোবাইল),Admin App,QardHasanah,APPROVER (checker) · ACCOUNTANT (maker),done,7,/a/qh/disburse/:loanId,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am68,QAM-11,ঋণ হাব (মোবাইল),Admin App,QardHasanah,MANAGER · ACCOUNTANT · APPROVER · AUDITOR (R),done,7,/a/qh/loans,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am69,QAM-12,পরিশোধ ছক ও কিস্তি তালিকা (মোবাইল),Admin App,QardHasanah,ACCOUNTANT · MANAGER · COLLECTOR · APPROVER,done,7,/a/qh/loans/:loanId,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am70,QAM-13,পরিশোধ এন্ট্রি ও রসিদ (মোবাইল),Admin App,QardHasanah,COLLECTOR · ACCOUNTANT · MANAGER,done,7,/a/qh/loans/:loanId/repay,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am71,QAM-14,বকেয়া ও ডিফল্ট ব্যবস্থাপনা (মোবাইল),Admin App,QardHasanah,MANAGER · ACCOUNTANT · COLLECTOR · ORG_ADMIN,done,7,/a/qh/arrears,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am72,QAM-15,সমাপ্তি ও সনদ (মোবাইল),Admin App,QardHasanah,ACCOUNTANT · MANAGER · APPROVER,done,7,/a/qh/loans/:loanId/close,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am73,QAM-16,Write-off অনুমোদন (মোবাইল),Admin App,QardHasanah,ORG_ADMIN · MANAGER (প্রস্তাব) · AUDITOR (অ্যালার্ট),done,7,/a/qh/writeoff,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+am74,QAM-17,QH রিপোর্ট (মোবাইল),Admin App,QardHasanah,AUDITOR · ORG_ADMIN · MANAGER (R),done,7,/a/qh/reports,ব্যাচ ৭ — স্টোর-সংযুক্ত কার্যকরী পর্দা (QAM); সুদ ৳০ · maker ≠ checker · OTP ও রসিদ গেট সার্ভার-স্টোরে যাচাইকৃত
+s09,S-09,সাইনআপ (স্ব-নিবন্ধন),Member App,GeneralSavings,MEMBER,done,12,/m/signup,"ব্যাচ ১২ — নতুন পর্দা; স্টোর-সংযুক্ত, রুট-স্মোক ও ইন্টারঅ্যাকশন স্মোক পাস"
+s10,S-10,অনুমোদনের অপেক্ষা,Member App,GeneralSavings,MEMBER,done,12,/m/pending,"ব্যাচ ১২ — নতুন পর্দা; স্টোর-সংযুক্ত, রুট-স্মোক ও ইন্টারঅ্যাকশন স্মোক পাস"
+s11,S-11,সমিতিতে যোগদান (কোড/স্লাগ),Member App,GeneralSavings,MEMBER,done,12,/m/join,"ব্যাচ ১২ — নতুন পর্দা; স্টোর-সংযুক্ত, রুট-স্মোক ও ইন্টারঅ্যাকশন স্মোক পাস"
+m22a,M-22,সভা ও নোটিশ,Member App,Shared,MEMBER,done,12,/m/meetings,"ব্যাচ ১২ — নতুন পর্দা; স্টোর-সংযুক্ত, রুট-স্মোক ও ইন্টারঅ্যাকশন স্মোক পাস"
+a39a,A-39,নোটিশ/প্রমোশন ব্যবস্থাপনা,Shared,Shared,ORG_ADMIN · MANAGER,done,12,/w/notices,"ব্যাচ ১২ — নতুন পর্দা; স্টোর-সংযুক্ত, রুট-স্মোক ও ইন্টারঅ্যাকশন স্মোক পাস"
+a40a,A-40,সভা ও হাজিরা,Shared,Shared,ORG_ADMIN · MANAGER,done,12,/w/meetings,"ব্যাচ ১২ — নতুন পর্দা; স্টোর-সংযুক্ত, রুট-স্মোক ও ইন্টারঅ্যাকশন স্মোক পাস"

@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Somobay · ৮টি ক্লিকেবল User Flow — লাইভ প্রোটোটাইপ</title>
+<link rel="stylesheet" href="assets/ui.css">
+</head>
+<body>
+
+<header class="flow-head">
+  <div class="flow-wrap" style="padding:0;display:block">
+    <div class="hrow" style="gap:10px;margin-bottom:10px">
+      <span class="chip chip-lime">spec §7</span>
+      <span class="chip" style="background:rgba(255,255,255,.16);color:#fff">৮ flow · ৮৪ ধাপ · ক্লিকেবল</span>
+      <span class="chip" style="background:rgba(255,255,255,.16);color:#fff">লাইভ স্টেট</span>
+    </div>
+    <h1>৮টি User Flow — আসল ক্লিকেবল প্রোটোটাইপ</h1>
+    <p>প্রতিটি ধাপে বোতাম চাপলে আসল অ্যাকশন চলে: ব্যালেন্স বদলায়, লেজার এন্ট্রি বসে, hold তৈরি ও ছাড়া পড়ে, কিউ থেকে আইটেম কমে, নোটিফিকেশন ও অডিট লগ জমে। ডান পাশের <b>লাইভ স্টেট</b> প্যানেলে সবকিছু সাথে সাথে হালনাগাদ হয়। নিয়মগুলো স্পেক থেকেই আসে — R-01 (ব্যালেন্স সংরক্ষিত নয়, লেজার থেকে পুনর্গণনা), BR-02 (উত্তোলনে hold), BR-04 (maker ≠ checker), D-22 (ভূমিকাভিত্তিক অনুমোদন সীমা), D-08 (বিলম্ব ফি, সুদ নয়), D-19 (ঋণাত্মক প্রদেয় = ৳০), D-30 (৮ বছর আর্কাইভ)।</p>
+  </div>
+</header>
+
+<nav class="flow-nav" id="flowNav"></nav>
+
+<div class="flow-wrap">
+  <main id="flows"></main>
+  <aside id="live"></aside>
+</div>
+
+<script src="assets/app.js" type="text/javascript"></script>
+<script src="assets/store.js" type="text/javascript"></script>
+<script type="text/javascript">
+/* ============================================================
+   ফ্লো ইঞ্জিন — প্রতিটি ধাপ = { t, d, s[], in[], b[] }
+   বোতাম: { l, k, run(inp){return {ok,err,html,msg}}, ic }
+   ============================================================ */
+'use strict';
+
+const ROLE_NAME = { ACCOUNTANT: 'সুমি রানী (হিসাবরক্ষক)', MANAGER: 'মোঃ আব্দুল্লাহ (ম্যানেজার)',
+  APPROVER: 'কাজী নুরুন্নবী (অনুমোদনকারী)', ORG_ADMIN: 'সমিতি প্রশাসক', COLLECTOR: 'রাজু আহমেদ (সংগ্রহক)' };
+const stOf = (map, k) => (map[k] || { t: k || '—', c: 'chip-neutral', i: 'info' });
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+const val = (k, d) => (APP.draft[k] === undefined || APP.draft[k] === '' ? d : APP.draft[k]);
+const takaIn = (k, def, label) => ({ k: k, t: 'money', def: def, label: label, ph: tk(def) });
+
+/* ---- ছোট টুকরো ---- */
+function kv(o) { return `<div class="kv-out">` + Object.keys(o).map(k => `<div class="k">${k}</div><div class="v">${o[k]}</div>`).join('') + `</div>`; }
+function miniTbl(head, rows) {
+  return `<div class="tbl-wrap"><table class="mini-tbl"><thead><tr>${head.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+    <tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+function rolePicker(defRole) {
+  const cur = APP.session.role === 'MEMBER' ? (defRole || 'MANAGER') : APP.session.role;
+  return `<div class="stp-inp"><label>আপনি কে (D-22 সীমা দেখতে):</label>
+    <select class="inp" id="roleSel">
+      ${['ACCOUNTANT', 'MANAGER', 'APPROVER', 'ORG_ADMIN'].map(r => `<option value="${r}"${r === cur ? ' selected' : ''}>${r} · ${ROLE_NAME[r]}</option>`).join('')}
+    </select>
+    <span class="chip chip-info" id="roleLim">${cur === 'ACCOUNTANT' ? 'শুধু প্রস্তাব' : 'সীমা ' + tk({ MANAGER: 500000, APPROVER: 20000000, ORG_ADMIN: Infinity }[cur])}</span></div>`;
+}
+const LIMITS = { ACCOUNTANT: 0, MANAGER: 500000, APPROVER: 20000000, ORG_ADMIN: Infinity };
+function bindRole(wrap, defRole) {
+  const sel = wrap.querySelector('#roleSel'), lim = wrap.querySelector('#roleLim');
+  if (!sel) return;
+  APP.session.role = sel.value;
+  sel.onchange = () => { APP.session.role = sel.value;
+    lim.textContent = sel.value === 'ACCOUNTANT' ? 'শুধু প্রস্তাব, অনুমোদন নয়' : 'সীমা ' + tk(LIMITS[sel.value]);
+    lim.className = 'chip ' + (sel.value === 'ACCOUNTANT' ? 'chip-warn' : 'chip-info'); };
+}
+function accPick(def, label) {
+  return { k: 'acc', t: 'select', def: def, label: label || 'অ্যাকাউন্ট',
+    opts: myAccounts().map(a => [a.id, a.no + ' · ' + scheme(a.schemeId).name + ' · ' + tk(a.posted)]) };
+}
+
+/* ---- ধাপ রেন্ডার ---- */
+function stepHTML(fl, i, st) {
+  const dn = i + 1, r = fl.res[i], cls = r ? (r.ok ? 'done' : 'err') : '';
+  const scr = (st.s || []).map(x => `<span>${esc(x)}</span>`).join('');
+  const inp = (st.in || []).map(f => {
+    const id = fl.id + '-' + dn + '-' + f.k;
+    if (f.t === 'select') return `<div class="stp-inp"><label for="${id}">${esc(f.label || '')}</label>
+      <select class="inp" id="${id}">${f.opts.map(o => `<option value="${o[0]}"${String(o[0]) === String(val(f.k, f.def)) ? ' selected' : ''}>${esc(o[1])}</option>`).join('')}</select></div>`;
+    if (f.t === 'text') return `<div class="stp-inp"><label for="${id}">${esc(f.label || '')}</label>
+      <input class="inp" id="${id}" type="text" value="${esc(val(f.k, f.def == null ? '' : f.def))}" placeholder="${esc(f.ph || '')}"></div>`;
+    return `<div class="stp-inp"><label for="${id}">${esc(f.label || '')}</label>
+      <input class="inp" id="${id}" type="text" inputmode="numeric" value="${esc(bn(val(f.k, f.def)))}" placeholder="${esc(f.ph || '')}">
+      ${f.hint ? `<span class="hlp">${esc(f.hint)}</span>` : ''}</div>`;
+  }).join('');
+  const acts = (st.b || []).map((b, bi) => `<button class="btn ${bi === 0 ? (b.danger ? 'btn-danger-solid' : 'btn-primary') : (b.soft ? 'btn-soft' : 'btn-ghost')} ${b.sm ? 'btn-sm' : ''}" data-b="${bi}">${ic(b.ic || 'check')}${esc(b.l)}</button>`).join('');
+  const out = r ? `<div class="stp-out">${r.ok === false ? `<div class="out-err">${ic('warn')} <b>আটকে গেছে:</b> ${esc(r.err)}</div>`
+      : r.esc ? `<div class="out-esc">${ic('route')} <b>${esc(r.esc)}</b></div>` : ''}
+      ${r.html || ''}${r.msg ? `<div class="out-ok mt-8">${ic('checkc')} ${esc(r.msg)}</div>` : ''}</div>` : '';
+  return `<div class="stp ${cls}" data-st="${i}">
+    <div class="stp-n">${r ? (r.ok === false ? '!' : '✓') : bn(dn)}</div>
+    <div><div class="stp-t">${esc(st.t)}</div>
+      ${st.d ? `<p class="stp-d">${esc(st.d)}</p>` : ''}
+      ${scr ? `<div class="stp-scr">${scr}</div>` : ''}${inp}
+      ${acts ? `<div class="stp-acts">${acts}${st.wait ? `<span class="hlp">${esc(st.wait)}</span>` : ''}</div>` : ''}
+      ${out}</div></div>`;
+}
+function flowHTML(fl) {
+  const dn = fl.res.filter(r => r && r.ok).length;
+  return `<section class="flw" id="${fl.id}">
+    <div class="flw-h">
+      <div class="flw-t"><div class="flw-n">${bn(fl.n)}</div>
+        <div><h2>${esc(fl.title)}</h2><div class="sp">${esc(fl.spec)}</div></div>
+        <div style="margin-left:auto" class="t-c"><div class="chip ${dn === fl.steps.length ? 'chip-ok' : 'chip-info'} chip-lg">${bn(dn)}/${bn(fl.steps.length)} ধাপ</div></div></div>
+      <p class="flw-goal">${esc(fl.goal)}</p>
+      <div class="flw-actors">${fl.actors.map(a => `<span class="chip ${a[0] === 'M' ? 'chip-lime' : a[0] === 'A' ? 'chip-info' : 'chip-purple'}">${a[0] === 'M' ? 'সদস্য' : a[0] === 'A' ? 'স্টাফ/অ্যাডমিন' : 'সিস্টেম'} · ${esc(a[1])}</span>`).join('')}</div>
+      <div class="flw-prog prog ${dn === fl.steps.length ? '' : 'warn'}"><i style="width:${Math.round(dn / fl.steps.length * 100)}%"></i></div>
+    </div>
+    <div class="flw-b">${fl.steps.map((s, i) => stepHTML(fl, i, s)).join('')}</div>
+    ${fl.branches ? `<div class="flw-b" style="padding-top:0"><div class="b mb-8" style="font-size:14.5px;color:#04231A">সিদ্ধান্ত বিন্দু ও ভ্যারিয়েন্ট</div>
+      <div class="branch">${fl.branches.map(b => `<div class="br"><h5>${esc(b.h)}</h5><p>${esc(b.p)}</p></div>`).join('')}</div></div>` : ''}
+    ${fl.foot ? `<div class="flw-f"><span class="note">${fl.foot}</span></div>` : ''}
+  </section>`;
+}
+
+/* ---- ইভেন্ট বাইন্ডিং ---- */
+function bindFlow(fl) {
+  const sec = document.getElementById(fl.id);
+  if (!sec) return;
+  sec.querySelectorAll('.stp').forEach(el => {
+    const i = +el.dataset.st, st = fl.steps[i];
+    bindRole(el, fl.role || 'MANAGER');
+    /* ইনপুট → APP.draft */
+    (st.in || []).forEach(f => {
+      const n = el.querySelector('#' + fl.id + '-' + (i + 1) + '-' + f.k);
+      if (!n) return;
+      if (APP.draft[f.k] === undefined) APP.draft[f.k] = f.def;
+      n.oninput = n.onchange = () => {
+        const v = f.t === 'money' ? en(n.value.replace(/[^\d০-৯]/g, '')) * 100 : n.value;
+        APP.draft[f.k] = f.t === 'money' ? (v || 0) : v;
+        if (f.t === 'money') { const p = n.parentNode.querySelector('.hlp'); if (p) p.textContent = v ? words(v) + ' মাত্র' : (f.hint || ''); }
+      };
+    });
+    el.querySelectorAll('[data-b]').forEach(btn => {
+      btn.onclick = () => {
+        const b = st.b[+btn.dataset.b];
+        const inp = {};
+        (st.in || []).forEach(f => { inp[f.k] = APP.draft[f.k]; });
+        let r;
+        try { r = b.run(inp) || {}; } catch (e) { r = { ok: false, err: 'রেন্ডার ত্রুটি: ' + e.message }; }
+        fl.res[i] = r;
+        renderFlow(fl.id);
+        const t = document.getElementById(fl.id);
+        if (t) { const s = t.querySelector('[data-st="' + i + '"]'); if (s) s.scrollIntoView({ block: 'nearest' }); }
+        paintLive();
+      };
+    });
+  });
+}
+function renderFlow(id) {
+  const fl = FLOWS.find(f => f.id === id);
+  if (fl && !fl.res) fl.res = new Array(fl.steps.length).fill(null);
+  const sec = document.getElementById(id);
+  if (!fl || !sec) return;
+  const y = window.scrollY;
+  sec.outerHTML = flowHTML(fl);
+  bindFlow(fl);
+  window.scrollTo(0, y);
+}
+function renderAll() {
+  FLOWS.forEach(f => { f.res = f.res || new Array(f.steps.length).fill(null); });
+  document.getElementById('flows').innerHTML = FLOWS.map(flowHTML).join('') +
+    `<div class="flow-intro" id="endcard"><h3>৮টি flow-ই এখন ক্লিকেবল</h3>
+     <p>মোট <b>${bn(FLOWS.reduce((s, f) => s + f.steps.length, 0))}টি ধাপ</b> — প্রতিটিতে কমপক্ষে একটি বাস্তব অ্যাকশন। কোনো ফ্লো শেষ করার পর ডান পাশের লাইভ প্যানেলে ব্যালেন্স, hold, কিউ, বকেয়া ও অডিট লগের পরিবর্তন মিলিয়ে দেখুন।</p>
+     <p>পেজ রিফ্রেশ করলে সব স্টেট আগের ডেমো ডেটায় ফিরে যায় — তাই একই ফ্লো বারবার চালিয়ে দেখা যায়।</p>
+     <div class="btn-row mt-12"><a class="btn btn-primary" href="screens.html">${ic('grid')}৪১টি পেজ দেখুন</a>
+     <a class="btn btn-ghost" href="system.html">${ic('book')}ডিজাইন সিস্টেম</a>
+     <a class="btn btn-ghost" href="../index.html">${ic('home')}হাব</a></div></div>`;
+  document.getElementById('flowNav').innerHTML = FLOWS.map(f =>
+    `<button data-go="${f.id}">ফ্লো ${bn(f.n)} · ${esc(f.short)}<span class="pc">${bn(f.steps.length)} ধাপ</span></button>`).join('') +
+    `<button data-go="reset" style="margin-left:auto">${ic('refresh')}স্টেট রিসেট</button>`;
+  document.querySelectorAll('#flowNav [data-go]').forEach(b => b.onclick = () => {
+    if (b.dataset.go === 'reset') { act.reset(); return; }
+    const t = document.getElementById(b.dataset.go);
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  FLOWS.forEach(bindFlow);
+  paintLive();
+}
+
+/* ---- লাইভ স্টেট প্যানেল ---- */
+function renderLive() { paintLive(); }
+window.onStore = () => { const c = document.querySelectorAll('.live-cell'); c.forEach(x => { x.classList.remove('bump'); void x.offsetWidth; x.classList.add('bump'); }); };
+function paintLive() {
+  const a = acc('a1'), b = balanceBreakdown(a);
+  const pend = PENDING_DEPOSITS.length, wd = WITHDRAWALS.filter(w => ['submitted', 'under_review', 'approved', 'disbursing'].indexOf(w.status) >= 0).length;
+  const dues = DUES.reduce((s, d) => s + (d.amount - d.paid), 0);
+  const el = document.getElementById('live');
+  if (!el) return;
+  el.innerHTML = `<div class="live">
+    <div class="live-h">${ic('target')} লাইভ স্টেট <span class="rev">rev ${bn(APP.rev)}</span></div>
+    <div class="live-b">
+      <div class="hrow mb-8"><div class="avatar sm">ক</div>
+        <div><div class="b" style="font-size:14px">${a.no}</div><div class="mut fs-xs">${member(a.memberId).name} · ${scheme(a.schemeId).name}</div></div>
+        <span class="chip ${stOf(ACC_STATUS, a.status).c}" style="margin-left:auto">${ic(stOf(ACC_STATUS, a.status).i, 'sm')}${stOf(ACC_STATUS, a.status).t}</span></div>
+      <div class="brk">
+        <div class="brk-h"><span>মোট জমা (posted)</span><b>${tk(a.posted)}</b></div>
+        <div class="brk-r"><span>আটক (hold)</span><b>${tk(b.hold)}</b></div>
+        <div class="brk-r"><span>সর্বনিম্ন ব্যালেন্স</span><b>− ${tk(b.minBal)}</b></div>
+        <div class="brk-r"><span>যাচাইয়ের অপেক্ষায় (pending)</span><b>${tk(b.pending)}</b></div>
+        <div class="brk-h" style="border-top:1px dashed var(--line);margin-top:6px;padding-top:8px"><span>ব্যবহারযোগ্য (R-01)</span><b>${tk(b.avail)}</b></div>
+      </div>
+    </div>
+    <div class="live-b">
+      <div class="live-grid">
+        <div class="live-cell ${pend ? 'warn' : ''}"><div class="l">জমা যাচাই বাকি</div><div class="v">${bn(pend)}টি</div></div>
+        <div class="live-cell ${wd ? 'info' : ''}"><div class="l">উত্তোলন কিউ</div><div class="v">${bn(wd)}টি</div></div>
+        <div class="live-cell"><div class="l">আজ নগদ (ক্যাশ বুক)</div><div class="v">${tk(KPI.cash)}</div></div>
+        <div class="live-cell"><div class="l">ব্যাংক + ওয়ালেট</div><div class="v">${tk(KPI.bank + KPI.wallet)}</div></div>
+        <div class="live-cell ${dues ? 'danger' : ''}"><div class="l">নমুনা রেজিস্টারের বকেয়া</div><div class="v">${tk(dues)}</div></div>
+        <div class="live-cell"><div class="l">সদস্য আবেদন</div><div class="v">${bn(APPLICATIONS.length)}টি</div></div>
+        <div class="live-cell ${APP.suspense.length ? 'warn' : ''}"><div class="l">Suspense (ভুল রেফারেন্স)</div><div class="v">${bn(APP.suspense.length)}টি</div></div>
+        <div class="live-cell ${APP.dayClose.done ? '' : 'warn'}"><div class="l">দিন সমাপ্তি</div><div class="v">${APP.dayClose.done ? 'হয়েছে ✓' : 'বাকি'}</div></div>
+      </div>
+      <div class="hrow mt-12" style="gap:6px">
+        <span class="chip chip-neutral">ভূমিকা: ${APP.session.role}</span>
+        <span class="chip chip-neutral">নোটিফিকেশন: ${bn(NOTIFS.length)}</span>
+      </div>
+    </div>
+    <div class="live-b" style="padding-bottom:8px"><div class="b mb-8" style="font-size:13px">অডিট ট্রেইল — ${bn(APP.log.length)} এন্ট্রি</div></div>
+    <div class="live-log">${APP.log.length ? APP.log.map((l, i) =>
+      `<div class="lg"><span class="n">${bn(APP.log.length - i)}</span><span><span class="t">${esc(l.txt)}</span>
+      <span class="m">${esc(l.who)} · ${esc(l.at)}</span></span></div>`).join('')
+      : '<div class="live-empty">এখনো কোনো অ্যাকশন চালানো হয়নি — যেকোনো ধাপের বোতামে চাপ দিন।</div>'}</div>
+  </div>`;
+}
+
+/* ============================================================
+   FLOWS — স্পেক §7 অনুযায়ী
+   ============================================================ */
+const FLOWS = [];
+
+/* ---------------- Flow 1 ---------------- */
+FLOWS.push({
+  id: 'f1', n: 1, short: 'নিবন্ধন → সক্রিয় সদস্য', spec: 'spec §7 · Flow 1 · পেজ A-08, A-11, A-17, S-01, M-16',
+  title: 'নতুন সদস্য নিবন্ধন থেকে সক্রিয় সদস্য হওয়া',
+  goal: 'পাথ A: স্টাফ-সহায়তায় নিবন্ধন (গ্রামীণ প্রধান পথ)। ফর্মে ত্রুটি থাকলে কোথায় আটকায়, ডুপ্লিকেট NID কীভাবে ব্লক করে, অনুমোদনের পরে সদস্য নম্বর ও অ্যাকাউন্ট কীভাবে তৈরি হয় — সব ক্লিক করে দেখুন।',
+  actors: [['A', 'সংগ্রহক / হিসাবরক্ষক / ম্যানেজার'], ['M', 'আবেদনকারী'], ['S', 'ডুপ্লিকেট চেক, নম্বর বরাদ্দ, নোটিফিকেশন']],
+  steps: [
+    { t: 'আবেদনকারীর তথ্য সংগ্রহ', d: 'নাম, পিতার নাম, মোবাইল, ঠিকানা, বয়স ও পেশা। ফর্ম ছাড়া পরের ধাপে যাওয়া যাবে না।', s: ['A-08 ধাপ ১'],
+      in: [{ k: 'f1name', t: 'text', def: 'জরিনা বেগম', label: 'নাম' }, { k: 'f1age', t: 'money', def: 2600, label: 'বয়স (সেন্টিমিটার নয় — বছর × ১০০ লিখুন)' }],
+      b: [{ l: 'তথ্য সংরক্ষণ করুন', ic: 'check', run: (i) => {
+        const nm = (i.f1name || '').trim();
+        if (nm.length < 3) return { ok: false, err: 'নাম কমপক্ষে ৩ অক্ষরের হতে হবে।' };
+        const age = Math.round((i.f1age || 0) / 100);
+        if (age < 18) return { ok: false, err: 'বয়স ' + bn(age) + ' বছর — সদস্য হতে সর্বনিম্ন ১৮ বছর লাগবে (D-14)।' };
+        return { ok: true, msg: nm + ' · বয়স ' + bn(age) + ' বছর (D-14 পাস) · ধাপ ১ সংরক্ষিত।' }; } }] },
+    { t: 'NID/মোবাইল দিয়ে ডুপ্লিকেট চেক', d: 'এক NID = এক সদস্য (D-16)। বিদ্যমান সদস্য মিললে আবেদন এগোবে না।', s: ['A-08 ধাপ ২'],
+      in: [{ k: 'f1dup', t: 'select', def: 'new', label: 'NID', opts: [['new', '1992****7788 — নতুন (কোনো মিল নেই)'], ['dup', '1985****4471 — আব্দুল করিমের NID']] }],
+      b: [{ l: 'ডুপ্লিকেট চেক চালান', ic: 'search', run: (i) => {
+        if (i.f1dup === 'dup') { const m = MEMBERS.find(x => x.nid === '1985****4471');
+          return { ok: false, err: 'এই NID দিয়ে আগেই সদস্য আছেন: ' + m.name + ' (' + m.no + ', যোগদান ' + dstr(m.joined) + ')। এক NID = এক সদস্য (D-16) — নতুন আবেদন ব্লক। বিদ্যমান প্রোফাইল: A-10।' }; }
+        return { ok: true, msg: 'কোনো মিল নেই ✓ — নতুন আবেদন হিসেবে এগোনো যাবে।' }; } }] },
+    { t: 'ছবি ও KYC ডকুমেন্ট আপলোড', d: 'ছবির গুণমান যাচাই হয়, ডকুমেন্ট এনক্রিপ্ট করে সংরক্ষিত হয়। সব না হলে অনুমোদন আটকাবে।', s: ['A-08 ধাপ ৩'],
+      in: [{ k: 'f1kyc', t: 'select', def: 'ok', label: 'আপলোড অবস্থা', opts: [['ok', 'সব ঠিক — ছবি + NID সামনে/পেছনে + স্বাক্ষর'], ['blur', 'NID-র পেছনের ছবি ঝাপসা (blur)']] }],
+      b: [{ l: 'আপলোড ও যাচাই', ic: 'cam', run: (i) => {
+        if (i.f1kyc !== 'ok') return { ok: false, err: '১টি ডকুমেন্ট অস্পষ্ট — ধাপ ৯-এ অনুমোদন আটকাবে। আবার তুলুন বা সদস্যকে নতুন কপি আনতে বলুন।' };
+        return { ok: true, msg: '৪/৪ ডকুমেন্ট যাচাইকৃত · এনক্রিপ্টেড সংরক্ষণ · EXIF থেকে তোলা সময় নোট হয়েছে।' }; } }] },
+    { t: 'নমিনি তথ্য যোগ', d: 'নমিনির শতকরা হারের যোগফল ঠিক ১০০% হতে হবে।', s: ['A-08 ধাপ ৪'],
+      in: [{ k: 'f1nom', t: 'money', def: 10000, label: 'নমিনির মোট হার (%) × ১০০', hint: '১০০% = 10000 লিখুন' }],
+      b: [{ l: 'নমিনি সংরক্ষণ', ic: 'heart', run: (i) => {
+        const pct = Math.round((i.f1nom || 0) / 100);
+        if (pct !== 100) return { ok: false, err: 'নমিনির মোট হার ' + bn(pct) + '% — ঠিক ১০০% হতে হবে।' };
+        return { ok: true, msg: 'নমিনি সংরক্ষিত · মোট হার ১০০% ✓ (মৃত্যু দাবির ক্ষেত্রে এটিই প্রমাণ — Flow 8 ভ্যারিয়েন্ট)।' }; } }] },
+    { t: 'স্কিম বাছাই ও প্রথম জমা নির্ধারণ', d: 'অ্যাকাউন্ট খোলা হয় Opened অবস্থায়; প্রথম জমা পোস্ট হলে Active। সময়সূচি ও লক-ইন সাথে সাথে তৈরি হয়।', s: ['A-08 ধাপ ৫', 'A-17'],
+      in: [{ k: 'f1mem', t: 'select', def: 'm10', label: 'আবেদনকারী', opts: MEMBERS.filter(m => ['pending', 'proposed'].indexOf(m.status) >= 0 || m.no === '—').map(m => [m.id, m.name + ' · ' + stOf(MEM_STATUS, m.status).t]).concat([['m1', 'আব্দুল করিম (আগেই সদস্য — দ্বিতীয় স্কিম)']]) },
+        { k: 'f1sch', t: 'select', def: 'sc2', label: 'স্কিম', opts: SCHEMES.map(s => [s.id, s.name + ' · ' + tk(s.installment) + '/' + s.typeBn + ' · ' + stOf(SCH_STATUS, s.status).t]) },
+        takaIn('f1first', 100000, 'প্রথম জমা (ডিফল্ট = কিস্তি)')],
+      b: [{ l: 'অ্যাকাউন্ট খুলুন', ic: 'plus', run: (i) => {
+        const r = act.proposeAccount(i.f1mem, i.f1sch, i.f1first);
+        if (!r.ok) return r;
+        return { ok: true, msg: 'অ্যাকাউন্ট ' + r.accNo + ' · Opened · প্রথম জমা ' + tk(i.f1first) + ' নির্ধারিত।',
+          html: kv({ 'অ্যাকাউন্ট নম্বর': r.accNo, 'স্কিম': r.scheme, 'অবস্থা': 'Opened (প্রথম জমা বাকি)', 'লক-ইন শেষ': r.lockInEnds ? dstr(r.lockInEnds) : 'নেই' }) }; } }] },
+    { t: 'আবেদন জমা', d: 'Application → PendingVerification, আবেদন নম্বর বরাদ্দ। পাথ B (সদস্য নিজে আবেদন, D-18) হলেও একই কিউতে পড়ে।', s: ['A-08 ধাপ ৬'],
+      in: [{ k: 'f1src', t: 'select', def: 'field', label: 'উৎস', opts: [['field', 'পাথ A — স্টাফ মাঠে/অফিসে এন্ট্রি করেছেন'], ['self', 'পাথ B — সদস্য নিজে মোবাইলে আবেদন (D-18)']] }],
+      b: [{ l: 'আবেদন জমা দিন', ic: 'send', run: (i) => {
+        const no = 'APP-2627-' + bn(317 + APP.rev);
+        const nm = (APP.draft.f1name || 'জরিনা বেগম');
+        say('flag', 'নতুন সদস্য আবেদন', nm + ' · ' + no + ' · ' + (i.f1src === 'self' ? 'সদস্য নিজে আবেদন করেছেন (D-18)' : 'মাঠ থেকে এন্ট্রি') + ' — ম্যানেজার পর্যালোচনা করবেন।', '#a11');
+        return { ok: true, msg: no + ' · PendingVerification · A-11 কিউতে যোগ হয়েছে।', html: kv({ 'আবেদন নম্বর': no, 'অবস্থা': 'PendingVerification', 'উৎস': i.f1src === 'self' ? 'পাথ B (সেলফ-সার্ভিস)' : 'পাথ A (স্টাফ)', 'পর্যালোচনা করবেন': 'MANAGER' }) }; } }] },
+    { t: '(ঐচ্ছিক) আবেদনকারী SMS পান', d: '“আপনার আবেদন গৃহীত হয়েছে” — নম্বরসহ। গ্রামীণ ব্যবহারকারীর জন্য এটাই প্রথম বিশ্বাসের সংকেত।', s: ['M-16'],
+      b: [{ l: 'নোটিফিকেশন দেখুন', ic: 'bell', soft: true, run: () => ({ ok: true, msg: NOTIFS[0] ? NOTIFS[0].title + ' — ' + NOTIFS[0].body : 'কোনো নোটিফিকেশন নেই।' }) }] },
+    { t: 'ম্যানেজার পর্যালোচনা — ডকুমেন্ট ও ঝুঁকি চিহ্ন', d: 'OTP যাচাই অবস্থা, ডুপ্লিকেট চেকের ফল ও ডকুমেন্টের অবস্থা একসাথে দেখানো হয়।', s: ['A-11'],
+      b: [{ l: 'কিউ দেখুন', ic: 'eye', run: () => {
+        const rows = APPLICATIONS.map(ap => {
+          const bad = Object.keys(ap.docs).filter(k => ap.docs[k] !== 'ok');
+          const m = ap.memberId ? member(ap.memberId) : null;
+          return [`<b>${esc(m ? m.name : ap.name)}</b><br><span class="mut fs-xs">${ap.srcBn}</span>`, scheme(ap.schemeId).name, tk(ap.firstDeposit),
+            bad.length ? `<span class="chip chip-warn">${bn(bad.length)}টি বাকি</span>` : `<span class="chip chip-ok">সব ঠিক</span>`,
+            ap.otp ? '<span class="chip chip-ok">OTP ✓</span>' : '<span class="chip chip-danger">OTP ✗</span>',
+            ap.dup === 'warn' ? '<span class="chip chip-warn">ডুপ্লিকেট সন্দেহ</span>' : '<span class="chip chip-neutral">মিল নেই</span>']; });
+        if (!rows.length) return { ok: true, msg: 'কিউ খালি — সব আবেদন নিষ্পত্তি হয়ে গেছে ✓', html: `<div class="state state-sm">${ic('checkc')}<h4>কিউ খালি</h4><p>সব আবেদন নিষ্পত্তি হয়ে গেছে।</p></div>` };
+        return { ok: true, msg: bn(rows.length) + 'টি আবেদন অপেক্ষমাণ।', html: miniTbl(['আবেদনকারী', 'স্কিম', 'প্রথম জমা', 'ডকুমেন্ট', 'OTP', 'ডুপ্লিকেট'], rows) }; } }] },
+    { t: 'অনুমোদন বা প্রত্যাখ্যান', d: 'অনুমোদনে: সদস্য নম্বর বরাদ্দ → সদস্য Active → অ্যাকাউন্ট Active → প্রথম জমা Posted (বা মাধ্যম অনুযায়ী Pending)। প্রত্যাখ্যানে: কারণ বাধ্যতামূলক + SMS।', s: ['A-11'],
+      in: [{ k: 'f1app', t: 'select', def: 'app3', label: 'আবেদন', opts: APPLICATIONS.map(a => [a.id, (a.memberId ? member(a.memberId).name : a.name) + ' · ' + scheme(a.schemeId).name + ' · ' + tk(a.firstDeposit)]) },
+        { k: 'f1why', t: 'text', def: '', label: 'প্রত্যাখ্যানের কারণ (শুধু প্রত্যাখ্যানে)', ph: 'যেমন: NID-র ছবি পড়া যাচ্ছে না' }],
+      b: [{ l: 'অনুমোদন করুন', ic: 'checkc', run: (i) => {
+        const r = act.approveApplication(i.f1app);
+        if (!r.ok) return r;
+        return { ok: true, msg: r.name + ' এখন সক্রিয় সদস্য ✓', html: kv({ 'সদস্য নম্বর': r.memberNo, 'নতুন অ্যাকাউন্ট': r.accNo, 'প্রথম জমা': 'বাকি — পরের ধাপে', 'SMS': '"আপনি সদস্য হয়েছেন" পাঠানো হয়েছে' }) }; } },
+        { l: 'প্রত্যাখ্যান', ic: 'xc', danger: true, run: (i) => act.rejectApplication(i.f1app, (i.f1why || '').trim()) }] },
+    { t: 'প্রথম জমা + ভর্তি ফি পোস্ট', d: 'ভর্তি ফি ৳১০০ (D-05) আলাদা রসিদে; সঞ্চয় জমা সদস্যের আমানত খাতে ক্রেডিট। কোথাও সুদ নেই (BR-13)।', s: ['A-17'],
+      in: [accPick('a1', 'অ্যাকাউন্ট'), takaIn('f1amt', 100000, 'প্রথম জমা')],
+      b: [{ l: 'জমা পোস্ট করুন', ic: 'cash', run: (i) => {
+        const r = act.firstDeposit(i.acc, i.f1amt);
+        if (!r.ok) return r;
+        const a = acc(i.acc);
+        return { ok: true, msg: 'প্রথম জমা পোস্ট হয়েছে · নতুন ব্যালেন্স ' + tk(a.posted),
+          html: kv({ 'রসিদ': r.receipt, 'লেজার এন্ট্রি': r.txn, 'ব্যালেন্স': tk(a.posted), 'ভর্তি ফি': tk(scheme(a.schemeId).fees.admission) + ' (D-05)' }) }; } }] },
+    { t: 'সদস্য প্রথমবার অ্যাপে লগইন (OTP)', d: 'ডিভাইস রেজিস্ট্রেশন হয়, সদস্য-অ্যাকাউন্ট লিংক বসে। মোবাইল বদলালে পুরনো + নতুন দুটোতেই OTP লাগে (D-21)।', s: ['S-01', 'S-02', 'M-01'],
+      in: [{ k: 'f1otp', t: 'text', def: '482913', label: 'OTP', ph: '৬ সংখ্যা' }],
+      b: [{ l: 'OTP যাচাই করুন', ic: 'lock', run: (i) => {
+        const c = String(i.f1otp || '').replace(/\D/g, '');
+        if (c.length !== 6) return { ok: false, err: 'OTP ৬ সংখ্যার হতে হবে — এখন আছে ' + bn(c.length) + 'টি।' };
+        if (c !== '482913') return { ok: false, err: 'OTP মেলেনি। ৩ বার ভুল হলে ১৫ মিনিট লক হবে (ব্রুট-ফোর্স প্রতিরোধ)।' };
+        return { ok: true, msg: 'লগইন সফল ✓ · ডিভাইস রেজিস্টার্ড · সদস্য-অ্যাকাউন্ট লিংক হয়েছে।' }; } }] },
+    { t: 'নিজের সঞ্চয় ও রসিদ দেখা', d: 'M-01 ড্যাশবোর্ড → M-04 লেনদেন → M-05 অ্যাকাউন্ট বিস্তারিত। নতুন সদস্য এখন পুরনো সদস্যের মতোই সব দেখতে পান।', s: ['M-01', 'M-04', 'M-05'],
+      b: [{ l: 'ব্যালেন্স ব্রেকডাউন দেখুন', ic: 'wallet', soft: true, run: () => {
+        const a = ACCOUNTS.filter(x => x.memberId === APP.session.member && x.status !== 'closed')[0] || acc('a1'), b = balanceBreakdown(a);
+        return { ok: true, msg: a.no + ' · ব্যবহারযোগ্য ' + tk(b.avail),
+          html: kv({ 'মোট জমা': tk(b.posted), 'আটক': tk(b.hold), 'সর্বনিম্ন ব্যালেন্স': tk(b.minBal), 'লকড': tk(b.locked), 'ব্যবহারযোগ্য': tk(b.avail) }) }; } }] },
+  ],
+  branches: [
+    { h: 'প্রত্যাখ্যান (ধাপ ৯)', p: 'Rejected + কারণ → SMS যায়। পুনরায় আবেদনের সুযোগ আছে, তবে কতবার — এটি এখনো খোলা সিদ্ধান্ত (spec-এ ⚠️ DECISION চিহ্নিত)।' },
+    { h: 'পাথ B — সেলফ-সার্ভিস (D-18)', p: 'সদস্য সমিতির কোড দিয়ে নিজে আবেদন করেন → সরাসরি A-11 কিউতে পড়ে → বাকি ধাপ ৮–১২ একই। ডিফল্ট: চালু আছে।' },
+    { h: 'অফলাইন এন্ট্রি', p: 'মাঠে নেটওয়ার্ক না থাকলে আবেদন queued থাকে, sync হলে নম্বর বরাদ্দ হয় (S-08, D-18)।' },
+  ],
+  foot: 'এই ফ্লোতে কোনো সুদ/মুনাফা হিসাব নেই — শুধু ভর্তি ফি ও সঞ্চয় জমা (BR-13)।',
+});
+
+/* ---------------- Flow 2 ---------------- */
+FLOWS.push({
+  id: 'f2', n: 2, short: 'নতুন স্কিম তৈরি → চালু', spec: 'spec §7 · Flow 2 · পেজ A-03, A-04, A-06, M-02, M-03',
+  title: 'নতুন Savings Scheme তৈরি ও চালু করা',
+  goal: 'কমিটির সিদ্ধান্ত থেকে খসড়া → বৈধতা যাচাই → অনুমোদন (maker ≠ checker) → চালু → সদস্যের অ্যাপে দৃশ্যমান। চার্জ/বকেয়া নীতির ধাপে কোনো সুদ-ক্ষেত্র নেই (R-13)।',
+  actors: [['A', 'হিসাবরক্ষক (খসড়া) + APPROVER/কমিটি (অনুমোদন)'], ['M', 'নামভর্তি'], ['S', 'বৈধতা যাচাই, প্রিভিউ, ঘোষণা']],
+  steps: [
+    { t: 'কমিটির সিদ্ধান্ত অনুযায়ী খসড়া তৈরি', d: 'টেমপ্লেট থেকে প্রস্তাব আসে। নিচের ঘরগুলো বদলে অসঙ্গতি দেখানো যায় — যেমন সর্বনিম্ন ব্যালেন্স > সর্বোচ্চ সীমা, বা লক-ইন > মেয়াদ।', s: ['A-03', 'A-04 ধাপ ১–৩'],
+      in: [{ k: 'f2name', t: 'text', def: 'বিদ্যালয় সঞ্চয় ২০২৭', label: 'স্কিমের নাম' },
+        { k: 'f2type', t: 'select', def: 'monthly', label: 'ধরন', opts: [['daily', 'দৈনিক'], ['monthly', 'মাসিক'], ['term', 'মেয়াদি']] },
+        takaIn('f2inst', 50000, 'কিস্তির পরিমাণ'),
+        { k: 'f2tenure', t: 'money', def: 1200, label: 'মেয়াদ (মাস × ১০০)', hint: '১২ মাস = 1200; খোলা হলে 0' },
+        { k: 'f2lock', t: 'money', def: 300, label: 'লক-ইন (মাস × ১০০)' },
+        takaIn('f2min', 50000, 'সর্বনিম্ন ব্যালেন্স')],
+      b: [{ l: 'খসড়া তৈরি করুন', ic: 'edit', run: (i) => {
+        const r = act.draftScheme({ name: (i.f2name || '').trim(), type: i.f2type, installment: i.f2inst,
+          tenure: Math.round((i.f2tenure || 0) / 100) || null, lockIn: Math.round((i.f2lock || 0) / 100),
+          minBalance: i.f2min, maxAmount: 5000000, noticeDays: 7, maxPerMonth: 2 });
+        if (!r.ok) return r;
+        const sc = scheme(r.id);
+        return { ok: true, msg: 'খসড়া তৈরি · ' + sc.code + ' · Draft (সদস্যদের কাছে এখনো অদৃশ্য)',
+          html: kv({ 'কোড': sc.code, 'কিস্তি': tk(sc.installment) + ' / ' + sc.typeBn, 'মেয়াদ': sc.tenure ? bn(sc.tenure) + ' মাস' : 'খোলা',
+            'লক-ইন': sc.lockIn ? bn(sc.lockIn) + ' মাস' : 'নেই', 'নোটিশ': bn(sc.noticeDays) + ' দিন (D-02)', 'সর্বনিম্ন ব্যালেন্স': tk(sc.minBalance),
+            'ভর্তি / বার্ষিক / উত্তোলন ফি': tk(sc.fees.admission) + ' / ' + tk(sc.fees.annual) + ' / ' + tk(sc.fees.withdrawal),
+            'সুদ': 'কোনো ক্ষেত্রই নেই (R-13)', 'খসড়াকারী (maker)': sc.maker, 'version': bn(sc.version) }) }; } }] },
+    { t: 'চার্জ ও বকেয়া নীতি নির্ধারণ', d: 'ডিফল্ট: ভর্তি ৳১০০, বার্ষিক ৳৫০, উত্তোলন ৳২০ (৳১০,০০০-এর বেশি হলে), বিলম্ব ফি ৳২০/কিস্তি — বছরে সর্বোচ্চ ৳২০০। “বিলম্ব ফি” শব্দটি ব্যবহার হয়, “সুদ” নয় (D-05, D-08)।', s: ['A-04 ধাপ ৪'],
+      b: [{ l: 'নীতি নিশ্চিত করুন', ic: 'scale', run: () => ({ ok: true, msg: 'চার্জ নীতি সংরক্ষিত · কোনো সুদ-ক্ষেত্র নেই (R-13) · বিলম্ব ফি সীমা ৳২০০/বছর (D-08)।' }) }] },
+    { t: 'পর্যালোচনা + সদস্য-ভিউ প্রিভিউ', d: 'M-03-এ সদস্য যেভাবে দেখবেন ঠিক সেভাবেই প্রিভিউ রেন্ডার হয় — অনুমোদনের আগে পড়ে দেখার সুযোগ।', s: ['A-04 ধাপ ৫', 'M-03'],
+      in: [{ k: 'f2pv', t: 'select', def: 'scNew1', label: 'স্কিম', opts: SCHEMES.map(s => [s.id, s.name + ' · ' + stOf(SCH_STATUS, s.status).t]) }],
+      b: [{ l: 'সদস্য-ভিউ প্রিভিউ', ic: 'eye', run: (i) => {
+        const sc = scheme(i.f2pv);
+        if (!sc) return { ok: false, err: 'স্কিম খুঁজে পাওয়া যায়নি।' };
+        return { ok: true, msg: sc.name + ' — সদস্য যেমন দেখবেন',
+          html: `<div class="card"><div class="card-h"><b>${esc(sc.name)}</b><span class="chip ${stOf(SCH_STATUS, sc.status).c}">${stOf(SCH_STATUS, sc.status).t}</span></div>
+            <div class="card-b"><div class="amt amt-h1">${tk(sc.installment)}<span class="amt-sm"> / ${sc.typeBn}</span></div>
+            <p class="mut fs-sm">${esc(sc.desc)}</p>
+            ${kv({ 'মেয়াদ': sc.tenure ? bn(sc.tenure) + ' মাস · মোট ' + tk(sc.totalPossible) : 'খোলা (যতদিন ইচ্ছা)',
+              'লক-ইন': sc.lockIn ? bn(sc.lockIn) + ' মাস — আগে তোলা যাবে না' : 'নেই',
+              'উত্তোলনের নোটিশ': bn(sc.noticeDays) + ' দিন · মাসে সর্বোচ্চ ' + bn(sc.maxPerMonth) + ' বার (D-02)',
+              'একবারে সর্বোচ্চ': tk(sc.maxAmount), 'সর্বনিম্ন ব্যালেন্স': tk(sc.minBalance),
+              'অতিরিক্ত জমা': sc.extra ? 'যেকোনো সময় (দিনে সর্বোচ্চ ৩ বার — D-03)' : 'নেই',
+              'সুদ/মুনাফা': 'নেই — এটি সঞ্চয় আমানত, ঋণ বা বিনিয়োগ নয়' })}</div></div>` }; } }] },
+    { t: 'অনুমোদনের জন্য জমা', d: 'Draft → PendingApproval। এখন থেকে খসড়া বদলানো যাবে না, শুধু অনুমোদন বা ফেরত।', s: ['A-04 ধাপ ৬'],
+      in: [{ k: 'f2sub', t: 'select', def: 'scNew1', label: 'স্কিম', opts: SCHEMES.filter(s => s.status === 'draft').map(s => [s.id, s.name + ' · Draft']).concat([['sc1', 'দৈনিক সঞ্চয় · চালু (জমা যাবে না)']]) }],
+      b: [{ l: 'অনুমোদনে পাঠান', ic: 'send', run: (i) => act.submitScheme(i.f2sub) }] },
+    { t: 'APPROVER/কমিটি অনুমোদন', d: 'maker ≠ checker যাচাই হয় (BR-04)। যিনি খসড়া করেছেন তিনি নিজে অনুমোদন করতে পারবেন না — এটি ইচ্ছাকৃতভাবে আটকানো।', s: ['A-04 ধাপ ৭', 'A-06'],
+      in: [{ k: 'f2ap', t: 'select', def: 'scNew1', label: 'স্কিম', opts: SCHEMES.filter(s => s.status === 'pending_approval').map(s => [s.id, s.name + ' · PendingApproval · maker ' + s.maker]).concat([['sc2', 'মাসিক সাধারণ সঞ্চয় (অনুমোদনের অপেক্ষায় নয়)']]) },
+        { k: 'f2chk', t: 'select', def: 'other', label: 'অনুমোদনকারী', opts: [['same', APP.session.user + ' (খসড়াকারী নিজে)'], ['other', 'কাজী নুরুন্নবী (কমিটি/APPROVER)']] }],
+      b: [{ l: 'অনুমোদন করুন', ic: 'shield', run: (i) => act.approveScheme(i.f2ap, i.f2chk === 'same' ? APP.session.user : 'কাজী নুরুন্নবী (কমিটি)') }] },
+    { t: 'চালু করা', d: 'PendingApproval → Active। সাথে সাথে M-02-এ দৃশ্যমান হয়, নোটিশ বোর্ডে ঘোষণা যায়।', s: ['A-06 ধাপ ৮'],
+      in: [{ k: 'f2act', t: 'select', def: 'scNew1', label: 'স্কিম', opts: SCHEMES.filter(s => s.status === 'approved').map(s => [s.id, s.name + ' · অনুমোদিত']).concat([['sc3', 'মেয়াদি সঞ্চয় (অনুমোদনের অপেক্ষায় নয়)']]) }],
+      b: [{ l: 'চালু করুন', ic: 'sparkle', run: (i) => act.activateScheme(i.f2act) }] },
+    { t: 'সদস্য নতুন স্কিম দেখতে পায় ও তুলনা করে', d: 'M-02-এ শুধু enrollable স্কিম ফিল্টার হয়; বন্ধ স্কিমগুলো আলাদা বিভাগে কারণসহ দেখা যায়।', s: ['M-02', 'M-03'],
+      b: [{ l: 'নামভর্তির জন্য খোলা স্কিম দেখুন', ic: 'grid', run: () => {
+        const o = openSchemes(), c = SCHEMES.filter(s => !s.enrollable);
+        return { ok: true, msg: bn(o.length) + 'টি স্কিমে এখন নামভর্তি সম্ভব · ' + bn(c.length) + 'টি বন্ধ',
+          html: miniTbl(['স্কিম', 'কিস্তি', 'মেয়াদ', 'লক-ইন', 'সদস্য'], o.map(s => [`<b>${esc(s.name)}</b><br><span class="mut fs-xs">${s.code}</span>`, tk(s.installment) + '/' + s.typeBn,
+            s.tenure ? bn(s.tenure) + ' মাস' : 'খোলা', s.lockIn ? bn(s.lockIn) + ' মাস' : '—', bn(s.members)])) +
+            (c.length ? `<div class="alert alert-neutral mt-8">${ic('lock')} <b>নামভর্তি বন্ধ:</b> ${c.map(s => esc(s.name)).join(', ')} — কারণ প্রোফাইলে লেখা আছে।` : '') }; } }] },
+    { t: 'নামভর্তি + প্রথম জমা', d: 'M-03 → M-06 → M-07: Enrollment → অ্যাকাউন্ট → সময়সূচি → রসিদ। এখানে স্টাফের মাধ্যমে দেখানো হলো (অফিস পথ)।', s: ['M-03', 'M-06', 'M-07', 'A-17'],
+      in: [{ k: 'f2mem', t: 'select', def: 'm2', label: 'সদস্য', opts: MEMBERS.filter(m => m.status === 'active').map(m => [m.id, m.name + ' · ' + m.no]) },
+        { k: 'f2sch2', t: 'select', def: 'scNew1', label: 'স্কিম', opts: SCHEMES.filter(s => s.enrollable).map(s => [s.id, s.name + ' · ' + tk(s.installment)]) },
+        takaIn('f2amt', 50000, 'প্রথম জমা')],
+      b: [{ l: 'নামভর্তি করুন', ic: 'plus', run: (i) => {
+        const sc = scheme(i.f2sch2);
+        if (!sc || !sc.enrollable) return { ok: false, err: 'এই স্কিমে এখন নামভর্তি বন্ধ।' };
+        const r = act.proposeAccount(i.f2mem, i.f2sch2, i.f2amt);
+        if (!r.ok) return r;
+        const d = act.depositCash(r.accId, i.f2amt, APP.session.user);
+        if (!d.ok) return d;
+        sc.members++; sc.total += i.f2amt;
+        const a = acc(r.accId); a.status = 'active';
+        note('নামভর্তি সম্পন্ন · ' + member(i.f2mem).name + ' → ' + sc.name + ' · প্রথম জমা ' + tk(i.f2amt) + ' · রসিদ ' + d.receipt);
+        return { ok: true, msg: 'নামভর্তি সম্পন্ন ✓ · ' + r.accNo + ' · ব্যালেন্স ' + tk(a.posted),
+          html: kv({ 'অ্যাকাউন্ট': r.accNo, 'রসিদ': d.receipt, 'লেজার': d.txn, 'স্কিমের মোট সদস্য': bn(sc.members) }) }; } }] },
+    { t: 'অগ্রগতি পর্যবেক্ষণ ও নতুন নামভর্তি বন্ধ', d: 'লক্ষ্য পূরণ হলে স্কিম ClosedForNewEntry করা যায় — বিদ্যমান সদস্যের কিস্তি ও নিয়ম অপরিবর্তিত থাকে (D-32 version pinning)।', s: ['A-06', 'A-01'],
+      in: [{ k: 'f2cl', t: 'select', def: 'scNew1', label: 'স্কিম', opts: SCHEMES.filter(s => s.status === 'active').map(s => [s.id, s.name + ' · ' + bn(s.members) + ' জন']) },
+        { k: 'f2why2', t: 'text', def: 'লক্ষ্য পূরণ হয়েছে — নতুন নামভর্তি বন্ধ', label: 'কারণ' }],
+      b: [{ l: 'পরিসংখ্যান দেখুন', ic: 'chart', soft: true, run: (i) => {
+        const sc = scheme(i.f2cl);
+        return { ok: true, msg: sc.name + ' · ' + bn(sc.members) + ' জন সদস্য · মোট সঞ্চয় ' + tk(sc.total),
+          html: kv({ 'সদস্য': bn(sc.members), 'মোট সঞ্চয়': tk(sc.total), 'গড় সঞ্চয়': sc.members ? tk(Math.round(sc.total / sc.members)) : '—', 'version': bn(sc.version) + ' (পরিবর্তনের ইতিহাস সংরক্ষিত)' }) }; } },
+        { l: 'নতুন নামভর্তি বন্ধ করুন', ic: 'lock', run: (i) => act.closeNewScheme(i.f2cl, (i.f2why2 || '').trim()) }] },
+  ],
+  branches: [
+    { h: 'অনুমোদন না হলে', p: 'Draft-এ ফেরত + মন্তব্য। খসড়া মুছে ফেলা হয় না — সংশোধন করে আবার জমা দেওয়া যায়। maker নিজে অনুমোদন করতে পারেন না (BR-04)।' },
+    { h: 'চলমান স্কিমের নিয়ম বদল', p: 'কিস্তির পরিমাণ বদলানো যায় না (বিদ্যমান সদস্যের প্রতিশ্রুতি ভঙ্গ হয়)। লক-ইন/নোটিশ বদলালে নতুন version তৈরি হয়, পুরনো অ্যাকাউন্ট পুরনো নিয়মেই চলে (D-32) — পার্থক্যের তালিকা A-06-এ।' },
+    { h: 'মেয়াদ পূর্ণ', p: 'মেয়াদি স্কিমের শেষ কিস্তির পর অ্যাকাউন্ট Matured → নিষ্পত্তি (Flow 8)।' },
+  ],
+  foot: 'Flow 2 শেষ করলে নতুন স্কিমটি Flow 3–5-এও ব্যবহার করা যাবে।',
+});
+
+/* ---------------- Flow 3 ---------------- */
+FLOWS.push({
+  id: 'f3', n: 3, short: 'নিয়মিত জমা (মাঠ + ওয়ালেট)', spec: 'spec §7 · Flow 3 (3A + 3B) · পেজ A-02, A-17, A-28, M-01, M-05, M-06, M-07, A-20, A-21',
+  title: 'সদস্যের নিয়মিত জমা প্রদান',
+  goal: '৩A: সংগ্রহক বাড়ি থেকে নগদ নেয় → সরাসরি Posted → তাৎক্ষণিক SMS → রসিদ → দিনশেষে নগদ জমা। ৩B: সদস্য নিজে বিকাশে পাঠায় → PendingVerification → মিল হলে Posted। দুটো পথই ক্লিক করে দেখুন — পার্থক্যটা ব্যালেন্সেই ধরা পড়বে।',
+  actors: [['A', 'COLLECTOR (মাঠ) / হিসাবরক্ষক (অফিস)'], ['M', 'সদস্য'], ['S', 'idempotency, লেজার, SMS, অটো-ম্যাচ']],
+  steps: [
+    { t: '৩A ধাপ ১ — আজকের রুট ও লক্ষ্য দেখা', d: 'সংগ্রহকের রুটে কার কিস্তি নির্ধারিত, কার বকেয়া আছে — সেই তালিকা। দিনের লক্ষ্যও দেখানো হয়।', s: ['A-02'],
+      b: [{ l: 'আজকের রুট দেখুন', ic: 'route', run: () => {
+        const list = ACCOUNTS.filter(a => a.status === 'active' && (member(a.memberId) || {}).route === 'R1');
+        const rows = list.slice(0, 6).map(a => { const m = member(a.memberId) || { name: '—', village: '—' }, sc = scheme(a.schemeId);
+          const d = DUES.filter(x => x.accId === a.id);
+          return [`<b>${esc(m.name)}</b><br><span class="mut fs-xs">${esc(m.village)}</span>`, a.no, sc.typeBn + ' · ' + tk(sc.installment),
+            d.length ? `<span class="chip chip-danger">${bn(d.length)} কিস্তি · ${tk(d.reduce((s, x) => s + x.amount - x.paid, 0))}</span>` : `<span class="chip chip-ok">বকেয়া নেই</span>`, tk(a.posted)]; });
+        return { ok: true, msg: 'রুট R1 · ' + bn(list.length) + ' জন সদস্য · আজকের লক্ষ্য ' + tk(KPI.target) + ' · সংগৃহীত ' + tk(KPI.collected),
+          html: miniTbl(['সদস্য', 'অ্যাকাউন্ট', 'নির্ধারিত কিস্তি', 'বকেয়া', 'ব্যালেন্স'], rows) }; } }] },
+    { t: '৩A ধাপ ৩ — সদস্য শনাক্ত (মোবাইল/QR/তালিকা)', d: 'নাম, ছবি ও অ্যাকাউন্ট দেখানো হয় — ভুল লোকের টাকা ভুল হিসাবে যাওয়া ঠেকাতে।', s: ['A-17'],
+      in: [{ k: 'f3mem', t: 'select', def: 'm1', label: 'সদস্য', opts: MEMBERS.filter(m => m.status === 'active' || m.status === 'dormant').map(m => [m.id, m.name + ' · ' + m.mobile + ' · ' + m.village]) }],
+      b: [{ l: 'শনাক্ত করুন', ic: 'search', run: (i) => {
+        const m = member(i.f3mem);
+        const list = ACCOUNTS.filter(a => a.memberId === m.id);
+        if (!list.length) return { ok: false, err: m.name + '-এর কোনো সঞ্চয় অ্যাকাউন্ট নেই।' };
+        return { ok: true, msg: m.name + ' শনাক্ত হয়েছেন ✓ · ' + bn(list.length) + 'টি অ্যাকাউন্ট',
+          html: `<div class="card"><div class="card-b"><div class="hrow"><div class="avatar">${esc(m.photo)}</div>
+            <div><div class="b">${esc(m.name)}</div><div class="mut fs-xs">${m.no} · ${esc(m.village)}, ${esc(m.union)} · ${m.mobile}</div></div>
+            <span class="chip ${stOf(MEM_STATUS, m.status).c}" style="margin-left:auto">${stOf(MEM_STATUS, m.status).t}</span></div>
+            ${list.map(a => `<div class="hrow mt-8"><div class="grow"><div class="b fs-sm">${a.no}</div><div class="mut fs-xs">${scheme(a.schemeId).name} · পরবর্তী কিস্তি ${a.nextDue ? dshort(a.nextDue) : '—'}</div></div>
+              <div class="t-c"><div class="amt amt-sm">${tk(a.posted)}</div><div class="mut fs-xs">ব্যালেন্স</div></div></div>`).join('')}</div></div>` }; } }] },
+    { t: '৩A ধাপ ৪–৫ — পরিমাণ নিশ্চিত ও সংরক্ষণ', d: 'ডিফল্ট = নির্ধারিত কিস্তি। বকেয়া থাকলে “সব বকেয়া” বিকল্প আসে। সংরক্ষণে idempotency key বসে — নেটওয়ার্ক সমস্যায় দুবার এন্ট্রি হবে না। নগদ হলে Created → সরাসরি Posted; লেজারে ডেবিট নগদ, ক্রেডিট সদস্যের সঞ্চয় আমানত।', s: ['A-17'],
+      in: [accPick('a1', 'অ্যাকাউন্ট'), takaIn('f3amt', 100000, 'পরিমাণ'),
+        { k: 'f3by', t: 'select', def: 'field', label: 'সংগ্রহের জায়গা', opts: [['field', 'মাঠ (নগদ) — সংগ্রহক'], ['office', 'অফিস (নগদ) — কাউন্টার']] }],
+      b: [{ l: 'জমা সংরক্ষণ করুন', ic: 'cash', run: (i) => {
+        const r = act.depositCash(i.acc, i.f3amt, i.f3by === 'field' ? 'রাজু আহমেদ (সংগ্রহক)' : APP.session.user);
+        if (!r.ok) return r;
+        const a = acc(i.acc), b = balanceBreakdown(a);
+        return { ok: true, msg: 'Posted ✓ · রসিদ ' + r.receipt + ' · নতুন ব্যালেন্স ' + tk(a.posted),
+          html: receiptBlock({ title: 'সঞ্চয় জমা গ্রহণ করা হয়েছে', amount: i.f3amt, code: r.receipt.replace('RCP-2627-', 'RSS-') + '-7K2M',
+            rows: [['সদস্য', member(a.memberId).name + ' · ' + a.no], ['স্কিম', scheme(a.schemeId).name], ['মাধ্যম', i.f3by === 'field' ? 'নগদ (মাঠ)' : 'নগদ (অফিস)'],
+              ['গ্রহণকারী', i.f3by === 'field' ? 'রাজু আহমেদ (সংগ্রহক)' : APP.session.user], ['তারিখ', dstr('2026-10-30', true)],
+              ['নতুন ব্যালেন্স', tk(a.posted)], ['ব্যবহারযোগ্য', tk(b.avail)], ['লেজার এন্ট্রি', r.txn + ' · ডেবিট নগদ / ক্রেডিট সঞ্চয় আমানত']] }) }; } }] },
+    { t: '৩A ধাপ ৬ — তাৎক্ষণিক SMS (বিশ্বাসের চাবি)', d: '“৳১,০০০ জমা হয়েছে, ব্যালেন্স ৳১২,৫০০” — সাথে রসিদ নম্বর। গ্রামীণ সদস্য অ্যাপ না খুলেও নিশ্চিত হন টাকা ঠিক জায়গায় গেছে।', s: ['M-16'],
+      b: [{ l: 'SMS ও নোটিফিকেশন দেখুন', ic: 'bell', soft: true, run: () => {
+        const n = NOTIFS[0];
+        return { ok: true, msg: n ? n.title : 'কোনো নোটিফিকেশন নেই',
+          html: n ? `<div class="card"><div class="card-b"><div class="hrow"><div class="avatar sm">${ic('send', 'sm')}</div>
+            <div><div class="b fs-sm">SMS · ${member('m1').mobile}</div><div class="mut fs-xs">${esc(n.at)}</div></div></div>
+            <p class="mt-8" style="font-size:14px;line-height:1.6">${esc(n.body)}</p>
+            <div class="note mt-8">টেমপ্লেট A-33-এ সংরক্ষিত · ব্যর্থ ডেলিভারি হলে পুনরায় পাঠানোর লগ আছে।</div></div></div>` : '' }; } }] },
+    { t: '৩A ধাপ ৭ — সদস্য অ্যাপে রসিদ দেখে ও যাচাই করে', d: 'রসিদে ভেরিফিকেশন কোড থাকে; লগইন ছাড়াই যে কেউ কোড বা QR দিয়ে সত্যতা যাচাই করতে পারে (S-07)।', s: ['M-16', 'M-07', 'M-09', 'S-07'],
+      in: [{ k: 'f3rcp', t: 'text', def: 'RCP-2627-1527', label: 'রসিদ নম্বর' }],
+      b: [{ l: 'রসিদ খুঁজুন', ic: 'doc', run: (i) => {
+        const code = String(i.f3rcp || '').trim();
+        const t = TX.filter(x => !x.base && x.receipt === code)[0];
+        if (!t) return { ok: false, err: '"' + code + '" নম্বরের রসিদ পাওয়া যায়নি। আগের ধাপে জমা করলে সেই নম্বরটি বসান।' };
+        const a = acc(t.accId);
+        return { ok: true, msg: 'রসিদ সত্য ✓ · ' + tk(t.amount) + ' · ' + member(a.memberId).name,
+          html: kv({ 'রসিদ': code, 'অ্যাকাউন্ট': a.no, 'পরিমাণ': tk(t.amount) + ' (' + words(t.amount) + ' মাত্র)', 'মাধ্যম': channel[t.channel] ? channel[t.channel].t : t.channel, 'অবস্থা': stOf({ posted: { t: 'Posted' } }, t.status).t, 'ভেরিফিকেশন কোড': 'somobay.app/v/' + code }) }; } }] },
+    { t: '৩A ধাপ ৮–৯ — থার্মাল প্রিন্ট ও দিনশেষে নগদ জমা', d: 'কাগজের রসিদ ঐচ্ছিক (P4)। দিনশেষে সংগ্রহক হাতের নগদ অফিসে জমা দেন; সংগ্রহকভিত্তিক সমন্বয় হয় — ঘাটতি থাকলে লাল ব্যাজ পড়ে।', s: ['A-17', 'A-28'],
+      b: [{ l: 'প্রিন্ট করুন (ঐচ্ছিক)', ic: 'print', soft: true, run: () => ({ ok: true, msg: 'থার্মাল প্রিন্টারে ৫৮মিমি রসিদ পাঠানো হয়েছে · ডিজিটাল রসিদই বৈধ, কাগজ শুধু সুবিধা।' }) },
+        { l: 'সংগ্রহকের নগদ সমন্বয় দেখুন', ic: 'scale', run: () => {
+          const rows = [['রাজু আহমেদ (R1)', tk(KPI.collected), tk(KPI.collected), '<span class="chip chip-ok">মিলে গেছে</span>'],
+            ['সুমি রানী (অফিস কাউন্টার)', tk(KPI.cash - KPI.collected), tk(KPI.cash - KPI.collected), '<span class="chip chip-ok">মিলে গেছে</span>'],
+            ['হাতের মোট নগদ', tk(KPI.cash), '—', '—']];
+          return { ok: true, msg: 'সংগ্রহকভিত্তিক সমন্বয় ✓ · ঘাটতি ৳০', html: miniTbl(['উৎস', 'সংগৃহীত', 'জমা দেওয়া', 'অবস্থা'], rows) }; } }] },
+    { t: '৩A অফলাইন ভ্যারিয়েন্ট', d: 'সংযোগ না থাকলে এন্ট্রি queued থাকে, রসিদ নম্বর পরে বসে; sync হলে সদস্যকে SMS যায় (S-08)। কিউতে কতটি এন্ট্রি আছে তা সদস্যকে সবসময় দেখানো হয়।', s: ['S-08'],
+      in: [accPick('a2', 'অ্যাকাউন্ট'), takaIn('f3off', 5000, 'পরিমাণ')],
+      b: [{ l: 'অফলাইনে সংরক্ষণ → পরে sync', ic: 'wifioff', run: (i) => {
+        const r = act.depositCash(i.acc, i.f3off, 'রাজু আহমেদ (সংগ্রহক)', true);
+        if (!r.ok) return r;
+        return { ok: true, esc: 'অফলাইনে সংরক্ষিত → sync সম্পন্ন → রসিদ ' + r.receipt + ' বরাদ্দ হয়েছে → SMS পাঠানো হয়েছে', msg: 'ব্যালেন্স ' + tk(acc(i.acc).posted) }; } }] },
+    { t: '৩B ধাপ ১–২ — সদস্য নিজে ওয়ালেটে টাকা পাঠায়', d: 'M-06-এ সীমা, ফি ও রেফারেন্স নির্দেশনা দেখানো হয়। রেফারেন্স = অ্যাকাউন্ট নম্বর; ভুল রেফারেন্স দিলে টাকা মিলবে না।', s: ['M-01/M-05', 'M-06'],
+      in: [accPick('a1', 'অ্যাকাউন্ট'), takaIn('f3w', 30000, 'পরিমাণ'),
+        { k: 'f3ch', t: 'select', def: 'bkash', label: 'মাধ্যম', opts: [['bkash', 'বিকাশ'], ['nagad', 'নগদ'], ['bank', 'ব্যাংক ট্রান্সফার']] }],
+      b: [{ l: 'ওয়ালেটে পাঠানোর নির্দেশনা দেখুন', ic: 'phone', soft: true, run: (i) => {
+        const a = acc(i.acc);
+        return { ok: true, msg: 'নির্দেশনা তৈরি · রেফারেন্স হিসেবে ' + a.no + ' লিখতে হবে',
+          html: `<div class="card"><div class="card-b"><div class="code">${esc('01711-000227')} <span class="mut fs-xs">(সমিতির ${i.f3ch === 'bank' ? 'ব্যাংক অ্যাকাউন্ট' : 'ওয়ালেট নম্বর'})</span></div>
+            ${kv({ 'রেফারেন্স লিখুন': a.no, 'পরিমাণ': tk(i.f3w), 'একবারে সর্বোচ্চ': tk(scheme(a.schemeId).maxAmount), 'মাধ্যম': channel[i.f3ch] ? channel[i.f3ch].t : i.f3ch })}
+            <div class="alert alert-warn mt-8">${ic('warn')} রেফারেন্স ভুল হলে টাকা ফেরত যায় না — <b>suspense</b> খাতে থাকে এবং তদন্ত করতে হয় (নিচের সিদ্ধান্ত বিন্দু দেখুন)।</div></div></div>` }; } }] },
+    { t: '৩B ধাপ ৩–৪ — TrxID দিয়ে নিশ্চিত করুন', d: 'সদস্য ওয়ালেটের TrxID দেন → এন্ট্রি PendingVerification → ব্যালেন্সে যোগ হয় না, “যাচাইয়ের অপেক্ষায়” হিসেবে দেখা যায়।', s: ['M-06', 'M-07'],
+      in: [accPick('a1', 'অ্যাকাউন্ট'), takaIn('f3w2', 30000, 'পরিমাণ'), { k: 'f3ref', t: 'text', def: 'BK7QX2M9P1', label: 'ওয়ালেট TrxID' }],
+      b: [{ l: 'জমা জমা দিন (Pending)', ic: 'send', run: (i) => {
+        const r = act.depositWallet(i.acc, i.f3w2, 'bkash', String(i.f3ref || '').trim());
+        if (!r.ok) return r;
+        const a = acc(i.acc);
+        return { ok: true, msg: 'PendingVerification ✓ · ব্যালেন্সে এখনো যোগ হয়নি',
+          html: kv({ 'রসিদ': r.receipt, 'কিউ আইডি': r.pd, 'অ্যাকাউন্টের pending': tk(a.pending), 'posted (অপরিবর্তিত)': tk(a.posted), 'SLA': '২৪ ঘণ্টার মধ্যে যাচাই' }) }; } }] },
+    { t: '৩B ধাপ ৫ — অটো-ম্যাচ বা ম্যানুয়াল যাচাই', d: 'ওয়েবহুক এলে স্বয়ংক্রিয় মিল হয়; না এলে A-20 → A-21-এ ম্যানুয়াল। বিস্তারিত Flow 4-এ।', s: ['A-20', 'A-21'],
+      b: [{ l: 'কিউতে পাঠান (Flow 4 খুলবে)', ic: 'route', soft: true, run: () => {
+        const pd = PENDING_DEPOSITS.filter(p => p.matched === 'none');
+        return { ok: true, msg: bn(pd.length) + 'টি যাচাই বাকি · Flow 4-এ ক্লিক করুন',
+          html: pd.length ? `<div class="btn-row mt-8"><button class="btn btn-soft btn-sm" onclick="document.getElementById('f4').scrollIntoView({behavior:'smooth'})">${ic('arrowupright')}Flow 4-এ যান</button></div>` : '' }; } }] },
+    { t: '৩B সিদ্ধান্ত বিন্দু — টাকা এসেছে কিন্তু রেফারেন্স ভুল', d: 'সদস্য শনাক্ত না হলে টাকা suspense খাতে (H10) রাখা হয় — ফেরতও দেওয়া হয় না, ব্যালেন্সেও যোগ হয় না। তদন্ত A-30-এ।', s: ['A-30'],
+      in: [takaIn('f3sp', 15000, 'পরিমাণ'), { k: 'f3sref', t: 'text', def: 'BK00WRONG9', label: 'ভুল রেফারেন্স' }],
+      b: [{ l: 'suspense-এ রাখুন', ic: 'warn', run: (i) => {
+        const r = act.suspenseDeposit(i.f3sp, String(i.f3sref || '').trim());
+        return { ok: true, esc: 'টাকা এসেছে কিন্তু সদস্য শনাক্ত হয়নি — suspense খাতে রাখা হয়েছে (H10)',
+          msg: 'এন্ট্রি ' + r.sp + ' · মোট ' + bn(r.count) + 'টি অমীমাংসিত · তদন্ত: A-30', html: kv({ 'suspense আইডি': r.sp, 'রসিদ': r.receipt, 'পরিমাণ': tk(i.f3sp), 'সদস্যের ব্যালেন্সে': 'যোগ হয়নি' }) }; } }] },
+  ],
+  branches: [
+    { h: 'নগদ বনাম ওয়ালেট', p: 'নগদ = সরাসরি Posted (সংগ্রহকের হাতে টাকা আছে, ঝুঁকি নেই)। ওয়ালেট = PendingVerification, কারণ সমিতির ওয়ালেটে টাকা পৌঁছেছে কি না আলাদাভাবে মিলিয়ে দেখতে হয়।' },
+    { h: 'একই এন্ট্রি দুবার?', p: 'idempotency key (ডভাইস + অ্যাকাউন্ট + পরিমাণ + টাইমস্ট্যাম্প) ইউনিক — নেটওয়ার্ক ফেল করলেও দ্বিতীয় এন্ট্রি বসে না।' },
+    { h: 'দিনে কতবার জমা?', p: 'নির্ধারিত কিস্তির বাইরে অতিরিক্ত জমা দিনে সর্বোচ্চ ৩ বার (D-03)।' },
+  ],
+  foot: '৩A-র ধাপ ১০ (দিন সমাপ্তি) Flow 7-এ বিস্তারিত।',
+});
+
+/* ---------------- Flow 4 ---------------- */
+FLOWS.push({
+  id: 'f4', n: 4, short: 'জমা যাচাই → অনুমোদন/প্রত্যাখ্যান', spec: 'spec §7 · Flow 4 · পেজ A-01, A-20, A-21, A-26, A-27, A-30',
+  title: 'ওয়ালেট/ব্যাংক জমার যাচাই ও অনুমোদন',
+  goal: 'SLA ঘড়ি থেকে শুরু করে প্রমাণ মেলানো, অনুমোদন/প্রত্যাখ্যান/আরও তথ্য চাওয়া, রিভার্সাল ও দৈনিক integrity পুনর্গণনা — পুরো নিয়ন্ত্রণ চেইন। BR-04 অনুযায়ী যিনি এন্ট্রি করেছেন তিনি নিজে অনুমোদন করতে পারবেন না।',
+  actors: [['A', 'হিসাবরক্ষক (এন্ট্রি) → ম্যানেজার/APPROVER (অনুমোদন)'], ['S', 'SLA ঘড়ি, অটো-ম্যাচ, লেজার, integrity']],
+  steps: [
+    { t: 'ধাপ ১ — SLA ঘড়ি চলতে থাকে', d: 'প্রতিটি PendingVerification এন্ট্রির বয়স হিসাব হয়; ৪৮ ঘণ্টা ছাড়ালে লাল (SLA breach)। কিউতে সবচেয়ে পুরনো আগে।', s: ['S'],
+      b: [{ l: 'SLA অবস্থা দেখুন', ic: 'clock', run: () => {
+        const rows = PENDING_DEPOSITS.map(p => [`<b>${p.receipt}</b>`, member(p.memberId).name, tk(p.amount), channel[p.channel] ? channel[p.channel].t : p.channel, p.ref,
+          `<span class="chip ${p.hoursAgo > 48 ? 'chip-danger' : p.hoursAgo > 24 ? 'chip-warn' : 'chip-ok'}">${bn(p.hoursAgo)} ঘণ্টা</span>`,
+          p.matched === 'auto' ? '<span class="chip chip-ok">অটো-ম্যাচ</span>' : p.matched === 'manual' ? '<span class="chip chip-info">ম্যানুয়াল মিল</span>' : '<span class="chip chip-warn">মেলেনি</span>']);
+        const breach = PENDING_DEPOSITS.filter(p => p.hoursAgo > 48).length;
+        return { ok: true, msg: bn(PENDING_DEPOSITS.length) + 'টি অপেক্ষমাণ · ' + bn(breach) + 'টি SLA ভঙ্গ (৪৮+ ঘণ্টা)',
+          html: rows.length ? miniTbl(['রসিদ', 'সদস্য', 'পরিমাণ', 'মাধ্যম', 'রেফারেন্স', 'বয়স', 'মিল'], rows) : `<div class="state state-sm">${ic('checkc')}<h4>কিউ খালি</h4><p>সব যাচাই সম্পন্ন হয়ে গেছে।</p></div>` }; } }] },
+    { t: 'ধাপ ২ — কিউ ও ফিল্টার (A-20)', d: 'মাধ্যম, অবস্থা, SLA, তারিখ অনুযায়ী ফিল্টার। A-01 ড্যাশবোর্ডে লাল ব্যাজ হিসেবেও ওঠে।', s: ['A-01', 'A-20'],
+      in: [{ k: 'f4f', t: 'select', def: 'all', label: 'ফিল্টার', opts: [['all', 'সব'], ['breach', 'শুধু SLA ভঙ্গ (৪৮+ ঘণ্টা)'], ['unmatched', 'শুধু অমিল'], ['bkash', 'শুধু বিকাশ']] }],
+      b: [{ l: 'ফিল্টার প্রয়োগ করুন', ic: 'filter', run: (i) => {
+        let list = PENDING_DEPOSITS.concat([]);
+        if (i.f4f === 'breach') list = list.filter(p => p.hoursAgo > 48);
+        if (i.f4f === 'unmatched') list = list.filter(p => p.matched === 'none');
+        if (i.f4f === 'bkash') list = list.filter(p => p.channel === 'bkash');
+        return { ok: true, msg: bn(list.length) + 'টি ফলাফল · মোট ' + tk(list.reduce((s, p) => s + p.amount, 0)),
+          html: list.length ? miniTbl(['রসিদ', 'সদস্য', 'পরিমাণ', 'রেফ', 'বয়স'], list.map(p => [p.receipt, member(p.memberId).name, tk(p.amount), p.ref, bn(p.hoursAgo) + ' ঘণ্টা'])) : `<div class="state state-sm">${ic('search')}<h4>ফলাফল নেই</h4><p>এই ফিল্টারে কোনো এন্ট্রি নেই।</p></div>` }; } }] },
+    { t: 'ধাপ ৩ — প্রমাণ, লেজার প্রিভিউ ও ডুপ্লিকেট চেক', d: 'স্ক্রিনশট/স্টেটমেন্ট লাইন, ব্যাংক-ওয়ালেট স্টেটমেন্টের সাথে মিল, একই TrxID আগে ব্যবহৃত হয়েছে কি না — সব এক জায়গায়।', s: ['A-21', 'A-30'],
+      in: [{ k: 'f4pd', t: 'select', def: 'PD4', label: 'এন্ট্রি', opts: PENDING_DEPOSITS.map(p => [p.id, p.receipt + ' · ' + member(p.memberId).name + ' · ' + tk(p.amount)]) }],
+      b: [{ l: 'প্রমাণ পরীক্ষা করুন', ic: 'eye', run: (i) => {
+        const p = PENDING_DEPOSITS.find(x => x.id === i.f4pd);
+        if (!p) return { ok: false, err: 'এন্ট্রিটি কিউতে নেই — সম্ভবত নিষ্পত্তি হয়ে গেছে।' };
+        const dup = TX.filter(t => t.status === 'posted' && t.channel === p.channel && t.amount === p.amount && t.memberId === p.memberId && t.base).length;
+        const a = acc(p.accId), b = balanceBreakdown(a);
+        const rows = [['স্ক্রিনশট/প্রমাণ', p.evidence ? 'সংযুক্ত ✓' : 'নেই ⚠️'], ['রেফারেন্স', p.ref],
+          ['ব্যাংক/ওয়ালেট স্টেটমেন্টে মিল', p.matched === 'auto' ? 'অটো-ম্যাচ ✓' : p.matched === 'manual' ? 'ম্যানুয়াল মিল ✓' : 'মেলেনি ⚠️'],
+          ['একই পরিমাণের পুরনো এন্ট্রি', dup ? bn(dup) + 'টি আছে — ডুপ্লিকেট সন্দেহ ⚠️' : 'নেই ✓'],
+          ['সদস্যের অ্যাকাউন্ট', a.no + ' · posted ' + tk(a.posted)],
+          ['লেজার প্রিভিউ', 'ডেবিট ওয়ালেট ' + tk(p.amount) + ' / ক্রেডিট সদস্য সঞ্চয় আমানত ' + tk(p.amount)],
+          ['অনুমোদনের পর ব্যবহারযোগ্য', tk(b.avail + p.amount)]];
+        return { ok: true, msg: p.receipt + ' · ' + tk(p.amount) + ' · বয়স ' + bn(p.hoursAgo) + ' ঘণ্টা', html: kv(Object.fromEntries(rows)) }; } }] },
+    { t: 'ধাপ ৫a — অনুমোদন (Verified → Posted)', d: 'লেজার এন্ট্রি বসে, ব্যালেন্স বাড়ে, সদস্যকে চূড়ান্ত রসিদ ও নোটিফিকেশন যায়।', s: ['A-21'],
+      in: [{ k: 'f4ap', t: 'select', def: 'PD4', label: 'এন্ট্রি', opts: PENDING_DEPOSITS.map(p => [p.id, p.receipt + ' · ' + member(p.memberId).name + ' · ' + tk(p.amount)]) },
+        { k: 'f4rec', t: 'select', def: 'other', label: 'এন্ট্রি করেছিলেন', opts: [['other', 'সুমি রানী (হিসাবরক্ষক)'], ['self', APP.session.user + ' (আমি নিজে)']] }],
+      b: [{ l: 'অনুমোদন করুন', ic: 'checkc', run: (i) => {
+        if (i.f4rec === 'self') return { ok: false, err: 'Maker ≠ Checker (BR-04) — আপনি নিজেই এন্ট্রি করেছেন, তাই নিজে অনুমোদন করতে পারবেন না। অনুমোদন বোতাম নিষ্ক্রিয় থাকবে এবং অডিট লগে এই চেষ্টাও লেখা থাকবে।' };
+        return act.approveDeposit(i.f4ap); } }] },
+    { t: 'ধাপ ৫b — প্রত্যাখ্যান (কারণ বাধ্যতামূলক)', d: 'কারণ ছাড়া প্রত্যাখ্যান করা যায় না; টাকা ফেরত প্রক্রিয়া শুরু হয়, সদস্যকে জানানো হয়।', s: ['A-21'],
+      in: [{ k: 'f4rj', t: 'select', def: 'PD4', label: 'এন্ট্রি', opts: PENDING_DEPOSITS.map(p => [p.id, p.receipt + ' · ' + tk(p.amount)]) },
+        { k: 'f4why', t: 'text', def: '', label: 'কারণ', ph: 'যেমন: স্টেটমেন্টে এই TrxID মেলেনি' }],
+      b: [{ l: 'প্রত্যাখ্যান করুন', ic: 'xc', danger: true, run: (i) => act.rejectDeposit(i.f4rj, String(i.f4why || '').trim()) }] },
+    { t: 'ধাপ ৭ — রিভার্সাল / সংশোধনী জার্নাল এন্ট্রি', d: 'ভুল হলে মূল এন্ট্রি মুছে ফেলা হয় না (R-02, append-only) — উল্টো দিকের নতুন জোড়া বসে, মূলটির রেফারেন্সসহ।', s: ['A-26', 'A-27'],
+      in: [{ k: 'f4tx', t: 'select', def: 'TX00035', label: 'লেজার এন্ট্রি', opts: TX.filter(t => !t.base && t.status === 'posted').map(t => [t.id, t.id + ' · ' + (t.type === 'deposit' ? 'জমা' : 'উত্তোলন') + ' ' + tk(t.amount) + ' · ' + acc(t.accId).no]).concat([['TX00094', 'TX00094 · ডেমো জমা ৳১,০০০ · a1 (baseline — রিভার্সাল উদাহরণ)'], ['', '— আগে একটি লাইভ জমা করুন —']]) },
+        { k: 'f4rwhy', t: 'text', def: 'ভুল অ্যাকাউন্টে পোস্ট হয়েছে', label: 'রিভার্সালের কারণ' }],
+      b: [{ l: 'রিভার্সাল JE তৈরি করুন', ic: 'refresh', run: (i) => {
+        if (!i.f4tx) return { ok: false, err: 'কোনো লাইভ এন্ট্রি নেই — আগে Flow 3 বা এই ফ্লোতে একটি জমা অনুমোদন করুন।' };
+        return act.reverse(i.f4tx, String(i.f4rwhy || '').trim()); } }] },
+    { t: 'ধাপ ৮ — দৈনিক integrity পুনর্গণনা (R-08)', d: 'দিন শেষে সব অ্যাকাউন্টের ব্যালেন্স লেজার থেকে আবার গণনা করা হয়; অমিল হলে A-01-এ লাল অ্যালার্ট। ট্রায়াল ব্যালান্স শূন্য না হলে মাস বন্ধ হবে না (BR-12)।', s: ['A-28', 'A-25', 'A-01'],
+      b: [{ l: 'Integrity চেক চালান', ic: 'shield', run: () => {
+        const r = act.integrityCheck();
+        return { ok: true, msg: bn(r.accounts) + 'টি অ্যাকাউন্ট পুনর্গণনা হয়েছে · ' + (r.mismatches ? bn(r.mismatches) + 'টি অমিল ⚠️' : 'সব মিলে গেছে ✓'),
+          html: kv({ 'অ্যাকাউন্ট': bn(r.accounts), 'অমিল': bn(r.mismatches), 'ট্রায়াল ব্যালান্স': r.trialOk ? 'ডেবিট = ক্রেডিট ✓' : 'অমিল ⚠️', 'মোট ডেবিট': tk(TRIAL.debit), 'মোট ক্রেডিট': tk(TRIAL.credit) }) }; } }] },
+  ],
+  branches: [
+    { h: '৫c — আরও তথ্য চাওয়া', p: 'এন্ট্রি InfoRequested অবস্থায় থাকে, SLA ঘড়ি থামে না; সদস্যকে SMS যায়।' },
+    { h: 'SLA এসকেলেশন', p: 'নির্ধারিত সময় পার হলে MANAGER → APPROVER-এর কাছে স্বয়ংক্রিয়ভাবে ওঠে (Flow 7-এর এসকেলেশন নীতি)।' },
+    { h: 'মিল না হলে', p: 'টাকা ফেরত দেওয়ার প্রক্রিয়া শুরু হয়; ফেরত না হওয়া পর্যন্ত suspense-এ থাকে (H10)।' },
+  ],
+  foot: 'অনুমোদন সীমা D-22 অনুযায়ী — ACCOUNTANT শুধু প্রস্তাব, MANAGER ≤৳৫০,০০০, APPROVER ≤৳২,০০,০০০।',
+});
+
+/* ---------------- Flow 5 ---------------- */
+FLOWS.push({
+  id: 'f5', n: 5, short: 'উত্তোলন আবেদন → নিষ্পত্তি', spec: 'spec §7 · Flow 5 · পেজ M-05, M-10, M-11, M-12, A-01, A-22, A-23, A-24, A-28',
+  title: 'সদস্যের টাকা উত্তোলন',
+  goal: 'যোগ্যতা হিসাব → আবেদন + OTP → hold তৈরি → কিউ → ভূমিকাভিত্তিক সীমা অনুযায়ী অনুমোদন → নিষ্পত্তি (নগদ/ওয়ালেট) → প্রমাণ → নতুন ব্যালেন্স। A-24-এ ওয়ালেট পেমেন্ট Unknown হলে Settled হয় না — এটিও চালিয়ে দেখুন।',
+  actors: [['M', 'সদস্য (আবেদন, ট্র্যাকিং, বাতিল)'], ['A', 'MANAGER/APPROVER (অনুমোদন), হিসাবরক্ষক (নিষ্পত্তি)'], ['S', 'hold, সীমা রাউটিং, লেজার, নোটিফিকেশন']],
+  steps: [
+    { t: 'ধাপ ১–২ — যোগ্যতা ও কর্তন দেখা', d: 'ব্যবহারযোগ্য = মোট জমা − আটক − সর্বনিম্ন ব্যালেন্স − লকড (লক-ইন) − ফ্রিজ। নোটিশ পিরিয়ড ও প্রত্যাশিত তারিখও দেখানো হয়।', s: ['M-05', 'M-10'],
+      in: [accPick('a1', 'অ্যাকাউন্ট')],
+      b: [{ l: 'যোগ্যতা দেখুন', ic: 'target', run: (i) => {
+        const a = acc(i.acc), b = balanceBreakdown(a), sc = scheme(a.schemeId);
+        if (a.status === 'closed') return { ok: false, err: 'অ্যাকাউন্ট বন্ধ — উত্তোলন সম্ভব নয়।' };
+        if (a.status === 'frozen') return { ok: false, err: 'অ্যাকাউন্ট ফ্রিজ করা — কারণ: ' + (a.freezeReason || 'কমিটির সিদ্ধান্ত') + '। খোলার জন্য A-13-এ যোগাযোগ করুন।' };
+        if (b.locked) return { ok: false, err: 'লক-ইন মেয়াদ চলছে (' + dstr(a.lockInEnds) + ' পর্যন্ত) — এখন তোলা যাবে না (D-06)।' };
+        const nd = daysAhead(sc.noticeDays);
+        return { ok: true, msg: 'এখন তোলা যাবে সর্বোচ্চ ' + tk(b.avail) + ' · নোটিশ ' + bn(sc.noticeDays) + ' দিন → প্রত্যাশিত ' + dstr(nd, true),
+          html: kv({ 'মোট জমা (posted)': tk(b.posted), 'আটক (hold)': '− ' + tk(b.hold), 'সর্বনিম্ন ব্যালেন্স': '− ' + tk(b.minBal),
+            'লকড (লক-ইন)': '− ' + tk(b.locked), 'ফ্রিজ': '− ' + tk(b.frozenAmt), 'ব্যবহারযোগ্য': tk(b.avail),
+            'নোটিশ পিরিয়ড': bn(sc.noticeDays) + ' দিন (D-02)', 'মাসে সর্বোচ্চ': bn(sc.maxPerMonth) + ' বার',
+            'একবারে সর্বোচ্চ': tk(sc.maxAmount), 'উত্তোলন ফি': '৳১০,০০০-এর বেশি হলে ৳২০ (D-05)' }) }; } }] },
+    { t: 'ধাপ ৩–৪ — আবেদন জমা + OTP', d: 'পরিমাণ, মাধ্যম ও কারণ দিয়ে আবেদন; OTP যাচাইয়ের পর Submitted হয় এবং সাথে সাথে hold তৈরি হয় (BR-02) — যাতে একই টাকা দুবার চাওয়া না যায়।', s: ['M-10', 'M-11'],
+      in: [accPick('a1', 'অ্যাকাউন্ট'), takaIn('f5amt', 500000, 'পরিমাণ'),
+        { k: 'f5m', t: 'select', def: 'bkash', label: 'মাধ্যম', opts: [['bkash', 'বিকাশ (ওয়ালেট)'], ['nagad', 'নগদ (ওয়ালেট)'], ['cash_office', 'অফিস কাউন্টার (নগদ)'], ['bank', 'ব্যাংক ট্রান্সফার']] },
+        { k: 'f5why', t: 'text', def: 'চিকিৎসা', label: 'কারণ' }, { k: 'f5otp', t: 'text', def: '739201', label: 'OTP' }],
+      b: [{ l: 'আবেদন জমা দিন', ic: 'send', run: (i) => {
+        const c = String(i.f5otp || '').replace(/\D/g, '');
+        if (c.length !== 6) return { ok: false, err: 'OTP ৬ সংখ্যার হতে হবে।' };
+        if (c !== '739201') return { ok: false, err: 'OTP মেলেনি — আবেদন জমা হয়নি, কোনো hold তৈরি হয়নি।' };
+        return act.requestWithdrawal(i.acc, i.f5amt, i.f5m, String(i.f5why || '').trim() || '—'); } }] },
+    { t: 'ধাপ ৫ — ট্র্যাকিং (সদস্যের দিক)', d: 'প্রতিটি অবস্থার সাথে প্রত্যাশিত সময় ও পরের ধাপ লেখা থাকে — “অপেক্ষা করুন” নয়, “কী হবে” বলা হয়।', s: ['M-11', 'M-12'],
+      in: [{ k: 'f5tr', t: 'select', def: '', label: 'আবেদন', opts: WITHDRAWALS.filter(w => w.memberId === 'm1' || w.status !== 'settled').map(w => [w.id, w.no + ' · ' + tk(w.amount) + ' · ' + stOf(WD_STATUS, w.status).t]) }],
+      b: [{ l: 'অবস্থা দেখুন', ic: 'clock', run: (i) => {
+        const w = WITHDRAWALS.find(x => x.id === i.f5tr) || WITHDRAWALS[0];
+        if (!w) return { ok: false, err: 'কোনো আবেদন নেই।' };
+        const a = acc(w.accId), b = balanceBreakdown(a);
+        const steps = [['submitted', 'জমা হয়েছে'], ['under_review', 'পর্যালোচনাধীন'], ['approved', 'অনুমোদিত'], ['settled', 'নিষ্পত্তি সম্পন্ন']];
+        const cur = steps.findIndex(s => s[0] === w.status);
+        return { ok: true, msg: w.no + ' · ' + stOf(WD_STATUS, w.status).t,
+          html: `<div class="tl">${steps.map((s, k) => `<div class="tl-i ${k < cur ? 'done' : k === cur ? 'cur' : ''}"><b>${s[1]}</b><i>${k < cur ? 'সম্পন্ন' : k === cur ? 'চলমান' : 'বাকি'}</i></div>`).join('')}</div>` +
+            kv({ 'পরিমাণ': tk(w.amount), 'মাধ্যম': channel[w.method] ? channel[w.method].t : w.method, 'কারণ': w.reason,
+              'আটক (hold)': tk(b.hold), 'নোটিশ শেষ': w.noticeEnds ? dstr(w.noticeEnds, true) : '—',
+              'অনুমোদনকারী': w.approvedBy || 'নির্ধারিত হয়নি', 'ভাউচার': w.voucher || '—' }) }; } }] },
+    { t: 'ধাপ ৬–৭ — কিউতে পর্যালোচনা ও অনুমোদন (সীমা অনুযায়ী রাউটিং)', d: 'নগদ সক্ষমতা, অনুমোদন সীমা ও ঝুঁকি দেখে সিদ্ধান্ত। ACCOUNTANT শুধু প্রস্তাব দিতে পারেন; MANAGER ≤৳৫০,০০০; APPROVER ≤৳২,০০,০০০; বেশি হলে স্বয়ংক্রিয়ভাবে উপরে ওঠে (D-22)।', s: ['A-01', 'A-22', 'A-23'],
+      in: [{ k: 'f5ap', t: 'select', def: 'w1', label: 'আবেদন', opts: WITHDRAWALS.filter(w => ['submitted', 'under_review'].indexOf(w.status) >= 0).map(w => [w.id, w.no + ' · ' + member(w.memberId).name + ' · ' + tk(w.amount)]) }],
+      b: [{ l: 'কিউ দেখুন', ic: 'eye', soft: true, run: () => {
+        const list = WITHDRAWALS.filter(w => ['submitted', 'under_review', 'approved', 'disbursing'].indexOf(w.status) >= 0);
+        const tot = list.reduce((s, w) => s + w.amount, 0);
+        return { ok: true, msg: bn(list.length) + 'টি আবেদন · মোট ' + tk(tot) + ' · হাতের নগদ ' + tk(KPI.cash),
+          html: miniTbl(['নম্বর', 'সদস্য', 'পরিমাণ', 'মাধ্যম', 'অবস্থা', 'দরকার'], list.map(w => [w.no, member(w.memberId).name, tk(w.amount),
+            channel[w.method] ? channel[w.method].t : w.method, `<span class="chip ${stOf(WD_STATUS, w.status).c}">${stOf(WD_STATUS, w.status).t}</span>`,
+            w.amount > 20000000 ? '<span class="chip chip-purple">ORG_ADMIN</span>' : w.amount > 500000 ? '<span class="chip chip-info">APPROVER</span>' : '<span class="chip chip-ok">MANAGER</span>'])) +
+            (tot > KPI.cash + KPI.bank ? `<div class="alert alert-warn mt-8">${ic('warn')} নগদ+ব্যাংক মিলিয়ে তহবিল কম পড়তে পারে — নিষ্পত্তির ক্রম ঠিক করুন (D-27 আংশিক প্রদান)।</div>` : '') }; } },
+        { l: 'অনুমোদন করুন', ic: 'checkc', run: (i) => act.approveWithdrawal(i.f5ap, APP.session.role) }] },
+    { t: 'ধাপ ৭b — প্রত্যাখ্যান (hold ছাড়া পড়ে)', d: 'কারণ বাধ্যতামূলক। প্রত্যাখ্যানে hold সাথে সাথে ছেড়ে দেওয়া হয় এবং সদস্যকে জানানো হয় — টাকা আটকে থাকে না।', s: ['A-23'],
+      in: [{ k: 'f5rj', t: 'select', def: 'w1', label: 'আবেদন', opts: WITHDRAWALS.filter(w => ['submitted', 'under_review'].indexOf(w.status) >= 0).map(w => [w.id, w.no + ' · ' + tk(w.amount)]) },
+        { k: 'f5rjw', t: 'text', def: '', label: 'কারণ', ph: 'যেমন: হাতের নগদ পর্যাপ্ত নেই' }],
+      b: [{ l: 'প্রত্যাখ্যান করুন', ic: 'xc', danger: true, run: (i) => act.rejectWithdrawal(i.f5rj, String(i.f5rjw || '').trim()) }] },
+    { t: 'ধাপ ৭a-বিকল্প — পরিমাণ কমানো (D-26)', d: 'অনুমোদনকারী পরিমাণ কমাতে পারেন, বাড়াতে পারেন না। কমালে বাকি অংশের hold ছেড়ে দেওয়া হয়।', s: ['A-23'],
+      in: [{ k: 'f5rd', t: 'select', def: 'w1', label: 'আবেদন', opts: WITHDRAWALS.filter(w => ['submitted', 'under_review'].indexOf(w.status) >= 0).map(w => [w.id, w.no + ' · ' + tk(w.amount)]) },
+        takaIn('f5rdamt', 300000, 'অনুমোদিত পরিমাণ'), { k: 'f5rdwhy', t: 'text', def: 'হাতের নগদ সীমিত', label: 'কারণ' }],
+      b: [{ l: 'কমিয়ে অনুমোদন করুন', ic: 'minus', run: (i) => act.reduceWithdrawal(i.f5rd, i.f5rdamt, String(i.f5rdwhy || '').trim()) }] },
+    { t: 'ধাপ ৭c — সদস্য নিজেই তুলে নিলেন', d: 'নিষ্পত্তির আগে সদস্য আবেদন বাতিল করতে পারেন; hold ছেড়ে দেওয়া হয়।', s: ['M-12'],
+      in: [{ k: 'f5cx', t: 'select', def: 'w1', label: 'আবেদন', opts: WITHDRAWALS.filter(w => ['submitted', 'under_review', 'approved'].indexOf(w.status) >= 0).map(w => [w.id, w.no + ' · ' + tk(w.amount) + ' · ' + stOf(WD_STATUS, w.status).t]) }],
+      b: [{ l: 'আবেদন বাতিল করুন', ic: 'logout', run: (i) => act.cancelWithdrawal(i.f5cx) },
+        { l: 'সদস্য নিজে তুলে নিলেন (Withdrawn)', ic: 'x', soft: true, run: (i) => act.selfWithdraw(i.f5cx) }] },
+    { t: 'ধাপ ৮ — নিষ্পত্তি (A-24)', d: 'নগদ বা ওয়ালেটে টাকা দেওয়া হয়; ভাউচার নম্বর, লেজার এন্ট্রি (ডেবিট সদস্য সঞ্চয় / ক্রেডিট নগদ বা ব্যাংক) ও সদস্যের স্বাক্ষর/OTP প্রমাণ সংরক্ষিত হয়। ৳১০,০০০-এর বেশি হলে ৳২০ ফি (D-05)।', s: ['A-24'],
+      in: [{ k: 'f5st', t: 'select', def: 'w2', label: 'অনুমোদিত আবেদন', opts: WITHDRAWALS.filter(w => ['approved', 'disbursing'].indexOf(w.status) >= 0).map(w => [w.id, w.no + ' · ' + member(w.memberId).name + ' · ' + tk(w.amount) + ' · ' + (channel[w.method] ? channel[w.method].t : w.method)]) },
+        takaIn('f5pay', 0, 'প্রদেয় পরিমাণ (০ = পুরোটা)'), { k: 'f5sig', t: 'select', def: 'otp', label: 'প্রমাণ', opts: [['otp', 'OTP'], ['sign', 'স্বাক্ষর (স্ক্যান)'], ['thumb', 'থাম্ব ইম্প্রেশন']] }],
+      b: [{ l: 'নিষ্পত্তি করুন', ic: 'cash', run: (i) => {
+        const w = WITHDRAWALS.find(x => x.id === i.f5st);
+        if (!w) return { ok: false, err: 'আবেদনটি নিষ্পত্তির কিউতে নেই।' };
+        const r = act.settleWithdrawal(i.f5st, w.method, i.f5pay > 0 ? i.f5pay : null, i.f5sig);
+        if (!r.ok) return r;
+        return { ok: true, msg: 'নিষ্পত্তি সম্পন্ন ✓ · ভাউচার ' + r.voucher + (r.fee ? ' · ফি ' + tk(r.fee) : '') + ' · নতুন ব্যালেন্স ' + tk(r.balance),
+          html: kv({ 'ভাউচার': r.voucher, 'প্রদান': tk(r.paid), 'উত্তোলন ফি': r.fee ? tk(r.fee) + ' (D-05)' : '৳০ (৳১০,০০০-এর কম)',
+            'লেজার এন্ট্রি': r.txn + ' · ডেবিট সদস্য সঞ্চয় / ক্রেডিট ' + (w.method === 'cash_office' ? 'নগদ' : 'ব্যাংক/ওয়ালেট'),
+            'নতুন ব্যালেন্স': tk(r.balance), 'ব্যবহারযোগ্য': tk(r.avail), 'প্রমাণ': i.f5sig === 'otp' ? 'OTP যাচাইকৃত' : i.f5sig === 'sign' ? 'স্বাক্ষর সংযুক্ত' : 'থাম্ব ইম্প্রেশন সংযুক্ত' }) }; } }] },
+    { t: 'সিদ্ধান্ত বিন্দু — ওয়ালেট পেমেন্ট Unknown', d: 'ওয়ালেটে টাকা পাঠানো হলে প্রথমে Unknown থাকে; স্বয়ংক্রিয় স্ট্যাটাস কুয়েরি চলে। নিশ্চিত না হওয়া পর্যন্ত Settled চিহ্নিত হয় না, ভাউচার ঝুলন্ত থাকে।', s: ['A-24', 'A-30'],
+      b: [{ l: 'স্ট্যাটাস কুয়েরি চালান', ic: 'refresh', run: () => {
+        const un = WITHDRAWALS.filter(w => w.status === 'unknown' || w.disbursed === 'unknown');
+        const ok = !un.length;
+        return ok ? { ok: true, msg: 'কোনো Unknown পেমেন্ট নেই ✓ — সব নিষ্পত্তি নিশ্চিত।',
+            html: `<div class="alert alert-ok">${ic('checkc')} ওয়ালেট প্রোভাইডারের রিসিট মিলে গেছে। অমীমাংসিত থাকলে A-30-এ তদন্ত ও সমন্বয় করা হয়।</div>` }
+          : { ok: true, esc: bn(un.length) + 'টি পেমেন্ট এখনো Unknown', msg: 'Settled চিহ্নিত করা হয়নি · স্বয়ংক্রিয় কুয়েরি চলছে', html: kv(Object.fromEntries(un.map(w => [w.no, tk(w.amount) + ' · ' + (channel[w.method] ? channel[w.method].t : w.method)]))) }; } }] },
+    { t: 'ধাপ ১০ — সদস্যের নতুন ব্যালেন্স ও দিনশেষ হিসাব', d: 'M-12/M-09-এ Settled + নতুন ব্যালেন্স; A-28/A-30-এ দিনশেষের ক্যাশ বুক ও সমন্বয়।', s: ['M-12', 'M-09', 'A-28', 'A-30'],
+      b: [{ l: 'দিনশেষের হিসাব দেখুন', ic: 'chart', soft: true, run: () => ({ ok: true, msg: 'আজ নিষ্পত্তি হয়েছে ' + tk(KPI.disbursedToday) + ' · দিন সমাপ্তি ' + (APP.dayClose.done ? 'সম্পন্ন ✓' : 'বাকি (D-17 সতর্কতা)'),
+        html: kv({ 'আজ সংগৃহীত': tk(KPI.collected), 'আজ নিষ্পত্তি': tk(KPI.disbursedToday), 'হাতের নগদ': tk(KPI.cash), 'ব্যাংক': tk(KPI.bank), 'ওয়ালেট': tk(KPI.wallet), 'মোট সঞ্চয়': tk(KPI.totalSavings) }) }) }] },
+  ],
+  branches: [
+    { h: 'তহবিল কম পড়লে', p: 'আংশিক নিষ্পত্তি + SMS (D-27) — যতটুকু দেওয়া সম্ভব তাই দেওয়া হয়, বাকিটা কিউতে থাকে।' },
+    { h: 'লক-ইন চললে', p: 'আবেদনই জমা নেওয়া হয় না — আগেই বলা হয় কবে থেকে তোলা যাবে (D-06)।' },
+    { h: 'মৃত্যু দাবি', p: 'নমিনি যাচাই → প্রমাণ → একই নিষ্পত্তি পথ (Flow 8-এর ভ্যারিয়েন্ট)।' },
+  ],
+  foot: 'কোনো ধাপে সুদ/মুনাফা কাটা হয় না — শুধু নির্ধারিত উত্তোলন ফি (BR-13, D-05)।',
+});
+
+/* ---------------- Flow 6 ---------------- */
+FLOWS.push({
+  id: 'f6', n: 6, short: 'বকেয়া → রিমাইন্ডার → আদায়', spec: 'spec §7 · Flow 6 · পেজ M-16, M-13, M-06, A-31, A-33, A-01',
+  title: 'বকেয়া কিস্তি ও রিমাইন্ডার',
+  goal: 'কিস্তির তারিখ পার হলে বকেয়া চিহ্নিত → ৭ দিন গ্রেস → ৩ দিন আগে রিমাইন্ডার → রেজিস্টারে aging ব্যান্ড → বাল্ক SMS ক্যাম্পেইন (dry-run সহ) → সদস্য পরিশোধ করলে বিলম্ব ফি যোগ হয়, সুদ নয়।',
+  actors: [['S', 'সময়সূচি, গ্রেস, aging'], ['A', 'ম্যানেজার (রেজিস্টার), সংগ্রহক (আদায়)'], ['M', 'সদস্য (পরিশোধ)']],
+  steps: [
+    { t: 'ধাপ ১–২ — বকেয়া চিহ্নিত ও গ্রেস পিরিয়ড', d: 'কিস্তির তারিখ পার হলেই বকেয়া; ৭ দিন গ্রেস (D-07)। ৯০ দিন পার হলে অ্যাকাউন্ট নিষ্ক্রিয় (dormant) হওয়ার নোটিশ যায়।', s: ['S', 'A-31'],
+      b: [{ l: 'বকেয়া তালিকা দেখুন', ic: 'warn', run: () => {
+        const rows = DUES.map((d, k) => { const a = acc(d.accId), m = member(a.memberId);
+          return [String(k + 1), `<b>${esc(m.name)}</b><br><span class="mut fs-xs">${a.no}</span>`, bn(d.instNo) + 'তম', dshort(d.due),
+            bn(d.age) + ' দিন', `<span class="chip ${d.age > 90 ? 'chip-danger' : d.age > 30 ? 'chip-warn' : 'chip-info'}">${d.band}</span>`,
+            tk(d.amount - d.paid), d.age > 7 ? tk(d.lateFee) : '—']; });
+        if (!rows.length) return { ok: true, msg: 'কোনো বকেয়া নেই ✓', html: `<div class="state state-sm">${ic('checkc')}<h4>রেজিস্টার পরিষ্কার</h4><p>কোনো বকেয়া কিস্তি নেই।</p></div>` };
+        return { ok: true, msg: bn(DUES.length) + 'টি বকেয়া কিস্তি · মোট ' + tk(DUES.reduce((s, d) => s + d.amount - d.paid, 0)) + ' (নমুনা রেজিস্টার)',
+          html: miniTbl(['#', 'সদস্য', 'কিস্তি', 'নির্ধারিত', 'বয়স', 'ব্যান্ড', 'বাকি', 'বিলম্ব ফি'], rows) +
+            `<div class="alert alert-info mt-8">${ic('info')} ৯০ দিন পার হলে অ্যাকাউন্ট <b>dormant</b> হওয়ার নোটিশ যায় (D-07)। বিলম্ব ফি <b>সুদ নয়</b> — বছরে সর্বোচ্চ ৳২০০ (D-08, BR-13)।</div>` }; } }] },
+    { t: 'ধাপ ৩ — রিমাইন্ডার (৩ দিন আগে থেকে)', d: 'SMS + পুশ; টেমপ্লেট A-33-এ সংরক্ষিত। প্রথমে dry-run চালিয়ে দেখুন কাকে কী যাবে, তারপর পাঠান।', s: ['A-33'],
+      b: [{ l: 'Dry-run (পাঠানো হবে না)', ic: 'eye', soft: true, run: () => {
+        const r = act.sendReminders(true);
+        return { ok: true, msg: bn(r.count) + ' জনকে যাবে · এখনো পাঠানো হয়নি', html: `<div class="card"><div class="card-b"><div class="code">${esc(r.sample)}</div><div class="note mt-8">টেমপ্লেট: DUE-REMIND-03 · চ্যানেল: SMS + পুশ · সময়: সকাল ১০টা</div></div></div>` }; } },
+        { l: 'রিমাইন্ডার পাঠান', ic: 'send', run: () => {
+          const r = act.sendReminders(false);
+          return { ok: true, msg: bn(r.sent) + ' জনকে পাঠানো হয়েছে ✓ · ব্যর্থ ০ · ডেলিভারি লগ A-33-এ সংরক্ষিত' }; } }] },
+    { t: 'ধাপ ৪ — সদস্য এখনই পরিশোধ করে', d: 'M-16 নোটিফিকেশন → M-13 বকেয়া → M-06 জমা → M-07 রসিদ। এটি Flow 3-এরই পথ; অতিরিক্ত হিসেবে বিলম্ব ফি যোগ হয়।', s: ['M-16', 'M-13', 'M-06', 'M-07'],
+      in: [{ k: 'f6d', t: 'select', def: '0', label: 'বকেয়া কিস্তি', opts: DUES.map((d, k) => [String(k), member(acc(d.accId).memberId).name + ' · ' + bn(d.instNo) + 'তম · বাকি ' + tk(d.amount - d.paid)]) },
+        takaIn('f6amt', 100000, 'পরিশোধের পরিমাণ')],
+      b: [{ l: 'বকেয়া পরিশোধ করুন', ic: 'cash', run: (i) => {
+        const idx = parseInt(i.f6d, 10) || 0;
+        return act.payDue(idx, i.f6amt); } }] },
+    { t: 'ধাপ ৫ — রেজিস্টারে যোগ ও aging ব্যান্ড', d: 'পরিশোধ না হলে রেজিস্টারে থেকে যায়; ব্যান্ড অনুযায়ী (০–৩০, ৩১–৬০, ৬১–৯০, ৯০+) রঙ ও পদক্ষেপ বদলায়।', s: ['A-31'],
+      b: [{ l: 'ব্যান্ডভিত্তিক সারসংক্ষেপ', ic: 'chart', run: () => {
+        const bands = ['০–৩০ দিন', '৩১–৬০ দিন', '৬১–৯০ দিন', '৯০+ দিন'];
+        const rows = bands.map(bd => { const l = DUES.filter(d => d.band === bd);
+          const mx = Math.max.apply(null, bands.map(x => DUES.filter(d => d.band === x).reduce((s, d) => s + d.amount - d.paid, 0)).concat([1]));
+          const amt = l.reduce((s, d) => s + d.amount - d.paid, 0);
+          return [bd, bn(l.length) + ' কিস্তি', tk(amt), `<div class="prog" style="height:8px"><div class="prog-b" style="width:${Math.round(amt / mx * 100)}%"></div></div>`,
+            bd === '৯০+ দিন' ? '<span class="chip chip-danger">dormant নোটিশ</span>' : bd === '৬১–৯০ দিন' ? '<span class="chip chip-warn">সরাসরি যোগাযোগ</span>' : '<span class="chip chip-info">রিমাইন্ডার</span>']; });
+        return { ok: true, msg: 'মোট বকেয়া ' + tk(DUES.reduce((s, d) => s + d.amount - d.paid, 0)) + ' (নমুনা) · সমিতির সম্পূর্ণ রেজিস্টারে ' + tk(KPI.duesTotal), html: miniTbl(['ব্যান্ড', 'কিস্তি', 'পরিমাণ', 'অনুপাত', 'পদক্ষেপ'], rows) }; } }] },
+    { t: 'ধাপ ৬ — রুট/সংগ্রহকভিত্তিক পর্যালোচনা', d: 'কে কোন রুটে কত বকেয়া নিয়ে আছে — আদায়ের দায়িত্ব নির্দিষ্ট করতে।', s: ['A-01', 'A-31'],
+      b: [{ l: 'রুটভিত্তিক বকেয়া', ic: 'route', run: () => {
+        const byRoute = {};
+        DUES.forEach(d => { const m = member(acc(d.accId).memberId); const r = m.route || '—';
+          byRoute[r] = byRoute[r] || { n: 0, amt: 0, mem: {} }; byRoute[r].n++; byRoute[r].amt += d.amount - d.paid; byRoute[r].mem[m.id] = 1; });
+        const rows = Object.keys(byRoute).map(r => [r, bn(Object.keys(byRoute[r].mem).length) + ' জন', bn(byRoute[r].n) + ' কিস্তি', tk(byRoute[r].amt),
+          r === 'R1' ? 'রাজু আহমেদ (সংগ্রহক)' : 'সালমা আক্তার (সংগ্রহক)']);
+        return { ok: true, msg: bn(Object.keys(byRoute).length) + 'টি রুটে বকেয়া আছে', html: miniTbl(['রুট', 'সদস্য', 'কিস্তি', 'পরিমাণ', 'দায়িত্বে'], rows) }; } }] },
+    { t: 'ধাপ ৭ — বাল্ক SMS ক্যাম্পেইন', d: 'প্রথমে প্রিভিউ/dry-run (কত জন, কত খরচ), তারপর পাঠানো, শেষে ডেলিভারি লগ (sent/delivered/failed)।', s: ['A-33'],
+      in: [{ k: 'f6c', t: 'select', def: 'due', label: 'অডিয়েন্স', opts: [['due', 'সব বকেয়া সদস্য'], ['90', 'শুধু ৯০+ দিন ব্যান্ড'], ['all', 'সব সক্রিয় সদস্য (সাধারণ নোটিশ)']] }],
+      b: [{ l: 'প্রিভিউ (খরচসহ)', ic: 'eye', soft: true, run: (i) => {
+        const n = i.f6c === 'all' ? KPI.activeMembers : i.f6c === '90' ? DUES.filter(d => d.band === '৯০+ দিন').length : DUES.length;
+        return { ok: true, msg: bn(n) + ' জনকে যাবে · আনুমানিক খরচ ' + tk(n * 35000 / 100) + ' (৳০.৩৫/SMS)',
+          html: `<div class="card"><div class="card-b"><div class="code">${esc(i.f6c === 'all' ? 'আগামীকাল সমিতির মাসিক সভা — সকাল ১০টা, সমিতি কার্যালয়।' : 'আপনার বকেয়া কিস্তি পরিশোধ করুন। বিলম্ব ফি ৳২০/কিস্তি (সুদ নয়)। নিকটস্থ সংগ্রহকের কাছে বা বিকাশে দিন।')}</div>
+            ${kv({ 'অডিয়েন্স': bn(n) + ' জন', 'চ্যানেল': 'SMS (ফলব্যাক: পুশ)', 'খরচ': tk(n * 35000 / 100), 'অনুমোদন': 'MANAGER (খরচ আছে বলে)' })}</div></div>` }; } },
+        { l: 'ক্যাম্পেইন পাঠান', ic: 'send', run: (i) => {
+          const n = i.f6c === 'all' ? KPI.activeMembers : i.f6c === '90' ? DUES.filter(d => d.band === '৯০+ দিন').length : DUES.length;
+          say('send', 'SMS ক্যাম্পেইন সম্পন্ন', bn(n) + ' জনকে পাঠানো হয়েছে · ব্যর্থ ০ · লগ A-33-এ', '#a33');
+          note('বাল্ক SMS ক্যাম্পেইন · ' + bn(n) + ' জন · খরচ ' + tk(n * 35000 / 100) + ' · ডেলিভারি লগ সংরক্ষিত');
+          return { ok: true, msg: 'পাঠানো হয়েছে ✓', html: kv({ 'sent': bn(n), 'delivered': bn(n), 'failed': bn(0), 'খরচ': tk(n * 35000 / 100), 'লগ': 'A-33 · ডেলিভারি রিপোর্ট' }) }; } }] },
+  ],
+  branches: [
+    { h: 'বিলম্ব ফি মওকুফ', p: 'মওকুফ করতে কমিটির লিখিত সিদ্ধান্ত লাগে এবং নিরীক্ষককে অ্যালার্ট যায় (D-09) — হিসাবরক্ষক একা পারেন না।' },
+    { h: '৯০ দিন পার', p: 'অ্যাকাউন্ট dormant; নতুন জমা চলবে কিন্তু উত্তোলন আটকাবে (D-07)।' },
+    { h: 'বকেয়া আদায় নয়, সঞ্চয় কর্তন নয়', p: 'বকেয়ার জন্য সদস্যের বিদ্যমান সঞ্চয় থেকে কাটা হয় না — উত্তোলনের সময় ক্লিয়ারেন্সে দেখানো হয় (Flow 8)।' },
+  ],
+  foot: 'বিলম্ব ফি সর্বোচ্চ ৳২০/কিস্তি, বছরে সর্বোচ্চ ৳২০০ (D-08)। কোনো সুদ হিসাব হয় না (BR-13)।',
+});
+
+/* ---------------- Flow 7 ---------------- */
+FLOWS.push({
+  id: 'f7', n: 7, short: 'স্টেটমেন্ট → দিন/মাস সমাপ্তি', spec: 'spec §7 · Flow 7 · পেজ M-14, A-28, A-30, A-25, A-36, A-34, A-35',
+  title: 'স্টেটমেন্ট তৈরি ও দিন/মাস সমাপ্তি',
+  goal: 'সদস্যের দিক: রেঞ্জ বেছে স্টেটমেন্ট → opening → লেনদেন → closing, মিল দেখানো হয়। সমিতির দিক: প্রতিদিন day close → মাস শেষে reconciliation → ট্রায়াল ব্যালান্স → পিরিয়ড লক → আর্থিক বিবরণ।',
+  actors: [['M', 'সদস্য (সেলফ-সার্ভিস স্টেটমেন্ট)'], ['A', 'হিসাবরক্ষক, ম্যানেজার, নিরীক্ষক'], ['S', 'PDF জব, শিডিউল, integrity']],
+  steps: [
+    { t: 'সদস্য ধাপ ১–২ — অ্যাকাউন্ট ও রেঞ্জ বেছে তৈরি', d: 'ব্যাকগ্রাউন্ডে PDF তৈরি হয়: opening ব্যালেন্স → লেনদেনের তালিকা → closing ব্যালেন্স। স্টেটমেন্ট ফি ৳০ (D-05)।', s: ['M-14'],
+      in: [accPick('a1', 'অ্যাকাউন্ট'), { k: 'f7r', t: 'select', def: 'month', label: 'রেঞ্জ', opts: [['month', 'অক্টোবর ২০২৬ (চলতি মাস)'], ['last', 'সেপ্টেম্বর ২০২৬ (গত মাস)'], ['fy', 'অর্থবছর ২০২৫–২৬ (১ জুলাই – ৩০ জুন, D-15)'], ['all', 'শুরু থেকে আজ পর্যন্ত']] }],
+      b: [{ l: 'স্টেটমেন্ট তৈরি করুন', ic: 'doc', run: (i) => {
+        const R = { month: ['2026-10-01', '2026-10-30'], last: ['2026-09-01', '2026-09-30'], fy: ['2025-07-01', '2026-06-30'], all: ['2020-01-01', '2026-10-30'] }[i.f7r];
+        const r = act.generateStatement(i.acc, { month: 'অক্টোবর ২০২৬', last: 'সেপ্টেম্বর ২০২৬', fy: 'অর্থবছর ২০২৫–২৬', all: 'সম্পূর্ণ বিবরণ' }[i.f7r], R);
+        if (!r.ok) return r;
+        const diff = r.open + TX.filter(t => !t.base && t.accId === i.acc && t.status === 'posted' && t.type === 'deposit' && t.date >= R[0] && t.date <= R[1]).reduce((s, t) => s + t.amount, 0)
+          - TX.filter(t => !t.base && t.accId === i.acc && t.status === 'posted' && t.type !== 'deposit' && t.date >= R[0] && t.date <= R[1]).reduce((s, t) => s + t.amount, 0) - r.close;
+        return { ok: true, msg: 'তৈরি হয়েছে ✓ · ' + bn(r.rows) + 'টি লেনদেন',
+          html: kv({ 'স্টেটমেন্ট আইডি': r.id, 'শুরুর ব্যালেন্স': tk(r.open), 'মোট জমা': tk(r.inAmt || 0), 'মোট উত্তোলন/ফি': tk(r.outAmt || 0), 'শেষ ব্যালেন্স': tk(r.close),
+            'গাণিতিক মিল': diff === 0 ? 'শুরু + জমা − উত্তোলন = শেষ ✓' : 'অমিল ⚠️ ' + tk(diff), 'ফরম্যাট': 'PDF · ভেরিফিকেশন কোডসহ', 'ফি': '৳০ (D-05)' }) }; } }] },
+    { t: 'সদস্য ধাপ ৩ — প্রিভিউ, ডাউনলোড, শেয়ার, প্রিন্ট', d: 'প্রতিটি স্টেটমেন্টে ভেরিফিকেশন কোড থাকে; লগইন ছাড়াই যাচাই করা যায় (S-07)।', s: ['M-14', 'S-07'],
+      in: [{ k: 'f7st', t: 'select', def: 'st1', label: 'স্টেটমেন্ট', opts: STATEMENTS.map(s => [s.id, s.label + ' · ' + s.id]) }],
+      b: [{ l: 'প্রিভিউ ও ভেরিফিকেশন কোড', ic: 'eye', run: (i) => {
+        const st = STATEMENTS.find(s => s.id === i.f7st);
+        if (!st) return { ok: false, err: 'স্টেটমেন্টটি খুঁজে পাওয়া যায়নি।' };
+        return { ok: true, msg: st.id + ' · শেষ ব্যালেন্স ' + tk(st.close || 0),
+          html: kv({ 'স্টেটমেন্ট আইডি': st.id, 'সময়': st.period || st.label, 'ফরম্যাট': st.fmt || 'PDF', 'আকার': st.size || '—', 'ভেরিফিকেশন': 'somobay.app/v/' + (st.code || st.id), 'ডাউনলোড/শেয়ার/প্রিন্ট': 'সব চালু' }) }; } }] },
+    { t: 'সদস্য ধাপ ৪ — মাস শেষে স্বয়ংক্রিয় স্টেটমেন্ট 🟡', d: 'শিডিউলড জব মাস শেষে সব সদস্যের স্টেটমেন্ট বানিয়ে SMS লিংক পাঠায়। 🟡 = MVP-এর পরে, তবে নকশা এখনই ঠিক করা আছে।', s: ['S'],
+      b: [{ l: 'শিডিউল দেখুন', ic: 'cal', soft: true, run: () => ({ ok: true, msg: 'প্রতি মাসের ১ তারিখ, রাত ২:০০ টা · পরবর্তী রান ১ নভেম্বর ২০২৬',
+        html: kv({ 'জব': 'monthly-statement-all', 'অডিয়েন্স': bn(KPI.activeMembers) + ' জন সক্রিয় সদস্য', 'চ্যানেল': 'SMS লিংক + পুশ', 'অবস্থা': '🟡 SHOULD — MVP-এর পরে', 'ব্যর্থ হলে': 'পুনরায় চেষ্টা ৩ বার, তারপর A-01-এ অ্যালার্ট' }) }) }] },
+    { t: 'সমিতি ধাপ ১ — প্রতিদিন day close', d: 'দিন সমাপ্তির আগে ঝুলন্ত যাচাই, অনিষ্পত্তি নিষ্পত্তি ও নগদ পার্থক্য শূন্য হতে হবে। না হলে day close আটকাবে (BR-11)।', s: ['A-28'],
+      b: [{ l: 'দিন সমাপ্তির চেকলিস্ট', ic: 'clock', soft: true, run: () => {
+        const c = [['জমা যাচাই বাকি', PENDING_DEPOSITS.length ? bn(PENDING_DEPOSITS.length) + 'টি ⚠️' : 'নেই ✓', PENDING_DEPOSITS.length === 0],
+          ['অনিষ্পত্তি উত্তোলন', WITHDRAWALS.filter(w => ['submitted', 'under_review', 'approved', 'disbursing'].indexOf(w.status) >= 0).length + 'টি ⚠️', false],
+          ['suspense এন্ট্রি', APP.suspense.length ? bn(APP.suspense.length) + 'টি ⚠️' : 'নেই ✓', APP.suspense.length === 0],
+          ['নগদ পার্থক্য', '৳০ ✓', true], ['ট্রায়াল ব্যালান্স', TRIAL.debit === TRIAL.credit ? 'শূন্য ✓' : 'অমিল ⚠️', TRIAL.debit === TRIAL.credit]];
+        return { ok: true, msg: bn(c.filter(x => x[2]).length) + '/' + bn(c.length) + 'টি ঠিক আছে', html: miniTbl(['চেক', 'অবস্থা'], c.map(x => [x[0], x[1]])) }; } },
+        { l: 'সব যাচাই একসাথে নিষ্পত্তি', ic: 'refresh', soft: true, run: () => {
+            const r = act.clearPendingQueue();
+            return { ok: true, msg: bn(r.approved) + 'টি জমা Posted · ' + bn(r.ledger) + 'টি লেজার এন্ট্রি নিশ্চিত · বাকি ' + bn(r.left), html: `<div class="alert alert-info mt-8">${ic('info')} বাস্তবে এটি একটি একটি করে Flow 4-এ হয় — এখানে ডেমোর সুবিধার্থে একসাথে।</div>` }; } },
+        { l: 'দিন সমাপ্তি করুন', ic: 'checkc', run: () => act.dayClose() }] },
+    { t: 'সমিতি ধাপ ২ — মাস শেষে reconciliation', d: 'ব্যাংক/ওয়ালেট স্টেটমেন্টের সাথে সমিতির হিসাব মেলানো; ব্যতিক্রম একটি একটি করে নিষ্পত্তি করতে হয়।', s: ['A-30'],
+      in: [{ k: 'f7v', t: 'select', def: '0', label: 'ব্যতিক্রম', opts: VDIFF.map((v, k) => [String(k), v.f + ' · ' + v.old + ' → ' + v.neu + (v.locked ? ' (লকড)' : '')]) },
+        { k: 'f7how', t: 'text', def: 'ব্যাংক স্টেটমেন্টের সাথে মিলিয়ে দেখা হয়েছে', label: 'নিষ্পত্তির উপায়' }],
+      b: [{ l: 'পার্থক্যের তালিকা দেখুন', ic: 'scale', soft: true, run: () => ({ ok: true, msg: bn(VDIFF.length) + 'টি সারি · ' + bn(VDIFF.filter(v => !v.resolved).length) + 'টি অমীমাংসিত',
+        html: miniTbl(['ক্ষেত্র', 'পুরনো', 'নতুন', 'প্রভাব', 'অবস্থা'], VDIFF.map(v => [v.f, v.old, v.neu, `<span class="fs-xs">${esc(v.impact)}</span>`,
+          v.locked ? '<span class="chip chip-danger">লকড</span>' : v.resolved ? '<span class="chip chip-ok">নিষ্পত্তি ✓</span>' : '<span class="chip chip-warn">বাকি</span>'])) }) },
+        { l: 'এই ব্যতিক্রম নিষ্পত্তি করুন', ic: 'check', run: (i) => act.resolveVariance(parseInt(i.f7v, 10) || 0, String(i.f7how || '').trim()) }] },
+    { t: 'সমিতি ধাপ ৩ — ট্রায়াল ব্যালান্স যাচাই', d: 'ডেবিট = ক্রেডিট না হলে মাস বন্ধ হবে না (BR-12)। খাতভিত্তিক ভাঙন দেখানো হয়।', s: ['A-25', 'A-35'],
+      b: [{ l: 'ট্রায়াল ব্যালান্স দেখুন', ic: 'book2', run: () => ({ ok: true, msg: 'ডেবিট ' + tk(TRIAL.debit) + ' = ক্রেডিট ' + tk(TRIAL.credit) + ' → পার্থক্য ৳০ ✓',
+        html: miniTbl(['খাত', 'ডেবিট', 'ক্রেডিট'], TRIAL.heads.map(h => [h[0], h[1] ? tk(h[1]) : '—', h[2] ? tk(h[2]) : '—'])) }) }] },
+    { t: 'সমিতি ধাপ ৪ — মাস সমাপ্তি ও পিরিয়ড লক', d: 'লক হওয়ার পর সেই পিরিয়ডে কোনো নতুন এন্ট্রি বা সংশোধন চলবে না (R-05) — সংশোধন করতে হলে নতুন পিরিয়ডে উল্টো এন্ট্রি বসাতে হয়।', s: ['A-28', 'A-36'],
+      b: [{ l: 'মাস সমাপ্ত করুন (লক)', ic: 'lock', run: () => {
+        const pend = PENDING_DEPOSITS.length, wd = WITHDRAWALS.filter(w => ['submitted', 'under_review', 'approved', 'disbursing'].indexOf(w.status) >= 0).length;
+        const unres = VDIFF.filter(v => !v.resolved).length;
+        if (pend || wd || unres || TRIAL.debit !== TRIAL.credit)
+          return { ok: false, err: 'মাস বন্ধ করা যাবে না — বাকি: ' + [pend ? bn(pend) + 'টি জমা যাচাই' : '', wd ? bn(wd) + 'টি উত্তোলন নিষ্পত্তি' : '', unres ? bn(unres) + 'টি reconciliation ব্যতিক্রম' : '', TRIAL.debit !== TRIAL.credit ? 'ট্রায়াল ব্যালান্স অমিল' : ''].filter(Boolean).join(' · ') + '।' };
+        KPI.monthClosed = true;
+        note('মাস সমাপ্ত ও পিরিয়ড লক · অক্টোবর ২০২৬ · পরবর্তী পিরিয়ড নভেম্বর ২০২৬ খোলা হয়েছে (R-05)');
+        say('lock', 'পিরিয়ড লক হয়েছে', 'অক্টোবর ২০২৬ বন্ধ — এখন কোনো এন্ট্রি বসবে না। সংশোধন করতে নতুন পিরিয়ডে উল্টো এন্ট্রি লাগবে।', '#a28');
+        return { ok: true, msg: 'অক্টোবর ২০২৬ লক হয়েছে ✓', html: kv({ 'পিরিয়ড': 'অক্টোবর ২০২৬', 'অবস্থা': 'Locked (R-05)', 'ট্রায়াল ব্যালান্স': '৳০', 'পরবর্তী পিরিয়ড': 'নভেম্বর ২০২৬ (খোলা)' }) }; } }] },
+    { t: 'সমিতি ধাপ ৫–৭ — আর্থিক বিবরণ, বার্ষিক বন্ধ ও নিরীক্ষক অ্যাক্সেস', d: 'তুলনামূলক ও স্কিমভিত্তিক বিবরণ; অর্থবছর বন্ধ ও রেগুলেটরি রিটার্ন (D-29); নিরীক্ষককে সময়সীমাবদ্ধ read-only অ্যাক্সেস ও অডিট প্যাক।', s: ['A-34', 'A-35', 'A-38', 'A-37'],
+      b: [{ l: 'স্কিমভিত্তিক সারসংক্ষেপ', ic: 'chart', soft: true, run: () => ({ ok: true, msg: bn(SCHEMES.length) + 'টি স্কিম · মোট সঞ্চয় ' + tk(SCHEMES.reduce((s, x) => s + x.total, 0)),
+        html: miniTbl(['স্কিম', 'সদস্য', 'মোট সঞ্চয়', 'অবস্থা'], SCHEMES.map(s => [s.name, bn(s.members), tk(s.total), `<span class="chip ${stOf(SCH_STATUS, s.status).c}">${stOf(SCH_STATUS, s.status).t}</span>`])) }) },
+        { l: 'নিরীক্ষক অ্যাক্সেস দিন', ic: 'shield', run: () => {
+          note('নিরীক্ষক অ্যাক্সেস · EXTERNAL_AUDITOR · read-only · মেয়াদ ৩০ দিন · অডিট প্যাক (লেজার + ট্রায়াল + রসিদ) তৈরি হয়েছে');
+          return { ok: true, msg: 'অ্যাক্সেস দেওয়া হয়েছে ✓ · read-only, ৩০ দিনের জন্য',
+            html: kv({ 'ভূমিকা': 'EXTERNAL_AUDITOR', 'অনুমতি': 'শুধু পড়া — কোনো এন্ট্রি/সংশোধন নয়', 'মেয়াদ': '৩০ দিন (তারপর স্বয়ংক্রিয় বন্ধ)', 'অডিট প্যাক': 'লেজার, ট্রায়াল ব্যালান্স, রসিদ, day-close লগ', 'আর্কাইভ': '৮ বছর সংরক্ষণ (D-30)' }) }; } }] },
+  ],
+  branches: [
+    { h: 'day close না করে এন্ট্রি', p: 'এন্ট্রি বসে যায় কিন্তু A-01-এ লাল সতর্কতা থাকে (D-17) — হিসাব মেলানোর আগে মাস বন্ধ হবে না।' },
+    { h: 'লকড পিরিয়ডে সংশোধন', p: 'মূল এন্ট্রি অক্ষত থাকে; নতুন পিরিয়ডে উল্টো এন্ট্রি + কারণ + অনুমোদন (R-02, R-05)।' },
+    { h: 'অর্থবছর বন্ধ', p: '১ জুলাই – ৩০ জুন (D-15); রেগুলেটরি ছক অনুযায়ী এক্সপোর্ট (D-29 খোলা সিদ্ধান্ত)।' },
+  ],
+  foot: 'স্টেটমেন্টে কখনো সুদ/মুনাফার কলাম থাকে না — শুধু জমা, উত্তোলন ও ফি (BR-13)।',
+});
+
+/* ---------------- Flow 8 ---------------- */
+FLOWS.push({
+  id: 'f8', n: 8, short: 'অ্যাকাউন্ট বন্ধ ও নিষ্পত্তি', spec: 'spec §7 · Flow 8 · পেজ M-05, M-15, A-01, A-10, A-13, A-15, A-22, A-24',
+  title: 'অ্যাকাউন্ট বন্ধ ও চূড়ান্ত হিসাব নিষ্পত্তি',
+  goal: 'ক্লিয়ারেন্স চেক → ধাপে ধাপে নিষ্পত্তি প্রিভিউ → আবেদন + hold → অ্যাডমিন পুনঃযাচাই → অনুমোদন → পেমেন্ট ও প্রমাণ → Closed + আর্কাইভ → ক্লিয়ারেন্স সনদ। বকেয়া বেশি হলে প্রদেয় ৳০ (D-19), মওকুফে কমিটির লিখিত সিদ্ধান্ত (D-09)।',
+  actors: [['M', 'সদস্য (আবেদন, সনদ)'], ['A', 'হিসাবরক্ষক, MANAGER/APPROVER'], ['S', 'ক্লিয়ারেন্স, লেজার, আর্কাইভ, churn']],
+  steps: [
+    { t: 'ধাপ ১ — অ্যাকাউন্ট থেকে বন্ধের অনুরোধ', d: 'সাথে সাথে ক্লিয়ারেন্স চেক চলে: hold, বকেয়া, চলমান উত্তোলন আবেদন, নোটিশ পিরিয়ড।', s: ['M-05', 'M-15'],
+      in: [{ k: 'f8acc', t: 'select', def: 'a8', label: 'অ্যাকাউন্ট', opts: ACCOUNTS.map(a => [a.id, a.no + ' · ' + member(a.memberId).name + ' · ' + tk(a.posted) + ' · ' + stOf(ACC_STATUS, a.status).t]) }],
+      b: [{ l: 'বন্ধের অনুরোধ শুরু করুন', ic: 'logout', run: (i) => {
+        const a = acc(i.f8acc), sc = scheme(a.schemeId);
+        if (a.status === 'closed') return { ok: false, err: 'অ্যাকাউন্ট আগেই বন্ধ হয়ে গেছে।' };
+        const r = act.clearanceCheck(i.f8acc);
+        a.status = 'closure_requested';
+        return { ok: true, msg: 'ClosureRequested · নোটিশ ' + bn(sc.noticeDays) + ' দিন → ' + dstr(daysAhead(sc.noticeDays), true),
+          html: kv({ 'অ্যাকাউন্ট': a.no, 'সদস্য': r.member, 'মোট জমা': tk(r.posted), 'নোটিশ পিরিয়ড': bn(sc.noticeDays) + ' দিন (D-02)', 'প্রত্যাশিত নিষ্পত্তি': dstr(daysAhead(sc.noticeDays), true), 'ক্লিয়ারেন্স': r.pass ? 'সব ঠিক ✓' : bn(CLEARANCE.checks ? CLEARANCE.checks.filter(c => !c.ok).length : 3) + 'টি ব্লকিং সমস্যা — ধাপ ৫ দেখুন' }) }; } }] },
+    { t: 'ধাপ ২ — নিষ্পত্তি প্রিভিউ (ধাপে ধাপে)', d: 'ব্যালেন্স − কর্তন = প্রদেয়। প্রতিটি কর্তনের কারণ ও লিংক দেখানো হয়, যাতে সদস্য বুঝতে পারেন কেন কম পাবেন।', s: ['M-15'],
+      in: [{ k: 'f8p', t: 'select', def: 'a8', label: 'অ্যাকাউন্ট', opts: ACCOUNTS.map(a => [a.id, a.no + ' · ' + tk(a.posted)]) }],
+      b: [{ l: 'প্রদেয় হিসাব দেখুন', ic: 'scale', run: (i) => {
+        const r = act.clearanceCheck(i.f8p);
+        const rows = [['মোট জমা (posted)', tk(r.posted), ''], ['বকেয়া কিস্তি (' + bn(r.dueCount || 0) + 'টি)', '− ' + tk(r.dueAmt), '#a31'],
+          ['বিলম্ব ফি (D-08, সুদ নয়)', '− ' + tk(r.fee), '#a31'], ['আটক (hold)', '− ' + tk(r.hold), '#a22'],
+          ['চলমান উত্তোলন আবেদন', bn(r.pendingWd) + 'টি', '#a22']];
+        return { ok: true, msg: 'প্রদেয় ' + tk(r.payable) + (r.net < 0 ? ' (কর্তন বেশি — ঋণাত্মক প্রদেয় ৳০ ধরা হয়, D-19)' : ''),
+          html: miniTbl(['খাত', 'পরিমাণ', 'যান'], rows.map(x => [x[0], `<b>${x[1]}</b>`, x[2] ? `<a class="link" href="screens.html${x[2]}">${x[2]}</a>` : '—'])) +
+            kv({ 'নিট হিসাব': tk(r.net), 'প্রদেয়': tk(r.payable), 'মওকুফ সম্ভব?': r.net < 0 ? 'হ্যাঁ — কমিটির লিখিত সিদ্ধান্ত + নিরীক্ষক অ্যালার্ট (D-09)' : 'প্রয়োজন নেই' }) }; } }] },
+    { t: 'ধাপ ৩ — কারণ + মাধ্যম দিয়ে আবেদন (OTP)', d: 'ClosureRequested + hold; আবেদন নম্বর দেওয়া হয়।', s: ['M-15'],
+      in: [{ k: 'f8a', t: 'select', def: 'a8', label: 'অ্যাকাউন্ট', opts: ACCOUNTS.map(a => [a.id, a.no + ' · ' + stOf(ACC_STATUS, a.status).t]) },
+        { k: 'f8why', t: 'select', def: 'move', label: 'কারণ', opts: [['move', 'এলাকা ছেড়ে চলে যাচ্ছি'], ['need', 'টাকার প্রয়োজন'], ['other', 'স্কিম বদলাতে চাই'], ['unhappy', 'সেবা নিয়ে অসন্তুষ্টি']] },
+        { k: 'f8m', t: 'select', def: 'bkash', label: 'নিষ্পত্তির মাধ্যম', opts: [['bkash', 'বিকাশ'], ['cash_office', 'অফিস কাউন্টার (নগদ)'], ['bank', 'ব্যাংক ট্রান্সফার']] },
+        { k: 'f8otp', t: 'text', def: '551208', label: 'OTP' }],
+      b: [{ l: 'আবেদন জমা দিন', ic: 'send', run: (i) => {
+        const c = String(i.f8otp || '').replace(/\D/g, '');
+        if (c !== '551208') return { ok: false, err: 'OTP মেলেনি — আবেদন জমা হয়নি।' };
+        const a = acc(i.f8a);
+        if (a.status === 'closed') return { ok: false, err: 'অ্যাকাউন্ট আগেই বন্ধ।' };
+        a.status = 'closure_requested'; a.hold = a.posted; a.closureReason = i.f8why; a.closureMethod = i.f8m; a.closureAt = '2026-10-30';
+        recalc(a.id);
+        const no = 'CL-2627-' + bn(++APP.counters.clc);
+        say('logout', 'অ্যাকাউন্ট বন্ধের আবেদন গৃহীত', a.no + ' · ' + no + ' · পুরো ' + tk(a.posted) + ' আটক করা হয়েছে · নিষ্পত্তি ' + dstr(daysAhead(scheme(a.schemeId).noticeDays), true), '#m15');
+        note('বন্ধের আবেদন · ' + no + ' · ' + a.no + ' · ClosureRequested · hold ' + tk(a.hold) + ' (BR-02)');
+        return { ok: true, msg: no + ' জমা হয়েছে ✓ · hold ' + tk(a.hold), html: kv({ 'আবেদন নম্বর': no, 'অবস্থা': 'ClosureRequested', 'কারণ': { move: 'এলাকা ছেড়ে চলে যাচ্ছেন', need: 'টাকার প্রয়োজন', other: 'স্কিম বদল', unhappy: 'সেবা নিয়ে অসন্তুষ্টি' }[i.f8why], 'মাধ্যম': channel[i.f8m] ? channel[i.f8m].t : i.f8m }) }; } }] },
+    { t: 'ধাপ ৪–৫ — অ্যাডমিন কিউ ও পুনঃক্লিয়ারেন্স', d: 'কিউতে দেখা যায়; আটকে থাকা আইটেমের তালিকা + সরাসরি লিংক।', s: ['A-01', 'A-10', 'A-13', 'A-15'],
+      in: [{ k: 'f8c', t: 'select', def: 'a8', label: 'অ্যাকাউন্ট', opts: ACCOUNTS.filter(a => a.status === 'closure_requested' || a.status === 'dormant').map(a => [a.id, a.no + ' · ' + member(a.memberId).name + ' · ' + stOf(ACC_STATUS, a.status).t]) }],
+      b: [{ l: 'ক্লিয়ারেন্স পুনরায় চালান', ic: 'refresh', run: (i) => {
+        const r = act.clearanceCheck(i.f8c);
+        const items = [['চলমান উত্তোলন আবেদন', r.pendingWd ? bn(r.pendingWd) + 'টি ⚠️' : 'নেই ✓', '#a22'],
+          ['বকেয়া কিস্তি', r.dueAmt ? tk(r.dueAmt) + ' ⚠️' : 'নেই ✓', '#a31'], ['বিলম্ব ফি', r.fee ? tk(r.fee) + ' ⚠️' : 'নেই ✓', '#a31'],
+          ['আটক (hold)', r.hold ? tk(r.hold) : 'নেই ✓', '#a22'], ['KYC ও নমিনি', 'যাচাইকৃত ✓', '#a10']];
+        return { ok: r.pass, err: r.pass ? undefined : 'ক্লিয়ারেন্স ব্যর্থ — ' + items.filter(x => x[1].indexOf('⚠️') >= 0).map(x => x[0]).join(', ') + ' নিষ্পত্তি করতে হবে।',
+          msg: r.pass ? 'সব ক্লিয়ার ✓ — নিষ্পত্তি ও অনুমোদনে যাওয়া যাবে' : undefined,
+          html: miniTbl(['চেক', 'অবস্থা', 'যান'], items.map(x => [x[0], x[1], `<a class="link" href="screens.html${x[2]}">${x[2]}</a>`])) }; } }] },
+    { t: 'ধাপ ৬ — চলমান আবেদন নিষ্পত্তি/বাতিল', d: 'বন্ধের আগে ঝুলন্ত উত্তোলন আবেদন নিষ্পত্তি বা বাতিল করতে হয় (Flow 5)।', s: ['A-22', 'A-24'],
+      b: [{ l: 'ঝুলন্ত আবেদন দেখুন', ic: 'route', soft: true, run: () => {
+        const list = WITHDRAWALS.filter(w => ['submitted', 'under_review', 'approved', 'disbursing'].indexOf(w.status) >= 0);
+        return { ok: true, msg: bn(list.length) + 'টি ঝুলন্ত',
+          html: list.length ? miniTbl(['নম্বর', 'সদস্য', 'পরিমাণ', 'অবস্থা'], list.map(w => [w.no, member(w.memberId).name, tk(w.amount), `<span class="chip ${stOf(WD_STATUS, w.status).c}">${stOf(WD_STATUS, w.status).t}</span>`])) +
+            `<div class="btn-row mt-8"><button class="btn btn-soft btn-sm" onclick="document.getElementById('f5').scrollIntoView({behavior:'smooth'})">${ic('arrowupright')}Flow 5-এ নিষ্পত্তি করুন</button></div>`
+            : `<div class="state state-sm">${ic('checkc')}<h4>কিছু ঝুলন্ত নেই</h4><p>ধাপ ৭-এ সরাসরি যাওয়া যাবে।</p></div>` }; } }] },
+    { t: 'ধাপ ৭–৮ — চূড়ান্ত নিষ্পত্তি হিসাব ও অনুমোদন', d: 'সব অ্যাকাউন্টের সম্মিলিত হিসাব; maker ≠ checker; সীমা অনুযায়ী MANAGER/APPROVER।', s: ['A-15'],
+      in: [{ k: 'f8f', t: 'select', def: 'a8', label: 'অ্যাকাউন্ট', opts: ACCOUNTS.filter(a => a.status === 'closure_requested' || a.status === 'dormant').map(a => [a.id, a.no + ' · ' + tk(a.posted)]) },
+        { k: 'f8waive', t: 'money', def: 0, label: 'মওকুফের পরিমাণ (৳ × ১০০)', hint: '০ = মওকুফ নেই' },
+        { k: 'f8dec', t: 'text', def: 'কমিটি সিদ্ধান্ত ২০২৬/১৯', label: 'কমিটির সিদ্ধান্ত নম্বর' }],
+      b: [{ l: 'চূড়ান্ত হিসাব দেখুন', ic: 'scale', soft: true, run: (i) => {
+        const r = act.clearanceCheck(i.f8f);
+        return { ok: true, msg: 'নিট ' + tk(r.net) + ' → প্রদেয় ' + tk(r.payable), html: kv({ 'মোট জমা': tk(r.posted), 'বকেয়া': '− ' + tk(r.dueAmt), 'বিলম্ব ফি': '− ' + tk(r.fee), 'নিট': tk(r.net), 'প্রদেয় (D-19)': tk(r.payable) }) }; } },
+        { l: 'বন্ধ ও নিষ্পত্তি অনুমোদন করুন', ic: 'shield', run: (i) => act.closeAccount(i.f8f, i.f8waive || 0, String(i.f8dec || '').trim()) },
+        { l: 'মওকুফসহ বন্ধ করুন (D-09)', ic: 'scale', run: (i) => {
+            const c = act.clearanceCheck(i.f8f);
+            if (c.pendingWd) return { ok: false, err: bn(c.pendingWd) + 'টি চলমান উত্তোলন আবেদন আছে — আগে Flow 5-এ নিষ্পত্তি করুন।' };
+            const need = Math.max(0, -c.net), dec = String(i.f8dec || '').trim() || 'কমিটি সিদ্ধান্ত ২০২৬/১৯';
+            if (!need) return { ok: false, err: 'মওকুফের কিছু নেই — সাধারণ অনুমোদন বোতাম ব্যবহার করুন।' };
+            const r = act.closeAccount(i.f8f, need, dec);
+            if (!r.ok) return r;
+            return { ok: true, esc: 'মওকুফ ' + tk(need) + ' · সিদ্ধান্ত ' + dec + ' · নিরীক্ষককে অ্যালার্ট গেছে (D-09)',
+              msg: 'অ্যাকাউন্ট বন্ধ ✓ · সনদ ' + r.certificate + ' · চূড়ান্ত প্রদান ' + tk(r.paid),
+              html: kv({ 'সনদ নম্বর': r.certificate, 'চূড়ান্ত প্রদান': tk(r.paid), 'মওকুফ': tk(r.waived), 'কমিটির সিদ্ধান্ত': dec, 'আর্কাইভ': '৮ বছর (D-30)' }) }; } }] },
+    { t: 'ধাপ ৯ — পেমেন্ট নিষ্পত্তি + স্বাক্ষর/প্রমাণ', d: 'নগদ/ওয়ালেটে প্রদান; লেজার এন্ট্রি; ব্যালেন্স শূন্য; সদস্যের স্বাক্ষর বা OTP প্রমাণ সংরক্ষিত।', s: ['A-24'],
+      b: [{ l: 'নিষ্পত্তির প্রমাণ দেখুন', ic: 'checkc', soft: true, run: () => {
+        const cl = ACCOUNTS.filter(a => a.status === 'closed');
+        if (!cl.length) return { ok: true, msg: 'এখনো কোনো অ্যাকাউন্ট বন্ধ হয়নি — ধাপ ৮ চালান।' };
+        return { ok: true, msg: bn(cl.length) + 'টি অ্যাকাউন্ট Closed', html: miniTbl(['অ্যাকাউন্ট', 'সদস্য', 'শেষ ব্যালেন্স', 'ভাউচার', 'প্রমাণ'], cl.map(a => [a.no, member(a.memberId).name, tk(a.posted), a.voucher || '—', a.proof || 'স্বাক্ষর'])) }; } }] },
+    { t: 'ধাপ ১০–১১ — Closed/Exited ও আর্কাইভ, ক্লিয়ারেন্স সনদ', d: 'অ্যাকাউন্ট Closed, সদস্য Exited (বা আংশিক)। রেকর্ড মুছে ফেলা হয় না — ৮ বছর আর্কাইভ (D-30, soft-delete)। সনদে ভেরিফিকেশন কোড থাকে।', s: ['A-15', 'A-13'],
+      b: [{ l: 'ক্লিয়ারেন্স সনদ ইস্যু করুন', ic: 'file', run: () => {
+        const cl = ACCOUNTS.filter(a => a.status === 'closed');
+        if (!cl.length) return { ok: false, err: 'কোনো অ্যাকাউন্ট বন্ধ হয়নি — আগে ধাপ ৮-এ অনুমোদন করুন।' };
+        const a = cl[0], m = member(a.memberId);
+        const code = 'CLC-2627-' + bn(APP.counters.clc) + '-9X4P';
+        say('file', 'ক্লিয়ারেন্স সনদ তৈরি হয়েছে', m.name + ' · ' + a.no + ' · কোড ' + code + ' · somobay.app/v/' + code + ' এ যাচাই করা যাবে', '#m15');
+        note('ক্লিয়ারেন্স সনদ ইস্যু · ' + code + ' · ' + m.name + ' · ' + a.no + ' · আর্কাইভ ৮ বছর (D-30)');
+        return { ok: true, msg: 'সনদ ইস্যু হয়েছে ✓ · ' + code,
+          html: `<div class="card"><div class="card-b t-c">
+            <div class="org b">${esc(ORG.name)}</div><div class="mut fs-xs">নিবন্ধন নং ${ORG.reg} · ${esc(ORG.area)}</div>
+            <div class="chip chip-ok chip-lg mt-12">${ic('checkc')} ক্লিয়ারেন্স সনদ</div>
+            <p class="mt-12" style="font-size:14px">এতদ্বারা প্রত্যয়ন করা হচ্ছে যে <b>${esc(m.name)}</b> (${m.no})-এর সঞ্চয় অ্যাকাউন্ট <b>${a.no}</b> সমস্ত হিসাব নিষ্পত্তি করে <b>${dstr('2026-10-30', true)}</b> তারিখে বন্ধ করা হয়েছে। কোনো বকেয়া বা দাবি অবশিষ্ট নেই।</p>
+            <div class="code mt-12">${code}</div>
+            <div class="note mt-8">যাচাই: somobay.app/v/${code} · লগইন ছাড়াই যাচাইযোগ্য (S-07) · সংরক্ষণ ৮ বছর (D-30)</div></div></div>` }; } }] },
+    { t: 'ধাপ ১২–১৩ — সদস্য সনদ পান ও রিপোর্টে churn', d: 'সদস্য M-15/M-14-এ সনদ ও চূড়ান্ত বিবরণ দেখতে পান; A-34-এ চলাচল (churn) হিসাব হালনাগাদ হয় (K8)।', s: ['M-15', 'M-14', 'A-34'],
+      b: [{ l: 'churn প্রভাব দেখুন', ic: 'chart', soft: true, run: () => {
+        const closed = ACCOUNTS.filter(a => a.status === 'closed').length;
+        const exited = MEMBERS.filter(m => m.status === 'exited' || m.status === 'deceased').length;
+        return { ok: true, msg: bn(closed) + 'টি অ্যাকাউন্ট বন্ধ · ' + bn(exited) + ' জন সদস্য প্রস্থান/মৃত',
+          html: kv({ 'মোট সদস্য': bn(KPI.members), 'সক্রিয় সদস্য': bn(KPI.activeMembers), 'বন্ধ অ্যাকাউন্ট': bn(closed), 'churn হার': bn(Math.round(closed / Math.max(1, ACCOUNTS.length) * 10000) / 100) + '%', 'রিপোর্ট': 'A-34 · K8 সূচক হালনাগাদ হয়েছে' }) }; } }] },
+  ],
+  branches: [
+    { h: 'মৃত্যু দাবি', p: 'ধাপ ১-এর বদলে A-14 → নমিনি যাচাই → প্রমাণ → একই নিষ্পত্তি পথ → সদস্য Deceased। নমিনি না থাকলে সমিতি/আদালতের সিদ্ধান্ত লাগে।' },
+    { h: 'স্কিম বন্ধ (গণ-নিষ্পত্তি)', p: 'A-06 → ClosedForNewEntry → Maturing → প্রতিটি অ্যাকাউন্টের ব্যাচ নিষ্পত্তি → Closed (Flow 2-এর শেষ ধাপের সাথে যুক্ত)।' },
+    { h: 'বকেয়া > ব্যালেন্স', p: 'প্রদেয় ৳০ ধরা হয়, সদস্যের কাছে ঋণ হিসেবে দাবি তোলা হয় না (D-19)। মওকুফ করতে কমিটির লিখিত সিদ্ধান্ত + নিরীক্ষক অ্যালার্ট (D-09)।' },
+    { h: 'বন্ধের পরে ফেরা', p: 'রেকর্ড মুছে যায় না (soft-delete, D-30) — নতুন অ্যাকাউন্ট খুললে পুরনো ইতিহাস যুক্ত করা যায়।' },
+  ],
+  foot: 'নিষ্পত্তিতে কোনো সুদ যোগ বা কাটা হয় না — শুধু বকেয়া কিস্তি, বিলম্ব ফি ও নির্ধারিত চার্জ (BR-13)।',
+});
+
+/* ---------------- boot ---------------- */
+renderAll();
+</script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>মোবাইল ভিউপোর্ট অডিটর · ধাপ E · Somobay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+/* এই পেজের নিজস্ব ক্রোম — mc- প্রিফিক্সে স্কোপ করা, যাতে প্রোটোটাইপের স্টাইল অটুট থাকে */
+body.mc-body{margin:0;background:#0A1512;color:#EAF3EE;font-family:'Hind Siliguri',system-ui,sans-serif}
+.mc-wrap{max-width:1220px;margin:0 auto;padding:22px 16px 80px}
+.mc-h1{font-size:22px;font-weight:700;margin:0 0 4px}
+.mc-sub{font-size:13.5px;line-height:1.75;color:#A9C3B6;margin:0 0 18px}
+.mc-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#0E1D18;border:1px solid #1D332B;
+  border-radius:14px;padding:12px;margin-bottom:14px;position:sticky;top:0;z-index:40}
+.mc-btn{min-height:44px;padding:0 15px;border-radius:11px;border:1px solid #2A4A3D;background:#12241E;color:#DCEAE3;
+  font:600 13.5px 'Hind Siliguri',sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.mc-btn:hover{background:#173026}
+.mc-btn.on{background:#12A273;border-color:#12A273;color:#04231C}
+.mc-btn.ghost{background:transparent}
+.mc-lab{font-size:12px;color:#8FAEA0;margin-right:2px}
+.mc-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:10px;margin-bottom:14px}
+.mc-kpi{background:#0E1D18;border:1px solid #1D332B;border-radius:13px;padding:12px 13px}
+.mc-kpi i{display:block;font-style:normal;font-size:11.5px;color:#8FAEA0;margin-bottom:5px}
+.mc-kpi b{font-size:21px;font-weight:700;letter-spacing:.3px}
+.mc-kpi.good b{color:#4ADE9B}.mc-kpi.bad b{color:#FF8A7A}.mc-kpi.warn b{color:#FFD166}
+.mc-tblwrap{overflow-x:auto;border:1px solid #1D332B;border-radius:14px;background:#0C1A15}
+table.mc-tbl{border-collapse:collapse;width:100%;min-width:1080px;font-size:12.6px}
+table.mc-tbl th{position:sticky;top:0;background:#122420;color:#9FBFB0;text-align:left;font-weight:600;
+  padding:10px 9px;border-bottom:1px solid #22402F;white-space:nowrap;z-index:2}
+table.mc-tbl td{padding:9px;border-bottom:1px solid #16291F;vertical-align:top;color:#D6E6DD}
+table.mc-tbl tr:hover td{background:#101F1A}
+table.mc-tbl td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mc-code{font-weight:700;color:#7FE3B4;white-space:nowrap}
+.mc-pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.mc-pill.ok{background:rgba(74,222,155,.14);color:#5EE7A8}
+.mc-pill.warn{background:rgba(255,209,102,.15);color:#FFD166}
+.mc-pill.bad{background:rgba(255,138,122,.16);color:#FF8A7A}
+.mc-mut{color:#8FAEA0}
+.mc-det{margin-top:16px;background:#0E1D18;border:1px solid #1D332B;border-radius:14px;padding:14px}
+.mc-det h3{margin:0 0 8px;font-size:15.5px}
+.mc-det ul{margin:6px 0 0;padding-left:20px;font-size:12.8px;line-height:1.85;color:#C6DACE}
+.mc-grid2{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:start}
+.mc-view{display:flex;justify-content:center;padding:8px 0 4px}
+.mc-note{font-size:12.4px;line-height:1.8;color:#9FBFB0;background:#0C1A15;border:1px dashed #24402F;
+  border-radius:12px;padding:12px 14px;margin-top:14px}
+.mc-note b{color:#DCEAE3}
+.mc-stage{position:fixed;left:-100000px;top:0;width:1200px;height:2000px;overflow:hidden}
+.mc-foot{margin-top:18px;font-size:12px;color:#7A988A;line-height:1.8}
+@media (max-width:820px){.mc-grid2{grid-template-columns:1fr}.mc-bar{position:static}}
+</style>
+</head>
+<body class="proto-body mc-body">
+<div class="mc-wrap">
+  <h1 class="mc-h1">মোবাইল ভিউপোর্ট অডিটর — ধাপ E</h1>
+  <p class="mc-sub">
+    নিরীক্ষা হার্নেসগুলো (<code>tmc.mjs</code>, <code>tui.mjs</code>) jsdom-এ চলে, যেখানে লেআউট ইঞ্জিন নেই — তাই প্রকৃত পিক্সেল মাপা যায় না।
+    এই পেজটি <b>আসল ব্রাউজারে</b> ৭৫টি Admin App পর্দা রেন্ডার করে প্রকৃত উচ্চতা, আড়াআড়ি স্ক্রল, ট্যাপ-টার্গেটের আকার ও স্থির ক্রোমের বাজেট মাপে
+    (নিরীক্ষা <code>specs/04</code> §৪ ধাপ E, আইটেম ১৯)। ফলে প্রাপ্ত সংখ্যা <code>specs/05</code>-এর ছক ৩-এ বসানোর যোগ্য।
+  </p>
+
+  <div class="mc-bar">
+    <span class="mc-lab">ডিভাইস:</span>
+    <span id="mcPresets"></span>
+    <span class="mc-lab" style="margin-left:8px">ফিল্টার:</span>
+    <button class="mc-btn ghost" data-f="all" onclick="if (!window.__cfRLUnblockHandlers) return false; mcFilter('all')" data-cf-modified-a38a93e705985f13a6dff467-="">সব</button>
+    <button class="mc-btn ghost" data-f="issue" onclick="if (!window.__cfRLUnblockHandlers) return false; mcFilter('issue')" data-cf-modified-a38a93e705985f13a6dff467-="">শুধু সমস্যাযুক্ত</button>
+    <button class="mc-btn ghost" data-f="ok" onclick="if (!window.__cfRLUnblockHandlers) return false; mcFilter('ok')" data-cf-modified-a38a93e705985f13a6dff467-="">পাস</button>
+    <span style="flex:1"></span>
+    <button class="mc-btn" onclick="if (!window.__cfRLUnblockHandlers) return false; mcDownload()" data-cf-modified-a38a93e705985f13a6dff467-="">JSON ডাউনলোড</button>
+    <button class="mc-btn" onclick="if (!window.__cfRLUnblockHandlers) return false; mcCopy()" data-cf-modified-a38a93e705985f13a6dff467-="">সারসংক্ষেপ কপি</button>
+    <a class="mc-btn ghost" href="screens.html" style="text-decoration:none">সব পর্দা</a>
+  </div>
+
+  <div class="mc-kpis" id="mcKpis"></div>
+
+  <div class="mc-tblwrap">
+    <table class="mc-tbl">
+      <thead><tr>
+        <th>কোড</th><th>পর্দা</th><th>নেভ</th>
+        <th class="num">কনটেন্ট</th><th class="num">প্রথম ফোল্ডে</th>
+        <th class="num">ক্রোম</th><th class="num">&lt;৪৪px টার্গেট</th><th class="num">সবচেয়ে ছোট</th>
+        <th class="num">প্রাইমারি</th><th>আড়াআড়ি স্ক্রল</th><th>রায়</th><th></th>
+      </tr></thead>
+      <tbody id="mcRows"></tbody>
+    </table>
+  </div>
+
+  <div id="mcDetail"></div>
+
+  <div class="mc-note">
+    <b>কীভাবে মাপা হয়:</b> প্রতিটি পর্দা নির্বাচিত প্রিসেটের ঠিক সেই আকারের ফ্রেমে (প্রস্থ×উচ্চতা, বর্ডার ছাড়া) রেন্ডার হয়।
+    <b>কনটেন্ট</b> = <code>.phone-scroll</code>-এর <code>scrollHeight</code>; <b>প্রথম ফোল্ডে</b> = দৃশ্যমান উচ্চতা ÷ কনটেন্ট;
+    <b>ক্রোম</b> = স্ট্যাটাসবার + হেডার + সিদ্ধান্ত-বার + bottom nav-এর মোট উচ্চতা ভিউপোর্টের শতকরা হিসেবে;
+    <b>&lt;৪৪px টার্গেট</b> = দৃশ্যমান বোতাম/ইনপুট/সারি যার প্রকৃত বাক্স ৪৪px-এর কম (প্যারাগ্রাফের ভেতরের ইনলাইন লিঙ্ক আলাদা গণনা);
+    <b>আড়াআড়ি স্ক্রল</b> = ফ্রেমের বাইরে যাওয়া উপাদান, তবে <code>.xtbl-wrap</code>-এর ভেতরের টেবিল বাদ (সেটি ইচ্ছাকৃত স্ক্রল) এবং বন্ধ ড্রয়ার/শিট বাদ।
+    <br><br>
+    <b>ফোনে চালাতে:</b> এই পেজের লাইভ URL ফোনে খুলুন (অথবা ডেস্কটপ ব্রাউজারে DevTools → Device Toolbar → 360×800 / 390×844)।
+    ফোনের নিজস্ব স্ক্রিনে মাপা সবচেয়ে বাস্তব — সেক্ষেত্রে "ডিভাইস" তালিকায় আপনার ফোনের প্রস্থ বেছে নিন।
+    <br><br>
+    <b>রায়ের নিয়ম:</b> ✗ = চুক্তি লঙ্ঘন (আড়াআড়ি স্ক্রল, ৪৪px-এর ছোট বোতাম, ১-এর বেশি প্রাইমারি, ডিফল্টে খোলা শিট) ·
+    ⚠️ = সতর্কতা (স্থির ক্রোম ভিউপোর্টের ৩২%-এর বেশি, বা ইনলাইন লিঙ্ক খুব ছোট) · ✅ = পরিষ্কার।
+  </div>
+
+  <p class="mc-foot">
+    Somobay প্রোটোটাইপ · ধাপ E যাচাই সরঞ্জাম · উৎস: <code>prototype/mobile-check.html</code> ·
+    স্ট্যাটিক চুক্তি-হার্নেস: <code>prototype/tests/tmc.mjs</code> (MC-01…MC-18) · ছক: <code>prototype/tests/mobile-contract.md</code>
+  </p>
+</div>
+
+<div class="mc-stage" id="mcStage" aria-hidden="true"></div>
+
+<script src="assets/app.js" type="text/javascript"></script>
+<script src="assets/screens.js" type="text/javascript"></script>
+<script type="text/javascript">
+(function () {
+  'use strict';
+
+  var PRESETS = [
+    { k: '360×800', w: 360, h: 800, note: 'সাধারণ অ্যান্ড্রয়েড' },
+    { k: '390×844', w: 390, h: 844, note: 'iPhone 12/13/14' },
+    { k: '320×568', w: 320, h: 568, note: 'ছোট/পুরনো ডিভাইস' },
+    { k: '412×915', w: 412, h: 915, note: 'বড় অ্যান্ড্রয়েড' }
+  ];
+  var FLOW = ['am03', 'am06', 'am07', 'am08', 'am09', 'am11', 'am14', 'am16', 'am18', 'am19', 'am20', 'am22', 'am23', 'am28', 'am29'];
+  var LANDING = ['am01', 'am04', 'am24'];
+  var state = { preset: 0, filter: 'all', results: [] };
+
+  var AM = (typeof META !== 'undefined' ? META : []).filter(function (m) { return m.pres === 'app' || m.id === 'a02'; });
+
+  function h(frame, sel) {
+    var el = frame.querySelector(sel);
+    return el ? Math.round(el.getBoundingClientRect().height) : 0;
+  }
+
+  function visible(el) {
+    if (!el.getBoundingClientRect) return false;
+    var r = el.getBoundingClientRect();
+    if (!r.width || !r.height) return false;
+    if (el.closest('.drawer, .sheet, .sheet-scrim')) return false;   /* ডিফল্টে বন্ধ থাকে */
+    if (typeof el.checkVisibility === 'function') { try { return el.checkVisibility({ visibilityProperty: true, opacityProperty: true }); } catch (e) {} }
+    return true;
+  }
+
+  function measure(m, p) {
+    var stage = document.getElementById('mcStage');
+    stage.innerHTML = '';
+    var fr = document.createElement('div');
+    fr.className = 'phone';
+    fr.style.cssText = 'width:' + p.w + 'px;height:' + p.h + 'px;border:0;border-radius:0;box-shadow:none;max-width:none;';
+    var html = '';
+    try { html = renderScreen(m.id) || ''; } catch (e) { return { code: m.code, err: e.message }; }
+    fr.innerHTML = html;
+    stage.appendChild(fr);
+
+    var fRect = fr.getBoundingClientRect();
+    var scroller = fr.querySelector('.phone-scroll');
+    var contentH = scroller ? scroller.scrollHeight : fr.scrollHeight;
+    var visibleH = scroller ? scroller.clientHeight : p.h;
+    var foldPct = Math.round(visibleH / Math.max(1, contentH) * 100);
+
+    var chrome = { status: h(fr, '.statusbar'), head: h(fr, '.amhead'), dec: h(fr, '.decbar'), nav: h(fr, '.bottomnav') };
+    var chromeSum = chrome.status + chrome.head + chrome.dec + chrome.nav;
+    var chromePct = Math.round(chromeSum / p.h * 100);
+
+    /* আড়াআড়ি স্ক্রল — অনুমোদিত .xtbl-wrap ও বন্ধ ড্রয়ার/শিট বাদ */
+    var over = [];
+    fr.querySelectorAll('*').forEach(function (el) {
+      if (el.closest('.xtbl-wrap, .drawer, .sheet, .sheet-scrim, .notch')) return;
+      var r = el.getBoundingClientRect();
+      if (!r.width) return;
+      if (r.right > fRect.right + 1 || r.left < fRect.left - 1) {
+        var cls = (typeof el.className === 'string' ? el.className : '').split(' ').filter(Boolean)[0] || '';
+        over.push(el.tagName.toLowerCase() + (cls ? '.' + cls : '') + ' ' + Math.round(r.width) + 'px');
+      }
+    });
+    var frameOverflow = fr.scrollWidth > fr.clientWidth + 1;
+
+    /* ট্যাপ টার্গেট */
+    var BTN = 'button, input:not([type=hidden]), select, textarea, [onclick], .row, .bnv, .radio-card, label.filebtn';
+    var small = [], minH = 999, minLabel = '';
+    fr.querySelectorAll(BTN).forEach(function (el) {
+      if (!visible(el)) return;
+      var r = el.getBoundingClientRect();
+      var label = (el.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 26) ||
+        (typeof el.className === 'string' ? el.className.split(' ')[0] : el.tagName.toLowerCase());
+      minH = Math.min(minH, Math.round(r.height));
+      if (Math.round(r.height) === minH) minLabel = label;
+      if (r.height < 44 || r.width < 44) small.push(label + ' · ' + Math.round(r.width) + '×' + Math.round(r.height) + 'px');
+    });
+    var inlineSmall = [];
+    fr.querySelectorAll('a').forEach(function (el) {
+      if (!visible(el) || el.classList.contains('btn') || el.getAttribute('onclick')) return;
+      var r = el.getBoundingClientRect();
+      if (r.height < 32) inlineSmall.push((el.textContent || '').trim().slice(0, 22) + ' ' + Math.round(r.height) + 'px');
+    });
+
+    /* প্রাইমারি, টেবিল, শিট */
+    var prim = 0;
+    fr.querySelectorAll('.btn-primary').forEach(function (el) { if (visible(el)) prim++; });
+    var wideTables = 0, tableInfo = [];
+    fr.querySelectorAll('table').forEach(function (tb) {
+      var cols = tb.querySelectorAll('thead th').length;
+      if (!cols) { var tr = tb.querySelector('tr'); cols = tr ? tr.querySelectorAll('th,td').length : 0; }
+      tableInfo.push(cols);
+      if (cols > 4) wideTables++;
+    });
+    var openSheets = fr.querySelectorAll('.sheet.open').length;
+    var textLen = (fr.textContent || '').replace(/\s+/g, ' ').trim().length;
+
+    /* রায় */
+    var bad = [], warn = [];
+    if (over.length) bad.push('আড়াআড়ি স্ক্রল: ' + over.slice(0, 3).join(' · '));
+    else if (frameOverflow) bad.push('ফ্রেম আড়াআড়ি স্ক্রল করছে');
+    if (small.length) bad.push(small.length + 'টি ট্যাপ টার্গেট ৪৪px-এর ছোট');
+    if (prim > 1) bad.push(prim + 'টি দৃশ্যমান প্রাইমারি');
+    if (wideTables) bad.push(wideTables + 'টি টেবিলে ৫+ কলাম');
+    if (openSheets) bad.push(openSheets + 'টি শিট ডিফল্টে খোলা');
+    if (chromePct > 32) warn.push('স্থির ক্রোম ভিউপোর্টের ' + chromePct + '%');
+    if (inlineSmall.length) warn.push(inlineSmall.length + 'টি ইনলাইন লিঙ্ক ৩২px-এর ছোট');
+    if (foldPct < 12) warn.push('প্রথম ফোল্ডে মাত্র ' + foldPct + '% কনটেন্ট');
+
+    return {
+      code: m.code, id: m.id, name: m.name, preset: p.k, chromeSum: chromeSum,
+      nav: FLOW.indexOf(m.id) >= 0 ? 'ফ্লো' : (LANDING.indexOf(m.id) >= 0 ? 'ল্যান্ডিং' : 'গভীর'),
+      contentH: contentH, visibleH: visibleH, foldPct: foldPct,
+      chrome: chrome, chromePct: chromePct,
+      overflow: over, frameOverflow: frameOverflow,
+      small: small, minTap: minH === 999 ? null : minH, minTapLabel: minLabel, inlineSmall: inlineSmall,
+      prim: prim, tables: tableInfo, wideTables: wideTables, openSheets: openSheets, textLen: textLen,
+      bad: bad, warn: warn,
+      verdict: bad.length ? '✗' : (warn.length ? '⚠️' : '✅')
+    };
+  }
+
+  function run() {
+    var p = PRESETS[state.preset];
+    state.results = AM.map(function (m) { return measure(m, p); });
+    render();
+  }
+
+  function pill(v) {
+    var cls = v === '✅' ? 'ok' : (v === '⚠️' ? 'warn' : 'bad');
+    return '<span class="mc-pill ' + cls + '">' + v + '</span>';
+  }
+
+  /* লেআউট ইঞ্জিন ছাড়া পরিবেশ (যেমন jsdom) শনাক্ত করা — নইলে সব মান ০ দেখিয়ে ভুল রায় দেবে */
+  function noLayout() {
+    return !state.results.length || state.results.every(function (r) { return !r.contentH && !r.chromeSum; });
+  }
+
+  function render() {
+    var p = PRESETS[state.preset];
+    if (noLayout()) {
+      document.getElementById('mcKpis').innerHTML =
+        '<div class="mc-kpi bad" style="grid-column:1/-1"><i>মাপা যায়নি</i><b style="font-size:15px">সব উচ্চতা ০ — এই পরিবেশে লেআউট ইঞ্জিন নেই</b>' +
+        '<div class="mc-mut" style="font-size:12.6px;margin-top:6px;line-height:1.75">পেজটি আসল ব্রাউজারে খুলুন (ফোনে বা ডেস্কটপে DevTools → Device Toolbar)। ' +
+        'স্ট্যাটিক চুক্তি-যাচাই এরই মধ্যে <code>prototype/tests/tmc.mjs</code> করে (MC-01…MC-18)।</div></div>';
+      document.getElementById('mcRows').innerHTML =
+        '<tr><td colspan="12" class="mc-mut" style="padding:18px">লেআউটবিহীন পরিবেশে রায় দেখানো হবে না।</td></tr>';
+      return;
+    }
+    /* KPI */
+    var bad = state.results.filter(function (r) { return r.verdict === '✗'; }).length;
+    var warn = state.results.filter(function (r) { return r.verdict === '⚠️'; }).length;
+    var clean = state.results.length - bad - warn;
+    var worstChrome = state.results.reduce(function (a, r) { return Math.max(a, r.chromePct || 0); }, 0);
+    var minTap = state.results.reduce(function (a, r) { return r.minTap ? Math.min(a, r.minTap) : a; }, 999);
+    var tallest = state.results.reduce(function (a, r) { return r.contentH > (a ? a.contentH : 0) ? r : a; }, null);
+    document.getElementById('mcKpis').innerHTML =
+      '<div class="mc-kpi good"><i>পরিষ্কার পর্দা</i><b>' + clean + '/' + state.results.length + '</b></div>' +
+      '<div class="mc-kpi bad"><i>চুক্তি লঙ্ঘন</i><b>' + bad + '</b></div>' +
+      '<div class="mc-kpi warn"><i>সতর্কতা</i><b>' + warn + '</b></div>' +
+      '<div class="mc-kpi' + (worstChrome > 32 ? ' warn' : ' good') + '"><i>সর্বোচ্চ স্থির ক্রোম</i><b>' + worstChrome + '%</b></div>' +
+      '<div class="mc-kpi' + (minTap < 44 ? ' bad' : ' good') + '"><i>সবচেয়ে ছোট ট্যাপ টার্গেট</i><b>' + (minTap === 999 ? '—' : minTap + 'px') + '</b></div>' +
+      '<div class="mc-kpi"><i>দীর্ঘতম কনটেন্ট</i><b>' + (tallest ? tallest.contentH + 'px' : '—') + '</b></div>';
+
+    /* সারি */
+    var rows = state.results.filter(function (r) {
+      if (state.filter === 'issue') return r.verdict !== '✅';
+      if (state.filter === 'ok') return r.verdict === '✅';
+      return true;
+    });
+    document.getElementById('mcRows').innerHTML = rows.map(function (r) {
+      var issues = r.bad.concat(r.warn);
+      return '<tr>' +
+        '<td class="mc-code">' + r.code + '</td>' +
+        '<td>' + r.name + '</td>' +
+        '<td class="mc-mut">' + r.nav + '</td>' +
+        '<td class="num">' + r.contentH + 'px</td>' +
+        '<td class="num">' + r.foldPct + '%</td>' +
+        '<td class="num' + (r.chromePct > 32 ? ' mc-code' : '') + '">' + r.chromePct + '%</td>' +
+        '<td class="num">' + r.small.length + '</td>' +
+        '<td class="num mc-mut">' + (r.minTap || '—') + 'px</td>' +
+        '<td class="num">' + r.prim + '</td>' +
+        '<td>' + (r.overflow.length ? '<span class="mc-pill bad">' + r.overflow.length + 'টি উপাদান</span>' : (r.frameOverflow ? '<span class="mc-pill warn">ফ্রেম</span>' : '<span class="mc-mut">নেই</span>')) + '</td>' +
+        '<td>' + pill(r.verdict) + '</td>' +
+        '<td>' + (issues.length ? '<button class="mc-btn ghost" style="min-height:32px;padding:0 9px;font-size:12px" onclick="mcShow(\'' + r.id + '\')">বিস্তারিত</button>' : '') + '</td>' +
+        '</tr>';
+    }).join('') || '<tr><td colspan="12" class="mc-mut" style="padding:18px">এই ফিল্টারে কোনো পর্দা নেই।</td></tr>';
+  }
+
+  /* বিস্তারিত + ভিজ্যুয়াল প্রিভিউ */
+  window.mcShow = function (id) {
+    var r = state.results.filter(function (x) { return x.id === id; })[0];
+    if (!r) return;
+    var p = PRESETS[state.preset];
+    var stage = document.getElementById('mcStage');
+    stage.innerHTML = '';
+    var fr = document.createElement('div');
+    fr.className = 'phone';
+    fr.style.cssText = 'width:' + p.w + 'px;height:' + p.h + 'px;border:0;box-shadow:none;max-width:none;';
+    fr.innerHTML = renderScreen(id) || '';
+    var list = function (title, arr) {
+      if (!arr || !arr.length) return '';
+      return '<b>' + title + ' (' + arr.length + ')</b><ul>' + arr.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
+    };
+    document.getElementById('mcDetail').innerHTML =
+      '<div class="mc-det"><h3>' + r.code + ' · ' + r.name + ' — ' + p.k + ' (' + p.note + ')</h3>' +
+      '<div class="mc-grid2"><div>' +
+      '<div class="mc-mut" style="font-size:12.8px;line-height:1.9">' +
+      'কনটেন্ট ' + r.contentH + 'px · দৃশ্যমান ' + r.visibleH + 'px · প্রথম ফোল্ডে ' + r.foldPct + '%<br>' +
+      'স্থির ক্রোম: স্ট্যাটাসবার ' + r.chrome.status + ' + হেডার ' + r.chrome.head + ' + সিদ্ধান্ত-বার ' + r.chrome.dec + ' + nav ' + r.chrome.nav +
+      ' = ' + r.chromeSum + 'px (' + r.chromePct + '% ভিউপোর্ট)<br>' +
+      'ট্যাপ টার্গেট: সবচেয়ে ছোট ' + (r.minTap || '—') + 'px' + (r.minTapLabel ? ' ("' + r.minTapLabel + '")' : '') + ' · প্রাইমারি ' + r.prim +
+      ' · টেবিল কলাম ' + (r.tables.length ? r.tables.join('/') : 'নেই') + ' · পাঠ্য ' + r.textLen + ' অক্ষর</div>' +
+      (r.bad.length ? '<div style="margin-top:8px">' + list('চুক্তি লঙ্ঘন', r.bad) + '</div>' : '') +
+      (r.warn.length ? '<div style="margin-top:8px">' + list('সতর্কতা', r.warn) + '</div>' : '') +
+      list('আড়াআড়ি স্ক্রলকারী উপাদান', r.overflow) +
+      list('৪৪px-এর ছোট ট্যাপ টার্গেট', r.small) +
+      list('৩২px-এর ছোট ইনলাইন লিঙ্ক', r.inlineSmall) +
+      '</div><div class="mc-view">' + fr.outerHTML.replace('class="phone"', 'class="phone" data-live="1"') + '</div></div></div>';
+    var live = document.querySelector('#mcDetail [data-live="1"]');
+    if (live) { live.innerHTML = renderScreen(id) || ''; }
+    document.getElementById('mcDetail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  window.mcFilter = function (f) {
+    state.filter = f;
+    document.querySelectorAll('[data-f]').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-f') === f); });
+    render();
+  };
+
+  window.mcPreset = function (i) {
+    state.preset = i;
+    document.querySelectorAll('[data-p]').forEach(function (b) { b.classList.toggle('on', +b.getAttribute('data-p') === i); });
+    run();
+  };
+
+  window.mcDownload = function () {
+    var blob = new Blob([JSON.stringify({
+      generated: new Date().toISOString(), page: 'prototype/mobile-check.html',
+      preset: PRESETS[state.preset], screens: state.results
+    }, null, 1)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'mobile-check-' + PRESETS[state.preset].k.replace('×', 'x') + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+  };
+
+  window.mcCopy = function () {
+    var p = PRESETS[state.preset];
+    var lines = ['মোবাইল ভিউপোর্ট অডিট · ' + p.k + ' (' + p.note + ') · ' + new Date().toISOString().slice(0, 10), ''];
+    state.results.forEach(function (r) {
+      lines.push(r.code + ' ' + r.verdict + ' কনটেন্ট=' + r.contentH + 'px ফোল্ড=' + r.foldPct + '% ক্রোম=' + r.chromePct +
+        '% ছোটটার্গেট=' + r.small.length + ' মিন=' + (r.minTap || '—') + 'px প্রাইমারি=' + r.prim +
+        (r.bad.length ? ' | লঙ্ঘন: ' + r.bad.join(' · ') : '') + (r.warn.length ? ' | সতর্ক: ' + r.warn.join(' · ') : ''));
+    });
+    var txt = lines.join('\n');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(function () { mcToast('সারসংক্ষেপ কপি হয়েছে'); }, function () { mcFallback(txt); });
+    } else mcFallback(txt);
+  };
+  function mcFallback(txt) {
+    var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); mcToast('সারসংক্ষেপ কপি হয়েছে'); } catch (e) { mcToast('কপি করা যায়নি — JSON ডাউনলোড ব্যবহার করুন'); }
+    ta.remove();
+  }
+  function mcToast(msg) {
+    var t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#12A273;color:#04231C;' +
+      'padding:11px 18px;border-radius:99px;font:600 13.5px "Hind Siliguri",sans-serif;z-index:99;box-shadow:0 12px 30px rgba(0,0,0,.4)';
+    document.body.appendChild(t);
+    setTimeout(function () { t.remove(); }, 2600);
+  }
+
+  /* প্রিসেট বাটন */
+  document.getElementById('mcPresets').innerHTML = PRESETS.map(function (p, i) {
+    return '<button class="mc-btn' + (i === 0 ? ' on' : '') + '" data-p="' + i + '" title="' + p.note + '" onclick="mcPreset(' + i + ')">' + p.k + '</button>';
+  }).join('');
+  document.querySelectorAll('[data-f="all"]').forEach(function (b) { b.classList.add('on'); });
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(run, 60); });
+  else setTimeout(run, 60);
+})();
+</script>
+</body>
+</html>

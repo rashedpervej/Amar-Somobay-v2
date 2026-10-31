@@ -1,0 +1,7 @@
+# Phase D1 imports — must never enter the legacy production build.
+app/
+prototype/
+specs/
+reports/
+patches/
+docs/

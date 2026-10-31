@@ -1,0 +1,35 @@
+{
+  "name": "somobay-app",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Somobay — Phase 1 foundation: new design system (ported from prototype), D-01 zero-interest policy layer, D-02 tenant-isolation guard.",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5173",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "typecheck": "tsc --noEmit",
+    "test": "node tests/run-all.mjs",
+    "test:d01": "node tests/d01-no-interest.mjs",
+    "test:d02": "node tests/d02-tenant-isolation.mjs",
+    "test:d03": "node tests/d03-design-tokens.mjs",
+    "test:d04": "node tests/d04-source-a-scan.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.4",
+    "lucide-react": "^0.546.0",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "react-router-dom": "^7.15.0",
+    "zustand": "^5.0.13"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "tailwindcss": "^4.1.14",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.3"
+  }
+}

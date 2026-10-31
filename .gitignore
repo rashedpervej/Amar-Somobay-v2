@@ -5,3 +5,14 @@ dist-ssr
 .env
 .DS_Store
 Thumbs.db
+
+# --- D1 import (docs/ app/ patches/) ---
+app/node_modules
+app/dist
+app/.env
+app/.env.local
+app/.env.*
+!app/.env.example
+prototype/tests/tmp/
+*.orig
+*.rej

@@ -1,0 +1,115 @@
+/* ============================================================
+   Somobay — design-system component layer
+   prototype/assets/ui.css-এর .card / .btn / .chip / .kpi / .tbl / .inp
+   ব্লকের মান হুবহু এখানে কপি করা হয়েছে। উদ্দেশ্য: ২০৫টি স্ক্রিনে
+   একই কর্নার-রেডিয়াস, প্যাডিং, ফন্ট-স্কেল ও ছায়া — প্রোটোটাইপের সঙ্গে
+   pixel parity। এখানে কোনো নতুন রঙ বা মান উদ্ভাবন করা হয়নি।
+   ============================================================ */
+
+@layer components {
+  /* ---------- কার্ড (ui.css .card) ---------- */
+  .s-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sh-1);
+  }
+  .s-card-h {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 16px; border-bottom: 1px solid var(--line-2);
+  }
+  .s-card-h h3 { font-size: 15.5px; font-weight: 700; color: var(--txt); }
+  .s-card-h .sub { font-size: 12.5px; color: var(--mut); }
+  .s-card-b { padding: 16px; }
+  .s-card-f {
+    padding: 12px 16px; border-top: 1px solid var(--line-2);
+    background: var(--card-2); border-radius: 0 0 var(--r-lg) var(--r-lg);
+  }
+
+  /* ---------- বোতাম (ui.css .btn) ---------- */
+  .s-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: var(--tap); padding: 0 20px; border-radius: 15px;
+    border: 1px solid transparent; font-size: 15.5px; font-weight: 600;
+    cursor: pointer; transition: .15s; white-space: nowrap;
+  }
+  .s-btn:active { transform: scale(.985); }
+  .s-btn:disabled, .s-btn[aria-disabled='true'] {
+    opacity: .45; cursor: not-allowed; pointer-events: none;
+  }
+  .s-btn-primary {
+    background: linear-gradient(145deg, var(--green-600), var(--green-700));
+    color: #fff; box-shadow: 0 8px 20px -12px rgba(11,107,83,.95);
+  }
+  .s-btn-primary:hover {
+    background: linear-gradient(145deg, var(--green-500), var(--green-600));
+  }
+  .s-btn-lime {
+    background: linear-gradient(145deg, var(--lime), #A8E85C);
+    color: #06281F; box-shadow: 0 8px 20px -12px rgba(168,232,92,.95);
+  }
+  .s-btn-ghost { background: var(--card); border-color: var(--line-3); color: var(--txt-2); }
+  .s-btn-ghost:hover { border-color: var(--green-500); color: var(--green-700); }
+  .s-btn-soft { background: var(--green-100); color: var(--green-800); }
+  .s-btn-danger { background: var(--danger-bg); color: var(--danger-ink); border-color: var(--danger-bd); }
+  .s-btn-danger-solid { background: var(--danger); color: #fff; }
+  .s-btn-sm { min-height: 44px; padding: 0 16px; font-size: 13.6px; border-radius: 12px; }
+  .s-btn-lg { min-height: var(--tap-lg); font-size: 17px; border-radius: 17px; }
+
+  /* ---------- চিপ / স্ট্যাটাস (ui.css .chip) ---------- */
+  .s-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 11px; border-radius: var(--r-pill);
+    font-size: 12.5px; font-weight: 600; border: 1px solid;
+    line-height: 1.4; white-space: nowrap;
+  }
+  .s-chip-ok { background: var(--ok-bg); color: var(--ok-ink); border-color: var(--ok-bd); }
+  .s-chip-warn { background: var(--warn-bg); color: var(--warn-ink); border-color: var(--warn-bd); }
+  .s-chip-danger { background: var(--danger-bg); color: var(--danger-ink); border-color: var(--danger-bd); }
+  .s-chip-info { background: var(--info-bg); color: var(--info-ink); border-color: var(--info-bd); }
+  .s-chip-neutral { background: var(--neutral-bg); color: var(--neutral-ink); border-color: var(--neutral-bd); }
+  .s-chip-purple { background: var(--purple-bg); color: var(--purple-ink); border-color: var(--purple-bd); }
+  .s-chip-brand { background: var(--green-100); color: var(--green-800); border-color: var(--green-100); }
+  .s-chip-on { background: var(--green-700); border-color: var(--green-700); color: #fff; }
+
+  /* ---------- ইনপুট (ui.css .inp) ---------- */
+  .s-inp {
+    width: 100%; min-height: var(--tap); padding: 12px 14px;
+    border: 1.5px solid var(--line-3); border-radius: 14px;
+    background: var(--card); font-size: 16px; outline: none; transition: .15s;
+  }
+  .s-inp:focus { border-color: var(--green-500); box-shadow: 0 0 0 4px rgba(18,162,115,.13); }
+  .s-inp:disabled { background: var(--neutral-bg); color: var(--mut); cursor: not-allowed; }
+
+  /* ---------- ফিল্ড (ui.css .field) ---------- */
+  .s-field { margin-bottom: 15px; }
+  .s-field > label {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 13.5px; font-weight: 600; color: var(--txt-2); margin-bottom: 7px;
+  }
+
+  /* ---------- KPI (ui.css .kpi) ---------- */
+  .s-kpi {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--r-lg); padding: 15px 16px;
+    box-shadow: var(--sh-1); position: relative; overflow: hidden;
+  }
+  .s-kpi-l { display: flex; align-items: center; gap: 8px; font-size: 12.8px; color: var(--mut); font-weight: 500; }
+  .s-kpi-v { font-size: 27px; font-weight: 700; margin-top: 9px; font-variant-numeric: tabular-nums; line-height: 1.2; }
+  .s-kpi-a { font-size: 12.5px; color: var(--mut); margin-top: 5px; }
+
+  /* ---------- টেবিল (ui.css .tbl) ---------- */
+  .s-tbl-wrap {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--sh-1);
+  }
+  .s-tbl { width: 100%; border-collapse: collapse; font-size: 13.8px; }
+  .s-tbl th {
+    text-align: left; font-size: 11.5px; letter-spacing: .5px; text-transform: uppercase;
+    color: var(--mut); font-weight: 700; padding: 11px 14px;
+    border-bottom: 1px solid var(--line); background: var(--card-2); white-space: nowrap;
+  }
+  .s-tbl td { padding: 12px 14px; border-bottom: 1px solid var(--line-2); vertical-align: middle; }
+  .s-tbl tbody tr:last-child td { border-bottom: 0; }
+  .s-tbl tbody tr:hover { background: var(--green-050); }
+}

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Somobay · Live Prototype Workspace — Role ও Platform ভিত্তিক ইন্টারঅ্যাকটিভ অ্যাপ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ui.css">
+<style>
+/* ===== ওয়ার্কস্পেস-লোকাল স্টাইল (বিদ্যমান ডিজাইন টোকেন ব্যবহার করে) ===== */
+.ws-wrap{max-width:1720px;margin:0 auto;padding:0 22px 80px}
+.ws-top{position:sticky;top:0;z-index:60;background:rgba(4,26,20,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.1)}
+.ws-top .in{max-width:1720px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.ws-logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(140deg,var(--lime),#5FD39A);
+  color:#06301F;display:grid;place-items:center;font-weight:700;font-size:18px}
+.ws-title{color:#fff;font-size:15.5px;font-weight:600;line-height:1.35}
+.ws-title small{display:block;font-size:11.6px;color:#8FB9A8;font-weight:400;margin-top:2px}
+.ws-links{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.ws-links a{font-size:12.4px;color:#B9D4C9;text-decoration:none;padding:7px 12px;border-radius:99px;
+  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05)}
+.ws-links a:hover,.ws-links a.on{color:#06301F;background:var(--lime);border-color:var(--lime);font-weight:600}
+
+.ws-hero{padding:34px 0 8px}
+.ws-hero .kicker{font-size:11.4px;letter-spacing:1.4px;color:var(--lime);font-weight:600;text-transform:uppercase}
+.ws-hero h1{color:#fff;font-size:29px;line-height:1.34;margin:9px 0 10px;letter-spacing:-.4px}
+.ws-hero p{color:#A9C8BB;font-size:14px;line-height:1.8;max-width:1020px}
+.ws-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:1px;background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;margin:22px 0 6px}
+.ws-stat{background:#07271D;padding:14px 16px}
+.ws-stat b{display:block;color:#fff;font-size:23px;font-weight:700;letter-spacing:-.5px}
+.ws-stat i{font-style:normal;font-size:11.4px;color:#8FB9A8;display:block;margin-top:3px;line-height:1.5}
+
+.ws-sec{margin-top:40px;border:1px solid rgba(255,255,255,.11);border-radius:24px;overflow:hidden;
+  background:rgba(255,255,255,.028)}
+.ws-sec-h{padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.09);display:flex;gap:16px;align-items:flex-start;
+  background:linear-gradient(120deg,rgba(201,242,110,.09),rgba(255,255,255,.02))}
+.ws-sec-h .num{font-size:11px;letter-spacing:1.3px;font-weight:700;color:#06301F;background:var(--lime);
+  padding:6px 11px;border-radius:99px;white-space:nowrap}
+.ws-sec-h h2{color:#fff;font-size:20px;line-height:1.4;margin-bottom:6px}
+.ws-sec-h p{color:#A0C0B2;font-size:13.2px;line-height:1.75;max-width:1180px}
+.ws-sec-h .badge{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.ws-badge{font-size:11.4px;padding:5px 10px;border-radius:99px;border:1px solid rgba(201,242,110,.34);
+  color:#D8ECC2;background:rgba(201,242,110,.1);white-space:nowrap}
+.ws-badge.v{border-color:rgba(126,110,220,.42);color:#D6CDFB;background:rgba(126,110,220,.16)}
+.ws-badge.w{border-color:rgba(120,190,255,.34);color:#BBD8F2;background:rgba(60,140,220,.14)}
+
+.ws-layout{display:grid;grid-template-columns:352px 1fr;gap:0}
+@media(max-width:1180px){.ws-layout{grid-template-columns:1fr}}
+.ws-side{border-right:1px solid rgba(255,255,255,.09);padding:18px;max-height:1180px;overflow:auto;
+  background:rgba(0,0,0,.14);scrollbar-width:thin}
+.ws-side::-webkit-scrollbar{width:7px}
+.ws-side::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:9px}
+.ws-roles{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+.ws-role{text-align:left;display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:14px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.045);color:#CFE4DA;font-family:inherit}
+.ws-role b{font-size:13.4px;color:#EAF6F0;font-weight:600}
+.ws-role i{font-style:normal;font-size:10.6px;color:#8FB9A8;margin-left:auto;white-space:nowrap}
+.ws-role u{text-decoration:none;font-size:9.8px;color:#FFD37A;border:1px solid rgba(255,176,32,.34);
+  padding:2px 6px;border-radius:99px;background:rgba(255,176,32,.12)}
+.ws-role:hover{border-color:rgba(201,242,110,.4);background:rgba(201,242,110,.1)}
+.ws-role.on{border-color:var(--lime);background:rgba(201,242,110,.16);box-shadow:inset 0 0 0 1px rgba(201,242,110,.24)}
+.ws-role.on b{color:#fff}
+.ws-lbl{font-size:10.8px;letter-spacing:.9px;text-transform:uppercase;color:#8FB9A8;margin:16px 0 8px;font-weight:600}
+.ws-g{font-size:11.2px;color:#C9BEFA;margin:11px 0 5px;font-weight:600;letter-spacing:.3px}
+.ws-navlist{display:flex;flex-direction:column;gap:5px}
+.ws-nav{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:8px 11px;border-radius:11px;
+  border:1px solid transparent;background:rgba(255,255,255,.035);color:#C4DCD1;font-size:12.7px;cursor:pointer;font-family:inherit}
+.ws-nav code{margin-left:auto;font-size:10.2px;color:#7FA795;font-family:ui-monospace,Menlo,monospace}
+.ws-nav:hover{background:rgba(201,242,110,.1);color:#fff}
+.ws-nav.on{background:rgba(201,242,110,.18);border-color:rgba(201,242,110,.42);color:#fff;font-weight:600}
+.ws-nav.on code{color:#D8ECC2}
+.ws-nav.dis{opacity:.45;cursor:not-allowed}
+
+.ws-main{padding:18px 22px 26px;min-width:0}
+.ws-crumb{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:16px}
+.ws-btn{font-family:inherit;font-size:12.4px;padding:7px 13px;border-radius:99px;cursor:pointer;color:#DCEDE6;
+  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.ws-btn:hover:not([disabled]){background:rgba(201,242,110,.16);border-color:rgba(201,242,110,.42);color:#fff}
+.ws-btn[disabled]{opacity:.4;cursor:not-allowed}
+.ws-btn.sm{font-size:11.8px;padding:6px 11px}
+.ws-btn.ghost{background:transparent}
+.ws-trail{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:12px;color:#8FB9A8}
+.ws-trail b{cursor:pointer;padding:4px 9px;border-radius:8px;background:rgba(255,255,255,.06);color:#C4DCD1;font-weight:500}
+.ws-trail b.on{background:var(--lime);color:#06301F;font-weight:700}
+.ws-trail i{font-style:normal;opacity:.5}
+
+.ws-stage{display:flex;justify-content:center;padding:8px 0 4px}
+.ws-stage.mob .phone{box-shadow:0 34px 80px rgba(0,0,0,.55)}
+.ws-phone{margin:0 auto}
+.ws-stage.web{align-items:flex-start;padding-top:2px}
+.ws-stage.web .ws-webframe{max-width:100%}
+.ws-stage.web .ws-mobnote+.ws-stage{width:100%}
+.ws-webframe{width:100%}
+.ws-webframe .browser{width:100%}
+.ws-webframe .browser-body{height:min(78vh,860px)}
+
+.ws-info{margin-top:18px;padding:15px 17px;border-radius:16px;border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.035)}
+.ws-irow{font-size:12.9px;color:#A9C8BB;line-height:1.75;margin-bottom:5px}
+.ws-irow b{color:#fff;font-size:13.6px}
+.ws-irow span{color:#DCEDE6}
+.ws-irow.mut{color:#8FB9A8;font-size:12.3px}
+.ws-irow.mut b{color:#C9E3D6;font-size:12.3px}
+.ws-jumpbar{margin-top:9px}
+.ws-jumpbar:empty{display:none}
+
+.ws-toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,26px);opacity:0;pointer-events:none;
+  transition:.24s;z-index:200;max-width:min(680px,92vw);background:#0E2A20;border:1px solid rgba(201,242,110,.4);
+  color:#E6F5EC;font-size:13px;line-height:1.65;padding:13px 17px;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.ws-toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+
+.ws-sa{padding:20px 22px}
+.ws-sa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:11px;margin-top:14px}
+.ws-sa-card{border:1px dashed rgba(255,255,255,.2);border-radius:15px;padding:13px 15px;background:rgba(255,255,255,.028)}
+.ws-sa-card b{display:block;color:#DCEDE6;font-size:13.2px;margin-bottom:4px}
+.ws-sa-card code{font-size:10.6px;color:#C9BEFA;font-family:ui-monospace,Menlo,monospace}
+.ws-sa-card i{font-style:normal;display:block;color:#8FB9A8;font-size:11.8px;line-height:1.6;margin-top:5px}
+.ws-lock{display:inline-flex;align-items:center;gap:6px;font-size:11.6px;color:#FFD37A;background:rgba(255,176,32,.12);
+  border:1px solid rgba(255,176,32,.32);padding:5px 11px;border-radius:99px}
+.ws-note{margin-top:14px;padding:13px 16px;border-radius:14px;border:1px solid rgba(120,190,255,.28);
+  background:rgba(60,140,220,.1);color:#CFE4F5;font-size:12.8px;line-height:1.75}
+.ws-mobnote{margin:2px 0 0;padding:12px 16px;border-radius:14px;border:1px solid rgba(201,242,110,.3);
+  background:rgba(201,242,110,.09);color:#DDECC9;font-size:12.6px;line-height:1.7}
+</style>
+</head>
+<body class="proto-body">
+
+<div class="ws-top"><div class="in">
+  <div class="ws-logo">স</div>
+  <div class="ws-title">Somobay · Live Prototype Workspace
+    <small>প্রতিটি ভূমিকা ও প্ল্যাটফর্মের অ্যাপ বাস্তব অ্যাপের মতো চালান — নেভিগেশন, ড্রয়ার, ফর্ম ও বাটন কার্যকর</small></div>
+  <div class="ws-links">
+    <a href="../index.html">হোম</a>
+    <a href="preview.html">প্রিভিউ ড্যাশবোর্ড</a>
+    <a href="screens.html">স্ক্রিন গ্যালারি (১৯৯)</a>
+    <a href="flows.html">User Flow (৮)</a>
+    <a href="system.html">ডিজাইন সিস্টেম</a>
+    <a href="../specs/03-multi-module-platform-architecture.md">আর্কিটেকচার রিপোর্ট</a>
+  </div>
+</div></div>
+
+<div class="ws-wrap">
+  <div class="ws-hero">
+    <span class="kicker">Interactive Prototype · ১৯৯ স্ক্রিন · ১২৫ লজিক্যাল পেজ</span>
+    <h1>মোবাইল অ্যাপ ও ডেস্কটপ ওয়েব — <span style="color:var(--lime)">দুটি সম্পূর্ণ আলাদা ওয়ার্কস্পেস</span></h1>
+    <p>কোনো ভিউ-টগল নেই: নিচে <b style="color:#fff">১ · মোবাইল অ্যাপ ওয়ার্কস্পেস</b> (ফোন ফ্রেম ৩৯০ × ৮৪৪) এবং
+      <b style="color:#fff">২ · ডেস্কটপ ওয়েব ওয়ার্কস্পেস</b> (ব্রাউজার ফ্রেম) — দুটি আলাদা সেকশন, দুটির নিজস্ব ভূমিকা তালিকা,
+      নিজস্ব ড্যাশবোর্ড, নিজস্ব নেভিগেশন ও নিজস্ব হিস্টরি। একই Backend, একই API, একই নিয়ম (D-35) — শুধু UI আলাদা।
+      স্ক্রিনগুলো <code style="color:var(--lime)">assets/screens.js</code>-এর সেই একই রেন্ডারার থেকে আসে, তাই গ্যালারির সাথে হুবহু মিলবে।</p>
+    <div class="ws-stats" id="wsStats"></div>
+  </div>
+
+  <!-- ==================== ১ · মোবাইল অ্যাপ ওয়ার্কস্পেস ==================== -->
+  <div class="ws-sec" id="sec-mob">
+    <div class="ws-sec-h"><span class="num">১ · MOBILE APP</span>
+      <div><h2>মোবাইল অ্যাপ ওয়ার্কস্পেস — Member App · Collector App · Admin App · Other Roles</h2>
+        <p>বাম পাশে ভূমিকা বেছে নিন: প্রতিটি ভূমিকার <b style="color:#fff">নিজস্ব ল্যান্ডিং ড্যাশবোর্ড</b>, নিজস্ব <b style="color:#fff">৫-স্লট বটম নেভ</b> (রোলভিত্তিক শেল A–E, D-35) ও নিজস্ব অনুমোদন সীমা (D-22)।
+          হ্যামবার্গার (☰) চাপলে ড্রয়ার খুলবে — ড্রয়ারে সর্বদা সম্পূর্ণ ANAV, এবং প্রতিটি ভূমিকার জন্য সব সেকশন পৌঁছানো যায়।
+          ফোনের ভেতরের যেকোনো বাটন, নেভ, ড্রয়ার আইটেম, ফিল্টার ও ফর্ম কার্যকর।</p></div>
+      <div class="badge">
+        <span class="ws-badge">📱 ফোন ফ্রেম ৩৯০ × ৮৪৪</span>
+        <span class="ws-badge v">৯ ভূমিকা (সদস্যসহ)</span>
+        <span class="ws-badge">৬২ মোবাইল স্ক্রিন</span>
+      </div></div>
+    <div class="ws-layout">
+      <aside class="ws-side">
+        <div class="ws-lbl" style="margin-top:0">ভূমিকা বেছে নিন</div>
+        <div class="ws-roles" id="mobRoles"></div>
+        <div id="mobList"></div>
+      </aside>
+      <div class="ws-main">
+        <div class="ws-crumb" id="mobCrumb"></div>
+        <div class="ws-stage mob" id="mobStage"></div>
+        <div id="mobInfo"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== ২ · ডেস্কটপ ওয়েব ওয়ার্কস্পেস ==================== -->
+  <div class="ws-sec" id="sec-web">
+    <div class="ws-sec-h"><span class="num">২ · DESKTOP WEB</span>
+      <div><h2>ডেস্কটপ ওয়েব ওয়ার্কস্পেস — Admin Web প্যানেল</h2>
+        <p>বড় স্ক্রিনের আলাদা Dashboard Layout: বাম সাইডবারে সম্পূর্ণ ANAV (৬ গ্রুপ · ২৫ আইটেম), ডানে কনটেন্ট।
+          ভূমিকা বদলালে <b style="color:#fff">ল্যান্ডিং ড্যাশবোর্ড, সাইডবার ফুটারের পরিচয় ও অনুমোদন সীমা</b> বদলায়;
+          নিরীক্ষক ভূমিকায় শুধু-পঠন চিহ্ন। মোবাইল অ্যাপের সাথে একই ডেটা ও একই নিয়ম — শুধু প্রেজেন্টেশন আলাদা।</p></div>
+      <div class="badge">
+        <span class="ws-badge w">🖥 ব্রাউজার ফ্রেম</span>
+        <span class="ws-badge w">৬ ভূমিকা</span>
+        <span class="ws-badge w">৪০ ডেস্কটপ স্ক্রিন</span>
+      </div></div>
+    <div class="ws-layout">
+      <aside class="ws-side">
+        <div class="ws-lbl" style="margin-top:0">ভূমিকা বেছে নিন</div>
+        <div class="ws-roles" id="webRoles"></div>
+        <div id="webList"></div>
+      </aside>
+      <div class="ws-main">
+        <div class="ws-crumb" id="webCrumb"></div>
+        <div class="ws-stage web" id="webStage"></div>
+        <div id="webInfo"></div>
+      </div>
+    </div>
+
+    <div class="ws-sa">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <h2 style="color:#fff;font-size:17.5px">Super Admin Web (প্ল্যাটফর্ম মালিক)</h2>
+        <span class="ws-lock">🔒 ডিজাইন স্থগিত — আপনার নির্দেশ অনুযায়ী</span>
+      </div>
+      <p style="color:#A0C0B2;font-size:13px;line-height:1.8;margin-top:8px;max-width:1060px">
+        Somobay একটি multi-tenant SaaS প্ল্যাটফর্ম: <b style="color:#fff">Platform/Super Admin</b> সমিতির আবেদন অনুমোদন ও SaaS প্ল্যান বরাদ্দ করেন।
+        আপনি জানিয়েছেন এই প্যানেলটি <b style="color:#fff">এখন ডিজাইন করা হবে না</b> — তাই এখানে কোনো স্ক্রিন তৈরি করা হয়নি (অনুমাননির্ভর কিছু দেখানো হচ্ছে না)।
+        নিচের ১২টি পেজ <code style="color:var(--lime)">specs/03-multi-module-platform-architecture.md</code> §৮.৬-এ পরিকল্পিত আছে এবং সিদ্ধান্ত D-36…D-45, D-66 চূড়ান্ত হলে ডিজাইন হবে।</p>
+      <div class="ws-sa-grid" id="saGrid"></div>
+      <div class="ws-note">📌 এই ওয়ার্কস্পেসের কোনো ভূমিকাতেই প্ল্যাটফর্ম-স্তরের ক্ষমতা নেই — Super Admin টেনান্টের আর্থিক ডেটা পরিবর্তন করতে পারবেন না (প্রস্তাবিত BR-27), break-glass প্রবেশও শুধু-পঠন ও ডুয়াল-কন্ট্রোল (D-66)।</div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/app.js" type="text/javascript"></script>
+<script src="assets/screens.js" type="text/javascript"></script>
+<script src="assets/workspace.js" type="text/javascript"></script>
+<script type="text/javascript">
+function wsBoot() {
+  wsBuild();
+  /* পরিসংখ্যান */
+  const cats = wsCategories();
+  const mob = META.filter(m => m.id[0] === 'm' || m.pres === 'app' || m.variant === 'mobile').length;
+  const web = META.length - mob;
+  document.getElementById('wsStats').innerHTML = [
+    [META.length, 'স্ক্রিন (রেন্ডার হয়েছে)'],
+    [mob, 'মোবাইল অ্যাপ স্ক্রিন'],
+    [web, 'ডেস্কটপ ওয়েব স্ক্রিন'],
+    [WS_ROLES.filter(r => r.platform === 'mob').length, 'মোবাইল ভূমিকা'],
+    [WS_ROLES.filter(r => r.platform === 'web').length, 'ওয়েব ভূমিকা'],
+    [ANAV.reduce((a, g) => a + g.items.length, 0), 'ANAV আইটেম (৬ গ্রুপ)'],
+    ['৫', 'বটম নেভ স্লট (চুক্তি)'],
+    ['০', 'সুদ-সম্পর্কিত ফিচার']
+  ].map(s => `<div class="ws-stat"><b>${typeof s[0] === 'number' ? bn(s[0]) : s[0]}</b><i>${s[1]}</i></div>`).join('');
+
+  /* Super Admin পরিকল্পিত পেজ (ডিজাইন স্থগিত) */
+  document.getElementById('saGrid').innerHTML = WS_SUPERADMIN_PLANNED.map(p =>
+    `<div class="ws-sa-card"><b>${p[1]}</b><code>${p[0]}</code><i>${p[2]}</i></div>`).join('');
+
+  /* ডিপ লিংক */
+  const h = wsReadHash();
+  const mobRole = (h.mob && wsRole(h.mob.role) && wsRole(h.mob.role).platform === 'mob') ? h.mob.role : 'MEMBER';
+  const webRole = (h.web && wsRole(h.web.role) && wsRole(h.web.role).platform === 'web') ? h.web.role : 'W_MANAGER';
+
+  wsCreateStage('mob', {
+    root: document.getElementById('sec-mob'), stage: document.getElementById('mobStage'),
+    roles: document.getElementById('mobRoles'), list: document.getElementById('mobList'),
+    crumb: document.getElementById('mobCrumb'), info: document.getElementById('mobInfo'), role: mobRole
+  });
+  wsCreateStage('web', {
+    root: document.getElementById('sec-web'), stage: document.getElementById('webStage'),
+    roles: document.getElementById('webRoles'), list: document.getElementById('webList'),
+    crumb: document.getElementById('webCrumb'), info: document.getElementById('webInfo'), role: webRole
+  });
+  if (h.mob && h.mob.id && wsMeta(h.mob.id)) { WS.stages.mob.stack = [h.mob.id]; WS.stages.mob.idx = 0; wsRenderStage('mob'); }
+  if (h.web && h.web.id && wsMeta(h.web.id)) { WS.stages.web.stack = [h.web.id]; WS.stages.web.idx = 0; wsRenderStage('web'); }
+  wsSyncHash();
+}
+document.addEventListener('DOMContentLoaded', wsBoot);
+window.addEventListener('hashchange', function () {
+  const h = wsReadHash();
+  if (h.mob && h.mob.role && wsRole(h.mob.role) && WS.stages.mob && WS.stages.mob.role !== h.mob.role) wsSetRole('mob', h.mob.role);
+  if (h.web && h.web.role && wsRole(h.web.role) && WS.stages.web && WS.stages.web.role !== h.web.role) wsSetRole('web', h.web.role);
+});
+</script>
+</body>
+</html>
