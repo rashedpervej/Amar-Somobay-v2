@@ -53,6 +53,23 @@ import QhWebArrears from './web/QhWebArrears';
 import QhWebClose from './web/QhWebClose';
 import QhWebWriteOff from './web/QhWebWriteOff';
 import QhWebReports from './web/QhWebReports';
+import GsDashboard from './web/GsDashboard';
+import GsSchemes from './web/GsSchemes';
+import GsSchemeNew from './web/GsSchemeNew';
+import GsSchemeDetail from './web/GsSchemeDetail';
+import GsMembers from './web/GsMembers';
+import GsMemberNew from './web/GsMemberNew';
+import GsMemberDetail from './web/GsMemberDetail';
+import GsMemberExit from './web/GsMemberExit';
+import GsAccount from './web/GsAccount';
+import GsApplication from './web/GsApplication';
+import GsDeposits from './web/GsDeposits';
+import GsDepositNew from './web/GsDepositNew';
+import GsApprovals from './web/GsApprovals';
+import GsApprovalDetail from './web/GsApprovalDetail';
+import GsPayouts from './web/GsPayouts';
+import GsLedger from './web/GsLedger';
+import GsDues from './web/GsDues';
 
 function Dashboard() {
   const nav = useNavigate();
@@ -130,6 +147,12 @@ function WebSoon() {
 }
 
 const ROUTE_MAP: Record<string, string> = {
+  scheme: '/w/schemes', member: '/w/members', deposit: '/w/deposits', depappr: '/w/approvals/deposits',
+  wdappr: '/w/approvals/withdrawals', ledger: '/w/ledger', dues: '/w/dues', batch: '/w/bulk',
+  route: '/w/collector', plan: '/w/routes', cash: '/w/cashbook', transfer: '/w/transfer', recon: '/w/recon',
+  txn: '/w/txn', corr: '/w/reversal', status: '/w/status', claim: '/w/claims', mv: '/w/moves',
+  remind: '/w/reminders', reports: '/w/reports', fin: '/w/finance', staff: '/w/staff', settings: '/w/settings',
+  audit: '/w/audit',
   rcdash: '/w/rc', rcscheme: '/w/rc/schemes', rccircle: '/w/rc/circles', rcdraw: '/w/rc/draws',
   rccollect: '/w/rc/collect', rcdefault: '/w/rc/defaults', rcreport: '/w/rc/reports',
   jgdash: '/w/jg', jggoal: '/w/jg/goals', jgjoin: '/w/jg/join', jgcollect: '/w/jg/collect',
@@ -181,6 +204,27 @@ const TITLES: [RegExp, string, string][] = [
   [/^\/w\/qh\/writeoff/, 'write-off ব্যবস্থাপনা', 'কর্জে হাসানা › write-off'],
   [/^\/w\/qh\/reports/, 'QH রিপোর্ট', 'কর্জে হাসানা › রিপোর্ট'],
   [/^\/w\/qh$/, 'কর্জে হাসানা ড্যাশবোর্ড', 'কর্জে হাসানা › ড্যাশবোর্ড'],
+  [/^\/w\/schemes\/new/, 'নতুন স্কিম', 'সঞ্চয় › স্কিম › নতুন'],
+  [/^\/w\/schemes\/[^/]+/, 'স্কিম বিস্তারিত', 'সঞ্চয় › স্কিম › বিস্তারিত'],
+  [/^\/w\/schemes/, 'স্কিম তালিকা', 'সঞ্চয় › স্কিম'],
+  [/^\/w\/members\/new/, 'নতুন সদস্য', 'সদস্য › নতুন'],
+  [/^\/w\/members\/[^/]+\/exit/, 'প্রস্থান ও নিষ্পত্তি', 'সদস্য › নিষ্পত্তি'],
+  [/^\/w\/members\/[^/]+\/status/, 'সদস্য অবস্থা', 'সদস্য › অবস্থা'],
+  [/^\/w\/members\/[^/]+/, 'সদস্য ৩৬০°', 'সদস্য › বিস্তারিত'],
+  [/^\/w\/members/, 'সদস্য তালিকা', 'সদস্য'],
+  [/^\/w\/accounts\/[^/]+/, 'অ্যাকাউন্ট বিবরণ', 'হিসাব › খতিয়ান'],
+  [/^\/w\/applications\/[^/]+/, 'সদস্য আবেদন', 'সদস্য › আবেদন'],
+  [/^\/w\/approvals\/deposits/, 'জমা অনুমোদন', 'অনুমোদন › জমা'],
+  [/^\/w\/approvals\/withdrawals/, 'উত্তোলন অনুমোদন', 'অনুমোদন › উত্তোলন'],
+  [/^\/w\/approvals\/members/, 'সদস্য নিবন্ধন আবেদন', 'অনুমোদন › নিবন্ধন'],
+  [/^\/w\/approvals\/corrections/, 'সংশোধন প্রস্তাব', 'অনুমোদন › সংশোধন'],
+  [/^\/w\/approval\/[^/]+/, 'অনুমোদন সিদ্ধান্ত', 'অনুমোদন › সিদ্ধান্ত'],
+  [/^\/w\/deposits\/new/, 'নতুন জমা', 'জমা › নতুন'],
+  [/^\/w\/deposits/, 'জমা রেকর্ড', 'জমা'],
+  [/^\/w\/payouts/, 'নিষ্পত্তি ও পেমেন্ট', 'পেমেন্ট ও ভাউচার'],
+  [/^\/w\/ledger/, 'লেনদেন ও খতিয়ান', 'হিসাব › খতিয়ান'],
+  [/^\/w\/dues/, 'বকেয়া রেজিস্টার', 'নিয়ন্ত্রণ › বকেয়া'],
+  [/^\/w\/dashboard/, 'সাধারণ সঞ্চয় ড্যাশবোর্ড', 'ওভারভিউ › ড্যাশবোর্ড'],
 ];
 
 function activeKey(path: string): string {
@@ -208,6 +252,16 @@ function activeKey(path: string): string {
   if (path.startsWith('/w/qh/loans') || path.startsWith('/w/qh/close')) return 'qhloan';
   if (path.startsWith('/w/qh/arrears') || path.startsWith('/w/qh/writeoff')) return 'qharrears';
   if (path.startsWith('/w/qh/reports')) return 'qhreport';
+  if (path.startsWith('/w/schemes')) return 'scheme';
+  if (path.startsWith('/w/members')) return 'member';
+  if (path.startsWith('/w/accounts') || path.startsWith('/w/applications')) return 'member';
+  if (path.startsWith('/w/deposits')) return 'deposit';
+  if (path.startsWith('/w/approvals/deposits')) return 'depappr';
+  if (path.startsWith('/w/approvals/withdrawals')) return 'wdappr';
+  if (path.startsWith('/w/approval') || path.startsWith('/w/approvals')) return 'depappr';
+  if (path.startsWith('/w/payouts')) return 'wdappr';
+  if (path.startsWith('/w/ledger')) return 'ledger';
+  if (path.startsWith('/w/dues')) return 'dues';
   return path.includes('/w/dashboard') ? 'dash' : path.split('/w/')[1]?.split('/')[0] ?? 'dash';
 }
 
@@ -234,14 +288,32 @@ export default function AdminWebApp() {
           ) : path.startsWith('/w/qh') ? (
             <Button size="sm" variant="secondary" icon={<Plus size={15} />} onClick={() => navigate('/w/qh/queue')}>QH আবেদন কিউ</Button>
           ) : (
-            <Button size="sm" variant="secondary" icon={<Banknote size={15} />}>ক্যাশ বুক</Button>
+            <Button size="sm" variant="secondary" icon={<Banknote size={15} />} onClick={() => navigate('/w/cashbook')}>ক্যাশ বুক</Button>
           )}
-          <Button size="sm" onClick={() => navigate('/w/rc/collect')}>নতুন জমা</Button>
+          <Button size="sm" onClick={() => navigate(path.startsWith('/w/rc') ? '/w/rc/collect' : path.startsWith('/w/qh') ? '/w/qh/disburse' : '/w/deposits/new')}>
+            {path.startsWith('/w/rc') ? 'নতুন কিস্তি' : path.startsWith('/w/qh') ? 'বিতরণ' : 'নতুন জমা'}
+          </Button>
         </>
       }
     >
       <Routes>
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="dashboard" element={<GsDashboard />} />
+        <Route path="schemes" element={<GsSchemes />} />
+        <Route path="schemes/new" element={<GsSchemeNew />} />
+        <Route path="schemes/:schemeId" element={<GsSchemeDetail />} />
+        <Route path="members" element={<GsMembers />} />
+        <Route path="members/new" element={<GsMemberNew />} />
+        <Route path="members/:memberId" element={<GsMemberDetail />} />
+        <Route path="members/:memberId/exit" element={<GsMemberExit />} />
+        <Route path="accounts/:accId" element={<GsAccount />} />
+        <Route path="applications/:appId" element={<GsApplication />} />
+        <Route path="deposits" element={<GsDeposits />} />
+        <Route path="deposits/new" element={<GsDepositNew />} />
+        <Route path="approvals/:kind" element={<GsApprovals />} />
+        <Route path="approval/:id" element={<GsApprovalDetail />} />
+        <Route path="payouts" element={<GsPayouts />} />
+        <Route path="ledger" element={<GsLedger />} />
+        <Route path="dues" element={<GsDues />} />
 
         <Route path="rc" element={<RcDashboard />} />
         <Route path="rc/schemes" element={<RcSchemes />} />

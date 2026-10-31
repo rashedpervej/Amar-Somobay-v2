@@ -114,7 +114,7 @@ S.sec('৩ · অ্যাডমিন মোবাইল ও ওয়েব');
   S.check('অনুমোদনের সিদ্ধান্ত ফ্লো মডেলে (নেভ বন্ধ)', /path\.startsWith\('\/a\/approvals\/'\)[\s\S]{0,120}model: 'flow'/.test(ADMIN_APP));
   S.check('ভূমিকা ?role= থেকে আসে (ডিফল্ট MANAGER)', /resolveAdminShell\(params\.get\('role'\)\)/.test(ADMIN_APP));
   S.check('অজানা নেভ-কী → সৎ "ফেজ ৩" কার্ড', /\/a\/soon\/\$\{slot\.key\}/.test(ADMIN_APP));
-  S.check('ওয়েব ড্যাশবোর্ড রুট', /path="dashboard"\s+element=\{<Dashboard \/>\}/.test(WEB_APP));
+  S.check('ওয়েব ড্যাশবোর্ড রুট', /path="dashboard"\s+element=\{<GsDashboard \/>\}/.test(WEB_APP));
   S.check('ওয়েব সাইডবার সম্পূর্ণ ANAV থেকে', /import \{ ADMIN_WEB_NAV \}/.test(WEB_APP));
   S.check('ওয়েব টেবিল ≤ ৪ কলাম', (WEB_APP.match(/key: '[a-z]+', head:/g) || []).length <= 4);
 }

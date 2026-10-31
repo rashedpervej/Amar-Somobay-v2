@@ -121,7 +121,7 @@ export function AdminJointProvider({ children }: { children: ReactNode }) {
       id: `jd9${n}`, goal: goalId, no: `JD-2610-${String(n).padStart(4, '0')}`, purpose: input.purpose.trim(),
       payee: input.payee.trim(), amount: input.amount, at: TODAY_ISO, status: 'approval', channel: input.channel,
       committee: g.committee, decision: 'কমিটির লিখিত সিদ্ধান্ত (D-50)', by: 'আপনি (MANAGER)', appr: null,
-      evidence: input.evidence.split(/[,،]/).map((x) => x.trim()).filter(Boolean), note: 'maker ≠ checker (BR-04) — অনুমোদনকারী আলাদা হতে হবে',
+      evidence: input.evidence.split(',').map((x) => x.trim()).filter(Boolean), note: 'maker ≠ checker (BR-04) — অনুমোদনকারী আলাদা হতে হবে',
     };
     setState((s) => ({ ...s, disbs: [disb, ...s.disbs], events: [{ id: nextId('je'), at: todayBn(), what: `বিতরণ ভাউচার ${disb.no}`, ref: g.code, tone: 'info' }, ...s.events].slice(0, 40) }));
     return { ok: true, message: `${disb.no} অনুমোদনের জন্য পাঠানো হয়েছে — প্রমাণ ${disb.evidence.length}টি সংযুক্ত` };

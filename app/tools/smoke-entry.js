@@ -41,7 +41,14 @@ const MEMBER_ROUTES = [
 
 
 const WEB_ROUTES = [
-  ['/w/dashboard', 'আজকের আদায়'],
+  ['/w/dashboard', 'সাধারণ সঞ্চয় ড্যাশবোর্ড'],
+  ['/w/schemes', 'স্কিম তালিকা'], ['/w/schemes/new', 'নতুন স্কিম তৈরি'], ['/w/schemes/sc1', 'মাসিক সঞ্চয়'],
+  ['/w/members', 'সদস্য তালিকা'], ['/w/members/new', 'নতুন সদস্য নিবন্ধন'], ['/w/members/m1', 'রহিমা বেগম'],
+  ['/w/members/m1/exit', 'সদস্য প্রস্থান ও চূড়ান্ত নিষ্পত্তি'], ['/w/accounts/a1', 'SAV-001-01'],
+  ['/w/applications/ap4', 'সদস্য আবেদন'], ['/w/deposits', 'জমা রেকর্ড'], ['/w/deposits/new', 'দ্রুত জমা এন্ট্রি'],
+  ['/w/approvals/deposits', 'জমা অনুমোদন কিউ'], ['/w/approvals/withdrawals', 'উত্তোলন অনুমোদন কিউ'],
+  ['/w/approvals/members', 'সদস্য নিবন্ধন আবেদন'], ['/w/approval/ap1', 'উত্তোলন সিদ্ধান্ত'],
+  ['/w/payouts', 'নিষ্পত্তি ও পেমেন্ট'], ['/w/ledger', 'লেনদেন / সাধারণ খতিয়ান'], ['/w/dues', 'বকেয়া রেজিস্টার'],
   ['/w/rc', 'ROSCA ড্যাশবোর্ড'], ['/w/rc/schemes', 'ROSCA স্কিম'], ['/w/rc/schemes/new', 'নতুন ROSCA স্কিম'],
   ['/w/rc/schemes/rc1', 'স্কিম সম্পাদনা'], ['/w/rc/circles', 'সক্রিয় সার্কেল'],
   ['/w/rc/circles/rc01', 'সার্কেল হাব'], ['/w/rc/circles/rc01/seats', 'সিট বরাদ্দ ও সদস্য নির্বাচন'],

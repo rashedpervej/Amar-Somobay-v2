@@ -15,15 +15,15 @@ m13,M-13,বকেয়া ও নির্ধারিত কিস্তি,M
 m14,M-14,স্টেটমেন্ট ও রসিদ কেন্দ্র,Member App,GeneralSavings,MEMBER,done,1,/m/statement,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 m16,M-16,নোটিফিকেশন,Member App,GeneralSavings,MEMBER,done,1,/m/notifications,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 m18,M-18,আমার প্রোফাইল ও KYC,Member App,GeneralSavings,MEMBER,done,1,/m/profile,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
-a01,A-01,অ্যাডমিন ওভারভিউ ড্যাশবোর্ড,Admin Web,GeneralSavings,,partial,10,/w/dashboard,"A-01 ড্যাশবোর্ড — KPI, টেবিল, অনুমোদন; চার্ট/ফিল্টার বাকি"
-a03,A-03,স্কিম তালিকা,Admin Web,GeneralSavings,,todo,10,,
-a04,A-04,স্কিম তৈরি (উইজার্ড),Admin Web,GeneralSavings,,todo,10,,
-a05,A-05,স্কিম সম্পাদনা (নতুন সংস্করণ),Admin Web,GeneralSavings,,todo,10,,
-a06,A-06,স্কিম বিবরণ ও পরিসংখ্যান,Admin Web,GeneralSavings,,todo,10,,
-a07,A-07,সদস্য তালিকা,Admin Web,GeneralSavings,,todo,10,,
-a08,A-08,সদস্য নিবন্ধন (উইজার্ড),Admin Web,GeneralSavings,,todo,10,,
-a09,A-09,সদস্য সম্পাদনা,Admin Web,GeneralSavings,,todo,10,,
-a10,A-10,সদস্য প্রোফাইল ৩৬০°,Admin Web,GeneralSavings,,todo,10,,
+a01,A-01,অ্যাডমিন ওভারভিউ ড্যাশবোর্ড,Admin Web,GeneralSavings,,done,10,/w/dashboard,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a03,A-03,স্কিম তালিকা,Admin Web,GeneralSavings,,done,10,/w/schemes,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a04,A-04,স্কিম তৈরি (উইজার্ড),Admin Web,GeneralSavings,,done,10,/w/schemes/new,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a05,A-05,স্কিম সম্পাদনা (নতুন সংস্করণ),Admin Web,GeneralSavings,,done,10,/w/schemes/:schemeId,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a06,A-06,স্কিম বিবরণ ও পরিসংখ্যান,Admin Web,GeneralSavings,,done,10,/w/schemes/:schemeId,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a07,A-07,সদস্য তালিকা,Admin Web,GeneralSavings,,done,10,/w/members,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a08,A-08,সদস্য নিবন্ধন (উইজার্ড),Admin Web,GeneralSavings,,done,10,/w/members/new,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a09,A-09,সদস্য সম্পাদনা,Admin Web,GeneralSavings,,done,10,/w/members/:memberId,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a10,A-10,সদস্য প্রোফাইল ৩৬০°,Admin Web,GeneralSavings,,done,10,/w/members/:memberId,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 m15,M-15,অ্যাকাউন্ট বন্ধের আবেদন ও নিষ্পত্তি প্রিভিউ,Member App,GeneralSavings,MEMBER,done,1,/m/close-request,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 m17,M-17,নোটিশ বোর্ড,Member App,GeneralSavings,MEMBER,done,1,/m/notices,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 m19,M-19,নমিনি ব্যবস্থাপনা,Member App,GeneralSavings,MEMBER,done,1,/m/nominees,"ব্যাচ ১ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
@@ -35,17 +35,17 @@ m24,RM-03,ড্র ক্রম ও পরবর্তী ড্র,Member App,
 m25,RM-04,কিস্তি পরিশোধ,Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId/pay,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
 m26,RM-05,ড্র ইতিহাস ও আমার প্রাপ্তি,Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId/history,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
 m27,RM-06,পেআউট রসিদ (প্রাপ্তি ভাউচার),Member App,ROSCA,MEMBER,done,3,/m/circles/:circleId/receipt/:drawId,"ব্যাচ ৩ — moduleStore-সংযুক্ত, payCircle/ড্র-রসিদ প্রবাহ কাজ করে, রুট-স্মোক পাস"
-a11,A-11,সদস্য আবেদন বিবরণ ও যাচাই,Admin Web,GeneralSavings,,todo,10,,
-a13,A-13,অ্যাকাউন্ট বিবরণ (অ্যাডমিন),Admin Web,GeneralSavings,,todo,10,,
-a15,A-15,সদস্য প্রস্থান ও চূড়ান্ত নিষ্পত্তি,Admin Web,GeneralSavings,,todo,10,,
-a17,A-17,জমা রেকর্ড,Admin Web,GeneralSavings,,todo,10,,
-a20,A-20,জমা অনুমোদন কিউ,Admin Web,GeneralSavings,,todo,10,,
-a21,A-21,জমা বিবরণ ও প্রমাণ যাচাই,Admin Web,GeneralSavings,,todo,10,,
-a22,A-22,উত্তোলন অনুমোদন কিউ,Admin Web,GeneralSavings,,todo,10,,
-a23,A-23,উত্তোলন আবেদন বিবরণ ও সিদ্ধান্ত,Admin Web,GeneralSavings,,todo,10,,
-a24,A-24,নিষ্পত্তি ও পেমেন্ট,Admin Web,GeneralSavings,,todo,10,,
-a25,A-25,লেনদেন ব্যবস্থাপনা / সাধারণ লেজার,Admin Web,GeneralSavings,,todo,10,,
-a31,A-31,বকেয়া রেজিস্টার,Admin Web,GeneralSavings,,todo,10,,
+a11,A-11,সদস্য আবেদন বিবরণ ও যাচাই,Admin Web,GeneralSavings,,done,10,/w/applications/:appId,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a13,A-13,অ্যাকাউন্ট বিবরণ (অ্যাডমিন),Admin Web,GeneralSavings,,done,10,/w/accounts/:accId,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a15,A-15,সদস্য প্রস্থান ও চূড়ান্ত নিষ্পত্তি,Admin Web,GeneralSavings,,done,10,/w/members/:memberId/exit,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a17,A-17,জমা রেকর্ড,Admin Web,GeneralSavings,,done,10,/w/deposits,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a20,A-20,জমা অনুমোদন কিউ,Admin Web,GeneralSavings,,done,10,/w/approvals/deposits,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a21,A-21,জমা বিবরণ ও প্রমাণ যাচাই,Admin Web,GeneralSavings,,done,10,/w/approval/:id,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a22,A-22,উত্তোলন অনুমোদন কিউ,Admin Web,GeneralSavings,,done,10,/w/approvals/withdrawals,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a23,A-23,উত্তোলন আবেদন বিবরণ ও সিদ্ধান্ত,Admin Web,GeneralSavings,,done,10,/w/approval/:id,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a24,A-24,নিষ্পত্তি ও পেমেন্ট,Admin Web,GeneralSavings,,done,10,/w/payouts,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a25,A-25,লেনদেন ব্যবস্থাপনা / সাধারণ লেজার,Admin Web,GeneralSavings,,done,10,/w/ledger,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
+a31,A-31,বকেয়া রেজিস্টার,Admin Web,GeneralSavings,,done,10,/w/dues,"ব্যাচ ১০ — স্টোর-সংযুক্ত, মৃত বোতাম নেই, রুট-স্মোক পাস"
 a02,A-02,মাঠ সংগ্রহক ড্যাশবোর্ড,Admin Web,GeneralSavings,COLLECTOR (মাঠ),todo,11,,
 a12,A-12,সদস্য অবস্থা পরিবর্তন (Suspend / Freeze / Dormant),Admin Web,GeneralSavings,,todo,11,,
 a14,A-14,মৃত্যু দাবি নিষ্পত্তি,Admin Web,GeneralSavings,,todo,11,,

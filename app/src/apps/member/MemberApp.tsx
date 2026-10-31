@@ -62,7 +62,7 @@ const ROUTE_BY_KEY: Record<string, string> = {
 type Meta = { title: string; sub: string; model?: 'landing' | 'deep' | 'flow' };
 const ORG = member.org;
 
-/* নির্দিষ্ট পথের শিরোনাম; ডাইনামিক পথের জন্য প্রিফিক্স মिलान */
+/* নির্দিষ্ট পথের শিরোনাম; ডাইনামিক পথের জন্য প্রিফিক্স মিল */
 const TITLES: { match: RegExp; meta: Meta }[] = [
   { match: /^\/m\/home$/, meta: { title: 'সঞ্চয় হোম', sub: ORG, model: 'landing' } },
   { match: /^\/m\/savings\/[^/]+$/, meta: { title: 'অ্যাকাউন্ট বিবরণ', sub: 'কিস্তি ও জমার ইতিহাস' } },
